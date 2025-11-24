@@ -138,6 +138,37 @@
             background: rgba(255,255,255,0.2);
             border-radius: 10px;
         }
+
+        /* Data Flow Animation */
+        .data-flow {
+            position: absolute;
+            width: 6px;
+            height: 6px;
+            background-color: #38bdf8; /* sky-500 */
+            border-radius: 50%;
+            left: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            animation: flow 1.5s linear infinite;
+            box-shadow: 0 0 10px #38bdf8, 0 0 20px #38bdf8;
+        }
+
+        @keyframes flow {
+            0% {
+                left: 0;
+                opacity: 0;
+            }
+            10% {
+                opacity: 1;
+            }
+            90% {
+                opacity: 1;
+            }
+            100% {
+                left: 100%;
+                opacity: 0;
+            }
+        }
     </style>
 </head>
 <body>
@@ -334,17 +365,19 @@
             <div class="flex flex-col md:flex-row items-center justify-center gap-8 md:gap-16">
                 <!-- iPhone Image -->
                 <div class="w-1/2 md:w-1/3">
-                    <img src="https://placehold.co/400x800/020617/FFF" alt="iPhone App" class="rounded-3xl shadow-2xl">
+                    <img src="images/iphone-app-screenshot.png" alt="iPhone App" class="rounded-3xl shadow-2xl">
                 </div>
 
-                <!-- Sync Arrow -->
-                <div class="text-slate-500">
-                    <i data-lucide="arrow-right-left" class="w-12 h-12"></i>
+                <!-- Sync Animation -->
+                <div class="relative w-16 h-16">
+                    <div class="data-flow"></div>
+                    <div class="data-flow" style="animation-delay: 0.5s;"></div>
+                    <div class="data-flow" style="animation-delay: 1s;"></div>
                 </div>
 
                 <!-- Mac Image -->
                 <div class="w-full md:w-2/3">
-                    <img src="https://placehold.co/1200x800/020617/FFF" alt="Mac App" class="rounded-3xl shadow-2xl">
+                    <img src="images/mac-app-screenshot-1.png" alt="Mac App" class="rounded-3xl shadow-2xl">
                 </div>
             </div>
         </div>
