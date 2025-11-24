@@ -1,0 +1,468 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Health Data Export: AI Analyzer - Unlock Your Bio-Data</title>
+    <meta name="description" content="Export your Apple Health data in seconds. XML, CSV, and JSON formats for AI analysis and backup. The professional tool for health data ownership.">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;700&display=swap');
+        
+        :root {
+            --glass-border: rgba(255, 255, 255, 0.08);
+            --glass-bg: rgba(255, 255, 255, 0.03);
+        }
+
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: #020617; /* slate-950 */
+            color: #f8fafc;
+            overflow-x: hidden;
+        }
+
+        .font-mono {
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        /* Dynamic Background */
+        .mesh-gradient {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: -1;
+            background: 
+                radial-gradient(at 0% 0%, rgba(225, 29, 72, 0.15) 0px, transparent 50%),
+                radial-gradient(at 100% 0%, rgba(56, 189, 248, 0.15) 0px, transparent 50%),
+                radial-gradient(at 100% 100%, rgba(168, 85, 247, 0.15) 0px, transparent 50%);
+            filter: blur(60px);
+        }
+
+        /* Bento Box Card Styles */
+        .bento-card {
+            background: var(--glass-bg);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid var(--glass-border);
+            border-radius: 1.5rem;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            overflow: hidden;
+            position: relative;
+        }
+
+        .bento-card:hover {
+            border-color: rgba(255, 255, 255, 0.2);
+            transform: translateY(-4px);
+            box-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.5);
+        }
+
+        .bento-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 200%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.03), transparent);
+            transform: skewX(-15deg);
+            transition: 0.5s;
+        }
+
+        .bento-card:hover::before {
+            left: 100%;
+            transition: 0.7s;
+        }
+
+        /* Glowing Text Utilities */
+        .text-glow {
+            text-shadow: 0 0 20px rgba(225, 29, 72, 0.5);
+        }
+
+        /* Scanner Animation for Hero */
+        .scanner-line {
+            position: absolute;
+            width: 100%;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, #f43f5e, transparent);
+            box-shadow: 0 0 10px #f43f5e;
+            animation: scan 3s ease-in-out infinite;
+            z-index: 10;
+        }
+
+        @keyframes scan {
+            0%, 100% { top: 10%; opacity: 0; }
+            10% { opacity: 1; }
+            90% { opacity: 1; }
+            50% { top: 80%; }
+        }
+
+        /* iPhone Mockup Refined */
+        .iphone-mockup-pro {
+            box-shadow: 
+                0 0 0 2px #334155, 
+                0 0 0 6px #0f172a, 
+                0 0 100px -20px rgba(244, 63, 94, 0.4);
+            border-radius: 3rem;
+            overflow: hidden;
+            position: relative;
+            background: #000;
+            aspect-ratio: 9/19.5;
+            transform: rotate(-5deg);
+            transition: transform 0.5s ease;
+        }
+
+        .iphone-mockup-pro:hover {
+            transform: rotate(0deg) scale(1.02);
+        }
+
+        .data-stream {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 10px;
+            line-height: 1.4;
+            color: rgba(56, 189, 248, 0.4);
+            white-space: nowrap;
+            opacity: 0.5;
+        }
+
+        /* Custom Scrollbar for Code Blocks */
+        .custom-scroll::-webkit-scrollbar {
+            width: 6px;
+        }
+        .custom-scroll::-webkit-scrollbar-track {
+            background: rgba(255,255,255,0.05);
+        }
+        .custom-scroll::-webkit-scrollbar-thumb {
+            background: rgba(255,255,255,0.2);
+            border-radius: 10px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="mesh-gradient"></div>
+
+    <!-- Navigation -->
+    <nav class="fixed w-full z-50 border-b border-white/10 bg-slate-950/50 backdrop-blur-xl">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-20">
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 bg-gradient-to-tr from-rose-600 to-orange-500 rounded-xl flex items-center justify-center shadow-lg shadow-rose-500/20">
+                        <i data-lucide="activity" class="w-6 h-6 text-white"></i>
+                    </div>
+                    <div>
+                        <span class="font-bold text-lg tracking-tight text-white block leading-none">Health Data</span>
+                        <span class="text-xs text-slate-400 tracking-wider uppercase font-semibold">Export & Analyze</span>
+                    </div>
+                </div>
+                <div class="hidden md:flex items-center space-x-1">
+                    <a href="#features" class="px-4 py-2 text-sm font-medium text-slate-300 hover:text-white transition-colors rounded-lg hover:bg-white/5">Features</a>
+                    <a href="#specs" class="px-4 py-2 text-sm font-medium text-slate-300 hover:text-white transition-colors rounded-lg hover:bg-white/5">Specs</a>
+                    <a href="https://apps.apple.com/us/app/health-data-export-ai-analyzer/id6749297170" target="_blank" class="ml-4 bg-white text-black px-5 py-2.5 rounded-full text-sm font-bold hover:bg-slate-200 transition-all shadow-[0_0_20px_rgba(255,255,255,0.3)]">
+                        Get App
+                    </a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="relative pt-32 pb-20 lg:pt-48 lg:pb-32 overflow-hidden">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
+            <div class="flex flex-col lg:flex-row items-center gap-16">
+                
+                <!-- Hero Text -->
+                <div class="lg:w-3/5 z-10">
+                    <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/5 border border-white/10 text-rose-400 text-sm font-medium mb-8">
+                        <span class="relative flex h-2 w-2">
+                          <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-rose-400 opacity-75"></span>
+                          <span class="relative inline-flex rounded-full h-2 w-2 bg-rose-500"></span>
+                        </span>
+                        AI Analyzer 2.0 Available Now
+                    </div>
+                    <h1 class="text-5xl sm:text-6xl lg:text-7xl font-bold text-white tracking-tight leading-[1.1] mb-8">
+                        Unlock your <br>
+                        <span class="text-transparent bg-clip-text bg-gradient-to-r from-rose-500 via-orange-400 to-rose-500 animate-gradient bg-300% text-glow">Health DNA.</span>
+                    </h1>
+                    <p class="text-lg sm:text-xl text-slate-400 mb-10 max-w-2xl leading-relaxed">
+                        Your Apple Health data is a goldmine of insights. Extract it instantly in <span class="text-white font-mono bg-white/10 px-1 rounded">JSON</span>, <span class="text-white font-mono bg-white/10 px-1 rounded">CSV</span>, or <span class="text-white font-mono bg-white/10 px-1 rounded">XML</span>. <br class="hidden sm:block">Private. Fast. AI-Ready.
+                    </p>
+                    
+                    <div class="flex flex-col sm:flex-row items-center gap-6">
+                        <a href="https://apps.apple.com/us/app/health-data-export-ai-analyzer/id6749297170" target="_blank" class="group relative inline-flex items-center justify-center px-8 py-4 font-bold text-white transition-all duration-200 bg-rose-600 font-pj rounded-full focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-900">
+                            <div class="absolute -inset-3 rounded-full bg-rose-600 opacity-20 group-hover:opacity-40 blur-lg transition-opacity duration-200" style="animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;"></div>
+                            <span class="relative flex items-center gap-2">
+                                <img src="https://upload.wikimedia.org/wikipedia/commons/6/67/App_Store_%28iOS%29.svg" class="w-5 h-5 filter invert" alt="">
+                                Download on App Store
+                            </span>
+                        </a>
+                        <div class="flex items-center gap-4 text-sm text-slate-500">
+                            <div class="h-px w-8 bg-slate-700"></div>
+                            <span>iOS 18+ Compatible</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Hero Visualization -->
+                <div class="lg:w-2/5 relative flex justify-center">
+                    <!-- Abstract background elements -->
+                    <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-gradient-to-tr from-rose-500/20 to-purple-500/20 rounded-full filter blur-3xl"></div>
+                    
+                    <div class="iphone-mockup-pro w-[300px] sm:w-[320px]">
+                        <div class="absolute top-0 left-1/2 -translate-x-1/2 h-7 w-40 bg-black rounded-b-2xl z-20"></div>
+                        
+                        <!-- Scanner Effect -->
+                        <div class="scanner-line"></div>
+                        
+                        <div class="h-full w-full bg-slate-950 flex flex-col relative">
+                            <!-- Header -->
+                            <div class="pt-14 px-6 pb-4">
+                                <h3 class="text-white text-xl font-bold">Export Data</h3>
+                                <p class="text-slate-500 text-xs">Select format to begin</p>
+                            </div>
+
+                            <!-- Main content mockup -->
+                            <div class="flex-1 px-4 space-y-4">
+                                <!-- Format Selector -->
+                                <div class="grid grid-cols-3 gap-2 p-1 bg-slate-900 rounded-xl">
+                                    <div class="bg-rose-600 text-white text-center py-2 rounded-lg text-xs font-bold shadow-lg shadow-rose-900/50">CSV</div>
+                                    <div class="text-slate-500 text-center py-2 text-xs font-medium">JSON</div>
+                                    <div class="text-slate-500 text-center py-2 text-xs font-medium">XML</div>
+                                </div>
+
+                                <!-- Data List Simulation -->
+                                <div class="space-y-2 mt-4">
+                                    <div class="flex items-center justify-between p-3 bg-slate-900/50 border border-slate-800 rounded-xl">
+                                        <div class="flex items-center gap-3">
+                                            <div class="w-8 h-8 rounded-lg bg-orange-500/20 text-orange-500 flex items-center justify-center"><i data-lucide="flame" class="w-4 h-4"></i></div>
+                                            <div>
+                                                <div class="text-xs text-slate-300">Active Energy</div>
+                                                <div class="text-[10px] text-slate-600 font-mono">2,430 records</div>
+                                            </div>
+                                        </div>
+                                        <div class="w-2 h-2 rounded-full bg-green-500 shadow-[0_0_10px_rgba(34,197,94,0.5)]"></div>
+                                    </div>
+
+                                    <div class="flex items-center justify-between p-3 bg-slate-900/50 border border-slate-800 rounded-xl">
+                                        <div class="flex items-center gap-3">
+                                            <div class="w-8 h-8 rounded-lg bg-rose-500/20 text-rose-500 flex items-center justify-center"><i data-lucide="heart" class="w-4 h-4"></i></div>
+                                            <div>
+                                                <div class="text-xs text-slate-300">Heart Rate</div>
+                                                <div class="text-[10px] text-slate-600 font-mono">15,201 records</div>
+                                            </div>
+                                        </div>
+                                        <div class="w-2 h-2 rounded-full bg-green-500 shadow-[0_0_10px_rgba(34,197,94,0.5)]"></div>
+                                    </div>
+
+                                    <div class="flex items-center justify-between p-3 bg-slate-900/50 border border-slate-800 rounded-xl">
+                                        <div class="flex items-center gap-3">
+                                            <div class="w-8 h-8 rounded-lg bg-blue-500/20 text-blue-500 flex items-center justify-center"><i data-lucide="moon" class="w-4 h-4"></i></div>
+                                            <div>
+                                                <div class="text-xs text-slate-300">Sleep Analysis</div>
+                                                <div class="text-[10px] text-slate-600 font-mono">365 records</div>
+                                            </div>
+                                        </div>
+                                        <div class="w-2 h-2 rounded-full bg-green-500 shadow-[0_0_10px_rgba(34,197,94,0.5)]"></div>
+                                    </div>
+                                </div>
+
+                                <!-- Fake Code Stream at bottom -->
+                                <div class="mt-6 p-4 bg-black rounded-xl border border-slate-800 overflow-hidden h-32 relative">
+                                    <div class="absolute top-0 left-0 w-full h-8 bg-gradient-to-b from-black to-transparent z-10"></div>
+                                    <div class="absolute bottom-0 left-0 w-full h-8 bg-gradient-to-t from-black to-transparent z-10"></div>
+                                    <div class="data-stream">
+                                        {"type": "HKQuantityTypeIdentifierHeartRate",<br>
+                                        "startDate": "2023-10-24T08:00:00Z",<br>
+                                        "value": 72,<br>
+                                        "unit": "count/min"},<br>
+                                        {"type": "HKQuantityTypeIdentifierStepCount",<br>
+                                        "startDate": "2023-10-24T08:05:00Z",<br>
+                                        "value": 145,<br>
+                                        "unit": "count"},<br>
+                                        ...
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Bottom Bar -->
+                            <div class="p-6 bg-gradient-to-t from-black to-transparent">
+                                <div class="w-full bg-rose-600 h-12 rounded-xl flex items-center justify-center text-white font-bold shadow-[0_0_20px_rgba(225,29,72,0.4)]">
+                                    Export 45MB File
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Bento Grid Features -->
+    <section id="features" class="py-20">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="mb-16">
+                <h2 class="text-3xl md:text-5xl font-bold text-white mb-6">Built for the <br><span class="text-rose-500">Quantified Self.</span></h2>
+                <p class="text-slate-400 max-w-xl text-lg">Most health apps lock your data away. We give you the keys. Designed for privacy, speed, and interoperability.</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-6 lg:grid-cols-12 gap-6">
+                
+                <!-- Large Card: Formats -->
+                <div class="bento-card md:col-span-6 lg:col-span-8 p-8 flex flex-col justify-between min-h-[300px]">
+                    <div class="relative z-10">
+                        <div class="w-12 h-12 rounded-full bg-slate-800 flex items-center justify-center mb-4 border border-slate-700">
+                            <i data-lucide="file-code-2" class="text-rose-400"></i>
+                        </div>
+                        <h3 class="text-2xl font-bold text-white mb-2">Universal Formats</h3>
+                        <p class="text-slate-400 max-w-sm">Don't get stuck in a proprietary garden. Export to standards that work with Python, Excel, Tableau, and more.</p>
+                    </div>
+                    <div class="flex gap-3 mt-8 overflow-hidden">
+                        <div class="bg-slate-950 border border-slate-800 p-3 rounded-lg font-mono text-xs text-green-400 w-full">
+                            <span class="text-slate-500">// JSON Output</span><br>
+                            { "heart_rate": 64, "unit": "bpm" }
+                        </div>
+                        <div class="bg-slate-950 border border-slate-800 p-3 rounded-lg font-mono text-xs text-blue-400 w-full hidden sm:block">
+                            <span class="text-slate-500"># CSV Output</span><br>
+                            date,value,unit<br>2024-01-01,64,bpm
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tall Card: Privacy -->
+                <div class="bento-card md:col-span-6 lg:col-span-4 p-8 bg-gradient-to-b from-rose-900/20 to-transparent">
+                    <div class="w-12 h-12 rounded-full bg-rose-500/20 flex items-center justify-center mb-4 border border-rose-500/30">
+                        <i data-lucide="shield-check" class="text-rose-400"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold text-white mb-2">Zero Cloud.</h3>
+                    <p class="text-slate-400 mb-8">Your health data never leaves your device. All processing happens locally on your iPhone.</p>
+                    
+                    <div class="space-y-3">
+                        <div class="flex items-center gap-3 text-sm text-slate-300">
+                            <div class="w-2 h-2 rounded-full bg-green-500"></div> No Account Required
+                        </div>
+                        <div class="flex items-center gap-3 text-sm text-slate-300">
+                            <div class="w-2 h-2 rounded-full bg-green-500"></div> Works Offline
+                        </div>
+                        <div class="flex items-center gap-3 text-sm text-slate-300">
+                            <div class="w-2 h-2 rounded-full bg-green-500"></div> FaceID Protected
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Medium Card: Time Ranges -->
+                <div class="bento-card md:col-span-4 p-8">
+                    <i data-lucide="calendar-range" class="text-blue-400 mb-4 w-8 h-8"></i>
+                    <h3 class="text-xl font-bold text-white mb-2">Precision History</h3>
+                    <p class="text-slate-400 text-sm">Export the last 7 days or your entire lifetime history. Granular control over date ranges.</p>
+                </div>
+
+                <!-- Medium Card: Sharing -->
+                <div class="bento-card md:col-span-4 p-8">
+                    <i data-lucide="share-2" class="text-purple-400 mb-4 w-8 h-8"></i>
+                    <h3 class="text-xl font-bold text-white mb-2">AirDrop Ready</h3>
+                    <p class="text-slate-400 text-sm">Beam massive datasets directly to your Mac for analysis instantly. No email limits.</p>
+                </div>
+
+                <!-- Medium Card: AI -->
+                <div class="bento-card md:col-span-4 p-8 border-rose-500/30 relative overflow-hidden">
+                    <div class="absolute top-0 right-0 p-3 opacity-20">
+                        <i data-lucide="brain-circuit" class="w-24 h-24 text-rose-500"></i>
+                    </div>
+                    <i data-lucide="sparkles" class="text-yellow-400 mb-4 w-8 h-8"></i>
+                    <h3 class="text-xl font-bold text-white mb-2">AI Analyzer</h3>
+                    <p class="text-slate-400 text-sm">Clean, structured data ready for LLMs and custom analysis tools.</p>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Code Specs Section -->
+    <section id="specs" class="py-20 bg-slate-950 border-t border-white/5">
+        <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex flex-col md:flex-row gap-12">
+                <div class="md:w-1/2">
+                    <h2 class="text-3xl font-bold text-white mb-6">Speak the language of data.</h2>
+                    <p class="text-slate-400 mb-8">
+                        Whether you are a developer building a dashboard or a user creating a backup, our exports are formatted for immediate use.
+                    </p>
+                    
+                    <div class="space-y-6">
+                        <div class="group cursor-pointer">
+                            <h4 class="text-white font-bold flex items-center gap-2 mb-2 group-hover:text-rose-500 transition-colors">
+                                <i data-lucide="table" class="w-4 h-4"></i> CSV for Spreadsheets
+                            </h4>
+                            <p class="text-sm text-slate-500 pl-6">Flattened structure. Columns for Type, Date, Value, Unit, and Source. Ready for Excel pivot tables.</p>
+                        </div>
+                        <div class="group cursor-pointer">
+                            <h4 class="text-white font-bold flex items-center gap-2 mb-2 group-hover:text-rose-500 transition-colors">
+                                <i data-lucide="braces" class="w-4 h-4"></i> JSON for Developers
+                            </h4>
+                            <p class="text-sm text-slate-500 pl-6">Nested objects with full metadata. Ideal for Python pandas or JavaScript visualization libraries.</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="md:w-1/2">
+                    <!-- Code Window -->
+                    <div class="rounded-xl bg-[#0d1117] border border-slate-800 shadow-2xl overflow-hidden">
+                        <div class="flex items-center gap-2 px-4 py-3 border-b border-slate-800 bg-[#161b22]">
+                            <div class="w-3 h-3 rounded-full bg-red-500"></div>
+                            <div class="w-3 h-3 rounded-full bg-yellow-500"></div>
+                            <div class="w-3 h-3 rounded-full bg-green-500"></div>
+                            <span class="ml-2 text-xs text-slate-500 font-mono">export_data.json</span>
+                        </div>
+                        <div class="p-4 overflow-x-auto custom-scroll">
+<pre class="font-mono text-xs leading-relaxed">
+<span class="text-purple-400">"health_data"</span>: [
+  {
+    <span class="text-blue-400">"type"</span>: <span class="text-green-400">"HKQuantityTypeIdentifierHeartRate"</span>,
+    <span class="text-blue-400">"source"</span>: <span class="text-green-400">"Apple Watch Ultra"</span>,
+    <span class="text-blue-400">"unit"</span>: <span class="text-green-400">"count/min"</span>,
+    <span class="text-blue-400">"samples"</span>: [
+      {
+        <span class="text-blue-400">"date"</span>: <span class="text-green-400">"2025-01-24T08:30:00Z"</span>,
+        <span class="text-blue-400">"value"</span>: <span class="text-orange-400">72</span>
+      },
+      {
+        <span class="text-blue-400">"date"</span>: <span class="text-green-400">"2025-01-24T08:35:00Z"</span>,
+        <span class="text-blue-400">"value"</span>: <span class="text-orange-400">78</span>
+      }
+    ]
+  }
+]
+</pre>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-black border-t border-slate-900 pt-16 pb-8">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <div class="inline-flex items-center gap-2 mb-6">
+                <i data-lucide="activity" class="w-6 h-6 text-rose-600"></i>
+                <span class="font-bold text-xl text-white">Health Data Export</span>
+            </div>
+            
+            <div class="flex justify-center gap-8 mb-8">
+                <a href="#" class="text-slate-500 hover:text-white transition-colors">Support</a>
+                <a href="https://rumjahn.com/privacy-policy-for-healthkit-analyzer/" class="text-slate-500 hover:text-white transition-colors">Privacy Policy</a>
+                <a href="https://www.apple.com/legal/internet-services/itunes/dev/stdeula/" class="text-slate-500 hover:text-white transition-colors">Terms</a>
+            </div>
+
+            <p class="text-slate-600 text-sm">
+                &copy; 2025 Keith Rumjahn. Crafted for the Health Tech Community.
+            </p>
+        </div>
+    </footer>
+
+    <script>
+        lucide.createIcons();
+    </script>
+</body>
+</html>
