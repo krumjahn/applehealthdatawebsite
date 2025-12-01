@@ -1,58 +1,308 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="scroll-smooth">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Apple Health XML to CSV Converter</title>
+    <title>Apple Health XML to CSV Converter - Free & Private Tool</title>
     <meta name="description" content="A free, client-side tool to convert your Apple Health export.xml file into a clean, usable CSV format directly in your browser. Your data remains completely private.">
-    <meta name="keywords" content="convert apple health xml, apple health xml to csv, health export.xml, convert healthkit xml, apple health parser, xml to csv tool">
+    <meta name="keywords" content="convert apple health xml, apple health xml to csv, health export.xml, convert healthkit xml, apple health parser, xml to csv tool, free converter, private health data tool">
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap');
-        body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: #f8f8f8; color: #1f2937; }
-        .accent-color { color: #f43f5e; } /* Rose-500 */
-        .accent-bg { background-color: #f43f5e; }
-        .accent-border { border-color: #f43f5e; }
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;700&display=swap');
+        
+        :root {
+            --glass-border: rgba(255, 255, 255, 0.08);
+            --glass-bg: rgba(255, 255, 255, 0.03);
+        }
+
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: #020617; /* slate-950 */
+            color: #f8fafc;
+            overflow-x: hidden;
+        }
+
+        .font-mono {
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        /* Dynamic Background */
+        .mesh-gradient {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: -1;
+            background: 
+                radial-gradient(at 0% 0%, rgba(225, 29, 72, 0.15) 0px, transparent 50%),
+                radial-gradient(at 100% 0%, rgba(56, 189, 248, 0.15) 0px, transparent 50%),
+                radial-gradient(at 100% 100%, rgba(168, 85, 247, 0.15) 0px, transparent 50%);
+            filter: blur(60px);
+        }
+
+        /* Bento Box Card Styles (Not used directly here, but keeps global consistency) */
+        .bento-card {
+            background: var(--glass-bg);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid var(--glass-border);
+            border-radius: 1.5rem;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            overflow: hidden;
+            position: relative;
+        }
+        /* ... other bento-card styles from index.html if needed for general consistency ... */
+
+        /* Animated FAQ Accordion */
+        .faq-accordion details {
+            border-bottom: 1px solid var(--glass-border);
+            transition: background-color 0.3s ease;
+        }
+        .faq-accordion details:first-of-type {
+            border-top: 1px solid var(--glass-border);
+        }
+        .faq-accordion details:hover {
+            background-color: var(--glass-bg);
+        }
+        .faq-accordion summary {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.5rem 1rem;
+            cursor: pointer;
+            list-style: none; /* Hide the default marker */
+            font-size: 1.125rem;
+            font-weight: 600;
+            color: #e2e8f0; /* slate-200 */
+            transition: color 0.3s ease;
+        }
+        .faq-accordion summary:hover {
+            color: #f8fafc; /* slate-50 */
+        }
+        .faq-accordion summary::-webkit-details-marker {
+            display: none; /* Hide the default marker for Chrome/Safari */
+        }
+        .faq-accordion .faq-content {
+            padding: 0 1rem 1.5rem 1rem;
+            color: #94a3b8; /* slate-400 */
+            line-height: 1.6;
+        }
+
+        /* Chevron Animation */
+        .faq-accordion summary .chevron {
+            transition: transform 0.3s ease;
+        }
+        .faq-accordion details[open] summary .chevron {
+            transform: rotate(90deg);
+        }
+
+        /* Content Fade-in Animation */
+        .faq-accordion details[open] .faq-content {
+            animation: fadeIn 0.5s ease;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Tool specific styles */
         .drop-zone {
-            border: 3px dashed #e5e7eb;
+            border: 3px dashed var(--glass-border);
             transition: all 0.3s ease;
+            cursor: pointer;
+            background: var(--glass-bg);
         }
         .drop-zone.dragover {
-            border-color: #f43f5e;
-            background-color: #fce7f3;
+            border-color: #f43f5e; /* rose-500 */
+            background-color: rgba(225, 29, 72, 0.1);
+        }
+        .file-input-button {
+            background-color: #f43f5e; /* rose-600 */
+        }
+        .file-input-button:hover {
+            background-color: #e11d48; /* rose-700 */
+        }
+        .download-button {
+            background-color: #22c55e; /* green-500 */
+        }
+        .download-button:hover {
+            background-color: #16a34a; /* green-600 */
         }
     </style>
+    <!-- Analytics scripts from index.html -->
+    <meta name="google-site-verification" content="mfw8yyYjETYvKDrxInR-_YSvL8zUQJ2qAB3N_OVbjjM" />
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-8SMQRLT4VS"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'G-8SMQRLT4VS');
+    </script>
+    <script defer src="https://umami.rumjahn.synology.me/script.js" data-website-id="5d7b4fa8-90b2-4191-8daf-8ea487a8d961"></script>
 </head>
-<body class="flex flex-col items-center justify-center min-h-screen p-4">
+<body>
 
-    <main class="w-full max-w-2xl text-center">
-        <!-- Heart Icon -->
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-24 h-24 accent-color mx-auto mb-6">
-          <path d="M11.645 20.91l-.007-.003-.022-.012a15.247 15.247 0 01-1.344-.688 15.247 15.247 0 01-1.344-.688c-.058-.033-.115-.066-.172-.1a14.947 14.947 0 01-4.71-3.635C3.41 12.564 3 11.233 3 9.75 3 7.004 5.004 5 7.75 5c1.554 0 2.944.86 3.603 2.184a.75.75 0 001.292 0C13.306 5.86 14.696 5 16.25 5 18.996 5 21 7.004 21 9.75c0 1.483-.41 2.814-1.144 4.022a14.947 14.947 0 01-4.71 3.635c-.058.033-.115.066-.172.1a15.247 15.247 0 01-2.688 1.376l-.022.012-.007.003z" />
-        </svg>
+    <div class="mesh-gradient"></div>
 
-        <h1 class="text-4xl md:text-5xl font-bold text-gray-900 mb-3">Apple Health XML to CSV Converter</h1>
-        <p class="text-lg text-gray-600 mb-12">Convert your Apple Health export.xml to CSV format. Completely private!</p>
-        
-        <div id="drop-zone" class="drop-zone w-full p-8 md:p-16 rounded-2xl border-rose-500 border-4">
-            <div class="flex flex-col items-center justify-center">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-16 h-16 accent-color mb-6">
-                    <path fill-rule="evenodd" d="M12 1.5a5.25 5.25 0 00-5.25 5.25v3a3 3 0 00-3 3v6.75a3 3 0 003 3h10.5a3 3 0 003-3v-6.75a3 3 0 00-3-3v-3c0-2.9-2.35-5.25-5.25-5.25zm3.75 8.25v-3a3.75 3.75 0 10-7.5 0v3h7.5z" clip-rule="evenodd" />
-                </svg>
-                <label for="file-upload" class="cursor-pointer accent-border border-2 text-rose-500 font-semibold py-3 px-8 rounded-lg hover:accent-bg hover:text-white transition-all">
-                    Load export.xml
-                </label>
-                <input type="file" id="file-upload" class="hidden" accept=".xml">
-                <p id="status" class="text-gray-500 mt-4">... or drop your export.xml file here</p>
-                <a id="download-link" class="hidden mt-6 bg-green-500 text-white font-bold py-3 px-8 rounded-lg hover:bg-green-600 transition-all">Download CSV</a>
+    <!-- Navigation from index.html -->
+    <nav class="fixed w-full z-50 border-b border-white/10 bg-slate-950/50 backdrop-blur-xl">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-20">
+                <a href="/" class="flex items-center gap-3">
+                    <div class="w-10 h-10 bg-gradient-to-tr from-rose-600 to-orange-500 rounded-xl flex items-center justify-center shadow-lg shadow-rose-500/20">
+                        <i data-lucide="activity" class="w-6 h-6 text-white"></i>
+                    </div>
+                    <div>
+                        <span class="font-bold text-lg tracking-tight text-white block leading-none">Health Data</span>
+                        <span class="text-xs text-slate-400 tracking-wider uppercase font-semibold">Export & Analyze</span>
+                    </div>
+                </a>
+                <div class="hidden md:flex items-center space-x-1">
+                    <a href="/#features" class="px-4 py-2 text-sm font-medium text-slate-300 hover:text-white transition-colors rounded-lg hover:bg-white/5">Features</a>
+                    <a href="/#specs" class="px-4 py-2 text-sm font-medium text-slate-300 hover:text-white transition-colors rounded-lg hover:bg-white/5">Specs</a>
+                    <a href="https://apps.apple.com/us/app/health-data-export-ai-analyzer/id6749297170" target="_blank" class="ml-4 bg-white text-black px-5 py-2.5 rounded-full text-sm font-bold hover:bg-slate-200 transition-all shadow-[0_0_20px_rgba(255,255,255,0.3)]">
+                        Get App
+                    </a>
+                </div>
             </div>
         </div>
+    </nav>
+
+    <main class="pt-32 pb-20 lg:pt-48 lg:pb-32">
+        <div class="max-w-2xl mx-auto text-center px-4">
+            <h1 class="text-4xl lg:text-5xl font-bold text-white mb-6">Apple Health XML to CSV Converter</h1>
+            <p class="text-xl text-slate-400 leading-relaxed mb-12">Stuck with a complex <code>export.xml</code> file? This free tool converts it into a clean, usable CSV file directly in your browser. <strong>Your data is never uploaded and remains completely private.</strong></p>
+
+            <div id="drop-zone" class="drop-zone w-full p-8 md:p-16 rounded-2xl border-rose-500 border-4">
+                <div class="flex flex-col items-center justify-center">
+                    <i data-lucide="shield" class="w-16 h-16 text-rose-500 mb-6"></i>
+                    <label for="file-upload" class="cursor-pointer border-2 border-rose-500 text-rose-500 font-semibold py-3 px-8 rounded-lg hover:bg-rose-500 hover:text-white transition-all">
+                        Load export.xml
+                    </label>
+                    <input type="file" id="file-upload" class="hidden" accept=".xml">
+                    <p id="status" class="text-slate-400 mt-4">... or drop your <code>export.xml</code> file here</p>
+                    <a id="download-link" class="hidden w-full mt-6 download-button text-white font-bold py-3 px-8 rounded-lg hover:bg-green-600 transition-all">Download CSV</a>
+                </div>
+            </div>
+
+            <div class="text-left mt-16 p-6 border border-slate-800 rounded-2xl bg-slate-900/50">
+                <h3 class="text-xl font-bold text-white mb-4">How it Works</h3>
+                <ol class="list-decimal list-inside text-slate-400 space-y-2">
+                    <li>Use the official <a href="/export-apple-health-data/" class="text-rose-400">Apple Health export</a> feature on your iPhone to get the <code>export.xml</code> file.</li>
+                    <li>Click the button above or drag-and-drop your <code>export.xml</code> file.</li>
+                    <li>The tool processes the file locally in your browser.</li>
+                    <li>A download button will appear. Click it to save your new CSV file.</li>
+                </ol>
+            </div>
+        </div>
+
+        <!-- CTA Section - Lead Magnet -->
+        <section class="py-20 bg-slate-900 border-t border-white/5 mt-16">
+            <div class="max-w-4xl mx-auto px-4 text-center">
+                <h2 class="text-3xl md:text-5xl font-bold text-white mb-6">Unlock Full Health Data Potential</h2>
+                <p class="text-lg text-slate-400 max-w-2xl mx-auto mb-8">This converter is a great start. To truly own your health data and gain deeper AI-powered insights, explore our full suite of tools.</p>
+                <div class="flex flex-col sm:flex-row items-center justify-center gap-6">
+                    <a href="YOUR_APP_STORE_LINK" class="group relative inline-flex items-center justify-center px-8 py-4 font-bold text-white transition-all duration-200 bg-rose-600 font-pj rounded-full focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-900">
+                        <span class="relative flex items-center gap-2">
+                            <img src="https://upload.wikimedia.org/wikipedia/commons/6/67/App_Store_%28iOS%29.svg" class="w-5 h-5 filter invert" alt="">
+                            Download iOS App
+                        </span>
+                    </a>
+                    <a href="YOUR_GITHUB_LINK" class="group relative inline-flex items-center justify-center px-8 py-4 font-bold text-white transition-all duration-200 bg-slate-800 font-pj rounded-full focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-900">
+                        <span class="relative flex items-center gap-2">
+                            <i data-lucide="github" class="w-5 h-5"></i>
+                            Get Mac Analyzer
+                        </span>
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- FAQ Section for Converter -->
+        <section class="py-20 bg-slate-900 border-t border-white/5">
+            <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+                <h2 class="text-3xl md:text-4xl font-bold text-white text-center mb-12">Frequently Asked Questions</h2>
+                <div class="faq-accordion space-y-2">
+                    <details>
+                        <summary class="flex justify-between items-center">
+                            <span>Q: Is this XML to CSV converter tool truly private?</span>
+                            <i data-lucide="chevron-right" class="chevron w-6 h-6 text-rose-400"></i>
+                        </summary>
+                        <div class="faq-content">
+                            <p>A: Yes, absolutely. All conversion processes happen directly in your web browser. Your <code>export.xml</code> file is never uploaded to any server, ensuring your sensitive health data remains completely private and secure.</p>
+                        </div>
+                    </details>
+                    <details>
+                        <summary class="flex justify-between items-center">
+                            <span>Q: What is the <code>export.xml</code> file?</span>
+                            <i data-lucide="chevron-right" class="chevron w-6 h-6 text-rose-400"></i>
+                        </summary>
+                        <div class="faq-content">
+                            <p>A: The <code>export.xml</code> file is the raw data export you get when you use Apple's built-in "Export All Health Data" feature from the Health app on your iPhone. It contains all your HealthKit records in a complex XML format.</p>
+                        </div>
+                    </details>
+                    <details>
+                        <summary class="flex justify-between items-center">
+                            <span>Q: Why should I convert Apple Health XML to CSV?</span>
+                            <i data-lucide="chevron-right" class="chevron w-6 h-6 text-rose-400"></i>
+                        </summary>
+                        <div class="faq-content">
+                            <p>A: While XML is comprehensive, CSV is much easier to work with for analysis. CSV files can be opened directly in spreadsheet software like Excel or Google Sheets, allowing for simple sorting, filtering, charting, and further data manipulation.</p>
+                        </div>
+                    </details>
+                    <details>
+                        <summary class="flex justify-between items-center">
+                            <span>Q: What data types are included in the CSV conversion?</span>
+                            <i data-lucide="chevron-right" class="chevron w-6 h-6 text-rose-400"></i>
+                        </summary>
+                        <div class="faq-content">
+                            <p>A: The converter extracts key attributes from each <code>&lt;Record&gt;</code> element, including <code>type</code>, <code>sourceName</code>, <code>unit</code>, <code>startDate</code>, <code>endDate</code>, and <code>value</code>. This covers the majority of your quantitative health data.</p>
+                        </div>
+                    </details>
+                    <details>
+                        <summary class="flex justify-between items-center">
+                            <span>Q: Can I use this tool on any device?</span>
+                            <i data-lucide="chevron-right" class="chevron w-6 h-6 text-rose-400"></i>
+                        </summary>
+                        <div class="faq-content">
+                            <p>A: Yes, as long as you have a modern web browser, you can use this tool on any device (desktop, tablet, or mobile). The processing occurs in your browser, not on our servers.</p>
+                        </div>
+                    </details>
+                    <details>
+                        <summary class="flex justify-between items-center">
+                            <span>Q: What if my <code>export.xml</code> file is very large?</span>
+                            <i data-lucide="chevron-right" class="chevron w-6 h-6 text-rose-400"></i>
+                        </summary>
+                        <div class="faq-content">
+                            <p>A: The tool can handle large files, but parsing may take longer depending on your device's processing power. For extremely large files (hundreds of MBs to GBs), ensure your device has enough memory and processing capacity.</p>
+                        </div>
+                    </details>
+                </div>
+            </div>
+        </section>
     </main>
 
-    <footer class="text-center mt-12">
-        <p class="text-gray-500">All work is done locally by your browser. <strong>Nothing is uploaded to any server.</strong></p>
-        <p class="text-sm text-gray-400 mt-1">If you are having issues please <a href="mailto:support@applehealthdata.com" class="underline">contact support</a>.</p>
+    <!-- Footer from index.html -->
+    <footer class="bg-black border-t border-slate-900 pt-16 pb-8">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <div class="inline-flex items-center gap-2 mb-6">
+                <i data-lucide="activity" class="w-6 h-6 text-rose-600"></i>
+                <span class="font-bold text-xl text-white">Health Data Export</span>
+            </div>
+            
+            <div class="flex justify-center gap-8 mb-8">
+                <a href="#" class="text-slate-500 hover:text-white transition-colors">Support</a>
+                <a href="https://rumjahn.com/privacy-policy-for-healthkit-analyzer/" class="text-slate-500 hover:text-white transition-colors">Privacy Policy</a>
+                <a href="https://www.apple.com/legal/internet-services/itunes/dev/stdeula/" class="text-slate-500 hover:text-white transition-colors">Terms</a>
+            </div>
+
+            <p class="text-slate-600 text-sm">
+                &copy; 2025 Keith Rumjahn. Crafted for the Health Tech Community.
+            </p>
+        </div>
     </footer>
 
     <script>
@@ -113,7 +363,7 @@
                     const xmlDoc = parser.parseFromString(xmlString, "application/xml");
 
                     if (xmlDoc.getElementsByTagName("parsererror").length) {
-                        throw new Error("Failed to parse XML. Please ensure it's a valid export.xml file.");
+                        throw new Error("Failed to parse XML. Please ensure it's a valid Apple Health export.xml file.");
                     }
                     
                     statusDiv.textContent = 'Converting to CSV...';
@@ -159,6 +409,7 @@
 
                 } catch (error) {
                     statusDiv.textContent = `An error occurred: ${error.message}`;
+                    console.error("Conversion Error:", error);
                 }
             };
 
@@ -168,6 +419,8 @@
             
             reader.readAsText(file);
         };
+
+        lucide.createIcons();
     </script>
 </body>
 </html>
