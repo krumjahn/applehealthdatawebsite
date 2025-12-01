@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Apple Health XML to CSV Converter</title>
+    <meta name="description" content="A free, client-side tool to convert your Apple Health export.xml file into a clean, usable CSV format directly in your browser. Your data remains private.">
+    <meta name="keywords" content="convert apple health xml, apple health xml to csv, health export.xml, convert healthkit xml, apple health parser, xml to csv tool">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;700&display=swap');
+        :root { --glass-border: rgba(255, 255, 255, 0.08); --glass-bg: rgba(255, 255, 255, 0.03); }
+        body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: #020617; color: #f8fafc; overflow-x: hidden; }
+        .mesh-gradient { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: -1; background: radial-gradient(at 0% 0%, rgba(225, 29, 72, 0.15) 0px, transparent 50%), radial-gradient(at 100% 0%, rgba(56, 189, 248, 0.15) 0px, transparent 50%), radial-gradient(at 100% 100%, rgba(168, 85, 247, 0.15) 0px, transparent 50%); filter: blur(60px); }
+        .file-input-button { cursor: pointer; }
+    </style>
+</head>
+<body>
+    <div class="mesh-gradient"></div>
+    <nav class="fixed w-full z-50 border-b border-white/10 bg-slate-950/50 backdrop-blur-xl">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-20">
+                <a href="/" class="flex items-center gap-3">
+                    <div class="w-10 h-10 bg-gradient-to-tr from-rose-600 to-orange-500 rounded-xl flex items-center justify-center shadow-lg shadow-rose-500/20">
+                        <i data-lucide="activity" class="w-6 h-6 text-white"></i>
+                    </div>
+                    <div>
+                        <span class="font-bold text-lg tracking-tight text-white block leading-none">Health Data</span>
+                        <span class="text-xs text-slate-400 tracking-wider uppercase font-semibold">Export & Analyze</span>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </nav>
+    <main class="pt-32 pb-20 lg:pt-48 lg:pb-32">
+        <div class="max-w-2xl mx-auto text-center px-4">
+            <h1 class="text-4xl lg:text-5xl font-bold text-white mb-6">Apple Health XML to CSV Converter</h1>
+            <p class="text-xl text-slate-400 leading-relaxed mb-12">Stuck with a complex <code>export.xml</code> file? This free tool converts it into a clean, usable CSV file directly in your browser. <strong>Your data is never uploaded and remains completely private.</strong></p>
+
+            <div class="bento-card p-8 md:p-12">
+                <label for="file-upload" class="file-input-button w-full inline-block bg-rose-600 text-white font-bold py-4 px-8 rounded-full text-lg hover:bg-rose-700 transition-all shadow-[0_0_20px_rgba(225,29,72,0.4)]">
+                    <span class="flex items-center justify-center gap-2">
+                        <i data-lucide="upload-cloud" class="w-6 h-6"></i>
+                        <span>Choose <code>export.xml</code> File</span>
+                    </span>
+                </label>
+                <input type="file" id="file-upload" class="hidden" accept=".xml">
+                
+                <div id="status" class="text-slate-400 mt-8 text-lg min-h-[2.5rem]">Select your file to begin...</div>
+
+                <a id="download-link" class="hidden w-full mt-4 inline-block bg-green-600 text-white font-bold py-4 px-8 rounded-full text-lg hover:bg-green-700 transition-all">
+                    <span class="flex items-center justify-center gap-2">
+                        <i data-lucide="download" class="w-6 h-6"></i>
+                        <span>Download CSV</span>
+                    </span>
+                </a>
+            </div>
+
+             <div class="text-left mt-16 p-6 border border-slate-800 rounded-2xl bg-slate-900/50">
+                <h3 class="text-xl font-bold text-white mb-4">How it Works</h3>
+                <ol class="list-decimal list-inside text-slate-400 space-y-2">
+                    <li>Use the official <a href="/export-apple-health-data/" class="text-rose-400">Apple Health export</a> feature on your iPhone to get the <code>export.xml</code> file.</li>
+                    <li>Click the button above and select that <code>export.xml</code> file.</li>
+                    <li>The tool processes the file locally in your browser.</li>
+                    <li>A download button will appear. Click it to save your new CSV file.</li>
+                </ol>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        const fileInput = document.getElementById('file-upload');
+        const statusDiv = document.getElementById('status');
+        const downloadLink = document.getElementById('download-link');
+
+        fileInput.addEventListener('change', (event) => {
+            const file = event.target.files[0];
+            if (!file) {
+                return;
+            }
+
+            statusDiv.textContent = 'Reading file...';
+            downloadLink.classList.add('hidden');
+
+            const reader = new FileReader();
+
+            reader.onload = (e) => {
+                try {
+                    statusDiv.textContent = 'Parsing XML... This may take a moment for large files.';
+                    const xmlString = e.target.result;
+                    const parser = new DOMParser();
+                    const xmlDoc = parser.parseFromString(xmlString, "application/xml");
+
+                    if (xmlDoc.getElementsByTagName("parsererror").length) {
+                        throw new Error("Failed to parse XML. Please ensure it's a valid export.xml file.");
+                    }
+                    
+                    statusDiv.textContent = 'Converting to CSV...';
+
+                    const records = xmlDoc.getElementsByTagName('Record');
+                    let csvContent = 'type,sourceName,unit,startDate,endDate,value\n';
+                    
+                    for (let i = 0; i < records.length; i++) {
+                        const record = records[i];
+                        const type = record.getAttribute('type') || '';
+                        const sourceName = record.getAttribute('sourceName') || '';
+                        const unit = record.getAttribute('unit') || '';
+                        const startDate = record.getAttribute('startDate') || '';
+                        const endDate = record.getAttribute('endDate') || '';
+                        const value = record.getAttribute('value') || '';
+
+                        // Simple CSV escaping (handling quotes)
+                        const escape = (str) => `"${str.replace(/"/g, '""')}"`;
+
+                        const row = [
+                            escape(type),
+                            escape(sourceName),
+                            escape(unit),
+                            escape(startDate),
+                            escape(endDate),
+                            escape(value)
+                        ].join(',');
+                        
+                        csvContent += row + '\n';
+                    }
+
+                    if (records.length === 0) {
+                        statusDiv.textContent = 'No <Record> elements found. Is this a valid Apple Health export file?';
+                        return;
+                    }
+
+                    const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+                    const url = URL.createObjectURL(blob);
+
+                    downloadLink.href = url;
+                    downloadLink.setAttribute('download', 'health-data-export.csv');
+                    downloadLink.classList.remove('hidden');
+                    statusDiv.textContent = `Success! Converted ${records.length.toLocaleString()} records. Your download is ready.`;
+
+                } catch (error) {
+                    statusDiv.textContent = `An error occurred: ${error.message}`;
+                    console.error("Conversion Error:", error);
+                } 
+            };
+
+            reader.onerror = () => {
+                statusDiv.textContent = 'Error reading file.';
+            };
+            
+            reader.readAsText(file);
+        });
+
+        lucide.createIcons();
+    </script>
+</body>
+</html>
