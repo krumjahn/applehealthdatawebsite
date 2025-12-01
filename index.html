@@ -154,20 +154,62 @@
         }
 
         @keyframes flow {
-            0% {
-                left: 0;
-                opacity: 0;
-            }
-            10% {
-                opacity: 1;
-            }
-            90% {
-                opacity: 1;
-            }
             100% {
                 left: 100%;
                 opacity: 0;
             }
+        }
+
+        /* Animated FAQ Accordion */
+        .faq-accordion details {
+            border-bottom: 1px solid var(--glass-border);
+            transition: background-color 0.3s ease;
+        }
+        .faq-accordion details:first-of-type {
+            border-top: 1px solid var(--glass-border);
+        }
+        .faq-accordion details:hover {
+            background-color: var(--glass-bg);
+        }
+        .faq-accordion summary {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.5rem 1rem;
+            cursor: pointer;
+            list-style: none; /* Hide the default marker */
+            font-size: 1.125rem;
+            font-weight: 600;
+            color: #e2e8f0; /* slate-200 */
+            transition: color 0.3s ease;
+        }
+        .faq-accordion summary:hover {
+            color: #f8fafc; /* slate-50 */
+        }
+        .faq-accordion summary::-webkit-details-marker {
+            display: none; /* Hide the default marker for Chrome/Safari */
+        }
+        .faq-accordion .faq-content {
+            padding: 0 1rem 1.5rem 1rem;
+            color: #94a3b8; /* slate-400 */
+            line-height: 1.6;
+        }
+
+        /* Chevron Animation */
+        .faq-accordion summary .chevron {
+            transition: transform 0.3s ease;
+        }
+        .faq-accordion details[open] summary .chevron {
+            transform: rotate(90deg);
+        }
+
+        /* Content Fade-in Animation */
+        .faq-accordion details[open] .faq-content {
+            animation: fadeIn 0.5s ease;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
         }
     </style>
     <meta name="google-site-verification" content="mfw8yyYjETYvKDrxInR-_YSvL8zUQJ2qAB3N_OVbjjM" />
@@ -611,31 +653,61 @@
     <section class="py-20 bg-slate-900 border-t border-white/5">
         <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
             <h2 class="text-3xl md:text-4xl font-bold text-white text-center mb-12">Frequently Asked Questions</h2>
-            <div class="space-y-8">
-                <div>
-                    <h3 class="text-xl font-semibold text-white mb-2">Q: How do I export Apple Health data from my iPhone?</h3>
-                    <p class="text-slate-400">A: Our iOS app, "Health Data Export," allows you to effortlessly export all your Apple Health data directly from your iPhone. Simply select your desired date range and format (CSV, JSON, or XML), and the app handles the rest securely on-device.</p>
-                </div>
-                <div>
-                    <h3 class="text-xl font-semibold text-white mb-2">Q: Can I get an Apple Health CSV export?</h3>
-                    <p class="text-slate-400">A: Yes! The iOS app supports direct Apple Health CSV export. This format is ideal for analysis in spreadsheets like Excel or Google Sheets, offering a clear, tabular view of your health metrics.</p>
-                </div>
-                <div>
-                    <h3 class="text-xl font-semibold text-white mb-2">Q: How can I analyze Apple Health data on Mac with AI?</h3>
-                    <p class="text-slate-400">A: After exporting your data using our iOS app, you can seamlessly transfer it to your Mac. Our accompanying Python tool (AI Analyzer) processes this data, providing AI-powered insights, visualizations, and integrations with tools like ChatGPT for advanced analysis.</p>
-                </div>
-                <div>
-                    <h3 class="text-xl font-semibold text-white mb-2">Q: Is my Apple Health data secure during export and analysis?</h3>
-                    <p class="text-slate-400">A: Absolutely. Our iOS app performs all data processing locally on your device, ensuring your sensitive health information never leaves your iPhone or goes to the cloud. The Mac AI Analyzer also operates locally, prioritizing your privacy and data security.</p>
-                </div>
-                <div>
-                    <h3 class="text-xl font-semibold text-white mb-2">Q: What is the benefit of converting Apple Health XML to CSV?</h3>
-                    <p class="text-slate-400">A: While XML provides a comprehensive, structured dataset, CSV is often preferred for its simplicity and compatibility with most data analysis tools, including spreadsheets. Our Mac AI Analyzer can help you easily convert Apple Health XML to CSV for more straightforward manipulation and visualization.</p>
-                </div>
-                <div>
-                    <h3 class="text-xl font-semibold text-white mb-2">Q: Is this tool suitable for Apple Health data backup?</h3>
-                    <p class="text-slate-400">A: Yes, it's an excellent solution for comprehensive Apple Health data backup. Exporting your data to CSV, JSON, or XML gives you a personal, accessible copy of your entire health history, independent of Apple's ecosystem, for long-term safekeeping.</p>
-                </div>
+            <div class="faq-accordion space-y-2">
+                <details>
+                    <summary class="flex justify-between items-center">
+                        <span>Q: How do I export Apple Health data from my iPhone?</span>
+                        <i data-lucide="chevron-right" class="chevron w-6 h-6 text-rose-400"></i>
+                    </summary>
+                    <div class="faq-content">
+                        <p>A: Our iOS app, "Health Data Export," allows you to effortlessly export all your Apple Health data directly from your iPhone. Simply select your desired date range and format (CSV, JSON, or XML), and the app handles the rest securely on-device.</p>
+                    </div>
+                </details>
+                <details>
+                    <summary class="flex justify-between items-center">
+                        <span>Q: Can I get an Apple Health CSV export?</span>
+                        <i data-lucide="chevron-right" class="chevron w-6 h-6 text-rose-400"></i>
+                    </summary>
+                    <div class="faq-content">
+                        <p>A: Yes! The iOS app supports direct Apple Health CSV export. This format is ideal for analysis in spreadsheets like Excel or Google Sheets, offering a clear, tabular view of your health metrics.</p>
+                    </div>
+                </details>
+                <details>
+                    <summary class="flex justify-between items-center">
+                        <span>Q: How can I analyze Apple Health data on Mac with AI?</span>
+                        <i data-lucide="chevron-right" class="chevron w-6 h-6 text-rose-400"></i>
+                    </summary>
+                    <div class="faq-content">
+                        <p>A: After exporting your data using our iOS app, you can seamlessly transfer it to your Mac. Our accompanying Python tool (AI Analyzer) processes this data, providing AI-powered insights, visualizations, and integrations with tools like ChatGPT for advanced analysis.</p>
+                    </div>
+                </details>
+                <details>
+                    <summary class="flex justify-between items-center">
+                        <span>Q: Is my Apple Health data secure during export and analysis?</span>
+                        <i data-lucide="chevron-right" class="chevron w-6 h-6 text-rose-400"></i>
+                    </summary>
+                    <div class="faq-content">
+                        <p>A: Absolutely. Our iOS app performs all data processing locally on your device, ensuring your sensitive health information never leaves your iPhone or goes to the cloud. The Mac AI Analyzer also operates locally, prioritizing your privacy and data security.</p>
+                    </div>
+                </details>
+                <details>
+                    <summary class="flex justify-between items-center">
+                        <span>Q: What is the benefit of converting Apple Health XML to CSV?</span>
+                        <i data-lucide="chevron-right" class="chevron w-6 h-6 text-rose-400"></i>
+                    </summary>
+                    <div class="faq-content">
+                        <p>A: While XML provides a comprehensive, structured dataset, CSV is often preferred for its simplicity and compatibility with most data analysis tools, including spreadsheets. Our Mac AI Analyzer can help you easily convert Apple Health XML to CSV for more straightforward manipulation and visualization.</p>
+                    </div>
+                </details>
+                <details>
+                    <summary class="flex justify-between items-center">
+                        <span>Q: Is this tool suitable for Apple Health data backup?</span>
+                        <i data-lucide="chevron-right" class="chevron w-6 h-6 text-rose-400"></i>
+                    </summary>
+                    <div class="faq-content">
+                        <p>A: Yes, it's an excellent solution for comprehensive Apple Health data backup. Exporting your data to CSV, JSON, or XML gives you a personal, accessible copy of your entire health history, independent of Apple's ecosystem, for long-term safekeeping.</p>
+                    </div>
+                </details>
             </div>
         </div>
     </section>
