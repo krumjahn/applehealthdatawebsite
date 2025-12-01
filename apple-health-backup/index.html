@@ -13,17 +13,15 @@
         :root { --glass-border: rgba(255, 255, 255, 0.08); --glass-bg: rgba(255, 255, 255, 0.03); }
         body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: #020617; color: #f8fafc; overflow-x: hidden; }
         .mesh-gradient { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: -1; background: radial-gradient(at 0% 0%, rgba(225, 29, 72, 0.15) 0px, transparent 50%), radial-gradient(at 100% 0%, rgba(56, 189, 248, 0.15) 0px, transparent 50%), radial-gradient(at 100% 100%, rgba(168, 85, 247, 0.15) 0px, transparent 50%); filter: blur(60px); }
-        .prose { color: #d1d5db; }
-        .prose h1 { color: #f9fafb; }
-        .prose h2 { color: #f3f4f6; border-top: 1px solid var(--glass-border); padding-top: 1rem; }
-        .prose h3 { color: #e5e7eb; }
-        .prose a { color: #f43f5e; }
-        .prose strong { color: #f9fafb; }
-        .prose blockquote { border-left-color: #f43f5e; }
-        .prose img { border-radius: 0.75rem; border: 1px solid var(--glass-border); }
-        .prose table { width: 100%; }
-        .prose thead { border-bottom: 1px solid var(--glass-border); }
-        .prose th { color: #f9fafb; }
+        .content-section h2 { border-top: 1px solid var(--glass-border); padding-top: 2rem; margin-top: 3rem; }
+        .content-section a { color: #f43f5e; }
+        .content-section strong { color: #f9fafb; }
+        .content-section ul, .content-section ol { padding-left: 1.5rem; }
+        .content-section li { margin-bottom: 0.5rem; }
+        .content-section img { border-radius: 0.75rem; border: 1px solid var(--glass-border); margin-top: 1rem; margin-bottom: 1rem; }
+        .content-section table { width: 100%; text-align: left; margin-top: 2rem; border-collapse: collapse; }
+        .content-section th, .content-section td { padding: 0.75rem 1rem; border-bottom: 1px solid var(--glass-border); }
+        .content-section th { color: #f9fafb; }
     </style>
 </head>
 <body>
@@ -43,106 +41,56 @@
             </div>
         </div>
     </nav>
-
     <main class="pt-32 pb-20 lg:pt-48 lg:pb-32">
-        <article class="prose prose-lg mx-auto px-4">
-            <h1>Apple Health Backup Guide: How to Save All Your Health Records Safely</h1>
-            <p>Your Apple Health data is more than just numbers; it's the story of your health, fitness, and well-being, recorded over months and years. Losing this data due to a corrupted backup, a lost device, or a system glitch can be devastating. While iCloud backups are convenient, a true <strong>Apple Health data backup</strong> strategy involves creating a separate, independent, and accessible copy of your records that you fully control.</p>
+        <div class="max-w-4xl mx-auto px-4 content-section">
+            <h1 class="text-4xl lg:text-6xl font-bold text-white text-center mb-8">Apple Health Backup Guide</h1>
+            <p class="text-xl text-slate-400 text-center leading-relaxed mb-16">Your Apple Health data is more than just numbers; it's the story of your health, fitness, and well-being. Losing this data can be devastating. While iCloud backups are convenient, a true <strong>Apple Health data backup</strong> strategy involves creating a separate, independent, and accessible copy of your records that you fully control.</p>
             
-            <h2>Why Your Standard iCloud Backup Isn't Enough</h2>
-            <p>iCloud does a great job of backing up your iPhone, and this includes your Health data. However, relying solely on iCloud presents several risks:</p>
-            <ul>
-                <li><strong>Data Corruption:</strong> iCloud backups can become corrupted, making a restore impossible.</li>
-                <li><strong>"Locked-In" Ecosystem:</strong> Your data is tied to your Apple ID and Apple's ecosystem. Accessing it outside of an iPhone restore is not possible.</li>
-                <li><strong>Lack of Accessibility:</strong> You cannot browse or verify the health data within an iCloud backup. You have to trust that it's there and that it will restore correctly.</li>
+            <h2 class="text-3xl font-bold text-white mb-6">Why Your Standard iCloud Backup Isn't Enough</h2>
+            <p class="text-lg text-slate-400 mb-4">Relying solely on iCloud for your priceless health history presents several risks:</p>
+            <ul class="text-lg text-slate-400 space-y-2">
+                <li><strong>Data Corruption:</strong> iCloud backups can fail or become corrupted, making a restore impossible.</li>
+                <li><strong>"Locked-In" Ecosystem:</strong> Your data is tied to your Apple ID. Accessing it outside of an iPhone restore is not possible.</li>
+                <li><strong>Lack of Accessibility:</strong> You cannot browse or verify the health data within an iCloud backup. You have to trust that it's there.</li>
                 <li><strong>Accidental Deletion:</strong> If you delete data on your device, that deletion can sync to your backup, permanently erasing the old records.</li>
             </ul>
-            <p>A true backup is a copy that you can store independently and access on any platform.</p>
+            <p class="text-lg text-slate-400 mt-4">A true backup is a copy that you can store independently and access on any platform.</p>
 
-            <h2>The Solution: A Manual, User-Controlled Backup</h2>
-            <p>The best way to secure your health history is to periodically <a href="/export-apple-health-data/">export your Apple Health data</a> into a universal format and store it in a safe place. This gives you a tangible file (like a CSV or JSON) that is independent of Apple.</p>
+            <h2 class="text-3xl font-bold text-white mb-6">The Solution: A Manual, User-Controlled Backup</h2>
+            <p class="text-lg text-slate-400 mb-4">The best way to secure your health history is to periodically <a href="/export-apple-health-data/">export your Apple Health data</a> into a universal format and store it in a safe place. This gives you a tangible file (like a CSV or JSON) that is independent of Apple.</p>
             <table>
-                <thead>
-                    <tr>
-                        <th>Backup Method</th>
-                        <th>iCloud Backup</th>
-                        <th>Manual Export Backup</th>
-                    </tr>
-                </thead>
+                <thead><tr><th>Backup Method</th><th>iCloud Backup</th><th>Manual Export Backup</th></tr></thead>
                 <tbody>
-                    <tr>
-                        <td><strong>Control</strong></td>
-                        <td>Controlled by Apple</td>
-                        <td><strong>You control the file</strong></td>
-                    </tr>
-                    <tr>
-                        <td><strong>Accessibility</strong></td>
-                        <td>Inaccessible until restore</td>
-                        <td><strong>Accessible on any computer</strong></td>
-                    </tr>
-                    <tr>
-                        <td><strong>Format</strong></td>
-                        <td>Proprietary</td>
-                        <td>Universal (CSV, JSON, XML)</td>
-                    </tr>
-                    <tr>
-                        <td><strong>Verification</strong></td>
-                        <td>Cannot be verified</td>
-                        <td>Can be opened and checked</td>
-                    </tr>
-                    <tr>
-                        <td><strong>Platform Risk</strong></td>
-                        <td>Locked to Apple</td>
-                        <td>Platform-independent</td>
-                    </tr>
+                    <tr><td><strong>Control</strong></td><td>Controlled by Apple</td><td><strong>You control the file</strong></td></tr>
+                    <tr><td><strong>Accessibility</strong></td><td>Inaccessible until restore</td><td><strong>Accessible on any computer</strong></td></tr>
+                    <tr><td><strong>Format</strong></td><td>Proprietary</td><td>Universal (CSV, JSON, XML)</td></tr>
+                    <tr><td><strong>Verification</strong></td><td>Cannot be verified</td><td>Can be opened and checked</td></tr>
+                    <tr><td><strong>Platform Risk</strong></td><td>Locked to Apple</td><td>Platform-independent</td></tr>
                 </tbody>
             </table>
-
-            <h3>Step-by-Step Guide to Creating Your First Backup</h3>
-            <p>Using our "Health Data Export" app, you can create a secure backup in under a minute.</p>
-            <ol>
+            
+            <h3 class="text-2xl font-bold text-white mt-8 mb-4">Step-by-Step Guide to Creating Your First Backup</h3>
+            <ol class="text-lg text-slate-400 space-y-2 mb-4">
                 <li><strong>Download "Health Data Export"</strong> from the App Store.</li>
                 <li><strong>Grant one-time read access</strong> to your Health data. The process is secure and runs 100% on your device.</li>
-                <li><strong>Choose Your Format.</strong> For maximum long-term compatibility, we recommend <a href="/export-csv-data/">exporting to CSV</a>. It's a plain-text format that will be readable for decades to come. <img src="../images/mac-app-screenshot-2.png" alt="Choosing CSV format for backup"></li>
-                <li><strong>Save to a Secure Location.</strong> When the Share Sheet appears, save the exported file to multiple locations for redundancy.
-                    <ul>
-                        <li><strong>Primary Cloud Storage:</strong> iCloud Drive, Dropbox, Google Drive.</li>
-                        <li><strong>Offline Storage:</strong> An external hard drive or a secure home server (NAS).</li>
-                    </ul>
-                    <img src="../images/mac-app-screenshot-3.png" alt="Saving backup file to iCloud Drive">
-                </li>
+                <li><strong>Choose Your Format.</strong> For maximum long-term compatibility, we recommend <a href="/export-csv-data/">exporting to CSV</a>.</li>
+                <li><strong>Save to a Secure Location.</strong> Use the Share Sheet to save the file to multiple locations for redundancy (e.g., iCloud Drive and an external hard drive).</li>
             </ol>
-            <p>We recommend performing this backup process once every 1-3 months to keep your archive up to date.</p>
-            
-            <h2>Who Needs a Dedicated Health Data Backup?</h2>
-            <ul>
+            <img src="../images/mac-app-screenshot-2.png" alt="Saving backup file to cloud storage from iPhone">
+            <p class="text-lg text-slate-400 mt-4">We recommend performing this backup process once every 1-3 months to keep your archive up to date.</p>
+
+            <h2 class="text-3xl font-bold text-white mb-6">Who Needs a Dedicated Health Data Backup?</h2>
+            <ul class="text-lg text-slate-400 space-y-2">
                 <li><strong>Everyone with an iPhone:</strong> Any user who values their health history should have an independent backup.</li>
                 <li><strong>Users Switching Devices:</strong> If you're moving from iOS to Android, this is the only way to take your health history with you.</li>
-                <li><strong>Health & Fitness Professionals:</strong> Trainers and coaches should advise their clients on how to back up their data.</li>
-                <li><strong>Individuals with Chronic Conditions:</strong> For those tracking important health metrics over the long term, a secure backup is not just nice to have—it's essential.</li>
+                <li><strong>Individuals with Chronic Conditions:</strong> For those tracking important health metrics over the long term, a secure backup is essential.</li>
             </ul>
-            <p>Creating a backup also prepares your data for the exciting possibility of <a href="/analyze-health-data-ai/">AI-powered health analysis</a>, allowing you to discover trends in your securely archived data.</p>
+            <p class="text-lg text-slate-400 mt-4">Creating a backup also prepares your data for the exciting possibility of <a href="/analyze-health-data-ai/">AI-powered health analysis</a>, allowing you to discover trends in your securely archived data.</p>
             
-            <h2>Peace of Mind with the Right Tools</h2>
-            <p>Don't leave your priceless health history to chance. Take proactive steps to secure it. Our "Health Data Export" app was built with this core principle in mind: to give you full ownership and control over your digital health records.</p>
-            <ul>
-                <li><a href="YOUR_APP_STORE_LINK"><strong>Download "Health Data Export" on the App Store</strong></a> and create your first secure backup today.</li>
-            </ul>
-
-            <h2>Frequently Asked Questions (FAQ)</h2>
-            <h3>What is the best format for a long-term backup?</h3>
-            <p>CSV (Comma-Separated Values) is an excellent choice for long-term archival. It's a simple text-based format, meaning it's not dependent on any proprietary software and will be readable by computers for many years to come.</p>
-            <h3>How do I restore from my manual backup?</h3>
-            <p>It's important to understand that Apple does not allow you to import data back into the Health app. This backup is your personal, readable archive for analysis, reference, or migration to another platform. It is a "read-only" copy.</p>
-            <h3>Does the backup include my ECG readings or workout routes?</h3>
-            <p>Our app focuses on exporting the vast majority of your numerical and categorical data into a clean CSV/JSON file. The official Apple export (which produces the complex <code>export.xml</code> file) contains separate files for things like ECGs and workout routes. For a 100% complete archive, we recommend doing both: our app's export for your usable data, and Apple's native export for the extra files.</p>
-            <h3>Where is the safest place to store my backup?</h3>
-            <p>The "3-2-1 Backup Rule" is a great strategy: have <strong>3</strong> copies of your data on <strong>2</strong> different types of media, with <strong>1</strong> copy stored off-site. For example: 1 copy on your Mac's hard drive, 1 on an external hard drive, and 1 in a secure cloud service like iCloud Drive.</p>
-            <h3>Will my backup file be encrypted?</h3>
-            <p>The file itself (e.g., the CSV) is not encrypted. It is your responsibility to store it in an encrypted location, such as on your Mac using FileVault, in an encrypted disk image, or in a secure cloud service.</p>
-            <h3>Why can't I just use Apple's export for backup?</h3>
-            <p>You can, but it's not ideal. The <code>export.xml</code> file it produces is very difficult to read or use without conversion. A backup is only useful if you can easily access the data within it. Our app provides that accessibility from the start. You can learn more about the challenges here: <a href="/convert-apple-health-xml/">Convert Apple Health XML to CSV</a>.</p>
-        </article>
+            <h2 class="text-3xl font-bold text-white mb-6">Peace of Mind with the Right Tools</h2>
+            <p class="text-lg text-slate-400 mb-4">Don't leave your priceless health history to chance. Take proactive steps to secure it. Our "Health Data Export" app was built with this core principle in mind: to give you full ownership and control over your digital health records.</p>
+            <div class="mt-8 text-center"><a href="YOUR_APP_STORE_LINK" class="bg-rose-600 text-white font-bold py-4 px-8 rounded-full text-lg hover:bg-rose-700 transition-all">Download on the App Store</a></div>
+        </div>
     </main>
     <script>lucide.createIcons();</script>
 </body>

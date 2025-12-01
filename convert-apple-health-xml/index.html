@@ -13,18 +13,16 @@
         :root { --glass-border: rgba(255, 255, 255, 0.08); --glass-bg: rgba(255, 255, 255, 0.03); }
         body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: #020617; color: #f8fafc; overflow-x: hidden; }
         .mesh-gradient { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: -1; background: radial-gradient(at 0% 0%, rgba(225, 29, 72, 0.15) 0px, transparent 50%), radial-gradient(at 100% 0%, rgba(56, 189, 248, 0.15) 0px, transparent 50%), radial-gradient(at 100% 100%, rgba(168, 85, 247, 0.15) 0px, transparent 50%); filter: blur(60px); }
-        .prose { color: #d1d5db; }
-        .prose h1 { color: #f9fafb; }
-        .prose h2 { color: #f3f4f6; border-top: 1px solid var(--glass-border); padding-top: 1rem; }
-        .prose h3 { color: #e5e7eb; }
-        .prose a { color: #f43f5e; }
-        .prose strong { color: #f9fafb; }
-        .prose code { color: #f0abfc; background-color: rgba(255, 255, 255, 0.1); padding: 0.2rem 0.4rem; border-radius: 0.25rem; }
-        .prose blockquote { border-left-color: #f43f5e; }
-        .prose img { border-radius: 0.75rem; border: 1px solid var(--glass-border); }
-        .prose table { width: 100%; }
-        .prose thead { border-bottom: 1px solid var(--glass-border); }
-        .prose th { color: #f9fafb; }
+        .content-section h2 { border-top: 1px solid var(--glass-border); padding-top: 2rem; margin-top: 3rem; }
+        .content-section a { color: #f43f5e; }
+        .content-section strong { color: #f9fafb; }
+        .content-section ul, .content-section ol { padding-left: 1.5rem; }
+        .content-section li { margin-bottom: 0.5rem; }
+        .content-section img { border-radius: 0.75rem; border: 1px solid var(--glass-border); margin-top: 1rem; margin-bottom: 1rem; }
+        .content-section table { width: 100%; text-align: left; margin-top: 2rem; border-collapse: collapse; }
+        .content-section th, .content-section td { padding: 0.75rem 1rem; border-bottom: 1px solid var(--glass-border); }
+        .content-section th { color: #f9fafb; }
+        .content-section code { color: #f0abfc; background-color: rgba(255, 255, 255, 0.1); padding: 0.2rem 0.4rem; border-radius: 0.25rem; font-family: 'JetBrains Mono', monospace;}
     </style>
 </head>
 <body>
@@ -44,96 +42,46 @@
             </div>
         </div>
     </nav>
-
     <main class="pt-32 pb-20 lg:pt-48 lg:pb-32">
-        <article class="prose prose-lg mx-auto px-4">
-            <h1>Convert Apple Health XML to CSV or JSON (Free Tool + Tutorial)</h1>
-            <p>So you used Apple's built-in "Export All Health Data" feature. You have the <code>health-records.zip</code> file, you've unzipped it, and now you're staring at a massive, intimidating file named <code>export.xml</code>. What now? This file, while containing all your valuable health data, is not designed for human readability or easy analysis. This guide explains how to <strong>convert the Apple Health XML to a usable CSV or JSON file</strong>.</p>
+        <div class="max-w-4xl mx-auto px-4 content-section">
+            <h1 class="text-4xl lg:text-6xl font-bold text-white text-center mb-8">Convert Apple Health XML to CSV or JSON</h1>
+            <p class="text-xl text-slate-400 text-center leading-relaxed mb-16">So you used Apple's built-in "Export All Health Data" feature. You have the <code>health-records.zip</code> file, you've unzipped it, and now you're staring at a massive, intimidating file named <code>export.xml</code>. What now? This file, while containing all your valuable health data, is not designed for human readability or easy analysis. This guide explains how to <strong>convert the Apple Health XML to a usable CSV or JSON file</strong>.</p>
             
-            <h2>The <code>export.xml</code> Problem: Why Do You Need a Converter?</h2>
-            <p>The <code>export.xml</code> file is a raw data dump from the HealthKit database. It's structured in a way that is incredibly detailed but also incredibly complex.</p>
-            <ul>
+            <h2 class="text-3xl font-bold text-white mb-6">The <code>export.xml</code> Problem: Why Do You Need a Converter?</h2>
+            <p class="text-lg text-slate-400 mb-4">The <code>export.xml</code> file is a raw data dump from the HealthKit database. It's structured in a way that is incredibly detailed but also incredibly complex.</p>
+            <ul class="text-lg text-slate-400 space-y-2">
                 <li><strong>Not Spreadsheet Friendly:</strong> You cannot simply open <code>export.xml</code> in Excel or Google Sheets and expect to see neat rows and columns.</li>
                 <li><strong>Deeply Nested:</strong> Data is organized in a hierarchical structure that requires a custom parser to read properly.</li>
                 <li><strong>Verbose:</strong> The file is filled with XML tags, attributes, and metadata that make it huge and difficult to navigate.</li>
             </ul>
-            <p>To perform any kind of meaningful analysis, create a proper <a href="/apple-health-backup/">Apple Health data backup</a>, or simply view your own trends, you must first parse and convert this file.</p>
-
-            <h2>How to Convert Your <code>export.xml</code> File</h2>
-            <p>There are a few ways to tackle this conversion, ranging from highly technical to user-friendly.</p>
-            <h3>Method 1: Custom Programming Scripts (The Hard Way)</h3>
-            <p>For developers, writing a script in a language like Python or R is a common approach. Libraries like <code>lxml</code> or <code>xml.etree.ElementTree</code> in Python can be used to parse the XML file and write the data out to a CSV.</p>
-            <blockquote><strong>Challenges:</strong> This requires coding knowledge, a deep understanding of the HealthKit XML schema, and is time-consuming to write and debug.</blockquote>
+            <p class="text-lg text-slate-400 mt-4">To perform any kind of meaningful analysis, create a proper <a href="/apple-health-backup/">Apple Health data backup</a>, or simply view your own trends, you must first parse and convert this file.</p>
             
-            <h3>Method 2: Using Our Free "AI Analyzer" Tool for Mac</h3>
-            <p>If you already have your <code>export.xml</code> file on your Mac, our <strong>free</strong> companion tool, "AI Analyzer," can do the heavy lifting for you. While its main purpose is to <a href="/analyze-health-data-ai/">analyze health data with AI</a>, it's also built on a powerful parser that can directly read and process the <code>export.xml</code> file.</p>
-            <ol>
-                <li><strong>Download the "AI Analyzer"</strong> from our GitHub page. <img src="../images/mac-app-screenshot-2.png" alt="AI Analyzer App Icon on Mac"></li>
+            <h2 class="text-3xl font-bold text-white mb-6">How to Convert Your <code>export.xml</code> File</h2>
+            <p class="text-lg text-slate-400 mb-4">There are a few ways to tackle this conversion, ranging from highly technical to user-friendly.</p>
+            <h3 class="text-2xl font-bold text-white mt-8 mb-4">Method 1: Custom Programming Scripts (The Hard Way)</h3>
+            <p class="text-lg text-slate-400 mb-4">For developers, writing a script in a language like Python or R is a common approach. Libraries like <code>lxml</code> in Python can parse the XML. However, this requires coding knowledge, a deep understanding of the HealthKit XML schema, and is time-consuming to write and debug.</p>
+
+            <h3 class="text-2xl font-bold text-white mt-8 mb-4">Method 2: Using Our Free "AI Analyzer" Tool for Mac</h3>
+            <p class="text-lg text-slate-400 mb-4">If you already have your <code>export.xml</code> file on your Mac, our <strong>free</strong> companion tool, "AI Analyzer," can do the heavy lifting for you. While its main purpose is to <a href="/analyze-health-data-ai/">analyze health data with AI</a>, it's also built on a powerful parser that can directly read and process the <code>export.xml</code> file.</p>
+            <ol class="text-lg text-slate-400 space-y-2">
+                <li><strong>Download the "AI Analyzer"</strong> from our GitHub page.</li>
                 <li><strong>Launch the tool</strong> and point it to your <code>export.xml</code> file.</li>
-                <li>The tool will parse the entire file and often gives you the option to save the processed data as a CSV or Parquet file for further use. <img src="../images/mac-app-screenshot-3.png" alt="AI Analyzer processing data"></li>
+                <li>The tool will parse the entire file and give you the option to save the processed data as a CSV for further use.</li>
             </ol>
-            <p>This is the most powerful option if you already have the XML file and want to move straight to analysis on your Mac.</p>
+            <img src="../images/mac-app-screenshot-2.png" alt="AI Analyzer processing data on macOS">
+            <p class="text-lg text-slate-400 mt-4">This is the most powerful option if you already have the XML file and want to move straight to analysis on your Mac.</p>
 
-            <h2>The Best Method: Avoid XML Altogether</h2>
-            <p>Why wrestle with conversion when you can bypass the problem entirely? The fundamental issue is the <code>export.xml</code> file itself. A modern workflow avoids this file completely by generating a clean, analysis-ready file from the start.</p>
-            <table>
-                <thead>
-                    <tr>
-                        <th>Feature</th>
-                        <th>The XML Conversion Workflow</th>
-                        <th>The Direct Export Workflow</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td><strong>Step 1</strong></td>
-                        <td>Use Health app to export ZIP</td>
-                        <td><strong>Download "Health Data Export" app</strong></td>
-                    </tr>
-                     <tr>
-                        <td><strong>Step 2</strong></td>
-                        <td>Unzip file to find <code>export.xml</code></td>
-                        <td><strong>Tap "Export" and choose CSV/JSON</strong></td>
-                    </tr>
-                    <tr>
-                        <td><strong>Step 3</strong></td>
-                        <td>Find/write a script or tool</td>
-                        <td>Save/AirDrop your clean file</td>
-                    </tr>
-                    <tr>
-                        <td><strong>Step 4</strong></td>
-                        <td><strong>Convert Apple Health XML to CSV</strong></td>
-                        <td><em>N/A (already done)</em></td>
-                    </tr>
-                    <tr>
-                        <td><strong>Step 5</strong></td>
-                        <td>Finally open in Excel/Sheets</td>
-                        <td>Open in Excel/Sheets</td>
-                    </tr>
-                </tbody>
-            </table>
-            <h3>How the "Health Data Export" App Prevents This Problem</h3>
-            <p>Our iOS app is the "easy button." It communicates directly with HealthKit to create a clean <a href="/export-csv-data/">Apple Health CSV export</a> or JSON file from the beginning. You get the exact file format you need in seconds, saving you time and frustration. It's the simplest way to <a href="/export-apple-health-data/">export your Apple Health data</a>.</p>
-
-            <h2>Take Back Your Time</h2>
-            <p>Don't waste hours fighting with XML files. Get straight to the insights.</p>
-            <ul>
-                <li><a href="YOUR_APP_STORE_LINK"><strong>Download "Health Data Export" on the App Store</strong></a> to avoid the XML problem forever.</li>
-                <li><a href="YOUR_GITHUB_LINK"><strong>Get the "AI Analyzer" from GitHub</strong></a> if you're stuck with an <code>export.xml</code> and need a powerful tool to convert and analyze it on your Mac.</li>
-            </ul>
-
-            <h2>Frequently Asked Questions (FAQ)</h2>
-            <h3>Is there a reliable online tool to convert my Apple Health XML?</h3>
-            <p>We strongly advise against uploading your <code>export.xml</code> file to random online converters. This file contains sensitive personal health information. Use offline, on-device tools like our "AI Analyzer" or "Health Data Export" app to protect your privacy.</p>
-            <h3>Why does Apple use XML for its export anyway?</h3>
-            <p>XML is a very robust and self-describing data format. It's excellent for ensuring that every single piece of metadata is preserved during a data dump, making it suitable for archival and machine-to-machine transfer. However, it's extremely user-unfriendly for direct data analysis.</p>
-            <h3>What data gets lost when I convert from XML to CSV?</h3>
-            <p>To make data fit into a flat CSV file, some metadata or less common data fields might be simplified or left out compared to the raw XML. However, for 99% of users, the resulting CSV contains all the essential information needed for analysis (date, data type, value, unit).</p>
-            <h3>Can Excel open the <code>export.xml</code> file directly?</h3>
-            <p>Excel can *try* to open XML files, but it will typically fail to create a sensible table structure from a complex file like <code>export.xml</code>. You will see the data, but it will be a messy and unusable hierarchy of tags. You must convert it first.</p>
-            <h3>Does your iOS app also produce an XML file?</h3>
-            <p>Yes, for completeness and for users who have workflows built around XML, we offer it as an export option. The key difference is that we also offer direct-to-CSV and direct-to-JSON, which are far more practical for most people.</p>
-        </article>
+            <h2 class="text-3xl font-bold text-white mb-6">The Best Method: Avoid XML Altogether</h2>
+            <p class="text-lg text-slate-400 mb-4">Why wrestle with conversion when you can bypass the problem entirely? The fundamental issue is the <code>export.xml</code> file itself. A modern workflow avoids this file completely by generating a clean, analysis-ready file from the start.</p>
+            <p class="text-lg text-slate-400 mb-4">Our "Health Data Export" iOS app is the "easy button." It communicates directly with HealthKit to create a clean <a href="/export-csv-data/">Apple Health CSV export</a> or JSON file from the beginning, saving you time and frustration. It's the simplest way to <a href="/export-apple-health-data/">export your Apple Health data</a>.</p>
+            
+            <h2 class="text-3xl font-bold text-white mb-6">Take Back Your Time</h2>
+            <p class="text-lg text-slate-400 mb-4">Don't waste hours fighting with XML files. Get straight to the insights.</p>
+            <div class="mt-8 text-center flex flex-col sm:flex-row justify-center gap-4">
+                <a href="YOUR_APP_STORE_LINK" class="bg-rose-600 text-white font-bold py-4 px-8 rounded-full text-lg hover:bg-rose-700 transition-all">Download iOS App</a>
+                <a href="YOUR_GITHUB_LINK" class="bg-slate-700 text-white font-bold py-4 px-8 rounded-full text-lg hover:bg-slate-600 transition-all">Get Mac Analyzer</a>
+            </div>
+        </div>
     </main>
     <script>lucide.createIcons();</script>
 </body>
