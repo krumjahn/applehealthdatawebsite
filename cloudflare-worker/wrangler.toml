@@ -1,0 +1,10 @@
+name = "applehealthdata-changelog"
+main = "src/index.js"
+compatibility_date = "2026-01-19"
+
+[vars]
+GITHUB_OWNER = "krumjahn"
+GITHUB_REPO = "MacHealthAnalyzer"
+
+# Set this via:
+# wrangler secret put GITHUB_TOKEN

@@ -204,14 +204,15 @@
         lucide.createIcons();
 
         // Configuration
-        const REPO_OWNER = 'krumjahn';
-        const REPO_NAME = 'MacHealthAnalyzer';
+        // IMPORTANT: This page reads commits through a server-side proxy (Cloudflare Worker)
+        // so we can keep the app repo private and avoid exposing a GitHub token in the browser.
+        const COMMITS_API_BASE = 'https://applehealthdata-changelog.applehealthdata.com';
         const ITEMS_PER_PAGE = 10;
         let currentPage = 1;
 
         async function fetchCommits(page = 1) {
             try {
-                const response = await fetch(`https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/commits?page=${page}&per_page=${ITEMS_PER_PAGE}`);
+                const response = await fetch(`${COMMITS_API_BASE}/commits?page=${page}&per_page=${ITEMS_PER_PAGE}`, { cache: 'no-store' });
                 if (!response.ok) throw new Error('Failed to fetch commits');
                 const data = await response.json();
                 return data;
@@ -220,7 +221,7 @@
                 document.getElementById('loading-indicator').innerHTML = `
                     <div class="text-center text-red-400">
                         <p class="mb-2">Unable to load updates.</p>
-                        <p class="text-sm text-slate-500">Rate limit may be exceeded or repository is private.</p>
+                        <p class="text-sm text-slate-500">Changelog service is unavailable.</p>
                     </div>
                 `;
                 return [];
