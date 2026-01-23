@@ -1,0 +1,538 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ChatGPT Health Limitations: What It Can't Do (And What Can) | January 2026</title>
+    <meta name="description" content="Understand the critical limitations of ChatGPT Health including privacy concerns, data ownership, historical analysis constraints, and offline capabilities. Learn about privacy-first alternatives.">
+    <meta name="keywords" content="ChatGPT Health limitations, ChatGPT Health privacy, ChatGPT Health alternative, privacy-first health analysis, local health data analysis, Apple Health export, HIPAA compliance, health data ownership">
+    <meta name="apple-itunes-app" content="app-id=6749297170">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;700&display=swap');
+
+        :root {
+            --glass-border: rgba(255, 255, 255, 0.08);
+            --glass-bg: rgba(255, 255, 255, 0.03);
+        }
+
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: #020617;
+            color: #f8fafc;
+            overflow-x: hidden;
+        }
+
+        .font-mono {
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        .mesh-gradient {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: -1;
+            background:
+                radial-gradient(at 0% 0%, rgba(225, 29, 72, 0.15) 0px, transparent 50%),
+                radial-gradient(at 100% 0%, rgba(56, 189, 248, 0.15) 0px, transparent 50%),
+                radial-gradient(at 100% 100%, rgba(168, 85, 247, 0.15) 0px, transparent 50%);
+            filter: blur(60px);
+        }
+
+        .bento-card {
+            background: var(--glass-bg);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid var(--glass-border);
+            border-radius: 1rem;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .bento-card:hover {
+            border-color: rgba(255, 255, 255, 0.2);
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        article h2 {
+            font-size: 1.875rem;
+            font-weight: 700;
+            margin-top: 3rem;
+            margin-bottom: 1rem;
+            color: #f8fafc;
+        }
+
+        article h3 {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-top: 2rem;
+            margin-bottom: 0.75rem;
+            color: #e2e8f0;
+        }
+
+        article p {
+            margin-bottom: 1rem;
+            line-height: 1.75;
+            color: #cbd5e1;
+        }
+
+        article ul {
+            margin-bottom: 1.5rem;
+            margin-left: 1.5rem;
+            list-style-type: disc;
+        }
+
+        article li {
+            margin-bottom: 0.5rem;
+            line-height: 1.75;
+            color: #cbd5e1;
+        }
+
+        article strong {
+            color: #f8fafc;
+            font-weight: 600;
+        }
+
+        .highlight-box {
+            background: rgba(225, 29, 72, 0.1);
+            border-left: 4px solid #e11d48;
+            padding: 1.25rem;
+            border-radius: 0.5rem;
+            margin: 1.5rem 0;
+        }
+
+        .info-box {
+            background: rgba(56, 189, 248, 0.1);
+            border-left: 4px solid #38bdf8;
+            padding: 1.25rem;
+            border-radius: 0.5rem;
+            margin: 1.5rem 0;
+        }
+
+        .success-box {
+            background: rgba(34, 197, 94, 0.1);
+            border-left: 4px solid #22c55e;
+            padding: 1.25rem;
+            border-radius: 0.5rem;
+            margin: 1.5rem 0;
+        }
+
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #020617;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #334155;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #475569;
+        }
+    </style>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-8SMQRLT4VS"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-8SMQRLT4VS');
+    </script>
+    <script defer src="https://umami.rumjahn.synology.me/script.js" data-website-id="5d7b4fa8-90b2-4191-8daf-8ea487a8d961"></script>
+    <script>
+      var _paq = window._paq = window._paq || [];
+      _paq.push(['trackPageView']);
+      _paq.push(['enableLinkTracking']);
+      (function() {
+        var u="https://matomo.rumjahn.synology.me/";
+        _paq.push(['setTrackerUrl', u+'matomo.php']);
+        _paq.push(['setSiteId', '1']);
+        var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
+        g.async=true; g.src=u+'matomo.js'; s.parentNode.insertBefore(g,s);
+      })();
+    </script>
+</head>
+<body>
+    <div class="mesh-gradient"></div>
+
+    <!-- Navigation -->
+    <nav class="fixed top-0 left-0 right-0 z-50 bg-slate-950/80 backdrop-blur-md border-b border-white/5">
+        <div class="container mx-auto px-6 py-4">
+            <div class="flex items-center justify-between">
+                <a href="../index.html" class="flex items-center space-x-2">
+                    <i data-lucide="activity" class="w-6 h-6 text-rose-500"></i>
+                    <span class="text-xl font-bold">Health Data Export</span>
+                </a>
+                <div class="flex items-center space-x-6">
+                    <a href="../index.html" class="text-slate-400 hover:text-white transition-colors">Home</a>
+                    <a href="../changelog.html" class="text-slate-400 hover:text-white transition-colors">Changelog</a>
+                    <a href="https://apps.apple.com/us/app/health-data-export/id6749297170" target="_blank" class="px-4 py-2 bg-gradient-to-r from-rose-600 to-purple-600 rounded-lg hover:from-rose-500 hover:to-purple-500 transition-all">
+                        Download App
+                    </a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Article Content -->
+    <main class="container mx-auto px-6 pt-32 pb-20 max-w-4xl">
+        <article>
+            <!-- Header -->
+            <header class="mb-12">
+                <div class="flex items-center space-x-2 text-sm text-slate-400 mb-4">
+                    <i data-lucide="calendar" class="w-4 h-4"></i>
+                    <time datetime="2026-01">Last Updated: January 2026</time>
+                </div>
+                <h1 class="text-4xl md:text-5xl font-bold mb-6 bg-gradient-to-r from-rose-400 via-purple-400 to-sky-400 bg-clip-text text-transparent">
+                    ChatGPT Health Limitations: What It Can't Do (And What Can)
+                </h1>
+                <p class="text-xl text-slate-300 leading-relaxed">
+                    ChatGPT Health launched in January 2026 with significant fanfare, offering seamless Apple Health integration and AI-powered health insights. While it's an impressive tool for quick health questions, it has several important limitations that users should understand before uploading their sensitive health data.
+                </p>
+            </header>
+
+            <!-- What ChatGPT Health Does Well -->
+            <section class="mb-12">
+                <h2>What ChatGPT Health Does Well</h2>
+                <p>Before diving into limitations, let's acknowledge what ChatGPT Health excels at:</p>
+                <ul>
+                    <li><strong>Conversational interface</strong> for asking health questions in natural language</li>
+                    <li><strong>Seamless Apple Health integration</strong> - just click connect, no export needed</li>
+                    <li><strong>Medical record integration</strong> via b.well (US only)</li>
+                    <li><strong>Context-aware responses</strong> based on your connected health data</li>
+                    <li><strong>Available 24/7</strong> for quick health queries</li>
+                </ul>
+                <p>For many users seeking quick answers about recent symptoms or understanding basic lab results, ChatGPT Health serves its purpose well.</p>
+            </section>
+
+            <!-- Critical Limitations -->
+            <section class="mb-12">
+                <h2>Critical Limitations of ChatGPT Health</h2>
+
+                <!-- Privacy & Data Ownership -->
+                <div class="bento-card p-8 mb-8">
+                    <h3 class="flex items-center space-x-3 text-rose-400">
+                        <i data-lucide="shield-alert" class="w-6 h-6"></i>
+                        <span>1. Privacy & Data Ownership Concerns</span>
+                    </h3>
+
+                    <div class="highlight-box">
+                        <p class="mb-0"><strong>The Reality:</strong> When you connect Apple Health to ChatGPT, your health data is transmitted to OpenAI's servers. While OpenAI states they won't use health data to train models, your data still leaves your device.</p>
+                    </div>
+
+                    <p><strong>Why This Matters:</strong></p>
+                    <ul>
+                        <li>Your health data can be subject to subpoenas and court orders</li>
+                        <li>OpenAI is not HIPAA-compliant for consumer applications</li>
+                        <li>In litigation, ChatGPT logs have been obtained by third parties</li>
+                        <li>For users in states with restrictive reproductive or gender-affirming care laws, this presents real risks</li>
+                    </ul>
+
+                    <div class="success-box">
+                        <p class="mb-0"><strong>The Alternative:</strong> Local processing tools keep your health data on your Mac, never transmitting it to cloud servers.</p>
+                    </div>
+                </div>
+
+                <!-- Limited Historical Analysis -->
+                <div class="bento-card p-8 mb-8">
+                    <h3 class="flex items-center space-x-3 text-purple-400">
+                        <i data-lucide="database" class="w-6 h-6"></i>
+                        <span>2. Limited Historical Analysis</span>
+                    </h3>
+
+                    <div class="highlight-box">
+                        <p class="mb-0"><strong>The Problem:</strong> ChatGPT Health is constrained by context window limitations. While it can access your connected data, performing deep analysis on years of health history is challenging.</p>
+                    </div>
+
+                    <p><strong>What You Can't Do:</strong></p>
+                    <ul>
+                        <li>Comprehensive multi-year trend analysis (5+ years)</li>
+                        <li>Correlate dozens of metrics simultaneously across your entire history</li>
+                        <li>Generate unlimited custom visualizations</li>
+                        <li>Process extremely large datasets (10+ years of minute-by-minute heart rate data)</li>
+                    </ul>
+
+                    <div class="success-box">
+                        <p class="mb-0"><strong>The Alternative:</strong> Desktop analysis tools can process unlimited health history locally, generating comprehensive reports without context limits.</p>
+                    </div>
+                </div>
+
+                <!-- No True Data Export -->
+                <div class="bento-card p-8 mb-8">
+                    <h3 class="flex items-center space-x-3 text-sky-400">
+                        <i data-lucide="download" class="w-6 h-6"></i>
+                        <span>3. No True Data Export</span>
+                    </h3>
+
+                    <div class="highlight-box">
+                        <p class="mb-0"><strong>The Issue:</strong> ChatGPT Health reads your Apple Health data, but you can't export or download the analyzed datasets from ChatGPT itself. You're dependent on the platform.</p>
+                    </div>
+
+                    <p><strong>What This Means:</strong></p>
+                    <ul>
+                        <li>Can't create your own backups of ChatGPT's analysis</li>
+                        <li>Can't port your data to other analysis tools</li>
+                        <li>Locked into ChatGPT's ecosystem for your health insights</li>
+                    </ul>
+
+                    <div class="success-box">
+                        <p class="mb-0"><strong>The Alternative:</strong> Dedicated export tools give you CSV, JSON, and XML files you actually own and can use anywhere.</p>
+                    </div>
+                </div>
+
+                <!-- Internet Dependency -->
+                <div class="bento-card p-8 mb-8">
+                    <h3 class="flex items-center space-x-3 text-emerald-400">
+                        <i data-lucide="wifi-off" class="w-6 h-6"></i>
+                        <span>4. Internet Dependency</span>
+                    </h3>
+
+                    <div class="highlight-box">
+                        <p class="mb-0"><strong>The Limitation:</strong> ChatGPT Health requires an active internet connection to function. No internet = no analysis.</p>
+                    </div>
+
+                    <p><strong>Scenarios Where This Fails:</strong></p>
+                    <ul>
+                        <li>Traveling internationally without reliable data</li>
+                        <li>Remote locations or offline research</li>
+                        <li>When you simply want to work privately without internet exposure</li>
+                        <li>During service outages or API issues</li>
+                    </ul>
+
+                    <div class="success-box">
+                        <p class="mb-0"><strong>The Alternative:</strong> Local analysis tools work completely offline once installed.</p>
+                    </div>
+                </div>
+
+                <!-- Subscription Costs -->
+                <div class="bento-card p-8 mb-8">
+                    <h3 class="flex items-center space-x-3 text-amber-400">
+                        <i data-lucide="credit-card" class="w-6 h-6"></i>
+                        <span>5. Subscription Costs</span>
+                    </h3>
+
+                    <div class="highlight-box">
+                        <p class="mb-0"><strong>The Economics:</strong> While ChatGPT has a free tier, serious health analysis will likely require ChatGPT Plus ($20/month) or Pro ($200/month) for priority access and advanced features.</p>
+                    </div>
+
+                    <p><strong>Annual Cost:</strong></p>
+                    <ul>
+                        <li>ChatGPT Plus: $240/year</li>
+                        <li>ChatGPT Pro: $2,400/year</li>
+                    </ul>
+
+                    <div class="success-box">
+                        <p class="mb-0"><strong>The Alternative:</strong> One-time purchase tools (like our $4.99 iOS app) provide unlimited analysis without recurring fees.</p>
+                    </div>
+                </div>
+
+                <!-- Limited AI Model Choice -->
+                <div class="bento-card p-8 mb-8">
+                    <h3 class="flex items-center space-x-3 text-indigo-400">
+                        <i data-lucide="bot" class="w-6 h-6"></i>
+                        <span>6. Limited AI Model Choice</span>
+                    </h3>
+
+                    <div class="highlight-box">
+                        <p class="mb-0"><strong>The Constraint:</strong> You're locked into OpenAI's models and whatever analysis capabilities they provide.</p>
+                    </div>
+
+                    <p><strong>What You're Missing:</strong></p>
+                    <ul>
+                        <li>Can't use Claude, Gemini, or other AI models</li>
+                        <li>Can't use specialized medical AI models</li>
+                        <li>Can't combine multiple AI systems for cross-validation</li>
+                        <li>Can't use fully local LLMs (Ollama, LM Studio) for complete privacy</li>
+                    </ul>
+
+                    <div class="success-box">
+                        <p class="mb-0"><strong>The Alternative:</strong> Export tools let you analyze with ANY AI - ChatGPT, Claude, Gemini, local LLMs, or custom models.</p>
+                    </div>
+                </div>
+
+                <!-- Platform Lock-In -->
+                <div class="bento-card p-8 mb-8">
+                    <h3 class="flex items-center space-x-3 text-pink-400">
+                        <i data-lucide="lock" class="w-6 h-6"></i>
+                        <span>7. Platform Lock-In</span>
+                    </h3>
+
+                    <div class="highlight-box">
+                        <p class="mb-0"><strong>The Risk:</strong> Your health insights, memories, and analysis history exist only within ChatGPT Health. If you want to switch platforms or tools, you start from scratch.</p>
+                    </div>
+
+                    <p><strong>Long-Term Concerns:</strong></p>
+                    <ul>
+                        <li>What if OpenAI changes pricing?</li>
+                        <li>What if ChatGPT Health is discontinued?</li>
+                        <li>What if a better health AI emerges?</li>
+                    </ul>
+
+                    <div class="success-box">
+                        <p class="mb-0"><strong>The Alternative:</strong> Own your data in universal formats (CSV, JSON) that work with any tool, now or in the future.</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- When ChatGPT Health Makes Sense -->
+            <section class="mb-12">
+                <h2>When ChatGPT Health Makes Sense</h2>
+                <p>Despite these limitations, ChatGPT Health is valuable for:</p>
+                <ul>
+                    <li><strong>Quick, casual health questions</strong> without deep privacy concerns</li>
+                    <li><strong>Understanding recent test results</strong> from the last few weeks</li>
+                    <li><strong>Convenience-first users</strong> who prioritize ease over control</li>
+                    <li><strong>General wellness questions</strong> where comprehensive analysis isn't needed</li>
+                </ul>
+            </section>
+
+            <!-- The Power User Alternative -->
+            <section class="mb-12 bento-card p-8">
+                <h2>The Power User Alternative: Local Analysis + AI of Your Choice</h2>
+                <p>For users who want:</p>
+                <ul>
+                    <li><strong>Complete privacy</strong> (data never leaves your device)</li>
+                    <li><strong>Unlimited historical analysis</strong> (10+ years, no limits)</li>
+                    <li><strong>True data ownership</strong> (CSV, JSON, XML files you control)</li>
+                    <li><strong>Multi-AI compatibility</strong> (use ChatGPT, Claude, Gemini, local LLMs)</li>
+                    <li><strong>Offline capability</strong> (work without internet)</li>
+                    <li><strong>One-time cost</strong> (no subscriptions)</li>
+                </ul>
+                <p>Dedicated health data export and analysis tools offer a different approach: you export your Apple Health data locally, then analyze it with whatever AI tools you prefer.</p>
+            </section>
+
+            <!-- Best of Both Worlds -->
+            <section class="mb-12">
+                <h3>The Best-of-Both-Worlds Approach</h3>
+                <div class="info-box">
+                    <p>Many power users combine both approaches:</p>
+                    <ol class="list-decimal ml-6 mb-4">
+                        <li><strong>Use ChatGPT Health</strong> for quick daily questions and convenient check-ins</li>
+                        <li><strong>Use local export tools</strong> monthly or quarterly for comprehensive deep-dives</li>
+                        <li><strong>Upload specific datasets</strong> to ChatGPT/Claude when you need AI insights on particular trends</li>
+                    </ol>
+                    <p class="mb-0">This hybrid approach gives you convenience when you need it, and complete control when privacy and depth matter.</p>
+                </div>
+            </section>
+
+            <!-- Getting Started -->
+            <section class="mb-12">
+                <h2>Privacy-First Health Analysis: Getting Started</h2>
+                <p>If ChatGPT Health's limitations concern you, here's how to take control:</p>
+
+                <div class="bento-card p-6 mb-4">
+                    <h3 class="text-lg font-semibold mb-2">Step 1: Export Your Apple Health Data</h3>
+                    <p class="mb-0">Use a dedicated export tool to get your complete health history in CSV, JSON, or XML format. Process everything locally on your device.</p>
+                </div>
+
+                <div class="bento-card p-6 mb-4">
+                    <h3 class="text-lg font-semibold mb-2">Step 2: Analyze Locally</h3>
+                    <p class="mb-0">Use Python tools, spreadsheet analysis, or local AI models to explore your data without uploading to cloud services.</p>
+                </div>
+
+                <div class="bento-card p-6 mb-4">
+                    <h3 class="text-lg font-semibold mb-2">Step 3: Selective AI Analysis</h3>
+                    <p class="mb-0">When you want AI insights, upload only specific, anonymized datasets to your AI tool of choice - not your entire health history.</p>
+                </div>
+
+                <div class="bento-card p-6 mb-4">
+                    <h3 class="text-lg font-semibold mb-2">Step 4: Store Securely</h3>
+                    <p class="mb-0">Keep your health data exports in encrypted, local storage you control.</p>
+                </div>
+            </section>
+
+            <!-- FAQ -->
+            <section class="mb-12">
+                <h2>Frequently Asked Questions</h2>
+
+                <div class="bento-card p-6 mb-4">
+                    <p class="font-semibold text-white mb-2">Q: Can I use ChatGPT Health and local analysis tools together?</p>
+                    <p class="mb-0">A: Absolutely! Many users use ChatGPT Health for convenience and local tools for comprehensive privacy-focused analysis.</p>
+                </div>
+
+                <div class="bento-card p-6 mb-4">
+                    <p class="font-semibold text-white mb-2">Q: Is ChatGPT Health safe?</p>
+                    <p class="mb-0">A: It's relatively safe, but not risk-free. Your data is transmitted to OpenAI servers and subject to their policies and legal obligations.</p>
+                </div>
+
+                <div class="bento-card p-6 mb-4">
+                    <p class="font-semibold text-white mb-2">Q: What's the most private way to analyze health data?</p>
+                    <p class="mb-0">A: Local-only tools that never transmit your data to any server. All processing happens on your own Mac or iPhone.</p>
+                </div>
+
+                <div class="bento-card p-6 mb-4">
+                    <p class="font-semibold text-white mb-2">Q: Can I export data FROM ChatGPT Health?</p>
+                    <p class="mb-0">A: No. ChatGPT Health reads your Apple Health data but doesn't provide export functionality for its own analysis.</p>
+                </div>
+
+                <div class="bento-card p-6 mb-4">
+                    <p class="font-semibold text-white mb-2">Q: Should I be worried about ChatGPT Health privacy?</p>
+                    <p class="mb-0">A: That depends on your threat model. For general wellness, it's probably fine. For sensitive conditions or if you live in states with restrictive healthcare laws, local analysis is safer.</p>
+                </div>
+            </section>
+
+            <!-- Conclusion -->
+            <section class="mb-12">
+                <h2>Conclusion: Choose the Right Tool for Your Needs</h2>
+                <p>ChatGPT Health is a powerful, convenient tool that will serve millions of users well. But it's not the only option, and for privacy-conscious users, researchers, or those wanting unlimited analysis, local alternatives offer compelling advantages.</p>
+                <p>The best approach is understanding both options and choosing based on your priorities: convenience vs. control, cloud vs. local, subscription vs. ownership.</p>
+            </section>
+
+            <!-- CTA -->
+            <section class="bento-card p-8 bg-gradient-to-r from-rose-600/10 to-purple-600/10 border-rose-500/20">
+                <h3 class="text-2xl font-bold mb-4">Ready to take control of your health data?</h3>
+                <p class="text-lg mb-6">Download our privacy-first Apple Health export tool - Process everything locally, export to any format, analyze with any AI tool you choose.</p>
+                <div class="flex flex-col sm:flex-row gap-4">
+                    <a href="https://apps.apple.com/us/app/health-data-export/id6749297170" target="_blank" class="inline-flex items-center justify-center px-6 py-3 bg-gradient-to-r from-rose-600 to-purple-600 rounded-lg hover:from-rose-500 hover:to-purple-500 transition-all font-semibold">
+                        <i data-lucide="download" class="w-5 h-5 mr-2"></i>
+                        Download iOS App - $4.99
+                    </a>
+                    <a href="../index.html" class="inline-flex items-center justify-center px-6 py-3 border border-white/20 rounded-lg hover:bg-white/5 transition-all font-semibold">
+                        Learn More
+                    </a>
+                </div>
+            </section>
+        </article>
+    </main>
+
+    <!-- Footer -->
+    <footer class="border-t border-white/5 py-12">
+        <div class="container mx-auto px-6">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div>
+                    <div class="flex items-center space-x-2 mb-4">
+                        <i data-lucide="activity" class="w-6 h-6 text-rose-500"></i>
+                        <span class="text-xl font-bold">Health Data Export</span>
+                    </div>
+                    <p class="text-slate-400">Privacy-first Apple Health data export and AI analysis tools.</p>
+                </div>
+                <div>
+                    <h4 class="font-semibold mb-4">Quick Links</h4>
+                    <ul class="space-y-2 text-slate-400">
+                        <li><a href="../index.html" class="hover:text-white transition-colors">Home</a></li>
+                        <li><a href="../changelog.html" class="hover:text-white transition-colors">Changelog</a></li>
+                        <li><a href="https://apps.apple.com/us/app/health-data-export/id6749297170" target="_blank" class="hover:text-white transition-colors">Download App</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="font-semibold mb-4">Resources</h4>
+                    <ul class="space-y-2 text-slate-400">
+                        <li><a href="../export-apple-health-data/index.html" class="hover:text-white transition-colors">Export Apple Health Data</a></li>
+                        <li><a href="../analyze-health-data-ai/index.html" class="hover:text-white transition-colors">AI Health Analysis</a></li>
+                        <li><a href="../convert-apple-health-xml/index.html" class="hover:text-white transition-colors">Convert XML to CSV</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="mt-8 pt-8 border-t border-white/5 text-center text-slate-400">
+                <p>&copy; 2026 Health Data Export. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        lucide.createIcons();
+    </script>
+</body>
+</html>
