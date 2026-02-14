@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI-Native Health Data Analysis Guide | Privacy-First Apple Health Insights</title>
+    <meta name="description" content="Learn how to use AI (ChatGPT, Claude, local LLMs) for Apple Health data analysis with 100% privacy and local processing.">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;700&display=swap');
+        body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: #020617; color: #f8fafc; }
+        .mesh-gradient { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: -1; background: radial-gradient(at 0% 0%, rgba(225, 29, 72, 0.1) 0px, transparent 50%), radial-gradient(at 100% 100%, rgba(56, 189, 248, 0.1) 0px, transparent 50%); filter: blur(60px); }
+        .glass-card { background: rgba(255, 255, 255, 0.03); backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 1.5rem; }
+    </style>
+</head>
+<body>
+    <div class="mesh-gradient"></div>
+    <nav class="fixed w-full z-50 border-b border-white/10 bg-slate-950/50 backdrop-blur-xl">
+        <div class="max-w-7xl mx-auto px-4 h-20 flex justify-between items-center">
+            <a href="/" class="flex items-center gap-3">
+                <div class="w-10 h-10 bg-gradient-to-tr from-rose-600 to-orange-500 rounded-xl flex items-center justify-center">
+                    <i data-lucide="activity" class="w-6 h-6 text-white"></i>
+                </div>
+                <span class="font-bold text-white">Health Data AI</span>
+            </a>
+        </div>
+    </nav>
+
+    <main class="pt-32 pb-20 max-w-4xl mx-auto px-4">
+        <h1 class="text-4xl md:text-6xl font-extrabold text-white mb-8 tracking-tight">The Ultimate Guide to <span class="text-rose-500">AI-Native Health Data Analysis</span></h1>
+        
+        <div class="glass-card p-8 mb-12">
+            <p class="text-xl text-slate-300 leading-relaxed mb-6">
+                Most health apps tell you <em>what</em> happened. AI-native analysis tells you <strong>why</strong>. By using Large Language Models (LLMs) with your Apple Health data, you can uncover patterns that traditional charts miss.
+            </p>
+            <div class="flex items-center gap-4 p-4 bg-rose-500/10 border border-rose-500/20 rounded-xl">
+                <i data-lucide="shield-check" class="text-rose-400"></i>
+                <p class="text-sm text-rose-200">This guide focuses on <strong>privacy-first</strong> methods using local processing or secure exports.</p>
+            </div>
+        </div>
+
+        <section class="space-y-12">
+            <div>
+                <h2 class="text-2xl font-bold text-white mb-4 flex items-center gap-2">
+                    <i data-lucide="step-forward" class="text-blue-400"></i> Step 1: Export Your Clean Dataset
+                </h2>
+                <p class="text-slate-400 mb-4">AI models perform best with structured data. Use the <a href="/" class="text-white underline">Health Data Export app</a> to get your history in JSON or CSV format. XML is often too "noisy" for direct LLM processing.</p>
+            </div>
+
+            <div>
+                <h2 class="text-2xl font-bold text-white mb-4 flex items-center gap-2">
+                    <i data-lucide="brain" class="text-purple-400"></i> Step 2: Choose Your AI Engine
+                </h2>
+                <div class="grid md:grid-cols-2 gap-4">
+                    <div class="p-6 bg-white/5 rounded-xl border border-white/10">
+                        <h3 class="font-bold text-white mb-2">Local (Private)</h3>
+                        <p class="text-sm text-slate-400">Use <strong>LM Studio</strong> or <strong>Ollama</strong> with Llama 3 or Mistral. Zero data leaves your Mac.</p>
+                    </div>
+                    <div class="p-6 bg-white/5 rounded-xl border border-white/10">
+                        <h3 class="font-bold text-white mb-2">Cloud (Fast)</h3>
+                        <p class="text-sm text-slate-400">Use <strong>ChatGPT Plus</strong> or <strong>Claude 3.5 Sonnet</strong>. Best for complex reasoning and charting.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="glass-card p-8 border-rose-500/20">
+                <h2 class="text-2xl font-bold text-white mb-6">Mastering the Prompt</h2>
+                <p class="text-slate-400 mb-4">Paste your CSV data and use this prompt for deep insights:</p>
+                <div class="bg-black p-6 rounded-xl font-mono text-sm text-slate-300 border border-slate-800">
+                    "I am providing my Apple Health heart rate and sleep data from the last 30 days. Analyze the correlation between my resting heart rate (RHR) and sleep quality. Identify any anomalies and suggest possible lifestyle factors based on the timestamps."
+                </div>
+            </div>
+        </section>
+
+        <div class="mt-20 text-center">
+            <a href="https://apps.apple.com/us/app/health-data-export-ai-analyzer/id6749297170" class="inline-flex items-center gap-2 bg-white text-black px-8 py-4 rounded-full font-bold hover:bg-slate-200 transition-all">
+                Start Your AI Analysis Now
+            </a>
+        </div>
+    </main>
+
+    <footer class="py-10 border-t border-white/10 text-center text-slate-500 text-sm">
+        &copy; 2025 Keith Rumjahn. Privacy-First Bio-Insights.
+    </footer>
+
+    <script>lucide.createIcons();</script>
+</body>
+</html>
