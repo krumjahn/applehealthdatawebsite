@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AI-Native Health Data Analysis Guide | Privacy-First Apple Health Insights</title>
-    <meta name="description" content="Learn how to use AI (ChatGPT, Claude, local LLMs) for Apple Health data analysis with 100% privacy and local processing.">
+    <title>AI-Native Apple Health Analysis Guide | Local and Cloud Workflows</title>
+    <meta name="description" content="Practical guide to analyzing Apple Health exports with ChatGPT, Claude, and local LLMs using privacy-first, local-first workflows.">
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
     <style>
@@ -28,15 +28,15 @@
     </nav>
 
     <main class="pt-32 pb-20 max-w-4xl mx-auto px-4">
-        <h1 class="text-4xl md:text-6xl font-extrabold text-white mb-8 tracking-tight">The Ultimate Guide to <span class="text-rose-500">AI-Native Health Data Analysis</span></h1>
+        <h1 class="text-4xl md:text-6xl font-extrabold text-white mb-8 tracking-tight">AI-Native <span class="text-rose-500">Health Data Analysis</span>: Practical Guide</h1>
         
         <div class="glass-card p-8 mb-12">
             <p class="text-xl text-slate-300 leading-relaxed mb-6">
-                Most health apps tell you <em>what</em> happened. AI-native analysis tells you <strong>why</strong>. By using Large Language Models (LLMs) with your Apple Health data, you can uncover patterns that traditional charts miss.
+                Most health dashboards summarize metrics. AI-native analysis helps you test hypotheses across sleep, heart rate, activity, and timing patterns using the same exported dataset.
             </p>
             <div class="flex items-center gap-4 p-4 bg-rose-500/10 border border-rose-500/20 rounded-xl">
                 <i data-lucide="shield-check" class="text-rose-400"></i>
-                <p class="text-sm text-rose-200">This guide focuses on <strong>privacy-first</strong> methods using local processing or secure exports.</p>
+                <p class="text-sm text-rose-200">This guide prioritizes <strong>privacy-first</strong> workflows with local processing and controlled file sharing.</p>
             </div>
         </div>
 
@@ -45,7 +45,7 @@
                 <h2 class="text-2xl font-bold text-white mb-4 flex items-center gap-2">
                     <i data-lucide="step-forward" class="text-blue-400"></i> Step 1: Export Your Clean Dataset
                 </h2>
-                <p class="text-slate-400 mb-4">AI models perform best with structured data. Use the <a href="/" class="text-white underline">Health Data Export app</a> to get your history in JSON or CSV format. XML is often too "noisy" for direct LLM processing.</p>
+                <p class="text-slate-400 mb-4">AI models perform better with structured tables. Use the <a href="/" class="text-white underline">Health Data Export app</a> to generate JSON or CSV. XML is useful for archival workflows but usually needs preprocessing for LLM analysis.</p>
             </div>
 
             <div>
@@ -55,18 +55,18 @@
                 <div class="grid md:grid-cols-2 gap-4">
                     <div class="p-6 bg-white/5 rounded-xl border border-white/10">
                         <h3 class="font-bold text-white mb-2">Local (Private)</h3>
-                        <p class="text-sm text-slate-400">Use <strong>LM Studio</strong> or <strong>Ollama</strong> with Llama 3 or Mistral. Zero data leaves your Mac.</p>
+                        <p class="text-sm text-slate-400">Use <strong>LM Studio</strong> or <strong>Ollama</strong> with Llama 3 or Mistral when data residency is a hard requirement.</p>
                     </div>
                     <div class="p-6 bg-white/5 rounded-xl border border-white/10">
                         <h3 class="font-bold text-white mb-2">Cloud (Fast)</h3>
-                        <p class="text-sm text-slate-400">Use <strong>ChatGPT Plus</strong> or <strong>Claude 3.5 Sonnet</strong>. Best for complex reasoning and charting.</p>
+                        <p class="text-sm text-slate-400">Use <strong>ChatGPT Plus</strong> or <strong>Claude</strong> when you need stronger reasoning and are comfortable with cloud processing.</p>
                     </div>
                 </div>
             </div>
 
             <div class="glass-card p-8 border-rose-500/20">
-                <h2 class="text-2xl font-bold text-white mb-6">Mastering the Prompt</h2>
-                <p class="text-slate-400 mb-4">Paste your CSV data and use this prompt for deep insights:</p>
+                <h2 class="text-2xl font-bold text-white mb-6">Prompt Pattern</h2>
+                <p class="text-slate-400 mb-4">Paste a constrained slice of CSV data and ask for a concrete analysis task:</p>
                 <div class="bg-black p-6 rounded-xl font-mono text-sm text-slate-300 border border-slate-800">
                     "I am providing my Apple Health heart rate and sleep data from the last 30 days. Analyze the correlation between my resting heart rate (RHR) and sleep quality. Identify any anomalies and suggest possible lifestyle factors based on the timestamps."
                 </div>
@@ -75,13 +75,13 @@
 
         <div class="mt-20 text-center">
             <a href="https://apps.apple.com/us/app/health-data-export-ai-analyzer/id6749297170" class="inline-flex items-center gap-2 bg-white text-black px-8 py-4 rounded-full font-bold hover:bg-slate-200 transition-all">
-                Start Your AI Analysis Now
+                Open App Store Listing
             </a>
         </div>
     </main>
 
     <footer class="py-10 border-t border-white/10 text-center text-slate-500 text-sm">
-        &copy; 2025 Keith Rumjahn. Privacy-First Bio-Insights.
+        &copy; 2025 Keith Rumjahn. Privacy-First Health Data Workflows.
     </footer>
 
     <script>lucide.createIcons();</script>
