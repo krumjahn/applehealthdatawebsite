@@ -177,6 +177,12 @@
                     </div>
                 </a>
                 <div class="hidden md:flex items-center space-x-1">
+                    <a href="/dashboard/" class="px-4 py-2 text-sm font-medium text-rose-400 hover:text-rose-300 transition-colors rounded-lg hover:bg-white/5 flex items-center gap-2">
+                        <i data-lucide="layout-dashboard" class="w-4 h-4"></i> Dashboard
+                    </a>
+                    <a href="/pro" class="px-4 py-2 text-sm font-medium text-blue-400 hover:text-blue-300 transition-colors rounded-lg hover:bg-white/5 flex items-center gap-2 font-bold">
+                        <i data-lucide="shield-check" class="w-4 h-4"></i> Biohacker Pro
+                    </a>
                     <a href="/#features" class="px-4 py-2 text-sm font-medium text-slate-300 hover:text-white transition-colors rounded-lg hover:bg-white/5">Features</a>
                     <a href="/#specs" class="px-4 py-2 text-sm font-medium text-slate-300 hover:text-white transition-colors rounded-lg hover:bg-white/5">Specs</a>
                     <a href="https://apps.apple.com/us/app/health-data-export-ai-analyzer/id6749297170" target="_blank" class="ml-4 bg-white text-black px-5 py-2.5 rounded-full text-sm font-bold hover:bg-slate-200 transition-all shadow-[0_0_20px_rgba(255,255,255,0.3)]">
@@ -422,6 +428,52 @@
                     downloadLink.setAttribute('download', 'converted-health-data.csv');
                     downloadLink.classList.remove('hidden');
                     statusDiv.innerHTML = `Success! Converted ${records.length.toLocaleString()} records.`;
+
+                    // --- DASHBOARD INTEGRATION ---
+                    try {
+                        const DB_NAME = 'HealthDashboardDB';
+                        const DB_VERSION = 1;
+                        const STORE_NAME = 'metrics';
+
+                        const dbRequest = indexedDB.open(DB_NAME, DB_VERSION);
+                        dbRequest.onupgradeneeded = event => {
+                            const db = event.target.result;
+                            if (!db.objectStoreNames.contains(STORE_NAME)) {
+                                const store = db.createObjectStore(STORE_NAME, { keyPath: 'id', autoIncrement: true });
+                                store.createIndex('type', 'type', { unique: false });
+                                store.createIndex('date', 'date', { unique: false });
+                            }
+                        };
+
+                        dbRequest.onsuccess = event => {
+                            const db = event.target.result;
+                            const transaction = db.transaction([STORE_NAME], 'readwrite');
+                            const store = transaction.objectStore(STORE_NAME);
+                            
+                            // Only save specific types for the dashboard to keep it performant
+                            const allowedTypes = ['StepCount', 'HeartRate', 'SleepAnalysis'];
+                            let savedCount = 0;
+
+                            for (let i = 0; i < records.length; i++) {
+                                const record = records[i];
+                                const type = record.getAttribute('type') || '';
+                                if (allowedTypes.some(t => type.includes(t))) {
+                                    store.add({
+                                        type: type,
+                                        date: record.getAttribute('startDate'),
+                                        value: record.getAttribute('value'),
+                                        unit: record.getAttribute('unit')
+                                    });
+                                    savedCount++;
+                                }
+                            }
+                            console.log(`Saved ${savedCount} records to Local Dashboard DB.`);
+                            statusDiv.innerHTML += `<br><span class="text-green-400 text-sm">✓ ${savedCount.toLocaleString()} metrics synced to <a href="../dashboard/" class="underline">Local Dashboard</a></span>`;
+                        };
+                    } catch (dbErr) {
+                        console.error("Dashboard Sync Error:", dbErr);
+                    }
+                    // --- END DASHBOARD INTEGRATION ---
 
                 } catch (error) {
                     statusDiv.textContent = `An error occurred: ${error.message}`;
