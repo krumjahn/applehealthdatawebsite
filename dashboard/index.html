@@ -94,8 +94,9 @@
             </a>
             <div class="badge text-clinical-blue border-clinical-blue flex items-center gap-2">
                 <i data-lucide="shield-check" class="w-3 h-3"></i>
-                0 KB Sent to Cloud
+                <span id="storage-usage">0 KB</span> Sent to Cloud
             </div>
+            <button id="clear-btn" class="text-sm font-sans text-clinical-red underline hover:text-red-800">Clear Data</button>
             <button id="refresh-btn" class="text-sm font-sans underline hover:text-gray-600">Refresh Data</button>
         </div>
     </header>
@@ -212,16 +213,27 @@
         async function updateDashboard() {
             const data = await getMetrics();
             
+            // Calculate Storage Usage
+            const dataSize = JSON.stringify(data).length;
+            const sizeFormatted = (dataSize / 1024).toFixed(1) + " KB";
+            document.getElementById('storage-usage').textContent = sizeFormatted;
+
             if (!data || data.length === 0) {
                 document.getElementById('empty-state').classList.remove('hidden');
+                // Reset metrics
+                document.getElementById('steps-metric').innerHTML = `0 <span class="metric-unit">steps</span>`;
+                document.getElementById('hr-metric').innerHTML = `0 <span class="metric-unit">bpm</span>`;
+                document.getElementById('sleep-metric').innerHTML = `0 <span class="metric-unit">hrs</span>`;
                 return;
             } else {
                 document.getElementById('empty-state').classList.add('hidden');
             }
 
             const now = new Date();
-            const sevenDaysAgo = new Date(now.getTime() - (7 * 24 * 60 * 60 * 1000));
-            const fourteenDaysAgo = new Date(now.getTime() - (14 * 24 * 60 * 60 * 1000));
+            // Ensure consistent timezone handling for comparison
+            const todayStart = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+            const sevenDaysAgo = new Date(todayStart.getTime() - (7 * 24 * 60 * 60 * 1000));
+            const fourteenDaysAgo = new Date(todayStart.getTime() - (14 * 24 * 60 * 60 * 1000));
 
             const filterByTypeAndDate = (type, start, end) => {
                 return data.filter(d => {
@@ -241,18 +253,18 @@
             };
 
             // Steps (Sum for current day, Avg for weeks)
-            const currentSteps = filterByTypeAndDate('StepCount', new Date(now.setHours(0,0,0,0)), new Date(now.setHours(23,59,59,999)));
+            const currentSteps = filterByTypeAndDate('StepCount', todayStart, now);
             const stepsVal = calculateSum(currentSteps);
-            document.getElementById('steps-metric').innerHTML = `${stepsVal.toLocaleString()} <span class="metric-unit">steps</span>`;
+            document.getElementById('steps-metric').innerHTML = `${Math.round(stepsVal).toLocaleString()} <span class="metric-unit">steps</span>`;
             
-            const stepsThisWeek = filterByTypeAndDate('StepCount', sevenDaysAgo, new Date());
+            const stepsThisWeek = filterByTypeAndDate('StepCount', sevenDaysAgo, now);
             const stepsPrevWeek = filterByTypeAndDate('StepCount', fourteenDaysAgo, sevenDaysAgo);
             const stepsThisWeekAvg = calculateSum(stepsThisWeek) / 7;
             const stepsPrevWeekAvg = calculateSum(stepsPrevWeek) / 7;
             updateDelta('steps-delta', stepsThisWeekAvg, stepsPrevWeekAvg, 'steps/day');
 
             // Heart Rate
-            const hrThisWeek = filterByTypeAndDate('HeartRate', sevenDaysAgo, new Date());
+            const hrThisWeek = filterByTypeAndDate('HeartRate', sevenDaysAgo, now);
             const hrPrevWeek = filterByTypeAndDate('HeartRate', fourteenDaysAgo, sevenDaysAgo);
             const hrThisWeekAvg = calculateAvg(hrThisWeek);
             const hrPrevWeekAvg = calculateAvg(hrPrevWeek);
@@ -260,12 +272,24 @@
             updateDelta('hr-delta', hrThisWeekAvg, hrPrevWeekAvg, 'bpm', true);
 
             // Sleep
-            const sleepThisWeek = filterByTypeAndDate('SleepAnalysis', sevenDaysAgo, new Date());
+            const sleepThisWeek = filterByTypeAndDate('SleepAnalysis', sevenDaysAgo, now);
             const sleepPrevWeek = filterByTypeAndDate('SleepAnalysis', fourteenDaysAgo, sevenDaysAgo);
             const sleepThisWeekAvg = calculateSum(sleepThisWeek) / 7;
             const sleepPrevWeekAvg = calculateSum(sleepPrevWeek) / 7;
             document.getElementById('sleep-metric').innerHTML = `${(sleepThisWeekAvg).toFixed(1)} <span class="metric-unit">hrs</span>`;
             updateDelta('sleep-delta', sleepThisWeekAvg, sleepPrevWeekAvg, 'hrs');
+        }
+
+        async function clearData() {
+            if (!confirm("Are you sure you want to clear all locally stored health data?")) return;
+            const db = await initDB();
+            const transaction = db.transaction([STORE_NAME], 'readwrite');
+            const store = transaction.objectStore(STORE_NAME);
+            const request = store.clear();
+            request.onsuccess = () => {
+                console.log("Database cleared.");
+                updateDashboard();
+            };
         }
 
         function updateDelta(elementId, current, prev, unit, inverse = false) {
@@ -288,6 +312,7 @@
         }
 
         document.getElementById('refresh-btn').addEventListener('click', updateDashboard);
+        document.getElementById('clear-btn').addEventListener('click', clearData);
 
         initDB().then(updateDashboard);
         lucide.createIcons();
