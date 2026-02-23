@@ -85,6 +85,40 @@
             <img src="../images/mac-app-screenshot-1.png" alt="Official Apple Health Export Process in iOS">
             <blockquote class="mt-4 text-lg"><strong>What you get:</strong> Inside the ZIP file is <code>export.xml</code>, a massive and complex file. This file is difficult to use without technical expertise and usually requires a secondary process to <a href="/convert-apple-health-xml/">convert the Apple Health XML to a usable format like CSV</a>.</blockquote>
 
+            <div class="mt-8 mb-12 p-8 rounded-2xl bg-gradient-to-br from-rose-900/40 to-slate-900 border border-rose-500/30 text-center shadow-xl shadow-rose-900/10">
+                <h3 class="text-2xl font-bold text-white mb-4 flex items-center justify-center gap-2">
+                    <i data-lucide="alert-octagon" class="text-rose-500 w-8 h-8"></i>
+                    Stop! Don't Analyze This Manually.
+                </h3>
+                <p class="text-slate-300 text-lg mb-6 leading-relaxed">
+                    Apple's native export gives you a raw XML file. It's messy, huge (500MB+), and crashes Excel.
+                </p>
+                
+                <div class="grid md:grid-cols-2 gap-6 text-left mb-8 max-w-2xl mx-auto">
+                    <div class="bg-slate-950/50 p-4 rounded-xl border border-white/5">
+                        <div class="font-bold text-slate-400 mb-2">The Hard Way 😓</div>
+                        <ul class="text-sm text-slate-500 space-y-2">
+                            <li>• Write Python scripts to parse XML</li>
+                            <li>• Clean messy timestamps manually</li>
+                            <li>• Aggregate millions of rows</li>
+                        </ul>
+                    </div>
+                    <div class="bg-rose-500/10 p-4 rounded-xl border border-rose-500/20">
+                        <div class="font-bold text-rose-400 mb-2">The Fast Way ⚡</div>
+                        <ul class="text-sm text-slate-300 space-y-2">
+                            <li>• Drag & drop into <strong>Health Data Analyzer</strong></li>
+                            <li>• 📊 Instant Dashboards (Sleep, HRV)</li>
+                            <li>• 🤖 AI Summaries of your year</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <a href="https://apps.apple.com/app/id6749297170" class="inline-flex items-center gap-2 bg-rose-600 text-white font-bold py-4 px-8 rounded-xl hover:bg-rose-700 transition-all shadow-lg shadow-rose-600/20 text-lg">
+                    <i data-lucide="download" class="w-5 h-5"></i> Download Mac Analyzer
+                </a>
+                <p class="mt-4 text-xs text-slate-500">100% Local & Private • Runs on your Mac</p>
+            </div>
+
             <h2 class="text-3xl font-bold text-white mb-6">Method 2: "Health Data Export" App (The Easy Way)</h2>
             <p class="text-lg text-slate-400 mb-4">A far simpler approach is to use our dedicated iOS app, which is designed to solve the problems of the official method. It provides a direct, one-tap export into clean, analysis-ready formats.</p>
             <table>
