@@ -8,6 +8,65 @@
     <link rel="canonical" href="https://applehealthdata.com/convert-tool/">
     <meta name="apple-itunes-app" content="app-id=6749297170">
     <meta name="keywords" content="convert apple health xml, apple health export.xml to csv, health export.xml converter, convert healthkit xml, apple health parser, xml to csv tool, free converter, private health data tool">
+
+    <!-- SEO: FAQ Schema (helps SERP rich results) -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "Is this XML to CSV converter tool truly private?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes. All conversion happens locally in your browser. Your export.xml file is never uploaded to any server."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What is the export.xml file?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "export.xml is the raw Apple Health export you get from the iPhone Health app’s ‘Export All Health Data’ feature. It contains your HealthKit records in XML format."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Why should I convert Apple Health XML to CSV?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "CSV is easier to analyze than XML. You can open CSV directly in Excel/Google Sheets for sorting, filtering, charting, and downstream analysis."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What data types are included in the CSV conversion?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "The converter extracts key attributes from each Apple Health ‘Record’ element, including type, sourceName, unit, startDate, endDate, and value (covering the majority of quantitative HealthKit records)."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Can I use this tool on any device?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes—any modern browser on desktop, tablet, or mobile should work, because processing happens locally in the browser."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What if my export.xml file is very large?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Large exports can take longer to parse depending on device CPU/RAM. For extremely large files, use a device with more memory and be patient during processing."
+          }
+        }
+      ]
+    }
+    </script>
+
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
     <style>
@@ -228,13 +287,13 @@
                 <h2 class="text-3xl md:text-5xl font-bold text-white mb-6">Unlock Full Health Data Potential</h2>
                 <p class="text-lg text-slate-400 max-w-2xl mx-auto mb-8">This converter is a great start. To truly own your health data and gain deeper AI-powered insights, explore our full suite of tools.</p>
                 <div class="flex flex-col sm:flex-row items-center justify-center gap-6">
-                    <a href="YOUR_APP_STORE_LINK" class="group relative inline-flex items-center justify-center px-8 py-4 font-bold text-white transition-all duration-200 bg-rose-600 font-pj rounded-full focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-900">
+                    <a href="https://apps.apple.com/us/app/health-data-export-ai-analyzer/id6749297170" class="group relative inline-flex items-center justify-center px-8 py-4 font-bold text-white transition-all duration-200 bg-rose-600 font-pj rounded-full focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-900">
                         <span class="relative flex items-center gap-2">
                             <img src="https://upload.wikimedia.org/wikipedia/commons/6/67/App_Store_%28iOS%29.svg" class="w-5 h-5 filter invert" alt="">
                             Download iOS App
                         </span>
                     </a>
-                    <a href="YOUR_GITHUB_LINK" class="group relative inline-flex items-center justify-center px-8 py-4 font-bold text-white transition-all duration-200 bg-slate-800 font-pj rounded-full focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-900">
+                    <a href="https://github.com/krumjahn/applehealth" class="group relative inline-flex items-center justify-center px-8 py-4 font-bold text-white transition-all duration-200 bg-slate-800 font-pj rounded-full focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-900">
                         <span class="relative flex items-center gap-2">
                             <i data-lucide="github" class="w-5 h-5"></i>
                             Get Mac Analyzer
