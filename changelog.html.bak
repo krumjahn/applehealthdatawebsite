@@ -3,43 +3,136 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Changelog — Apple Health Data Website</title>
-  <style>body{font-family:system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,Cantarell,Noto Sans,Helvetica,Arial,sans-serif;max-width:900px;margin:40px auto;padding:0 16px;line-height:1.5;color:#111}h1{margin:0 0 6px}p{margin:0 0 18px;color:#333}h2{margin:24px 0 8px;font-size:1.1rem}ul{margin:0 0 18px;padding-left:20px}li{margin:6px 0}a{color:#0b63ce;text-decoration:none}a:hover{text-decoration:underline}code{font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,monospace;font-size:0.95em}</style>
+  <title>Changelog — Apple Health Data + MacHealthAnalyzer</title>
+  <style>body{font-family:system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,Cantarell,Noto Sans,Helvetica,Arial,sans-serif;max-width:980px;margin:40px auto;padding:0 16px;line-height:1.5;color:#111}h1{margin:0 0 6px}p{margin:0 0 14px;color:#333}.meta{font-size:.95rem;color:#555}.section{margin:16px 0 24px}h2{margin:24px 0 8px;font-size:1.15rem}h3{margin:12px 0 6px;font-size:1rem;color:#222}ul{margin:0 0 10px;padding-left:20px}li{margin:6px 0}a{color:#0b63ce;text-decoration:none}a:hover{text-decoration:underline}code{font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,monospace;font-size:0.95em;background:#f6f8fa;padding:1px 4px;border-radius:4px}.empty{color:#666;font-style:italic}</style>
 </head>
 <body>
   <h1>Changelog</h1>
-  <p>Auto-generated from git commit history (last 30 days).</p>
-  <h2>2026-03-02</h2>
-  <ul>
-    <li>fix(seo): replace placeholder CTAs + add FAQ schema to convert-tool <a href="https://github.com/krumjahn/applehealthdatawebsite/commit/3453f7958722b4ce181c0549e28e3097daf1b3ad"><code>3453f79</code></a></li>
-  </ul>
-  <h2>2026-02-23</h2>
-  <ul>
-    <li>Improve SEO metadata and add convert-tool internal link <a href="https://github.com/krumjahn/applehealthdatawebsite/commit/15832a1e37f69560643d162af900c405568e38e5"><code>15832a1</code></a></li>
-    <li>feat(cro): add manual XML warning upsell block to export guide <a href="https://github.com/krumjahn/applehealthdatawebsite/commit/db87db2b2de100a409d0213a69270cf406852d66"><code>db87db2</code></a></li>
-    <li>feat(content): add AI analysis guide for Claude/ChatGPT SEO <a href="https://github.com/krumjahn/applehealthdatawebsite/commit/a5bd59302320c8c4e891d070f77910f287b8b8cb"><code>a5bd593</code></a></li>
-  </ul>
-  <h2>2026-02-21</h2>
-  <ul>
-    <li>Execute Play 2: Implement IndexedDB Dashboard with local persistence and data clearing <a href="https://github.com/krumjahn/applehealthdatawebsite/commit/e859dac7eec9171f42b4459ba55cacccb7bbc0e9"><code>e859dac</code></a></li>
-  </ul>
-  <h2>2026-02-19</h2>
-  <ul>
-    <li>Hide Biohacker Pro link from navigation <a href="https://github.com/krumjahn/applehealthdatawebsite/commit/c62f143d5c8e316edd77e109ea17e940402a1230"><code>c62f143</code></a></li>
-    <li>Implement Dashboard and Biohacker Pro features <a href="https://github.com/krumjahn/applehealthdatawebsite/commit/ea937fe36dc9a8d553d3be5f1b67ef4580c81f9d"><code>ea937fe</code></a></li>
-    <li>Add Biohacker Pro specifications and landing page draft <a href="https://github.com/krumjahn/applehealthdatawebsite/commit/9f4114aa40aa8e631bfe0b84b7eb438978a00ce8"><code>9f4114a</code></a></li>
-    <li>feat: implement Play 1 - AI-Native SEO - Inter-Device Schema Engine <a href="https://github.com/krumjahn/applehealthdatawebsite/commit/e3d6c65f40d82f85fc92a92ee2d8737d49137d32"><code>e3d6c65</code></a></li>
-  </ul>
-  <h2>2026-02-16</h2>
-  <ul>
-    <li>SEO: Target Oura/Whoop keywords and update hero for Smart Ring support <a href="https://github.com/krumjahn/applehealthdatawebsite/commit/bc2c565e951d66ff0171fae0f7a0b073d06ad1ba"><code>bc2c565</code></a></li>
-    <li>Update footer: Add link to GitHub community <a href="https://github.com/krumjahn/applehealthdatawebsite/commit/7b2fff2ead2924b6f4a61ed43658e2f0895d8b09"><code>7b2fff2</code></a></li>
-    <li>SEO: Add Perplexity Health support and guide based on GA4 referral analysis <a href="https://github.com/krumjahn/applehealthdatawebsite/commit/b370da27156a518a167c71f9159f5678a06cf05b"><code>b370da2</code></a></li>
-  </ul>
-  <h2>2026-02-14</h2>
-  <ul>
-    <li>Refine SEO copy to technical, privacy-first tone <a href="https://github.com/krumjahn/applehealthdatawebsite/commit/880a6ce115d6d31d0824d2e68b39d18eb4926464"><code>880a6ce</code></a></li>
-    <li>feat: implement SEO growth changes (App Store CTA and AI-Native Health Guide) <a href="https://github.com/krumjahn/applehealthdatawebsite/commit/896395e091104004d6e063511c6ca332452f0af8"><code>896395e</code></a></li>
-  </ul>
+  <p class="meta">Auto-generated from git commit history (last 30 days, since 2026-02-01 UTC).</p>
+  <p class="meta">Includes: <a href="https://github.com/krumjahn/applehealthdatawebsite">applehealthdatawebsite</a> and <a href="https://github.com/krumjahn/MacHealthAnalyzer">MacHealthAnalyzer</a>.</p>
+  <div class="section">
+    <h2>2026-03-02</h2>
+    <h3>Website</h3>
+    <ul>
+      <li>fix(seo): replace placeholder CTAs + add FAQ schema to convert-tool <a href="https://github.com/krumjahn/applehealthdatawebsite/commit/3453f7958722b4ce181c0549e28e3097daf1b3ad"><code>3453f79</code></a></li>
+    </ul>
+    <h3>MacHealthAnalyzer App</h3>
+    <p class="empty">No app commits on this date.</p>
+  </div>
+  <div class="section">
+    <h2>2026-02-23</h2>
+    <h3>Website</h3>
+    <ul>
+      <li>Improve SEO metadata and add convert-tool internal link <a href="https://github.com/krumjahn/applehealthdatawebsite/commit/15832a1e37f69560643d162af900c405568e38e5"><code>15832a1</code></a></li>
+      <li>feat(cro): add manual XML warning upsell block to export guide <a href="https://github.com/krumjahn/applehealthdatawebsite/commit/db87db2b2de100a409d0213a69270cf406852d66"><code>db87db2</code></a></li>
+      <li>feat(content): add AI analysis guide for Claude/ChatGPT SEO <a href="https://github.com/krumjahn/applehealthdatawebsite/commit/a5bd59302320c8c4e891d070f77910f287b8b8cb"><code>a5bd593</code></a></li>
+    </ul>
+    <h3>MacHealthAnalyzer App</h3>
+    <p class="empty">No app commits on this date.</p>
+  </div>
+  <div class="section">
+    <h2>2026-02-21</h2>
+    <h3>Website</h3>
+    <ul>
+      <li>Execute Play 2: Implement IndexedDB Dashboard with local persistence and data clearing <a href="https://github.com/krumjahn/applehealthdatawebsite/commit/e859dac7eec9171f42b4459ba55cacccb7bbc0e9"><code>e859dac</code></a></li>
+    </ul>
+    <h3>MacHealthAnalyzer App</h3>
+    <p class="empty">No app commits on this date.</p>
+  </div>
+  <div class="section">
+    <h2>2026-02-19</h2>
+    <h3>Website</h3>
+    <ul>
+      <li>Hide Biohacker Pro link from navigation <a href="https://github.com/krumjahn/applehealthdatawebsite/commit/c62f143d5c8e316edd77e109ea17e940402a1230"><code>c62f143</code></a></li>
+      <li>Implement Dashboard and Biohacker Pro features <a href="https://github.com/krumjahn/applehealthdatawebsite/commit/ea937fe36dc9a8d553d3be5f1b67ef4580c81f9d"><code>ea937fe</code></a></li>
+      <li>Add Biohacker Pro specifications and landing page draft <a href="https://github.com/krumjahn/applehealthdatawebsite/commit/9f4114aa40aa8e631bfe0b84b7eb438978a00ce8"><code>9f4114a</code></a></li>
+      <li>feat: implement Play 1 - AI-Native SEO - Inter-Device Schema Engine <a href="https://github.com/krumjahn/applehealthdatawebsite/commit/e3d6c65f40d82f85fc92a92ee2d8737d49137d32"><code>e3d6c65</code></a></li>
+    </ul>
+    <h3>MacHealthAnalyzer App</h3>
+    <p class="empty">No app commits on this date.</p>
+  </div>
+  <div class="section">
+    <h2>2026-02-16</h2>
+    <h3>Website</h3>
+    <ul>
+      <li>SEO: Target Oura/Whoop keywords and update hero for Smart Ring support <a href="https://github.com/krumjahn/applehealthdatawebsite/commit/bc2c565e951d66ff0171fae0f7a0b073d06ad1ba"><code>bc2c565</code></a></li>
+      <li>Update footer: Add link to GitHub community <a href="https://github.com/krumjahn/applehealthdatawebsite/commit/7b2fff2ead2924b6f4a61ed43658e2f0895d8b09"><code>7b2fff2</code></a></li>
+      <li>SEO: Add Perplexity Health support and guide based on GA4 referral analysis <a href="https://github.com/krumjahn/applehealthdatawebsite/commit/b370da27156a518a167c71f9159f5678a06cf05b"><code>b370da2</code></a></li>
+    </ul>
+    <h3>MacHealthAnalyzer App</h3>
+    <p class="empty">No app commits on this date.</p>
+  </div>
+  <div class="section">
+    <h2>2026-02-14</h2>
+    <h3>Website</h3>
+    <ul>
+      <li>Refine SEO copy to technical, privacy-first tone <a href="https://github.com/krumjahn/applehealthdatawebsite/commit/880a6ce115d6d31d0824d2e68b39d18eb4926464"><code>880a6ce</code></a></li>
+      <li>feat: implement SEO growth changes (App Store CTA and AI-Native Health Guide) <a href="https://github.com/krumjahn/applehealthdatawebsite/commit/896395e091104004d6e063511c6ca332452f0af8"><code>896395e</code></a></li>
+    </ul>
+    <h3>MacHealthAnalyzer App</h3>
+    <ul>
+      <li>Merge remote-tracking branch &#x27;origin/main&#x27; <a href="https://github.com/krumjahn/MacHealthAnalyzer/commit/be6471ba21839ea936e09e233ce39a852b2303d0"><code>be6471b</code></a></li>
+    </ul>
+  </div>
+  <div class="section">
+    <h2>2026-02-13</h2>
+    <h3>Website</h3>
+    <p class="empty">No website commits on this date.</p>
+    <h3>MacHealthAnalyzer App</h3>
+    <ul>
+      <li>feat: enhance AI model selection with OpenAI, Claude, Gemini [RUMJAHN-46] <a href="https://github.com/krumjahn/MacHealthAnalyzer/commit/d886ec5a122ee06f74685a19241d9a30ff015803"><code>d886ec5</code></a></li>
+      <li>feat: add smart ring metrics to iOS export [RUMJAHN-47] <a href="https://github.com/krumjahn/MacHealthAnalyzer/commit/3c7ed3fdf4ac20543ea3989d2529c95f389e9518"><code>3c7ed3f</code></a></li>
+      <li>fix: clarify AI feature is FREE with BYOK model [RUMJAHN-45] <a href="https://github.com/krumjahn/MacHealthAnalyzer/commit/ff31e94321ed30b46b7f0c3ce5b1be6b90dbf087"><code>ff31e94</code></a></li>
+      <li>docs: add comprehensive feature integration checklist [RUMJAHN-48] <a href="https://github.com/krumjahn/MacHealthAnalyzer/commit/c3542793c27e4318eebf0580b36b261bd341f63f"><code>c354279</code></a></li>
+    </ul>
+  </div>
+  <div class="section">
+    <h2>2026-02-12</h2>
+    <h3>Website</h3>
+    <p class="empty">No website commits on this date.</p>
+    <h3>MacHealthAnalyzer App</h3>
+    <ul>
+      <li>RUMJAHN-44 fix sleep duration double-counting from overlapping stages <a href="https://github.com/krumjahn/MacHealthAnalyzer/commit/cc2dab72dc3accc79bdea379927676a49c6fcf1d"><code>cc2dab7</code></a></li>
+      <li>RUMJAHN-42 improve parser failure messages in hybrid parser <a href="https://github.com/krumjahn/MacHealthAnalyzer/commit/6ad5517677d1b587039eb444fa0f33cc9ee638eb"><code>6ad5517</code></a></li>
+      <li>Fix RUMJAHN-37: Implement memory-efficient streaming scanner for large files <a href="https://github.com/krumjahn/MacHealthAnalyzer/commit/b135a3311376c42ef02a8cc6810f2c6ebdc42504"><code>b135a33</code></a></li>
+    </ul>
+  </div>
+  <div class="section">
+    <h2>2026-02-08</h2>
+    <h3>Website</h3>
+    <p class="empty">No website commits on this date.</p>
+    <h3>MacHealthAnalyzer App</h3>
+    <ul>
+      <li>fix(macos): add missing Y-axis labels to charts by migrating to native Charts framework <a href="https://github.com/krumjahn/MacHealthAnalyzer/commit/78633f1446a5637286b237179699cc5d50ae304b"><code>78633f1</code></a></li>
+    </ul>
+  </div>
+  <div class="section">
+    <h2>2026-02-05</h2>
+    <h3>Website</h3>
+    <p class="empty">No website commits on this date.</p>
+    <h3>MacHealthAnalyzer App</h3>
+    <ul>
+      <li>Merge pull request #1 from krumjahn/codex/dailyviews <a href="https://github.com/krumjahn/MacHealthAnalyzer/commit/3037cf78697c2c706bb55b8a975af0092ddbb5bc"><code>3037cf7</code></a></li>
+      <li>Daily views added <a href="https://github.com/krumjahn/MacHealthAnalyzer/commit/b30effcf094fb3f41f73684218b7fa0de3ed58d6"><code>b30effc</code></a></li>
+    </ul>
+  </div>
+  <div class="section">
+    <h2>2026-02-01</h2>
+    <h3>Website</h3>
+    <p class="empty">No website commits on this date.</p>
+    <h3>MacHealthAnalyzer App</h3>
+    <ul>
+      <li>fix(ios): stabilize first sync exports and avoid unit crash <a href="https://github.com/krumjahn/MacHealthAnalyzer/commit/26121ff84d1992fd7ae3f61295ed58232e7e21d6"><code>26121ff</code></a></li>
+    </ul>
+  </div>
+  <div class="section">
+    <h2>2026-01-23</h2>
+    <h3>Website</h3>
+    <p class="empty">No website commits on this date.</p>
+    <h3>MacHealthAnalyzer App</h3>
+    <ul>
+      <li>I couldn’t find an `AGENTS.md` in `/var/folders/f5/s9vz6fcn7ybbfs1w91qvhnt40000gn/T/vibe-kanban/worktrees/1559-fix-daily-aggreg/Apple Health Analyzer Nov clone`, so I proceeded with the default instructions. <a href="https://github.com/krumjahn/MacHealthAnalyzer/commit/9160c83d3f4b41882fb82a6f8e5eb2e273509594"><code>9160c83</code></a></li>
+    </ul>
+  </div>
 </body>
 </html>
