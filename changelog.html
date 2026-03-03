@@ -1,96 +1,98 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" class="scroll-smooth">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>What We Improved Recently | Apple Health Analyzer</title>
-  <meta name="description" content="Simple timeline of recent improvements to our iOS and Mac app." />
+  <title>Recent App Improvements | Apple Health Data</title>
+  <meta name="description" content="Plain-language timeline of recent iOS and Mac app improvements." />
   <link rel="canonical" href="https://applehealthdata.com/changelog.html" />
+  <script src="https://cdn.tailwindcss.com"></script>
   <style>
-    body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;max-width:860px;margin:36px auto;padding:0 18px;line-height:1.6;color:#111;background:#fff;}
-    h1{margin:0 0 8px;font-size:2rem;}
-    .sub{margin:0 0 20px;color:#555;}
-    .timeline{position:relative;margin:24px 0 0;padding-left:26px;}
-    .timeline:before{content:"";position:absolute;left:8px;top:0;bottom:0;width:2px;background:#e5e7eb;}
-    .day{position:relative;margin:0 0 24px 0;}
-    .day:before{content:"";position:absolute;left:-22px;top:8px;width:10px;height:10px;border-radius:50%;background:#111;}
-    h2{font-size:1.05rem;margin:0 0 8px;color:#111;}
-    ul{margin:0;padding-left:18px;}
-    li{margin:8px 0;color:#222;}
-    .meta{margin-top:26px;color:#666;font-size:.92rem;}
-    .back{display:inline-block;margin-bottom:16px;color:#0b63ce;text-decoration:none;}
-    .back:hover{text-decoration:underline;}
-    .badge{display:inline-block;background:#f3f4f6;border:1px solid #e5e7eb;padding:3px 8px;border-radius:999px;font-size:.78rem;color:#444;}
+    @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
+    :root { --glass-border: rgba(255,255,255,0.10); --glass-bg: rgba(255,255,255,0.04); }
+    body { font-family: 'Plus Jakarta Sans', sans-serif; background:#020617; color:#f8fafc; }
+    .mesh-gradient { position: fixed; inset:0; z-index:-1; background: radial-gradient(at 0% 0%, rgba(225,29,72,.16) 0px, transparent 50%), radial-gradient(at 100% 0%, rgba(56,189,248,.16) 0px, transparent 50%), radial-gradient(at 100% 100%, rgba(168,85,247,.16) 0px, transparent 50%); filter: blur(60px);} 
+    .bento-card { background: var(--glass-bg); border:1px solid var(--glass-border); border-radius:1.25rem; backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); }
+    .timeline { position: relative; padding-left: 1.6rem; }
+    .timeline:before { content:""; position:absolute; left:.32rem; top:.2rem; bottom:.2rem; width:2px; background:rgba(148,163,184,.35); }
+    .day { position:relative; }
+    .day:before { content:""; position:absolute; left:-1.48rem; top:.58rem; width:.72rem; height:.72rem; border-radius:9999px; background:#22d3ee; box-shadow:0 0 0 4px rgba(34,211,238,.18); }
   </style>
 </head>
 <body>
-  <a class="back" href="/">← Back to home</a>
-  <h1>Recent App Improvements</h1>
-  <p class="sub">A plain-language timeline of what changed in our iOS and Mac app.</p>
-  <span class="badge">Showing 16 updates since 2026-01-17</span>
-  <div class="timeline">
-    <section class="day">
-      <h2>2026-02-14</h2>
-      <ul>
-        <li>Integrated recent development updates into the main app branch.</li>
-      </ul>
+  <div class="mesh-gradient"></div>
+  <main class="max-w-4xl mx-auto px-4 py-10 md:py-14">
+    <a href="/" class="inline-flex items-center text-slate-300 hover:text-white text-sm">← Back to home</a>
+    <section class="bento-card p-6 md:p-8 mt-3">
+      <h1 class="text-3xl md:text-4xl font-extrabold tracking-tight">Recent App Improvements</h1>
+      <p class="mt-3 text-slate-300">A plain-language timeline of what changed in our iOS and Mac app.</p>
+      <p class="mt-2 text-xs text-slate-400">Showing 16 updates since 2026-01-17 (app updates only).</p>
     </section>
-    <section class="day">
-      <h2>2026-02-13</h2>
-      <ul>
-        <li>Improved AI model choices so users can pick OpenAI, Claude, or Gemini more easily.</li>
-        <li>Added support for smart ring health metrics in exports.</li>
-        <li>Clarified that AI analysis is free when you use your own API key.</li>
-        <li>Expanded internal quality checklist to make feature rollouts more reliable.</li>
-      </ul>
+    <section class="bento-card p-6 md:p-8 mt-5">
+      <div class="timeline space-y-6">
+        <div class="day">
+          <h2 class="text-lg font-bold text-white">2026-02-14</h2>
+          <ul class="mt-2 space-y-2 list-disc pl-5">
+            <li class="text-slate-200 leading-relaxed">Merged and stabilized recent app improvements.</li>
+          </ul>
+        </div>
+        <div class="day">
+          <h2 class="text-lg font-bold text-white">2026-02-13</h2>
+          <ul class="mt-2 space-y-2 list-disc pl-5">
+            <li class="text-slate-200 leading-relaxed">Improved AI model selection so setup is simpler and more flexible.</li>
+            <li class="text-slate-200 leading-relaxed">Added support for more smart ring health metrics.</li>
+            <li class="text-slate-200 leading-relaxed">Made pricing messaging clearer: AI analysis is free when using your own API key.</li>
+            <li class="text-slate-200 leading-relaxed">Improved release quality checks to reduce regressions.</li>
+          </ul>
+        </div>
+        <div class="day">
+          <h2 class="text-lg font-bold text-white">2026-02-12</h2>
+          <ul class="mt-2 space-y-2 list-disc pl-5">
+            <li class="text-slate-200 leading-relaxed">Sleep duration tracking is now more accurate.</li>
+            <li class="text-slate-200 leading-relaxed">Import errors now explain what went wrong in clearer language.</li>
+            <li class="text-slate-200 leading-relaxed">Large health export files now load more reliably.</li>
+          </ul>
+        </div>
+        <div class="day">
+          <h2 class="text-lg font-bold text-white">2026-02-08</h2>
+          <ul class="mt-2 space-y-2 list-disc pl-5">
+            <li class="text-slate-200 leading-relaxed">Charts on Mac now show labels correctly, making trends easier to read.</li>
+          </ul>
+        </div>
+        <div class="day">
+          <h2 class="text-lg font-bold text-white">2026-02-05</h2>
+          <ul class="mt-2 space-y-2 list-disc pl-5">
+            <li class="text-slate-200 leading-relaxed">Merged and stabilized recent app improvements.</li>
+            <li class="text-slate-200 leading-relaxed">Added daily summaries so it’s easier to check day-by-day patterns.</li>
+          </ul>
+        </div>
+        <div class="day">
+          <h2 class="text-lg font-bold text-white">2026-02-01</h2>
+          <ul class="mt-2 space-y-2 list-disc pl-5">
+            <li class="text-slate-200 leading-relaxed">First-time sync is more stable, with fixes for a crash some users could hit.</li>
+          </ul>
+        </div>
+        <div class="day">
+          <h2 class="text-lg font-bold text-white">2026-01-31</h2>
+          <ul class="mt-2 space-y-2 list-disc pl-5">
+            <li class="text-slate-200 leading-relaxed">Fix data export to include complete history by default.</li>
+          </ul>
+        </div>
+        <div class="day">
+          <h2 class="text-lg font-bold text-white">2026-01-24</h2>
+          <ul class="mt-2 space-y-2 list-disc pl-5">
+            <li class="text-slate-200 leading-relaxed">Use HKStatisticsCollectionQuery for accurate daily step counts in exports.</li>
+            <li class="text-slate-200 leading-relaxed">Add social sharing cards, ios companion qr code, and update app store links.</li>
+          </ul>
+        </div>
+        <div class="day">
+          <h2 class="text-lg font-bold text-white">2026-01-22</h2>
+          <ul class="mt-2 space-y-2 list-disc pl-5">
+            <li class="text-slate-200 leading-relaxed">Fix fallback parsing and add mood results.</li>
+          </ul>
+        </div>
+      </div>
     </section>
-    <section class="day">
-      <h2>2026-02-12</h2>
-      <ul>
-        <li>Fixed a sleep tracking issue that could double-count sleep duration.</li>
-        <li>Improved error messages so failed imports are easier to understand and fix.</li>
-        <li>Improved large file handling so big exports load more reliably.</li>
-      </ul>
-    </section>
-    <section class="day">
-      <h2>2026-02-08</h2>
-      <ul>
-        <li>Fixed chart labels on Mac so graphs are easier to read.</li>
-      </ul>
-    </section>
-    <section class="day">
-      <h2>2026-02-05</h2>
-      <ul>
-        <li>Integrated recent development updates into the main app branch.</li>
-        <li>Added daily view summaries for quicker trend checks.</li>
-      </ul>
-    </section>
-    <section class="day">
-      <h2>2026-02-01</h2>
-      <ul>
-        <li>Improved first-time sync stability on iPhone and fixed a unit-related crash.</li>
-      </ul>
-    </section>
-    <section class="day">
-      <h2>2026-01-31</h2>
-      <ul>
-        <li>Fix data export to include complete history by default.</li>
-      </ul>
-    </section>
-    <section class="day">
-      <h2>2026-01-24</h2>
-      <ul>
-        <li>Use HKStatisticsCollectionQuery for accurate daily step counts in exports.</li>
-        <li>Add social sharing cards, ios companion qr code, and update app store links.</li>
-      </ul>
-    </section>
-    <section class="day">
-      <h2>2026-01-22</h2>
-      <ul>
-        <li>Fix fallback parsing and add mood results.</li>
-      </ul>
-    </section>
-  </div>
-  <p class="meta">This page focuses on product changes only (iOS + Mac app).</p>
+  </main>
 </body>
 </html>
