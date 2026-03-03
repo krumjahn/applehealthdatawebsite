@@ -1,338 +1,138 @@
-<!DOCTYPE html>
-<html lang="en" class="scroll-smooth">
+<!doctype html>
+<html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Change Log | Health Data Export & AI Analyzer</title>
-    <meta name="description" content="See the latest updates, features, and improvements to the Health Data Export iOS app and AI Analyzer for Mac.">
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://unpkg.com/lucide@latest"></script>
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;700&display=swap');
-        
-        :root {
-            --glass-border: rgba(255, 255, 255, 0.08);
-            --glass-bg: rgba(255, 255, 255, 0.03);
-        }
-
-        body {
-            font-family: 'Plus Jakarta Sans', sans-serif;
-            background-color: #020617; /* slate-950 */
-            color: #f8fafc;
-            overflow-x: hidden;
-        }
-
-        .font-mono {
-            font-family: 'JetBrains Mono', monospace;
-        }
-
-        /* Dynamic Background */
-        .mesh-gradient {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100vw;
-            height: 100vh;
-            z-index: -1;
-            background: 
-                radial-gradient(at 0% 0%, rgba(225, 29, 72, 0.15) 0px, transparent 50%),
-                radial-gradient(at 100% 0%, rgba(56, 189, 248, 0.15) 0px, transparent 50%),
-                radial-gradient(at 100% 100%, rgba(168, 85, 247, 0.15) 0px, transparent 50%);
-            filter: blur(60px);
-        }
-
-        /* Timeline Styles */
-        .timeline-line {
-            position: absolute;
-            left: 24px;
-            top: 0;
-            bottom: 0;
-            width: 2px;
-            background: linear-gradient(180deg, rgba(225, 29, 72, 0.5) 0%, rgba(56, 189, 248, 0.5) 100%);
-            z-index: 0;
-        }
-
-        @media (min-width: 768px) {
-            .timeline-line {
-                left: 50%;
-                transform: translateX(-50%);
-            }
-        }
-
-        .bento-card {
-            background: var(--glass-bg);
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
-            border: 1px solid var(--glass-border);
-            border-radius: 1rem;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-
-        .bento-card:hover {
-            border-color: rgba(255, 255, 255, 0.2);
-            background: rgba(255, 255, 255, 0.05);
-        }
-
-        /* Custom Scrollbar */
-        ::-webkit-scrollbar {
-            width: 8px;
-        }
-        ::-webkit-scrollbar-track {
-            background: #020617;
-        }
-        ::-webkit-scrollbar-thumb {
-            background: #334155;
-            border-radius: 4px;
-        }
-        ::-webkit-scrollbar-thumb:hover {
-            background: #475569;
-        }
-    </style>
-    <!-- Analytics scripts retained from index.html -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-8SMQRLT4VS"></script>
-    <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
-      gtag('config', 'G-8SMQRLT4VS');
-    </script>
-    <script defer src="https://umami.rumjahn.synology.me/script.js" data-website-id="5d7b4fa8-90b2-4191-8daf-8ea487a8d961"></script>
-    <script>
-      var _paq = window._paq = window._paq || [];
-      _paq.push(['trackPageView']);
-      _paq.push(['enableLinkTracking']);
-      (function() {
-        var u="//shrewd-lyrebird.pikapod.net/";
-        _paq.push(['setTrackerUrl', u+'matomo.php']);
-        _paq.push(['setSiteId', '9']);
-        var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
-        g.async=true; g.src=u+'matomo.js'; s.parentNode.insertBefore(g,s);
-      })();
-    </script>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Changelog — Apple Health Data + MacHealthAnalyzer</title>
+  <style>body{font-family:system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,Cantarell,Noto Sans,Helvetica,Arial,sans-serif;max-width:980px;margin:40px auto;padding:0 16px;line-height:1.5;color:#111}h1{margin:0 0 6px}p{margin:0 0 14px;color:#333}.meta{font-size:.95rem;color:#555}.section{margin:16px 0 24px}h2{margin:24px 0 8px;font-size:1.15rem}h3{margin:12px 0 6px;font-size:1rem;color:#222}ul{margin:0 0 10px;padding-left:20px}li{margin:6px 0}a{color:#0b63ce;text-decoration:none}a:hover{text-decoration:underline}code{font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,monospace;font-size:0.95em;background:#f6f8fa;padding:1px 4px;border-radius:4px}.empty{color:#666;font-style:italic}</style>
 </head>
 <body>
-
-    <div class="mesh-gradient"></div>
-
-    <!-- Navigation -->
-    <nav class="fixed w-full z-50 border-b border-white/10 bg-slate-950/50 backdrop-blur-xl">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex justify-between items-center h-20">
-                <a href="index.html" class="flex items-center gap-3 group">
-                    <div class="w-10 h-10 bg-gradient-to-tr from-rose-600 to-orange-500 rounded-xl flex items-center justify-center shadow-lg shadow-rose-500/20 group-hover:shadow-rose-500/40 transition-shadow">
-                        <i data-lucide="activity" class="w-6 h-6 text-white"></i>
-                    </div>
-                    <div>
-                        <span class="font-bold text-lg tracking-tight text-white block leading-none">Health Data</span>
-                        <span class="text-xs text-slate-400 tracking-wider uppercase font-semibold">Export & Analyze</span>
-                    </div>
-                </a>
-                <div class="hidden md:flex items-center space-x-1">
-                    <a href="index.html#features" class="px-4 py-2 text-sm font-medium text-slate-300 hover:text-white transition-colors rounded-lg hover:bg-white/5">Features</a>
-                    <a href="index.html#specs" class="px-4 py-2 text-sm font-medium text-slate-300 hover:text-white transition-colors rounded-lg hover:bg-white/5">Specs</a>
-                    <a href="changelog.html" class="px-4 py-2 text-sm font-medium text-white bg-white/10 rounded-lg">Change Log</a>
-                    <a href="https://apps.apple.com/us/app/health-data-export-ai-analyzer/id6749297170" target="_blank" class="ml-4 bg-white text-black px-5 py-2.5 rounded-full text-sm font-bold hover:bg-slate-200 transition-all shadow-[0_0_20px_rgba(255,255,255,0.3)]">
-                        Get App
-                    </a>
-                </div>
-            </div>
-        </div>
-    </nav>
-
-    <!-- Header Section -->
-    <section class="relative pt-32 pb-12 overflow-hidden">
-        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
-            <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/5 border border-white/10 text-rose-400 text-sm font-medium mb-6">
-                <span class="relative flex h-2 w-2">
-                  <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-rose-400 opacity-75"></span>
-                  <span class="relative inline-flex rounded-full h-2 w-2 bg-rose-500"></span>
-                </span>
-                Live Updates from GitHub
-            </div>
-            <h1 class="text-4xl md:text-5xl font-bold text-white mb-6">Change Log</h1>
-            <p class="text-lg text-slate-400 max-w-2xl mx-auto">
-                We are constantly improving. View the real-time development timeline of our iOS and Mac apps directly from our code repository.
-            </p>
-        </div>
-    </section>
-
-    <!-- Timeline Section -->
-    <section class="pb-24">
-        <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 relative min-h-[400px]">
-            <!-- Center Line -->
-            <div class="timeline-line"></div>
-            
-            <!-- Timeline Container -->
-            <div id="timeline-container" class="space-y-12 relative z-10">
-                <!-- Loading State -->
-                <div id="loading-indicator" class="flex flex-col items-center justify-center py-12">
-                    <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-rose-500 mb-4"></div>
-                    <p class="text-slate-400">Fetching latest commits...</p>
-                </div>
-            </div>
-            
-            <!-- Load More Button -->
-            <div class="text-center mt-12 relative z-10 hidden" id="load-more-container">
-                <button id="load-more-btn" class="px-6 py-3 bg-slate-800 hover:bg-slate-700 text-white font-medium rounded-full transition-colors border border-slate-700">
-                    Load Older Changes
-                </button>
-            </div>
-        </div>
-    </section>
-
-    <!-- Footer -->
-    <footer class="bg-black border-t border-slate-900 pt-16 pb-8">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-            <div class="inline-flex items-center gap-2 mb-6">
-                <i data-lucide="activity" class="w-6 h-6 text-rose-600"></i>
-                <span class="font-bold text-xl text-white">Health Data Export</span>
-            </div>
-            
-            <div class="flex justify-center gap-8 mb-8">
-                <a href="#" class="text-slate-500 hover:text-white transition-colors">Support</a>
-                <a href="https://rumjahn.com/privacy-policy-for-healthkit-analyzer/" class="text-slate-500 hover:text-white transition-colors">Privacy Policy</a>
-                <a href="https://www.apple.com/legal/internet-services/itunes/dev/stdeula/" class="text-slate-500 hover:text-white transition-colors">Terms</a>
-            </div>
-
-            <p class="text-slate-600 text-sm">
-                &copy; 2025 Keith Rumjahn. Crafted for the Health Tech Community.
-            </p>
-        </div>
-    </footer>
-
-    <script>
-        lucide.createIcons();
-
-        // Configuration
-        // IMPORTANT: This page reads commits through a server-side proxy (Cloudflare Worker)
-        // so we can keep the app repo private and avoid exposing a GitHub token in the browser.
-        const COMMITS_API_BASE = 'https://applehealthdata-changelog.applehealthdata.com';
-        const ITEMS_PER_PAGE = 10;
-        let currentPage = 1;
-
-        async function fetchCommits(page = 1) {
-            try {
-                const response = await fetch(`${COMMITS_API_BASE}/commits?page=${page}&per_page=${ITEMS_PER_PAGE}`, { cache: 'no-store' });
-                if (!response.ok) throw new Error('Failed to fetch commits');
-                const data = await response.json();
-                return data;
-            } catch (error) {
-                console.error('Error:', error);
-                document.getElementById('loading-indicator').innerHTML = `
-                    <div class="text-center text-red-400">
-                        <p class="mb-2">Unable to load updates.</p>
-                        <p class="text-sm text-slate-500">Changelog service is unavailable.</p>
-                    </div>
-                `;
-                return [];
-            }
-        }
-
-        function formatDate(dateString) {
-            const options = { year: 'numeric', month: 'short', day: 'numeric' };
-            return new Date(dateString).toLocaleDateString('en-US', options);
-        }
-
-        function createTimelineItem(commit, index) {
-            const isLeft = index % 2 === 0;
-            const date = formatDate(commit.commit.author.date);
-            const message = commit.commit.message.split('\n')[0]; // First line only
-            const author = commit.commit.author.name;
-            const url = commit.html_url;
-            const sha = commit.sha.substring(0, 7);
-            
-            // Layout classes based on odd/even for desktop
-            // Mobile: always left aligned with line on left
-            // Desktop: alternating left/right
-            
-            return `
-                <div class="relative flex items-center justify-between md:justify-normal md:${isLeft ? 'flex-row-reverse' : 'flex-row'} group">
-                    
-                    <!-- Mobile: Left dot / Desktop: Center dot -->
-                    <div class="absolute left-[24px] md:left-1/2 w-4 h-4 rounded-full bg-slate-900 border-2 border-rose-500 transform -translate-x-1/2 z-20 group-hover:scale-125 transition-transform shadow-[0_0_10px_rgba(225,29,72,0.5)]"></div>
-                    
-                    <!-- Spacer for desktop layout -->
-                    <div class="hidden md:block w-1/2"></div>
-                    
-                    <!-- Content Card -->
-                    <div class="w-full md:w-1/2 pl-12 md:pl-0 md:${isLeft ? 'pr-12' : 'pl-12'}">
-                        <a href="${url}" target="_blank" class="block bento-card p-6 relative group/card">
-                            <div class="flex justify-between items-start mb-2">
-                                <span class="text-xs font-mono text-rose-400 bg-rose-500/10 px-2 py-1 rounded border border-rose-500/20">${date}</span>
-                                <span class="text-xs font-mono text-slate-500 flex items-center gap-1 group-hover/card:text-white transition-colors">
-                                    <i data-lucide="git-commit" class="w-3 h-3"></i> ${sha}
-                                </span>
-                            </div>
-                            <h3 class="text-lg font-bold text-white mb-2 leading-snug group-hover/card:text-rose-400 transition-colors">
-                                ${message}
-                            </h3>
-                            <div class="flex items-center gap-2 mt-4">
-                                <div class="w-6 h-6 rounded-full bg-slate-700 flex items-center justify-center text-xs text-white font-bold overflow-hidden">
-                                    ${commit.author ? `<img src="${commit.author.avatar_url}" alt="${author}" class="w-full h-full">` : author.charAt(0)}
-                                </div>
-                                <span class="text-sm text-slate-400">${author}</span>
-                            </div>
-                        </a>
-                    </div>
-                </div>
-            `;
-        }
-
-        async function initTimeline() {
-            const container = document.getElementById('timeline-container');
-            const loadMoreBtn = document.getElementById('load-more-btn');
-            const loadMoreContainer = document.getElementById('load-more-container');
-            
-            const commits = await fetchCommits(currentPage);
-            
-            // Remove loading indicator
-            const loader = document.getElementById('loading-indicator');
-            if (loader) loader.remove();
-            
-            if (commits.length > 0) {
-                commits.forEach((commit, index) => {
-                    // Adjust index for continuous list on load more
-                    const actualIndex = (currentPage - 1) * ITEMS_PER_PAGE + index;
-                    container.insertAdjacentHTML('beforeend', createTimelineItem(commit, actualIndex));
-                });
-                
-                // Re-initialize icons for new content
-                lucide.createIcons();
-                
-                // Show load more button
-                loadMoreContainer.classList.remove('hidden');
-            } else {
-                container.innerHTML = '<p class="text-center text-slate-500">No commits found.</p>';
-            }
-        }
-
-        // Load More Handler
-        document.getElementById('load-more-btn').addEventListener('click', async function() {
-            const btn = this;
-            const originalText = btn.innerText;
-            btn.innerText = 'Loading...';
-            btn.disabled = true;
-            
-            currentPage++;
-            const commits = await fetchCommits(currentPage);
-            
-            if (commits.length > 0) {
-                const container = document.getElementById('timeline-container');
-                commits.forEach((commit, index) => {
-                    const actualIndex = (currentPage - 1) * ITEMS_PER_PAGE + index;
-                    container.insertAdjacentHTML('beforeend', createTimelineItem(commit, actualIndex));
-                });
-                lucide.createIcons();
-                btn.innerText = originalText;
-                btn.disabled = false;
-            } else {
-                btn.innerText = 'No more changes';
-                btn.disabled = true;
-            }
-        });
-
-        // Initialize
-        initTimeline();
-    </script>
+  <h1>Changelog</h1>
+  <p class="meta">Auto-generated from git commit history (last 30 days, since 2026-02-01 UTC).</p>
+  <p class="meta">Includes: <a href="https://github.com/krumjahn/applehealthdatawebsite">applehealthdatawebsite</a> and <a href="https://github.com/krumjahn/MacHealthAnalyzer">MacHealthAnalyzer</a>.</p>
+  <div class="section">
+    <h2>2026-03-02</h2>
+    <h3>Website</h3>
+    <ul>
+      <li>fix(seo): replace placeholder CTAs + add FAQ schema to convert-tool <a href="https://github.com/krumjahn/applehealthdatawebsite/commit/3453f7958722b4ce181c0549e28e3097daf1b3ad"><code>3453f79</code></a></li>
+    </ul>
+    <h3>MacHealthAnalyzer App</h3>
+    <p class="empty">No app commits on this date.</p>
+  </div>
+  <div class="section">
+    <h2>2026-02-23</h2>
+    <h3>Website</h3>
+    <ul>
+      <li>Improve SEO metadata and add convert-tool internal link <a href="https://github.com/krumjahn/applehealthdatawebsite/commit/15832a1e37f69560643d162af900c405568e38e5"><code>15832a1</code></a></li>
+      <li>feat(cro): add manual XML warning upsell block to export guide <a href="https://github.com/krumjahn/applehealthdatawebsite/commit/db87db2b2de100a409d0213a69270cf406852d66"><code>db87db2</code></a></li>
+      <li>feat(content): add AI analysis guide for Claude/ChatGPT SEO <a href="https://github.com/krumjahn/applehealthdatawebsite/commit/a5bd59302320c8c4e891d070f77910f287b8b8cb"><code>a5bd593</code></a></li>
+    </ul>
+    <h3>MacHealthAnalyzer App</h3>
+    <p class="empty">No app commits on this date.</p>
+  </div>
+  <div class="section">
+    <h2>2026-02-21</h2>
+    <h3>Website</h3>
+    <ul>
+      <li>Execute Play 2: Implement IndexedDB Dashboard with local persistence and data clearing <a href="https://github.com/krumjahn/applehealthdatawebsite/commit/e859dac7eec9171f42b4459ba55cacccb7bbc0e9"><code>e859dac</code></a></li>
+    </ul>
+    <h3>MacHealthAnalyzer App</h3>
+    <p class="empty">No app commits on this date.</p>
+  </div>
+  <div class="section">
+    <h2>2026-02-19</h2>
+    <h3>Website</h3>
+    <ul>
+      <li>Hide Biohacker Pro link from navigation <a href="https://github.com/krumjahn/applehealthdatawebsite/commit/c62f143d5c8e316edd77e109ea17e940402a1230"><code>c62f143</code></a></li>
+      <li>Implement Dashboard and Biohacker Pro features <a href="https://github.com/krumjahn/applehealthdatawebsite/commit/ea937fe36dc9a8d553d3be5f1b67ef4580c81f9d"><code>ea937fe</code></a></li>
+      <li>Add Biohacker Pro specifications and landing page draft <a href="https://github.com/krumjahn/applehealthdatawebsite/commit/9f4114aa40aa8e631bfe0b84b7eb438978a00ce8"><code>9f4114a</code></a></li>
+      <li>feat: implement Play 1 - AI-Native SEO - Inter-Device Schema Engine <a href="https://github.com/krumjahn/applehealthdatawebsite/commit/e3d6c65f40d82f85fc92a92ee2d8737d49137d32"><code>e3d6c65</code></a></li>
+    </ul>
+    <h3>MacHealthAnalyzer App</h3>
+    <p class="empty">No app commits on this date.</p>
+  </div>
+  <div class="section">
+    <h2>2026-02-16</h2>
+    <h3>Website</h3>
+    <ul>
+      <li>SEO: Target Oura/Whoop keywords and update hero for Smart Ring support <a href="https://github.com/krumjahn/applehealthdatawebsite/commit/bc2c565e951d66ff0171fae0f7a0b073d06ad1ba"><code>bc2c565</code></a></li>
+      <li>Update footer: Add link to GitHub community <a href="https://github.com/krumjahn/applehealthdatawebsite/commit/7b2fff2ead2924b6f4a61ed43658e2f0895d8b09"><code>7b2fff2</code></a></li>
+      <li>SEO: Add Perplexity Health support and guide based on GA4 referral analysis <a href="https://github.com/krumjahn/applehealthdatawebsite/commit/b370da27156a518a167c71f9159f5678a06cf05b"><code>b370da2</code></a></li>
+    </ul>
+    <h3>MacHealthAnalyzer App</h3>
+    <p class="empty">No app commits on this date.</p>
+  </div>
+  <div class="section">
+    <h2>2026-02-14</h2>
+    <h3>Website</h3>
+    <ul>
+      <li>Refine SEO copy to technical, privacy-first tone <a href="https://github.com/krumjahn/applehealthdatawebsite/commit/880a6ce115d6d31d0824d2e68b39d18eb4926464"><code>880a6ce</code></a></li>
+      <li>feat: implement SEO growth changes (App Store CTA and AI-Native Health Guide) <a href="https://github.com/krumjahn/applehealthdatawebsite/commit/896395e091104004d6e063511c6ca332452f0af8"><code>896395e</code></a></li>
+    </ul>
+    <h3>MacHealthAnalyzer App</h3>
+    <ul>
+      <li>Merge remote-tracking branch &#x27;origin/main&#x27; <a href="https://github.com/krumjahn/MacHealthAnalyzer/commit/be6471ba21839ea936e09e233ce39a852b2303d0"><code>be6471b</code></a></li>
+    </ul>
+  </div>
+  <div class="section">
+    <h2>2026-02-13</h2>
+    <h3>Website</h3>
+    <p class="empty">No website commits on this date.</p>
+    <h3>MacHealthAnalyzer App</h3>
+    <ul>
+      <li>feat: enhance AI model selection with OpenAI, Claude, Gemini [RUMJAHN-46] <a href="https://github.com/krumjahn/MacHealthAnalyzer/commit/d886ec5a122ee06f74685a19241d9a30ff015803"><code>d886ec5</code></a></li>
+      <li>feat: add smart ring metrics to iOS export [RUMJAHN-47] <a href="https://github.com/krumjahn/MacHealthAnalyzer/commit/3c7ed3fdf4ac20543ea3989d2529c95f389e9518"><code>3c7ed3f</code></a></li>
+      <li>fix: clarify AI feature is FREE with BYOK model [RUMJAHN-45] <a href="https://github.com/krumjahn/MacHealthAnalyzer/commit/ff31e94321ed30b46b7f0c3ce5b1be6b90dbf087"><code>ff31e94</code></a></li>
+      <li>docs: add comprehensive feature integration checklist [RUMJAHN-48] <a href="https://github.com/krumjahn/MacHealthAnalyzer/commit/c3542793c27e4318eebf0580b36b261bd341f63f"><code>c354279</code></a></li>
+    </ul>
+  </div>
+  <div class="section">
+    <h2>2026-02-12</h2>
+    <h3>Website</h3>
+    <p class="empty">No website commits on this date.</p>
+    <h3>MacHealthAnalyzer App</h3>
+    <ul>
+      <li>RUMJAHN-44 fix sleep duration double-counting from overlapping stages <a href="https://github.com/krumjahn/MacHealthAnalyzer/commit/cc2dab72dc3accc79bdea379927676a49c6fcf1d"><code>cc2dab7</code></a></li>
+      <li>RUMJAHN-42 improve parser failure messages in hybrid parser <a href="https://github.com/krumjahn/MacHealthAnalyzer/commit/6ad5517677d1b587039eb444fa0f33cc9ee638eb"><code>6ad5517</code></a></li>
+      <li>Fix RUMJAHN-37: Implement memory-efficient streaming scanner for large files <a href="https://github.com/krumjahn/MacHealthAnalyzer/commit/b135a3311376c42ef02a8cc6810f2c6ebdc42504"><code>b135a33</code></a></li>
+    </ul>
+  </div>
+  <div class="section">
+    <h2>2026-02-08</h2>
+    <h3>Website</h3>
+    <p class="empty">No website commits on this date.</p>
+    <h3>MacHealthAnalyzer App</h3>
+    <ul>
+      <li>fix(macos): add missing Y-axis labels to charts by migrating to native Charts framework <a href="https://github.com/krumjahn/MacHealthAnalyzer/commit/78633f1446a5637286b237179699cc5d50ae304b"><code>78633f1</code></a></li>
+    </ul>
+  </div>
+  <div class="section">
+    <h2>2026-02-05</h2>
+    <h3>Website</h3>
+    <p class="empty">No website commits on this date.</p>
+    <h3>MacHealthAnalyzer App</h3>
+    <ul>
+      <li>Merge pull request #1 from krumjahn/codex/dailyviews <a href="https://github.com/krumjahn/MacHealthAnalyzer/commit/3037cf78697c2c706bb55b8a975af0092ddbb5bc"><code>3037cf7</code></a></li>
+      <li>Daily views added <a href="https://github.com/krumjahn/MacHealthAnalyzer/commit/b30effcf094fb3f41f73684218b7fa0de3ed58d6"><code>b30effc</code></a></li>
+    </ul>
+  </div>
+  <div class="section">
+    <h2>2026-02-01</h2>
+    <h3>Website</h3>
+    <p class="empty">No website commits on this date.</p>
+    <h3>MacHealthAnalyzer App</h3>
+    <ul>
+      <li>fix(ios): stabilize first sync exports and avoid unit crash <a href="https://github.com/krumjahn/MacHealthAnalyzer/commit/26121ff84d1992fd7ae3f61295ed58232e7e21d6"><code>26121ff</code></a></li>
+    </ul>
+  </div>
+  <div class="section">
+    <h2>2026-01-23</h2>
+    <h3>Website</h3>
+    <p class="empty">No website commits on this date.</p>
+    <h3>MacHealthAnalyzer App</h3>
+    <ul>
+      <li>I couldn’t find an `AGENTS.md` in `/var/folders/f5/s9vz6fcn7ybbfs1w91qvhnt40000gn/T/vibe-kanban/worktrees/1559-fix-daily-aggreg/Apple Health Analyzer Nov clone`, so I proceeded with the default instructions. <a href="https://github.com/krumjahn/MacHealthAnalyzer/commit/9160c83d3f4b41882fb82a6f8e5eb2e273509594"><code>9160c83</code></a></li>
+    </ul>
+  </div>
 </body>
 </html>

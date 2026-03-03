@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Changelog — Apple Health Data Website</title>
+  <style>body{font-family:system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,Cantarell,Noto Sans,Helvetica,Arial,sans-serif;max-width:900px;margin:40px auto;padding:0 16px;line-height:1.5;color:#111}h1{margin:0 0 6px}p{margin:0 0 18px;color:#333}h2{margin:24px 0 8px;font-size:1.1rem}ul{margin:0 0 18px;padding-left:20px}li{margin:6px 0}a{color:#0b63ce;text-decoration:none}a:hover{text-decoration:underline}code{font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,monospace;font-size:0.95em}</style>
+</head>
+<body>
+  <h1>Changelog</h1>
+  <p>Auto-generated from git commit history (last 30 days).</p>
+  <h2>2026-03-02</h2>
+  <ul>
+    <li>fix(seo): replace placeholder CTAs + add FAQ schema to convert-tool <a href="https://github.com/krumjahn/applehealthdatawebsite/commit/3453f7958722b4ce181c0549e28e3097daf1b3ad"><code>3453f79</code></a></li>
+  </ul>
+  <h2>2026-02-23</h2>
+  <ul>
+    <li>Improve SEO metadata and add convert-tool internal link <a href="https://github.com/krumjahn/applehealthdatawebsite/commit/15832a1e37f69560643d162af900c405568e38e5"><code>15832a1</code></a></li>
+    <li>feat(cro): add manual XML warning upsell block to export guide <a href="https://github.com/krumjahn/applehealthdatawebsite/commit/db87db2b2de100a409d0213a69270cf406852d66"><code>db87db2</code></a></li>
+    <li>feat(content): add AI analysis guide for Claude/ChatGPT SEO <a href="https://github.com/krumjahn/applehealthdatawebsite/commit/a5bd59302320c8c4e891d070f77910f287b8b8cb"><code>a5bd593</code></a></li>
+  </ul>
+  <h2>2026-02-21</h2>
+  <ul>
+    <li>Execute Play 2: Implement IndexedDB Dashboard with local persistence and data clearing <a href="https://github.com/krumjahn/applehealthdatawebsite/commit/e859dac7eec9171f42b4459ba55cacccb7bbc0e9"><code>e859dac</code></a></li>
+  </ul>
+  <h2>2026-02-19</h2>
+  <ul>
+    <li>Hide Biohacker Pro link from navigation <a href="https://github.com/krumjahn/applehealthdatawebsite/commit/c62f143d5c8e316edd77e109ea17e940402a1230"><code>c62f143</code></a></li>
+    <li>Implement Dashboard and Biohacker Pro features <a href="https://github.com/krumjahn/applehealthdatawebsite/commit/ea937fe36dc9a8d553d3be5f1b67ef4580c81f9d"><code>ea937fe</code></a></li>
+    <li>Add Biohacker Pro specifications and landing page draft <a href="https://github.com/krumjahn/applehealthdatawebsite/commit/9f4114aa40aa8e631bfe0b84b7eb438978a00ce8"><code>9f4114a</code></a></li>
+    <li>feat: implement Play 1 - AI-Native SEO - Inter-Device Schema Engine <a href="https://github.com/krumjahn/applehealthdatawebsite/commit/e3d6c65f40d82f85fc92a92ee2d8737d49137d32"><code>e3d6c65</code></a></li>
+  </ul>
+  <h2>2026-02-16</h2>
+  <ul>
+    <li>SEO: Target Oura/Whoop keywords and update hero for Smart Ring support <a href="https://github.com/krumjahn/applehealthdatawebsite/commit/bc2c565e951d66ff0171fae0f7a0b073d06ad1ba"><code>bc2c565</code></a></li>
+    <li>Update footer: Add link to GitHub community <a href="https://github.com/krumjahn/applehealthdatawebsite/commit/7b2fff2ead2924b6f4a61ed43658e2f0895d8b09"><code>7b2fff2</code></a></li>
+    <li>SEO: Add Perplexity Health support and guide based on GA4 referral analysis <a href="https://github.com/krumjahn/applehealthdatawebsite/commit/b370da27156a518a167c71f9159f5678a06cf05b"><code>b370da2</code></a></li>
+  </ul>
+  <h2>2026-02-14</h2>
+  <ul>
+    <li>Refine SEO copy to technical, privacy-first tone <a href="https://github.com/krumjahn/applehealthdatawebsite/commit/880a6ce115d6d31d0824d2e68b39d18eb4926464"><code>880a6ce</code></a></li>
+    <li>feat: implement SEO growth changes (App Store CTA and AI-Native Health Guide) <a href="https://github.com/krumjahn/applehealthdatawebsite/commit/896395e091104004d6e063511c6ca332452f0af8"><code>896395e</code></a></li>
+  </ul>
+</body>
+</html>
