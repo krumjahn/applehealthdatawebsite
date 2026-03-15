@@ -1,0 +1,33 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://applehealthdata.website/events/cta-events.schema.json",
+  "title": "CTA Events (v1)",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "event": {
+      "type": "string",
+      "enum": [
+        "cta_try_validator_click",
+        "cta_read_contracts_click",
+        "cta_view_benchmark_click",
+        "cta_contact_click"
+      ]
+    },
+    "ts": {"type": "string", "format": "date-time"},
+    "page": {"type": "string"},
+    "referrer": {"type": "string"},
+    "utm": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "source": {"type": "string"},
+        "medium": {"type": "string"},
+        "campaign": {"type": "string"},
+        "content": {"type": "string"},
+        "term": {"type": "string"}
+      }
+    }
+  },
+  "required": ["event", "ts", "page"]
+}

@@ -1,0 +1,48 @@
+<!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Built for AI Agents</title></head><body style="font-family:system-ui;line-height:1.5;max-width:900px;margin:40px auto;padding:0 20px;">
+<h1>Built for AI Agents</h1>
+<h2>Friction</h2>
+<p>Most “agent” demos work *once* in a clean environment.</p>
+<p>In production, the failures are boring:</p>
+<ul>
+<li>inputs aren’t where you expect</li>
+<li>tools flake</li>
+<li>runs time out</li>
+<li>retries are ad-hoc</li>
+<li>nobody can explain what happened after the fact</li>
+</ul>
+<p>If you can’t measure completion + latency + retries, you can’t improve reliability.</p>
+<h2>Bridge</h2>
+<p>AppleHealthData is **agent-native** by design:</p>
+<p>1) **Deterministic I/O contracts**</p>
+<p>   - Request/response JSON Schemas for the core workflows</p>
+<p>   - Normalized error taxonomy (retryable vs fatal)</p>
+<p>2) **Reproducible run artifacts**</p>
+<p>   - Every run emits machine-readable artifacts (JSON/JSONL)</p>
+<p>   - Artifacts list is explicit (no guessing)</p>
+<p>3) **Benchmark harness**</p>
+<p>   - A simple JSONL logging format</p>
+<p>   - A scorecard template for completion rate + P50/P95 latency + retries</p>
+<h2>Outcome</h2>
+<p>You get an agent workflow that’s not just “smart” — it’s **operational**.</p>
+<ul>
+<li>Fewer silent failures</li>
+<li>Faster recovery when something breaks</li>
+<li>A measurable path to higher completion rates</li>
+</ul>
+<h2>Benchmark proof (placeholders)</h2>
+<p>We publish:</p>
+<ul>
+<li>completion rate: **__%**</li>
+<li>P50 latency: **__s**</li>
+<li>P95 latency: **__s**</li>
+<li>mean retries: **__**</li>
+</ul>
+<p>Methodology: see `docs/benchmark-method.md`.</p>
+<h2>CTA</h2>
+<ul>
+<li>Try the workflow: **Apple Health Export Validator** (start with a real file)</li>
+<li>Read the contracts: `docs/io-spec.md`, `schemas/*.json`</li>
+</ul>
+<p>### Events</p>
+<p>See `events/cta-events.schema.json` for the analytics event contract.</p>
+</body></html>
