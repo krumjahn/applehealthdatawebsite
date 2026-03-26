@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Apple Health Local API for OpenClaw, Claude Code, and Mac Workflows</title>
+    <meta name="description" content="Local API documentation for Health Data AI Analyzer on Mac. Read Apple Health daily briefs, status, steps, sleep, workouts, and heart-rate trends through a read-only localhost API.">
+    <meta name="keywords" content="Apple Health API, local Apple Health API, OpenClaw Apple Health API, Claude Code Apple Health API, localhost Apple Health, Apple Health daily brief API">
+    <link rel="canonical" href="https://applehealthdata.com/apple-health-local-api/">
+    <meta name="apple-itunes-app" content="app-id=6749297170">
+
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Health Data Export & Analyze">
+    <meta property="og:url" content="https://applehealthdata.com/apple-health-local-api/">
+    <meta property="og:title" content="Apple Health Local API for OpenClaw, Claude Code, and Mac Workflows">
+    <meta property="og:description" content="Read Apple Health daily briefs, steps, sleep, workouts, and heart-rate trends from the Health Data AI Analyzer Mac app through a read-only localhost API.">
+    <meta property="og:image" content="https://applehealthdata.com/images/mac-app-screenshot-1.png">
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Apple Health Local API for OpenClaw, Claude Code, and Mac Workflows">
+    <meta name="twitter:description" content="Read Apple Health daily briefs and trend data through the Health Data AI Analyzer Mac app’s read-only localhost API.">
+    <meta name="twitter:image" content="https://applehealthdata.com/images/mac-app-screenshot-1.png">
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;700&display=swap');
+
+        :root { --glass-border: rgba(255, 255, 255, 0.08); --glass-bg: rgba(255, 255, 255, 0.03); }
+
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: #020617;
+            color: #f8fafc;
+            overflow-x: hidden;
+        }
+
+        .mesh-gradient {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: -1;
+            background:
+                radial-gradient(at 0% 0%, rgba(225, 29, 72, 0.15) 0px, transparent 50%),
+                radial-gradient(at 100% 0%, rgba(56, 189, 248, 0.15) 0px, transparent 50%),
+                radial-gradient(at 100% 100%, rgba(168, 85, 247, 0.15) 0px, transparent 50%);
+            filter: blur(60px);
+        }
+
+        .content-section h2 {
+            border-top: 1px solid var(--glass-border);
+            padding-top: 2rem;
+            margin-top: 3rem;
+            color: #f8fafc;
+            font-size: 1.875rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+        }
+
+        .content-section h3 {
+            color: #e2e8f0;
+            font-size: 1.375rem;
+            font-weight: 600;
+            margin-top: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        .content-section p {
+            color: #94a3b8;
+            font-size: 1.125rem;
+            line-height: 1.75;
+            margin-bottom: 1.5rem;
+        }
+
+        .content-section a {
+            color: #f43f5e;
+            text-decoration: none;
+            border-bottom: 1px solid transparent;
+            transition: all 0.2s;
+        }
+
+        .content-section a:hover {
+            border-bottom-color: #f43f5e;
+        }
+
+        .content-section ul {
+            padding-left: 1.5rem;
+            margin-bottom: 1.5rem;
+            color: #94a3b8;
+        }
+
+        .content-section li {
+            margin-bottom: 0.75rem;
+            list-style-type: disc;
+        }
+
+        .content-section pre {
+            background: #0f172a;
+            border: 1px solid var(--glass-border);
+            border-radius: 0.75rem;
+            padding: 1.5rem;
+            overflow-x: auto;
+            margin-bottom: 1.5rem;
+        }
+
+        .content-section code {
+            font-family: 'JetBrains Mono', monospace;
+            color: #38bdf8;
+            font-size: 0.875rem;
+        }
+
+        .glass-card {
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 1rem;
+            padding: 1.5rem;
+        }
+
+        .endpoint-card {
+            background: rgba(255,255,255,0.02);
+            border: 1px solid var(--glass-border);
+            border-radius: 1rem;
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="mesh-gradient"></div>
+
+    <nav class="fixed w-full z-50 border-b border-white/10 bg-slate-950/80 backdrop-blur-xl">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-20">
+                <a href="/" class="flex items-center gap-3 group">
+                    <div class="w-10 h-10 bg-gradient-to-tr from-rose-600 to-orange-500 rounded-xl flex items-center justify-center shadow-lg shadow-rose-500/20">
+                        <i data-lucide="activity" class="w-6 h-6 text-white"></i>
+                    </div>
+                    <div>
+                        <span class="font-bold text-lg tracking-tight text-white block leading-none">Health Data</span>
+                        <span class="text-xs text-slate-400 tracking-wider uppercase font-semibold">Export &amp; Analyze</span>
+                    </div>
+                </a>
+                <div class="hidden md:flex gap-6 items-center">
+                    <a href="/openclaw-apple-health/" class="text-sm font-medium text-slate-300 hover:text-white transition-colors">OpenClaw</a>
+                    <a href="/workflows/" class="text-sm font-medium text-slate-300 hover:text-white transition-colors">Workflows</a>
+                    <a href="/changelog.html" class="text-sm font-medium text-slate-300 hover:text-white transition-colors">Changelog</a>
+                    <a href="https://apps.apple.com/app/id6749297170" class="text-sm font-bold text-rose-500 hover:text-rose-400 transition-colors">Download App</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <main class="pt-32 pb-20 lg:pt-40 lg:pb-28">
+        <div class="max-w-4xl mx-auto px-4 content-section">
+            <div class="text-center mb-14">
+                <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-sky-500/10 border border-sky-500/20 text-sky-400 text-sm font-medium mb-6">
+                    Read-only localhost API
+                </div>
+                <h1 class="text-4xl lg:text-5xl font-bold text-white mb-6 tracking-tight">Apple Health Local API for OpenClaw, Claude Code, and Mac Workflows</h1>
+                <p class="text-xl text-slate-400 leading-relaxed">Health Data AI Analyzer on Mac exposes a read-only localhost API so you can build Apple Health daily briefs, trend summaries, and automation workflows without uploading your health data to the cloud.</p>
+            </div>
+
+            <div class="glass-card mb-12">
+                <div class="grid md:grid-cols-2 gap-6">
+                    <div>
+                        <h3 class="mt-0">Base URL</h3>
+                        <pre><code>http://127.0.0.1:8765</code></pre>
+                    </div>
+                    <div>
+                        <h3 class="mt-0">Best for</h3>
+                        <ul>
+                            <li>OpenClaw daily health briefs</li>
+                            <li>Claude Code and developer workflows</li>
+                            <li>Local scripts and automation</li>
+                            <li>Private Apple Health summaries on Mac</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <h2>How the Local API Works</h2>
+            <p>The Mac app reads your imported Apple Health dataset and serves compact summaries over <code>127.0.0.1</code>. The API is designed for read-only integrations, which means tools can query your health summaries but do not write, delete, or modify your data.</p>
+            <p>The API uses the app’s selected integration dataset. Once you import data or choose <strong>Use for Integrations</strong> on a saved analysis, the dataset stays available across app relaunches.</p>
+
+            <h2>Authentication</h2>
+            <p>Two routes are public on loopback and do not require a token:</p>
+            <ul>
+                <li><code>GET /openclaw/status</code></li>
+                <li><code>GET /openclaw/daily-brief</code></li>
+            </ul>
+            <p>All other routes require the <code>X-Health-Analyzer-Token</code> header. The token file path is exposed in the app and by <code>GET /status</code>.</p>
+
+            <h2>Stable Public Endpoints</h2>
+
+            <div class="endpoint-card">
+                <h3 class="mt-0">GET /openclaw/status</h3>
+                <p>Readiness endpoint for OpenClaw and local AI integrations. Returns app version, whether a dataset is loaded, last import and sync timestamps, and available metrics.</p>
+                <pre><code>curl http://127.0.0.1:8765/openclaw/status</code></pre>
+            </div>
+
+            <div class="endpoint-card">
+                <h3 class="mt-0">GET /openclaw/daily-brief?date=YYYY-MM-DD</h3>
+                <p>Compact Apple Health daily summary for AI assistants and scripts. Returns steps, sleep, workouts, heart rate, HRV, signals, sync metadata, and a human-readable context summary.</p>
+                <pre><code>curl "http://127.0.0.1:8765/openclaw/daily-brief?date=2026-03-19"</code></pre>
+            </div>
+
+            <div class="endpoint-card">
+                <h3 class="mt-0">GET /status</h3>
+                <p>General local API status endpoint for host tools and debugging. Returns app and server version, dataset state, import/sync timestamps, and the token path for protected endpoints.</p>
+                <pre><code>curl http://127.0.0.1:8765/status</code></pre>
+            </div>
+
+            <div class="endpoint-card">
+                <h3 class="mt-0">GET /summary</h3>
+                <p>Compact human-readable summary of the selected integration dataset.</p>
+            </div>
+
+            <div class="endpoint-card">
+                <h3 class="mt-0">GET /steps/daily?start=YYYY-MM-DD&amp;end=YYYY-MM-DD</h3>
+                <p>Normalized daily step counts for a date range.</p>
+            </div>
+
+            <div class="endpoint-card">
+                <h3 class="mt-0">GET /sleep/summary?start=YYYY-MM-DD&amp;end=YYYY-MM-DD</h3>
+                <p>Normalized daily sleep summaries for a date range.</p>
+            </div>
+
+            <div class="endpoint-card">
+                <h3 class="mt-0">GET /workouts/summary?start=YYYY-MM-DD&amp;end=YYYY-MM-DD</h3>
+                <p>Workout totals, minutes, and per-session summaries.</p>
+            </div>
+
+            <div class="endpoint-card">
+                <h3 class="mt-0">GET /heart-rate/trends?start=YYYY-MM-DD&amp;end=YYYY-MM-DD</h3>
+                <p>Average heart rate, resting heart rate, and HRV day series for a date range.</p>
+            </div>
+
+            <h2>Daily Brief Example</h2>
+            <pre><code>{
+  "ok": true,
+  "success": true,
+  "summary": "Daily Apple Health brief from Health Data AI Analyzer.",
+  "data": {
+    "date": "2026-03-19",
+    "steps": {
+      "value": 2444,
+      "baseline_7d": 10004.57,
+      "delta_vs_baseline": -7560.57
+    },
+    "sleep": {
+      "hours": null,
+      "baseline_7d": 6.47
+    },
+    "workouts": {
+      "count": 0,
+      "total_minutes": 0
+    },
+    "signals": ["activity_below_baseline"],
+    "context_summary": "Daily brief for 2026-03-19, steps 2444"
+  }
+}</code></pre>
+
+            <h2>Compatibility Endpoints</h2>
+            <p>Older routes remain available for scripts and internal compatibility. Where possible, they read from the persisted integration snapshot first and fall back to live in-memory analysis data.</p>
+            <ul>
+                <li><code>GET /health/status</code></li>
+                <li><code>GET /health/summary</code></li>
+                <li><code>GET /health/steps</code></li>
+                <li><code>GET /health/sleep</code></li>
+                <li><code>GET /health/heart-rate</code></li>
+                <li><code>GET /health/hrv</code></li>
+                <li><code>GET /health/weight</code></li>
+                <li><code>GET /health/workouts</code></li>
+                <li><code>GET /health/vo2max</code></li>
+            </ul>
+
+            <h2>Why This Matters</h2>
+            <p>This local API makes the app useful beyond charts and exports. It gives you a clean bridge for OpenClaw health check-ins, Claude Code workflows, private daily brief generation, and local developer tooling built on top of Apple Health data.</p>
+
+            <div class="glass-card mt-12">
+                <h2 class="border-0 mt-0 pt-0 text-3xl mb-4">Want the OpenClaw setup guide?</h2>
+                <p class="text-lg">See the <a href="/openclaw-apple-health/">OpenClaw Apple Health integration page</a> for prompts, setup steps, and a walkthrough of daily health briefs on Mac.</p>
+            </div>
+        </div>
+    </main>
+
+    <footer class="border-t border-white/5 bg-slate-950 py-12">
+        <div class="max-w-7xl mx-auto px-4 text-center">
+            <p class="text-slate-500 text-sm">&copy; 2026 Health Data Export. Not affiliated with Apple Inc.</p>
+        </div>
+    </footer>
+
+    <script>lucide.createIcons();</script>
+</body>
+</html>
