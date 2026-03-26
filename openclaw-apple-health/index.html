@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OpenClaw Apple Health Integration — AI Daily Health Briefs on Mac</title>
+    <meta name="description" content="Talk to your Apple Health data with OpenClaw. Get AI-powered daily health briefs, trend analysis, and actionable suggestions — all processed locally on your Mac.">
+    <meta name="keywords" content="OpenClaw Apple Health, OpenClaw daily brief, talk to Apple Health data, AI Apple Health summary, OpenClaw health brief, ask AI about my health">
+    <link rel="canonical" href="https://applehealthdata.com/openclaw-apple-health/">
+    <meta name="apple-itunes-app" content="app-id=6749297170">
+
+    <!-- Open Graph -->
+    <meta property="og:title" content="OpenClaw Apple Health Integration — AI Daily Health Briefs">
+    <meta property="og:description" content="Talk to your Apple Health data with OpenClaw. Get AI-powered daily health briefs, trend analysis, and actionable suggestions — all processed locally on your Mac.">
+    <meta property="og:url" content="https://applehealthdata.com/openclaw-apple-health/">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Health Data Export & Analyze">
+    <meta property="og:image" content="https://applehealthdata.com/images/mac-app-screenshot-1.png">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="OpenClaw Apple Health Integration — AI Daily Health Briefs">
+    <meta name="twitter:description" content="Talk to your Apple Health data with OpenClaw. Get AI-powered daily health briefs and suggestions — processed locally on your Mac.">
+    <meta name="twitter:image" content="https://applehealthdata.com/images/mac-app-screenshot-1.png">
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <!-- Matomo -->
+    <script>
+      var _paq = window._paq = window._paq || [];
+      _paq.push(['trackPageView']);
+      _paq.push(['enableLinkTracking']);
+      (function() {
+        var u="//shrewd-lyrebird.pikapod.net/";
+        _paq.push(['setTrackerUrl', u+'matomo.php']);
+        _paq.push(['setSiteId', '9']);
+        var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
+        g.async=true; g.src=u+'matomo.js'; s.parentNode.insertBefore(g,s);
+      })();
+    </script>
+    <!-- End Matomo Code -->
+
+    <!-- Structured Data: FAQPage -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "What is OpenClaw Apple Health integration?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "OpenClaw Apple Health integration lets you talk to your Apple Health data using AI. The Health Data AI Analyzer Mac app exposes a local read-only API that OpenClaw reads through its ClawHub skill, returning daily health briefs with status, trends, suggestions, and missing data alerts."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Is my health data uploaded to the cloud?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "No. The Mac app processes your imported Apple Health data entirely on your local machine. The API runs on localhost (127.0.0.1:8765), and OpenClaw reads from it locally. Your health data never leaves your Mac."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How do I get an OpenClaw daily health brief?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Install the Health Data AI Analyzer Mac app, import your Apple Health export, install the apple-health-export-analyzer skill from ClawHub, and then ask OpenClaw for your daily health brief. The AI returns your status, what changed, suggestions, and any missing data."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What data does the OpenClaw health brief include?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "The daily brief includes steps (with 7-day baseline comparison), sleep hours, workout count and duration, heart rate, HRV, signal flags like activity_below_baseline, and a context summary — all for any date you request."
+          }
+        }
+      ]
+    }
+    </script>
+
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;700&display=swap');
+        :root { --glass-border: rgba(255, 255, 255, 0.08); --glass-bg: rgba(255, 255, 255, 0.03); }
+        body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: #020617; color: #f8fafc; overflow-x: hidden; }
+        .mesh-gradient { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: -1; background: radial-gradient(at 0% 0%, rgba(225, 29, 72, 0.15) 0px, transparent 50%), radial-gradient(at 100% 0%, rgba(56, 189, 248, 0.15) 0px, transparent 50%), radial-gradient(at 100% 100%, rgba(168, 85, 247, 0.15) 0px, transparent 50%); filter: blur(60px); }
+        .content-section h2 { border-top: 1px solid var(--glass-border); padding-top: 2rem; margin-top: 3rem; color: #f8fafc; font-size: 1.875rem; font-weight: 700; margin-bottom: 1.5rem; }
+        .content-section h3 { color: #e2e8f0; font-size: 1.5rem; font-weight: 600; margin-top: 2rem; margin-bottom: 1rem; }
+        .content-section p { color: #94a3b8; font-size: 1.125rem; line-height: 1.75; margin-bottom: 1.5rem; }
+        .content-section a { color: #f43f5e; text-decoration: none; border-bottom: 1px solid transparent; transition: all 0.2s; }
+        .content-section a:hover { border-bottom-color: #f43f5e; }
+        .content-section ul, .content-section ol { padding-left: 1.5rem; margin-bottom: 1.5rem; color: #94a3b8; }
+        .content-section li { margin-bottom: 0.75rem; list-style-type: disc; }
+        .content-section pre { background: #0f172a; border: 1px solid var(--glass-border); border-radius: 0.75rem; padding: 1.5rem; overflow-x: auto; margin-bottom: 1.5rem; }
+        .content-section code { font-family: 'JetBrains Mono', monospace; color: #38bdf8; font-size: 0.875rem; }
+        .content-section blockquote { border-left: 4px solid #f43f5e; padding-left: 1.5rem; color: #cbd5e1; font-style: italic; margin: 2rem 0; background: rgba(244, 63, 94, 0.05); padding: 1.5rem; border-radius: 0 0.75rem 0.75rem 0; }
+        .prompt-box { background: rgba(255, 255, 255, 0.03); border: 1px solid var(--glass-border); border-radius: 0.75rem; padding: 1.5rem; margin-bottom: 2rem; }
+        .glass-card { background: var(--glass-bg); border: 1px solid var(--glass-border); border-radius: 0.75rem; padding: 1.5rem; }
+        .step-number { width: 3rem; height: 3rem; border-radius: 0.75rem; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 1.25rem; flex-shrink: 0; }
+    </style>
+</head>
+<body>
+    <div class="mesh-gradient"></div>
+
+    <nav class="fixed w-full z-50 border-b border-white/10 bg-slate-950/80 backdrop-blur-xl">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-20">
+                <a href="/" class="flex items-center gap-3 group">
+                    <div class="w-10 h-10 bg-gradient-to-tr from-rose-600 to-orange-500 rounded-xl flex items-center justify-center shadow-lg shadow-rose-500/20 group-hover:scale-105 transition-transform">
+                        <i data-lucide="activity" class="w-6 h-6 text-white"></i>
+                    </div>
+                    <div>
+                        <span class="font-bold text-lg tracking-tight text-white block leading-none">Health Data</span>
+                        <span class="text-xs text-slate-400 tracking-wider uppercase font-semibold">Export &amp; Analyze</span>
+                    </div>
+                </a>
+                <div class="hidden md:flex gap-6">
+                    <a href="/export-apple-health-data/" class="text-sm font-medium text-slate-300 hover:text-white transition-colors">Export Guide</a>
+                    <a href="https://apps.apple.com/app/id6749297170" class="text-sm font-bold text-rose-500 hover:text-rose-400 transition-colors">Download App</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <main class="pt-32 pb-20 lg:pt-48 lg:pb-32">
+        <div class="max-w-3xl mx-auto px-4 content-section">
+
+            <!-- Hero -->
+            <div class="text-center mb-16">
+                <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-purple-500/10 border border-purple-500/20 text-purple-400 text-sm font-medium mb-6">
+                    <span class="relative flex h-2 w-2">
+                      <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-purple-400 opacity-75"></span>
+                      <span class="relative inline-flex rounded-full h-2 w-2 bg-purple-500"></span>
+                    </span>
+                    OpenClaw Integration
+                </div>
+                <h1 class="text-4xl lg:text-6xl font-bold text-white mb-6 tracking-tight">OpenClaw Apple Health:<br>Talk to Your Health Data with AI</h1>
+                <p class="text-xl text-slate-400 leading-relaxed">Get AI-powered daily health briefs from your Apple Health data. Ask OpenClaw about your steps, sleep, heart rate, and workouts — all processed locally on your Mac, never uploaded to the cloud.</p>
+            </div>
+
+            <!-- Launch Video -->
+            <div class="my-12 rounded-2xl overflow-hidden border border-white/10 shadow-2xl">
+                <video autoplay muted loop playsinline class="w-full">
+                    <source src="/images/LaunchVideo.mp4" type="video/mp4">
+                </video>
+            </div>
+
+            <!-- What is OpenClaw + Apple Health? -->
+            <h2>What is OpenClaw + Apple Health?</h2>
+            <p>Your iPhone collects an incredible amount of health data every day — steps, sleep duration, heart rate, HRV, workouts, and more. But Apple Health is better at <em>collecting</em> data than <em>explaining</em> it. You get raw numbers without the context that makes them useful.</p>
+            <p>The <strong>OpenClaw Apple Health</strong> integration changes that. <a href="https://apps.apple.com/us/app/health-data-export-ai-analyzer/id6749297170">Health Data AI Analyzer</a> for Mac exposes a local read-only API that OpenClaw can query through the <a href="https://clawhub.ai/krumjahn/apple-health-export-analyzer">apple-health-export-analyzer</a> ClawHub skill. The result: you can <strong>ask AI about your health</strong> in natural language and get an instant daily brief with status, trends, suggestions, and missing data alerts.</p>
+            <p>Think of it as a personal health analyst that lives on your Mac. You ask a question; OpenClaw reads your local health data and delivers an <strong>AI Apple Health summary</strong> with actionable insights.</p>
+
+            <!-- How It Works -->
+            <h2>How It Works</h2>
+            <p>Setting up your <strong>OpenClaw daily brief</strong> takes four steps. No cloud accounts, no data sharing, no complex configuration.</p>
+
+            <div class="grid gap-4 my-8">
+                <div class="glass-card flex items-start gap-4">
+                    <div class="step-number bg-gradient-to-tr from-rose-600 to-orange-500 text-white">1</div>
+                    <div>
+                        <h3 class="mt-0 mb-1 text-lg">Install the Mac App</h3>
+                        <p class="text-base mb-0">Download <a href="https://apps.apple.com/us/app/health-data-export-ai-analyzer/id6749297170">Health Data AI Analyzer</a> from the Mac App Store. It runs natively on macOS and processes everything locally.</p>
+                    </div>
+                </div>
+                <div class="glass-card flex items-start gap-4">
+                    <div class="step-number bg-gradient-to-tr from-sky-500 to-cyan-400 text-white">2</div>
+                    <div>
+                        <h3 class="mt-0 mb-1 text-lg">Import Your Apple Health Export</h3>
+                        <p class="text-base mb-0">Export your health data from iPhone (Settings &rarr; Health &rarr; Export All Health Data), then import the ZIP file into the Mac app. Need help? See the <a href="/export-apple-health-data/">export guide</a>.</p>
+                    </div>
+                </div>
+                <div class="glass-card flex items-start gap-4">
+                    <div class="step-number bg-gradient-to-tr from-purple-500 to-violet-400 text-white">3</div>
+                    <div>
+                        <h3 class="mt-0 mb-1 text-lg">Install the ClawHub Skill</h3>
+                        <p class="text-base mb-0">Add the <a href="https://clawhub.ai/krumjahn/apple-health-export-analyzer">apple-health-export-analyzer</a> skill from ClawHub. This teaches OpenClaw how to read your local health API.</p>
+                    </div>
+                </div>
+                <div class="glass-card flex items-start gap-4">
+                    <div class="step-number bg-gradient-to-tr from-emerald-500 to-green-400 text-white">4</div>
+                    <div>
+                        <h3 class="mt-0 mb-1 text-lg">Ask for Your Brief</h3>
+                        <p class="text-base mb-0">Open OpenClaw and ask for your daily health brief. The AI reads from the Mac app's localhost API and returns a structured summary with suggestions.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Mac App OpenClaw Tab Screenshot -->
+            <div class="my-8 rounded-2xl overflow-hidden border border-white/10 shadow-2xl">
+                <img src="/images/mac-app-openclaw-tab.png" alt="Health Data AI Analyzer Mac app showing the OpenClaw / API integration tab with local API running" class="w-full" loading="lazy">
+            </div>
+
+            <p>Once set up, daily health check-ins take seconds. Just open OpenClaw and talk to your Apple Health data whenever you want an update.</p>
+
+            <!-- What You Get -->
+            <h2>What You Get: The OpenClaw Health Brief</h2>
+            <p>Each <strong>OpenClaw health brief</strong> is structured around four sections that give you a complete picture of your day:</p>
+
+            <div class="glass-card my-8">
+                <div class="flex items-center gap-3 mb-4 pb-3 border-b border-white/10">
+                    <i data-lucide="clipboard-list" class="w-5 h-5 text-sky-400"></i>
+                    <span class="font-semibold text-white">Daily Brief — March 19, 2026</span>
+                </div>
+                <div class="space-y-4">
+                    <div>
+                        <span class="text-xs font-mono text-rose-400 uppercase tracking-wider">Status</span>
+                        <p class="text-base mb-0 mt-1">2,444 steps (baseline: 10,005) &middot; Sleep data missing &middot; No workouts logged</p>
+                    </div>
+                    <div>
+                        <span class="text-xs font-mono text-sky-400 uppercase tracking-wider">What Changed</span>
+                        <p class="text-base mb-0 mt-1">Steps are 76% below your 7-day average. Activity flagged as below baseline.</p>
+                    </div>
+                    <div>
+                        <span class="text-xs font-mono text-emerald-400 uppercase tracking-wider">Suggestions</span>
+                        <ul class="mt-1 mb-0 text-base">
+                            <li>Take a 20-minute walk to close the gap with your step baseline</li>
+                            <li>Log a light workout — even stretching counts toward recovery</li>
+                            <li>Check that your Apple Watch is tracking sleep tonight</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <span class="text-xs font-mono text-amber-400 uppercase tracking-wider">Missing Data</span>
+                        <p class="text-base mb-0 mt-1">Sleep hours not recorded. Heart rate and HRV data unavailable for this date.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- OpenClaw TUI Output Screenshot -->
+            <div class="my-8 rounded-2xl overflow-hidden border border-white/10 shadow-2xl">
+                <img src="/images/openclaw-tui-output.png" alt="OpenClaw terminal showing a real daily health brief with status, what changed, suggestions, and missing data" class="w-full" loading="lazy">
+            </div>
+
+            <p>The brief is generated from the compact JSON returned by the Mac app's local API. OpenClaw processes the raw data and turns it into natural language with context — comparing today to your recent baselines so you can spot trends instantly.</p>
+
+            <!-- Example Prompts -->
+            <h2>Example Prompts</h2>
+            <p>Here are real prompts you can use to <strong>talk to Apple Health data</strong> through OpenClaw. Copy any of these and paste them directly into your conversation.</p>
+
+            <div class="prompt-box">
+                <div class="flex items-center gap-2 mb-3 pb-3 border-b border-white/10">
+                    <i data-lucide="message-circle" class="w-4 h-4 text-purple-400"></i>
+                    <span class="text-sm font-semibold text-purple-400">Daily Brief</span>
+                </div>
+                <code class="text-sm leading-relaxed block">Use the "health-analyzer-mac-local" skill for this request. Give me my daily health brief for today and 3 suggestions.</code>
+            </div>
+
+            <div class="prompt-box">
+                <div class="flex items-center gap-2 mb-3 pb-3 border-b border-white/10">
+                    <i data-lucide="message-circle" class="w-4 h-4 text-sky-400"></i>
+                    <span class="text-sm font-semibold text-sky-400">Specific Date</span>
+                </div>
+                <code class="text-sm leading-relaxed block">Use the "health-analyzer-mac-local" skill for this request. Give me my daily health brief for 2026-03-19 and 3 suggestions for that day.</code>
+            </div>
+
+            <div class="prompt-box">
+                <div class="flex items-center gap-2 mb-3 pb-3 border-b border-white/10">
+                    <i data-lucide="message-circle" class="w-4 h-4 text-emerald-400"></i>
+                    <span class="text-sm font-semibold text-emerald-400">Week in Review</span>
+                </div>
+                <code class="text-sm leading-relaxed block">Use the "health-analyzer-mac-local" skill for this request. Pull my daily brief for the last 7 days and summarize trends in my steps, sleep, and activity.</code>
+            </div>
+
+            <p>You can also ask follow-up questions in natural language. Once OpenClaw has your health data in context, you can ask things like "Why were my steps so low on Wednesday?" or "Compare this week to last week."</p>
+
+            <!-- Privacy by Design -->
+            <h2>Privacy by Design</h2>
+            <p>We built this integration with a single principle: <strong>your health data stays on your Mac</strong>. Here is exactly how that works.</p>
+
+            <div class="grid sm:grid-cols-3 gap-4 my-8">
+                <div class="glass-card text-center">
+                    <div class="w-12 h-12 mx-auto mb-3 rounded-xl bg-emerald-500/10 flex items-center justify-center">
+                        <i data-lucide="hard-drive" class="w-6 h-6 text-emerald-400"></i>
+                    </div>
+                    <h3 class="text-base mt-0 mb-2">Local Processing</h3>
+                    <p class="text-sm mb-0">The Mac app processes your imported Apple Health data entirely on your machine. Nothing is sent to external servers.</p>
+                </div>
+                <div class="glass-card text-center">
+                    <div class="w-12 h-12 mx-auto mb-3 rounded-xl bg-sky-500/10 flex items-center justify-center">
+                        <i data-lucide="lock" class="w-6 h-6 text-sky-400"></i>
+                    </div>
+                    <h3 class="text-base mt-0 mb-2">Read-Only API</h3>
+                    <p class="text-sm mb-0">The localhost API is read-only. OpenClaw can query your data but cannot modify, delete, or write to your health records.</p>
+                </div>
+                <div class="glass-card text-center">
+                    <div class="w-12 h-12 mx-auto mb-3 rounded-xl bg-purple-500/10 flex items-center justify-center">
+                        <i data-lucide="wifi-off" class="w-6 h-6 text-purple-400"></i>
+                    </div>
+                    <h3 class="text-base mt-0 mb-2">No Cloud Uploads</h3>
+                    <p class="text-sm mb-0">The ClawHub skill reads from localhost only. There are no cloud endpoints, no token files, no remote data transfers.</p>
+                </div>
+            </div>
+
+            <p>This is a <strong>local Apple Health API</strong> in the truest sense. The integration path runs from your iPhone export to the Mac app to a localhost endpoint that only your machine can reach. You can <a href="/analyze-health-data-with-ai/">analyze your health data with AI</a> without compromising your privacy.</p>
+
+            <!-- API Endpoints -->
+            <h2>API Endpoints for Power Users</h2>
+            <p>If you want to understand what is happening under the hood — or build your own integrations — the Mac app exposes two endpoints on <code>http://127.0.0.1:8765</code>.</p>
+
+            <h3>GET /openclaw/status</h3>
+            <p>Confirms the app is running, reports the loaded dataset, version info, and lists available health metrics.</p>
+            <pre><code>curl http://127.0.0.1:8765/openclaw/status</code></pre>
+
+            <h3>GET /openclaw/daily-brief</h3>
+            <p>Returns a compact JSON summary for a specific date, including steps, sleep, workouts, heart rate, HRV, signal flags, and a context summary.</p>
+            <pre><code>curl "http://127.0.0.1:8765/openclaw/daily-brief?date=2026-03-19"</code></pre>
+
+            <p>Example response:</p>
+            <pre><code>{
+  "ok": true,
+  "success": true,
+  "summary": "Daily Apple Health brief from Health Data AI Analyzer.",
+  "data": {
+    "date": "2026-03-19",
+    "steps": {
+      "value": 2444,
+      "baseline_7d": 10004.57,
+      "delta_vs_baseline": -7560.57
+    },
+    "sleep": { "hours": null, "baseline_7d": 6.47 },
+    "workouts": { "count": 0, "total_minutes": 0 },
+    "signals": ["activity_below_baseline"],
+    "context_summary": "Daily brief for 2026-03-19, steps 2444"
+  }
+}</code></pre>
+
+            <p>The <code>signals</code> array is especially useful — it contains machine-readable flags like <code>activity_below_baseline</code> that OpenClaw uses to surface relevant suggestions. You can find the full skill definition on <a href="https://clawhub.ai/krumjahn/apple-health-export-analyzer">ClawHub</a> and the app source on <a href="https://github.com/krumjahn/applehealth">GitHub</a>.</p>
+
+            <!-- CTA Block -->
+            <div class="my-16 glass-card text-center py-12 px-6 border-rose-500/20">
+                <h2 class="border-0 mt-0 pt-0 text-3xl mb-4">Start Getting AI Health Briefs Today</h2>
+                <p class="text-lg max-w-xl mx-auto">Download the Mac app, import your Apple Health export, and ask OpenClaw for your first daily brief. Setup takes under five minutes.</p>
+                <div class="flex flex-col sm:flex-row gap-4 justify-center mt-8">
+                    <a href="https://apps.apple.com/us/app/health-data-export-ai-analyzer/id6749297170" class="inline-flex items-center justify-center gap-2 px-6 py-3 bg-white text-slate-900 font-bold rounded-xl hover:bg-slate-100 transition-colors border-0 hover:border-0">
+                        <i data-lucide="download" class="w-5 h-5"></i>
+                        Download Mac App
+                    </a>
+                    <a href="/blog/openclaw-apple-health-guide.html" class="inline-flex items-center justify-center gap-2 px-6 py-3 bg-white/5 border border-white/10 text-white font-semibold rounded-xl hover:bg-white/10 transition-colors hover:border-white/10">
+                        <i data-lucide="book-open" class="w-5 h-5"></i>
+                        Setup Guide
+                    </a>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <footer class="border-t border-white/5 bg-slate-950 py-12">
+        <div class="max-w-7xl mx-auto px-4 text-center">
+            <p class="text-slate-500 text-sm">&copy; 2026 Health Data Export. Not affiliated with Apple Inc.</p>
+        </div>
+    </footer>
+
+    <script>lucide.createIcons();</script>
+</body>
+</html>
