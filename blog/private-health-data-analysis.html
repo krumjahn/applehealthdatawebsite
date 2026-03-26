@@ -3,9 +3,24 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>How to Analyze Apple Health Data Privately (Without ChatGPT or Claude)</title>
-    <meta name="description" content="Complete guide to analyzing Apple Health data locally with 100% privacy. No cloud upload, keep control of your health data.">
-    <meta name="keywords" content="private health data analysis, Apple Health privacy, analyze health data locally, local health AI, private health analysis, health data security">
+    <title>Private Apple Health Analysis with OpenClaw | Daily Briefs Without Cloud Uploads</title>
+    <meta name="description" content="Get daily Apple Health briefs privately with OpenClaw and a local Mac app. No cloud uploads, no subscriptions — your health data stays on your device.">
+    <meta name="keywords" content="OpenClaw Apple Health, private health data analysis, Apple Health daily brief, local health AI, OpenClaw daily brief, Apple Health privacy, health data on Mac, AI health summary">
+    <link rel="canonical" href="https://applehealthdata.com/blog/private-health-data-analysis.html">
+
+    <!-- SEO/Share: Open Graph + Twitter Cards -->
+    <meta property="og:type" content="article">
+    <meta property="og:site_name" content="AppleHealthData.com">
+    <meta property="og:url" content="https://applehealthdata.com/blog/private-health-data-analysis.html">
+    <meta property="og:title" content="Private Apple Health Analysis with OpenClaw | Daily Briefs Without Cloud Uploads">
+    <meta property="og:description" content="Get daily Apple Health briefs privately with OpenClaw. No cloud uploads, no subscriptions.">
+    <meta property="og:image" content="https://applehealthdata.com/images/mac-app-screenshot-1.png">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Private Apple Health Analysis with OpenClaw | Daily Briefs Without Cloud Uploads">
+    <meta name="twitter:description" content="Get daily Apple Health briefs privately with OpenClaw. No cloud uploads, no subscriptions.">
+    <meta name="twitter:image" content="https://applehealthdata.com/images/mac-app-screenshot-1.png">
+    <meta name="robots" content="index,follow,max-image-preview:large">
+
     <meta name="apple-itunes-app" content="app-id=6749297170">
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
@@ -194,14 +209,64 @@
     {
       "@context": "https://schema.org",
       "@type": "Article",
-      "headline": "How to Analyze Apple Health Data Privately (Without ChatGPT or Claude)",
-      "description": "Complete guide to analyzing Apple Health data locally with 100% privacy. No cloud upload, keep control of your health data.",
+      "headline": "Private Apple Health Analysis with OpenClaw — Daily Briefs Without Cloud Uploads",
+      "description": "Get daily Apple Health briefs privately with OpenClaw and a local Mac app. No cloud uploads, no subscriptions.",
       "author": {
         "@type": "Person",
         "name": "Keith Rumjahn"
       },
       "datePublished": "2026-01-31",
-      "dateModified": "2026-01-31"
+      "dateModified": "2026-03-27"
+    }
+    </script>
+
+    <!-- FAQ Schema for rich results -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "What is OpenClaw Apple Health integration?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "OpenClaw connects to the Health Data AI Analyzer Mac app through a local read-only API. It reads your imported Apple Health data and returns daily briefs with steps, sleep, workouts, heart rate, HRV, and actionable suggestions — all without uploading data to the cloud."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Is my health data private with OpenClaw?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes. The Mac app processes health data locally and exposes a read-only localhost API (127.0.0.1:8765). OpenClaw reads from this local endpoint — your data never leaves your device."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How do I get a daily health brief from OpenClaw?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Install the Health Data AI Analyzer Mac app, import your Apple Health export, install the apple-health-export-analyzer skill from ClawHub, then ask OpenClaw: 'Give me my daily health brief for today and 3 suggestions.'"
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What data does the OpenClaw daily brief include?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "The daily brief includes steps (with 7-day baseline comparison), sleep hours, workout count and duration, heart rate, HRV, signals like activity_below_baseline, and a context summary."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Do I need to upload my Apple Health data to use OpenClaw?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "No. Everything runs locally. You export from iPhone, import into the Mac app, and OpenClaw reads from a localhost API on your machine. No cloud upload required."
+          }
+        }
+      ]
     }
     </script>
 
@@ -239,8 +304,9 @@
                 </a>
                 <div class="flex items-center space-x-6">
                     <a href="../index.html" class="text-slate-400 hover:text-white transition-colors">Home</a>
+                    <a href="../openclaw-apple-health/" class="text-slate-400 hover:text-white transition-colors">OpenClaw</a>
                     <a href="../changelog.html" class="text-slate-400 hover:text-white transition-colors">Changelog</a>
-                    <a href="https://apps.apple.com/us/app/health-data-export/id6749297170" target="_blank" class="px-4 py-2 bg-gradient-to-r from-rose-600 to-purple-600 rounded-lg hover:from-rose-500 hover:to-purple-500 transition-all">
+                    <a href="https://apps.apple.com/us/app/health-data-export-ai-analyzer/id6749297170" target="_blank" class="px-4 py-2 bg-gradient-to-r from-rose-600 to-purple-600 rounded-lg hover:from-rose-500 hover:to-purple-500 transition-all">
                         Download App
                     </a>
                 </div>
@@ -255,293 +321,273 @@
             <header class="mb-12">
                 <div class="flex items-center space-x-2 text-sm text-slate-400 mb-4">
                     <i data-lucide="calendar" class="w-4 h-4"></i>
-                    <time datetime="2026-01">Last Updated: January 2026</time>
+                    <time datetime="2026-03-27">Updated: March 2026</time>
+                    <span class="mx-2">|</span>
+                    <span>5 min read</span>
                 </div>
                 <h1 class="text-4xl md:text-5xl font-bold mb-6 bg-gradient-to-r from-green-400 via-blue-400 to-purple-400 bg-clip-text text-transparent">
-                    How to Analyze Apple Health Data Privately (Without ChatGPT or Claude)
+                    Private Apple Health Analysis with OpenClaw: Daily Briefs Without Cloud Uploads
                 </h1>
-                <p class="text-xl text-slate-300 leading-relaxed">
-                    ChatGPT Health and Claude for Healthcare offer convenient AI-powered health insights, but they come with a significant trade-off: your sensitive health data is transmitted to and processed on company servers. For privacy-conscious users, there's a better way.
+                <p class="text-xl text-slate-300 leading-relaxed mb-6">
+                    Your Apple Health export is huge, messy, and trapped on your iPhone. OpenClaw turns it into a daily brief you can actually read — steps, sleep, heart rate, trends — without uploading anything to the cloud.
                 </p>
+
+                <!-- Video -->
+                <div class="bento-card overflow-hidden">
+                    <video autoplay muted loop playsinline class="w-full">
+                        <source src="/images/LaunchVideo.mp4" type="video/mp4">
+                    </video>
+                </div>
             </header>
 
-            <!-- Why Privacy Matters -->
+            <!-- The Problem -->
             <section class="mb-12">
-                <h2>Why Privacy Matters for Health Data</h2>
-                <p>Before diving into the how-to, let's understand why local-only analysis matters:</p>
+                <h2>The Problem: Apple Health Data Is Hard to Use</h2>
+                <p>Apple Health collects incredible data — steps, sleep, heart rate, HRV, workouts, and more. But getting insights from it is painful:</p>
 
-                <div class="bento-card p-6 mb-4">
-                    <h3>Legal Vulnerability</h3>
-                    <p>Cloud-stored health data can be accessed via:</p>
-                    <ul class="mb-2">
-                        <li>Subpoenas in legal proceedings</li>
-                        <li>Court orders in criminal investigations</li>
-                        <li>Discovery requests in civil litigation</li>
-                        <li>Government data requests</li>
-                    </ul>
-                    <div class="highlight-box mb-0">
-                        <p class="mb-0"><strong>Real example:</strong> In 2024, ChatGPT conversation logs were obtained by news organizations in copyright litigation, including from "temporary" chats meant to be deleted.</p>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+                    <div class="bento-card p-6 text-center">
+                        <div class="text-3xl font-bold text-rose-400 mb-2">247 MB</div>
+                        <p class="text-sm text-slate-400 mb-0">Typical export.xml file size</p>
+                    </div>
+                    <div class="bento-card p-6 text-center">
+                        <div class="text-3xl font-bold text-amber-400 mb-2">Raw XML</div>
+                        <p class="text-sm text-slate-400 mb-0">Format nobody wants to read</p>
+                    </div>
+                    <div class="bento-card p-6 text-center">
+                        <div class="text-3xl font-bold text-purple-400 mb-2">iPhone-only</div>
+                        <p class="text-sm text-slate-400 mb-0">Export requires your phone</p>
                     </div>
                 </div>
 
-                <div class="bento-card p-6 mb-4">
-                    <h3>State-Level Restrictions</h3>
-                    <p>If you live in states with restrictive laws around:</p>
-                    <ul class="mb-2">
-                        <li>Reproductive healthcare</li>
-                        <li>Gender-affirming care</li>
-                        <li>Mental health treatment</li>
-                        <li>Substance use treatment</li>
-                    </ul>
-                    <p class="mb-0">Your health data could potentially be used against you or others.</p>
-                </div>
-
-                <div class="bento-card p-6 mb-4">
-                    <h3>Insurance & Employment</h3>
-                    <p class="mb-0">While illegal, data breaches happen. Health insurers could access data to adjust premiums, employers might see information affecting hiring decisions, or third parties could purchase aggregated data that identifies you.</p>
-                </div>
-
-                <div class="success-box">
-                    <p class="mb-0"><strong>Simple Peace of Mind:</strong> Some people simply prefer keeping private health information private. That's reason enough.</p>
-                </div>
+                <p>Some people upload this data to ChatGPT or Claude for analysis. That works — but your health data ends up on company servers. If privacy matters to you (legal, medical, or personal reasons), there's a better way.</p>
             </section>
 
-            <!-- The Complete Private Health Analysis Workflow -->
+            <!-- The Solution -->
             <section class="mb-12">
-                <h2>The Complete Private Health Analysis Workflow</h2>
-                <p>Here's the step-by-step process for 100% local health data analysis:</p>
-
-                <h3>Step 1: Export Your Apple Health Data Locally</h3>
-                <p>Instead of connecting to ChatGPT/Claude, export your data directly from your iPhone.</p>
-
-                <div class="bento-card p-6 mb-6">
-                    <h4>Option A: Using the Built-in Health App (Free)</h4>
-                    <ol>
-                        <li>Open the Health app on iPhone</li>
-                        <li>Tap your profile picture (top right)</li>
-                        <li>Scroll down and tap "Export All Health Data"</li>
-                        <li>Tap "Export" and wait (this can take several minutes for years of data)</li>
-                        <li>Choose where to save (Files app, iCloud Drive, etc.)</li>
-                    </ol>
-                    <p><strong>Result:</strong> You'll get a massive <code>export.zip</code> file containing <code>export.xml</code> - your complete health history.</p>
-                    <p><strong>Limitations:</strong></p>
-                    <ul class="mb-0">
-                        <li>The XML format is difficult to analyze directly</li>
-                        <li>File is often 50MB-500MB+ (too large for many tools)</li>
-                        <li>No easy conversion to usable formats</li>
-                    </ul>
-                </div>
+                <h2>The Solution: OpenClaw + Local Mac App</h2>
+                <p>The <a href="../openclaw-apple-health/" class="text-blue-400 hover:text-blue-300 underline">OpenClaw Apple Health integration</a> gives you AI-powered health briefs while keeping everything local. Here's how it works:</p>
 
                 <div class="bento-card p-6 mb-6 bg-gradient-to-r from-green-900/20 to-blue-900/20 border-green-500/30">
-                    <h4>Option B: Using a Dedicated Export Tool ($5-15)</h4>
-                    <p>Use a privacy-focused export app (like Health Data Export & AI Analyzer) that:</p>
-                    <ul>
-                        <li>Processes everything locally on your iPhone</li>
-                        <li>Converts to usable formats: CSV, JSON, XML</li>
-                        <li>Allows selective export (specific metrics, date ranges)</li>
-                        <li>Creates AI-optimized files</li>
-                    </ul>
-                    <p><strong>Result:</strong> Clean CSV or JSON files ready for analysis.</p>
-                    <p><strong>Advantages:</strong></p>
-                    <ul class="mb-0">
-                        <li>Much easier to work with</li>
-                        <li>Faster processing</li>
-                        <li>Better formatted for analysis tools</li>
-                        <li>Still 100% local (no cloud transmission)</li>
-                    </ul>
+                    <div class="flex items-start space-x-4">
+                        <div class="flex-shrink-0 w-10 h-10 bg-green-500/20 rounded-lg flex items-center justify-center">
+                            <i data-lucide="shield-check" class="w-5 h-5 text-green-400"></i>
+                        </div>
+                        <div>
+                            <h4 class="text-lg font-semibold text-green-400 mb-1">100% Local Architecture</h4>
+                            <p class="mb-0">The Mac app exposes a <strong>read-only localhost API</strong> at <code>127.0.0.1:8765</code>. OpenClaw reads from this local endpoint using the <a href="https://clawhub.ai/krumjahn/apple-health-export-analyzer" target="_blank" class="text-blue-400 hover:text-blue-300 underline">ClawHub skill</a>. Your data never leaves your machine.</p>
+                        </div>
+                    </div>
                 </div>
 
-                <h3>Step 2: Transfer to Your Mac (Securely)</h3>
-                <p>Keep your data private during transfer:</p>
-
-                <div class="success-box">
-                    <p><strong>Recommended Methods:</strong></p>
-                    <ul class="mb-0">
-                        <li><strong>AirDrop</strong> (end-to-end encrypted, stays on local network)</li>
-                        <li><strong>Direct cable transfer</strong> via Finder</li>
-                        <li><strong>iCloud Drive</strong> (encrypted in transit, but technically uses Apple's cloud)</li>
-                    </ul>
-                </div>
-
-                <div class="highlight-box">
-                    <p><strong>Avoid:</strong></p>
-                    <ul class="mb-0">
-                        <li>Email (unencrypted, stored on servers)</li>
-                        <li>Cloud services like Dropbox, Google Drive (defeats privacy purpose)</li>
-                        <li>Messaging apps</li>
-                    </ul>
-                </div>
-
-                <h3>Step 3: Analyze Locally on Your Mac</h3>
-                <p>Now you have options - all keeping data on your Mac:</p>
+                <h3>What You Get: The Daily Brief</h3>
+                <p>Ask OpenClaw for a daily health brief and you get a structured summary:</p>
 
                 <div class="bento-card p-6 mb-6">
-                    <h4>Option A: Spreadsheet Analysis (Easiest)</h4>
-                    <p><strong>Tools:</strong> Numbers (free, Mac), Excel, Google Sheets (offline mode)</p>
-                    <p><strong>What you can do:</strong></p>
-                    <ul>
-                        <li>Open CSV files directly</li>
-                        <li>Create pivot tables</li>
-                        <li>Build charts and graphs</li>
-                        <li>Calculate statistics (averages, trends, etc.)</li>
-                        <li>Filter and sort by any metric</li>
-                    </ul>
-                    <p><strong>Limitations:</strong> Manual work required, limited to what spreadsheets can do, no AI-powered insights (yet)</p>
-                    <p class="mb-0"><strong>Best for:</strong> Basic analysis, creating charts, understanding simple trends</p>
+                    <div class="font-mono text-sm">
+                        <div class="flex items-center space-x-2 mb-4 pb-3 border-b border-white/10">
+                            <div class="w-3 h-3 rounded-full bg-red-500"></div>
+                            <div class="w-3 h-3 rounded-full bg-yellow-500"></div>
+                            <div class="w-3 h-3 rounded-full bg-green-500"></div>
+                            <span class="text-slate-500 ml-2">OpenClaw Daily Brief</span>
+                        </div>
+                        <div class="space-y-2 text-slate-300">
+                            <p class="mb-1"><span class="text-green-400">Status:</span> Health Data AI Analyzer is running, dataset loaded</p>
+                            <p class="mb-1"><span class="text-blue-400">Steps:</span> 8,432 <span class="text-slate-500">(baseline 10,005 — below average)</span></p>
+                            <p class="mb-1"><span class="text-purple-400">Sleep:</span> 7.2 hours <span class="text-slate-500">(baseline 6.5 — above average)</span></p>
+                            <p class="mb-1"><span class="text-amber-400">Workouts:</span> 1 session, 45 min</p>
+                            <p class="mb-1"><span class="text-rose-400">Heart Rate:</span> 62 bpm resting</p>
+                            <p class="mb-1"><span class="text-cyan-400">HRV:</span> 48 ms</p>
+                            <p class="mb-1"><span class="text-amber-400">Signals:</span> activity_below_baseline</p>
+                            <p class="mb-3 pt-3 border-t border-white/10"><span class="text-green-400">Suggestions:</span></p>
+                            <p class="mb-1 ml-4">1. Your steps are 16% below your 7-day average — try a 20-min walk after lunch</p>
+                            <p class="mb-1 ml-4">2. Sleep was strong at 7.2h — keep your bedtime consistent</p>
+                            <p class="mb-0 ml-4">3. Consider a light workout tomorrow to maintain your weekly streak</p>
+                        </div>
+                    </div>
                 </div>
 
-                <div class="bento-card p-6 mb-6">
-                    <h4>Option B: Python Analysis (Most Powerful)</h4>
-                    <p><strong>Tools:</strong> Python + pandas + matplotlib (free, open source)</p>
-                    <p><strong>What you can do:</strong></p>
-                    <ul>
-                        <li>Unlimited data processing</li>
-                        <li>Advanced statistical analysis</li>
-                        <li>Custom visualizations</li>
-                        <li>Correlation analysis across metrics</li>
-                        <li>Time series forecasting</li>
-                    </ul>
-                    <p><strong>Example Workflow:</strong></p>
-                    <pre><code>import pandas as pd
-import matplotlib.pyplot as plt
-
-# Load your exported data
-df = pd.read_csv('apple_health_export.csv')
-
-# Analyze heart rate trends
-heart_rate = df[df['type'] == 'HeartRate']
-monthly_avg = heart_rate.groupby(
-    pd.Grouper(key='date', freq='M')
-)['value'].mean()
-
-# Visualize
-plt.plot(monthly_avg)
-plt.title('Heart Rate Trends Over Time')
-plt.show()</code></pre>
-                    <p><strong>Limitations:</strong> Requires coding knowledge, steeper learning curve</p>
-                    <p class="mb-0"><strong>Best for:</strong> Researchers, data scientists, power users comfortable with code</p>
-                </div>
-
-                <div class="bento-card p-6 mb-6 bg-gradient-to-r from-purple-900/20 to-blue-900/20 border-purple-500/30">
-                    <h4>Option C: Local AI Analysis (Best of Both Worlds)</h4>
-                    <p>Use AI for insights while keeping everything local:</p>
-                    <p><strong>Tools:</strong></p>
-                    <ul>
-                        <li><strong>Ollama</strong> (free, runs LLMs locally)</li>
-                        <li><strong>LM Studio</strong> (free, user-friendly interface)</li>
-                        <li><strong>Local ChatGPT API</strong> (if you have powerful Mac)</li>
-                    </ul>
-                    <p><strong>How it works:</strong></p>
-                    <ol>
-                        <li>Install local LLM (like Llama 2, Mistral, DeepSeek)</li>
-                        <li>Load your health data</li>
-                        <li>Ask questions just like ChatGPT, but everything stays local</li>
-                    </ol>
-                    <p><strong>Example Setup with Ollama:</strong></p>
-                    <pre><code># Install Ollama
-brew install ollama
-
-# Download a medical-focused model
-ollama pull meditron
-
-# Use Python to query your data
-from langchain import Ollama
-llm = Ollama(model="meditron")
-
-# Ask questions about your local data
-response = llm("Analyze heart rate trends...")</code></pre>
-                    <p><strong>Advantages:</strong></p>
-                    <ul>
-                        <li>AI-powered insights</li>
-                        <li>Complete privacy</li>
-                        <li>No subscription costs</li>
-                        <li>Works offline</li>
-                    </ul>
-                    <p><strong>Limitations:</strong> Requires powerful Mac (M1/M2/M3 recommended), takes time to set up, local models aren't quite as capable as GPT-4 or Claude (yet)</p>
-                    <p class="mb-0"><strong>Best for:</strong> Tech-savvy users wanting AI without cloud dependency</p>
-                </div>
-
-                <h3>Step 4: Optional - Selective AI Upload for Specific Insights</h3>
-                <p>When you want the power of ChatGPT/Claude but with controlled privacy:</p>
-
-                <div class="info-box">
-                    <p><strong>The Strategy:</strong></p>
-                    <ol class="mb-4">
-                        <li>Analyze locally first</li>
-                        <li>Identify specific questions needing advanced AI</li>
-                        <li>Create anonymized subset of data</li>
-                        <li>Upload ONLY that subset to ChatGPT/Claude</li>
-                    </ol>
-                    <p><strong>Example:</strong> Instead of connecting all your Apple Health data to ChatGPT:</p>
-                    <ul class="mb-0">
-                        <li>Export just your last 30 days of sleep data</li>
-                        <li>Remove identifying information (device IDs, exact timestamps)</li>
-                        <li>Upload the small dataset</li>
-                        <li>Ask specific question: "Analyze this sleep data for patterns"</li>
-                        <li>Delete the ChatGPT conversation afterward</li>
-                    </ul>
-                </div>
-                <p><strong>Result:</strong> You get AI insights on specific questions without uploading your entire health history.</p>
+                <p>All of this comes from your local Apple Health data — steps, sleep, workouts, heart rate, and HRV — compared against your own 7-day baselines.</p>
             </section>
 
-            <!-- Comparison Table -->
+            <!-- Setup Guide -->
             <section class="mb-12">
-                <h2>Comparison: Private Analysis vs Cloud AI</h2>
+                <h2>How to Set It Up (5 Minutes)</h2>
+
+                <div class="space-y-4">
+                    <div class="bento-card p-6">
+                        <div class="flex items-start space-x-4">
+                            <div class="flex-shrink-0 w-8 h-8 bg-rose-500/20 rounded-lg flex items-center justify-center text-rose-400 font-bold">1</div>
+                            <div>
+                                <h4 class="text-lg font-semibold mb-2">Install the Mac App</h4>
+                                <p class="mb-0">Download <a href="https://apps.apple.com/us/app/health-data-export-ai-analyzer/id6749297170" target="_blank" class="text-blue-400 hover:text-blue-300 underline">Health Data AI Analyzer</a> from the Mac App Store.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="bento-card p-6">
+                        <div class="flex items-start space-x-4">
+                            <div class="flex-shrink-0 w-8 h-8 bg-amber-500/20 rounded-lg flex items-center justify-center text-amber-400 font-bold">2</div>
+                            <div>
+                                <h4 class="text-lg font-semibold mb-2">Import Your Apple Health Export</h4>
+                                <p class="mb-2">Export from iPhone (Health app > Profile > Export All Health Data), then AirDrop or transfer the <code>export.zip</code> to your Mac. Open it in the app.</p>
+                                <div class="info-box mb-0">
+                                    <p class="mb-0"><strong>Tip:</strong> AirDrop is the most private transfer method — end-to-end encrypted, stays on your local network.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="bento-card p-6">
+                        <div class="flex items-start space-x-4">
+                            <div class="flex-shrink-0 w-8 h-8 bg-blue-500/20 rounded-lg flex items-center justify-center text-blue-400 font-bold">3</div>
+                            <div>
+                                <h4 class="text-lg font-semibold mb-2">Install the ClawHub Skill</h4>
+                                <p class="mb-2">Go to <a href="https://clawhub.ai/krumjahn/apple-health-export-analyzer" target="_blank" class="text-blue-400 hover:text-blue-300 underline">apple-health-export-analyzer on ClawHub</a> and install the skill. This is the published, read-only integration — no bundled scripts, no token files.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="bento-card p-6">
+                        <div class="flex items-start space-x-4">
+                            <div class="flex-shrink-0 w-8 h-8 bg-green-500/20 rounded-lg flex items-center justify-center text-green-400 font-bold">4</div>
+                            <div>
+                                <h4 class="text-lg font-semibold mb-2">Ask OpenClaw for a Daily Brief</h4>
+                                <p class="mb-2">Open OpenClaw and type:</p>
+                                <pre class="mb-0"><code>Use the "health-analyzer-mac-local" skill for this request. Give me my daily health brief for today and 3 suggestions.</code></pre>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="success-box mt-6">
+                    <p class="mb-0"><strong>That's it.</strong> The app's localhost API serves your health data to OpenClaw. You get a plain-English summary based on your actual Apple Health data — no cloud uploads, no subscriptions.</p>
+                </div>
+            </section>
+
+            <!-- What the API Returns -->
+            <section class="mb-12">
+                <h2>Under the Hood: What the Local API Returns</h2>
+                <p>The Mac app exposes two read-only endpoints that OpenClaw uses:</p>
+
+                <h3><code>GET /openclaw/status</code></h3>
+                <p>Confirms the app is running, a dataset is loaded, available metrics, and version info.</p>
+
+                <h3><code>GET /openclaw/daily-brief?date=YYYY-MM-DD</code></h3>
+                <p>Returns a compact JSON brief with your health data for any date:</p>
+
+                <div class="bento-card p-6 mb-6">
+                    <pre class="mb-0"><code>{
+  "ok": true,
+  "summary": "Daily Apple Health brief from Health Data AI Analyzer.",
+  "data": {
+    "date": "2026-03-27",
+    "steps": {
+      "value": 8432,
+      "baseline_7d": 10005,
+      "delta_vs_baseline": -1573
+    },
+    "sleep": {
+      "hours": 7.2,
+      "baseline_7d": 6.47
+    },
+    "workouts": {
+      "count": 1,
+      "total_minutes": 45
+    },
+    "heart_rate": { "resting": 62 },
+    "hrv": { "value": 48 },
+    "signals": ["activity_below_baseline"],
+    "context_summary": "Daily brief for 2026-03-27, steps 8432"
+  }
+}</code></pre>
+                </div>
+
+                <p>You can also test the API directly with <code>curl</code>:</p>
+                <pre><code>curl http://127.0.0.1:8765/openclaw/status
+curl "http://127.0.0.1:8765/openclaw/daily-brief?date=2026-03-27"</code></pre>
+            </section>
+
+            <!-- Why Privacy Matters -->
+            <section class="mb-12">
+                <h2>Why Keep Health Data Local?</h2>
+                <p>You might be wondering: why not just upload to ChatGPT? Here are the real-world reasons people choose local analysis:</p>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+                    <div class="bento-card p-6">
+                        <h4 class="text-rose-400">Legal exposure</h4>
+                        <p class="mb-0">Cloud-stored health data can be subpoenaed. In 2024, ChatGPT logs were obtained in copyright litigation — including from "temporary" chats.</p>
+                    </div>
+
+                    <div class="bento-card p-6">
+                        <h4 class="text-amber-400">State-level risk</h4>
+                        <p class="mb-0">In states with restrictive healthcare laws, health data on third-party servers could be used in legal proceedings about reproductive or gender-affirming care.</p>
+                    </div>
+
+                    <div class="bento-card p-6">
+                        <h4 class="text-blue-400">Insurance & employment</h4>
+                        <p class="mb-0">Data breaches happen. Health insurers could adjust premiums, employers might see information affecting hiring decisions.</p>
+                    </div>
+
+                    <div class="bento-card p-6">
+                        <h4 class="text-green-400">Simple preference</h4>
+                        <p class="mb-0">Some people prefer keeping health information private. That's reason enough.</p>
+                    </div>
+                </div>
+
+                <div class="success-box">
+                    <p class="mb-0"><strong>The OpenClaw + Mac app approach solves this.</strong> Your health data stays on your machine. The ClawHub skill uses a read-only localhost API — no cloud uploads, no bundled scripts, no token-file behavior.</p>
+                </div>
+            </section>
+
+            <!-- Comparison -->
+            <section class="mb-12">
+                <h2>OpenClaw vs. Cloud AI for Health Data</h2>
                 <div class="bento-card overflow-hidden">
                     <div class="overflow-x-auto">
                         <table>
                             <thead>
                                 <tr>
                                     <th>Feature</th>
-                                    <th class="text-center">ChatGPT/Claude</th>
-                                    <th class="text-center text-green-400">Private Local Analysis</th>
+                                    <th class="text-center">ChatGPT / Claude</th>
+                                    <th class="text-center text-green-400">OpenClaw + Mac App</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <tr>
-                                    <td class="font-medium">Setup Time</td>
+                                    <td class="font-medium">Setup</td>
                                     <td class="text-center">2 minutes</td>
-                                    <td class="text-center">10-60 minutes</td>
+                                    <td class="text-center">5 minutes</td>
                                 </tr>
                                 <tr>
                                     <td class="font-medium">Privacy</td>
-                                    <td class="text-center text-orange-400">Cloud-based</td>
+                                    <td class="text-center text-orange-400">Cloud servers</td>
                                     <td class="text-center text-green-400 font-semibold">100% local</td>
                                 </tr>
                                 <tr>
-                                    <td class="font-medium">Convenience</td>
-                                    <td class="text-center text-green-400 font-semibold">Highest</td>
-                                    <td class="text-center">Medium</td>
+                                    <td class="font-medium">Daily briefs</td>
+                                    <td class="text-center text-orange-400">Manual re-upload</td>
+                                    <td class="text-center text-green-400 font-semibold">One command</td>
                                 </tr>
                                 <tr>
-                                    <td class="font-medium">Analysis Depth</td>
-                                    <td class="text-center">Limited by context</td>
-                                    <td class="text-center text-green-400 font-semibold">Unlimited</td>
+                                    <td class="font-medium">Data freshness</td>
+                                    <td class="text-center text-orange-400">Snapshot in time</td>
+                                    <td class="text-center text-green-400 font-semibold">Live from app</td>
                                 </tr>
                                 <tr>
-                                    <td class="font-medium">Cost (5 years)</td>
-                                    <td class="text-center text-red-400">$1,200</td>
-                                    <td class="text-center text-green-400 font-semibold">$5-50</td>
+                                    <td class="font-medium">Ongoing cost</td>
+                                    <td class="text-center text-red-400">$20/month subscription</td>
+                                    <td class="text-center text-green-400 font-semibold">One-time $4.99</td>
                                 </tr>
                                 <tr>
-                                    <td class="font-medium">AI Quality</td>
+                                    <td class="font-medium">AI quality</td>
                                     <td class="text-center text-green-400 font-semibold">Excellent</td>
-                                    <td class="text-center">Good (improving)</td>
+                                    <td class="text-center text-green-400 font-semibold">Excellent (same models)</td>
                                 </tr>
                                 <tr>
-                                    <td class="font-medium">Offline Use</td>
+                                    <td class="font-medium">Baseline tracking</td>
                                     <td class="text-center text-red-400">No</td>
-                                    <td class="text-center text-green-400 font-semibold">Yes</td>
-                                </tr>
-                                <tr>
-                                    <td class="font-medium">Data Ownership</td>
-                                    <td class="text-center text-red-400">Limited</td>
-                                    <td class="text-center text-green-400 font-semibold">Complete</td>
-                                </tr>
-                                <tr>
-                                    <td class="font-medium">Learning Curve</td>
-                                    <td class="text-center text-green-400">None</td>
-                                    <td class="text-center">Medium-High</td>
+                                    <td class="text-center text-green-400 font-semibold">7-day rolling</td>
                                 </tr>
                             </tbody>
                         </table>
@@ -549,85 +595,30 @@ response = llm("Analyze heart rate trends...")</code></pre>
                 </div>
             </section>
 
-            <!-- Tools & Resources -->
+            <!-- Use Cases -->
             <section class="mb-12">
-                <h2>Tools & Resources</h2>
-
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                <h2>What People Use It For</h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div class="bento-card p-6">
-                        <h3 class="text-lg font-semibold mb-3">Export Tools</h3>
-                        <ul class="mb-0 space-y-1">
-                            <li><strong>Health Data Export & AI Analyzer</strong> ($4.99, iOS/Mac)</li>
-                            <li><strong>Health Auto Export</strong> (Free, iOS)</li>
-                            <li><strong>QS Access</strong> ($2.99, iOS)</li>
-                        </ul>
+                        <h4 class="text-blue-400 mb-2">Morning health check-in</h4>
+                        <p class="mb-1 text-sm"><code>"Give me my daily health brief for today"</code></p>
+                        <p class="text-sm text-slate-400 mb-0">Start your day knowing how yesterday's metrics compare to your baseline.</p>
                     </div>
-
                     <div class="bento-card p-6">
-                        <h3 class="text-lg font-semibold mb-3">Analysis Software</h3>
-                        <ul class="mb-0 space-y-1">
-                            <li><strong>Python + pandas</strong> (Free, powerful)</li>
-                            <li><strong>R + ggplot2</strong> (Free, statistical focus)</li>
-                            <li><strong>Numbers/Excel</strong> (Accessible, visual)</li>
-                            <li><strong>Tableau Public</strong> (Free, advanced viz)</li>
-                        </ul>
+                        <h4 class="text-purple-400 mb-2">Weekly trend review</h4>
+                        <p class="mb-1 text-sm"><code>"Compare my health briefs for the last 7 days"</code></p>
+                        <p class="text-sm text-slate-400 mb-0">Spot patterns in sleep, activity, and recovery across the week.</p>
                     </div>
-
                     <div class="bento-card p-6">
-                        <h3 class="text-lg font-semibold mb-3">Local AI Tools</h3>
-                        <ul class="mb-0 space-y-1">
-                            <li><strong>Ollama</strong> (Free, easy local LLMs)</li>
-                            <li><strong>LM Studio</strong> (Free, user-friendly)</li>
-                            <li><strong>GPT4All</strong> (Free, no-code option)</li>
-                        </ul>
+                        <h4 class="text-green-400 mb-2">Pre-doctor visit prep</h4>
+                        <p class="mb-1 text-sm"><code>"Summarize my health trends for the last 30 days"</code></p>
+                        <p class="text-sm text-slate-400 mb-0">Walk into your appointment with actual data to discuss.</p>
                     </div>
-
                     <div class="bento-card p-6">
-                        <h3 class="text-lg font-semibold mb-3">Learning Resources</h3>
-                        <ul class="mb-0 space-y-1">
-                            <li>Python for data analysis: "Python Data Science Handbook" (free online)</li>
-                            <li>Health data analysis: r/QuantifiedSelf community</li>
-                            <li>Local AI setup: Ollama documentation</li>
-                        </ul>
+                        <h4 class="text-amber-400 mb-2">Fitness accountability</h4>
+                        <p class="mb-1 text-sm"><code>"Am I on track with my activity goals this week?"</code></p>
+                        <p class="text-sm text-slate-400 mb-0">Get honest feedback based on your real numbers, not estimates.</p>
                     </div>
-                </div>
-            </section>
-
-            <!-- Getting Started -->
-            <section class="mb-12">
-                <h2>Getting Started: Your First Private Analysis</h2>
-
-                <div class="bento-card p-6 mb-4">
-                    <h3 class="text-lg font-semibold mb-3">Beginner Path (30 minutes):</h3>
-                    <ol class="mb-0">
-                        <li>Export Apple Health data using Health app</li>
-                        <li>Download a health data export tool ($5)</li>
-                        <li>Convert to CSV</li>
-                        <li>Open in Numbers/Excel</li>
-                        <li>Create basic charts of key metrics</li>
-                    </ol>
-                </div>
-
-                <div class="bento-card p-6 mb-4">
-                    <h3 class="text-lg font-semibold mb-3">Intermediate Path (2 hours):</h3>
-                    <ol class="mb-0">
-                        <li>Export data with dedicated tool</li>
-                        <li>Install Python + Jupyter</li>
-                        <li>Load pandas, matplotlib</li>
-                        <li>Follow tutorial to create analysis notebooks</li>
-                        <li>Generate comprehensive visualizations</li>
-                    </ol>
-                </div>
-
-                <div class="bento-card p-6 mb-4">
-                    <h3 class="text-lg font-semibold mb-3">Advanced Path (1 day):</h3>
-                    <ol class="mb-0">
-                        <li>Set up complete local analysis environment</li>
-                        <li>Install Ollama + local LLM</li>
-                        <li>Create automated analysis scripts</li>
-                        <li>Build dashboard with custom visualizations</li>
-                        <li>Schedule weekly automated reports</li>
-                    </ol>
                 </div>
             </section>
 
@@ -636,82 +627,69 @@ response = llm("Analyze heart rate trends...")</code></pre>
                 <h2>Frequently Asked Questions</h2>
 
                 <div class="bento-card p-6 mb-4">
-                    <p class="font-semibold text-white mb-2">Q: Is local analysis really as good as ChatGPT Health?</p>
-                    <p class="mb-0">A: For depth and privacy, yes. For convenience, no. ChatGPT Health is easier but less powerful for comprehensive analysis.</p>
+                    <p class="font-semibold text-white mb-2">Q: Do I need to re-export from my iPhone every day?</p>
+                    <p class="mb-0">A: Not every day, but you'll want to re-import periodically to keep your data fresh. The Mac app works with whatever export you've most recently imported.</p>
                 </div>
 
                 <div class="bento-card p-6 mb-4">
-                    <p class="font-semibold text-white mb-2">Q: Can I still use AI without uploading everything to the cloud?</p>
-                    <p class="mb-0">A: Yes! Use local LLMs (Ollama, LM Studio) or upload only anonymized subsets to ChatGPT/Claude.</p>
+                    <p class="font-semibold text-white mb-2">Q: What if OpenClaw can't reach the local API?</p>
+                    <p class="mb-0">A: Make sure the Mac app is running. You can verify with <code>curl http://127.0.0.1:8765/openclaw/status</code>. If the model can't fetch locally in a given session, you can still test the API directly with curl.</p>
                 </div>
 
                 <div class="bento-card p-6 mb-4">
-                    <p class="font-semibold text-white mb-2">Q: How much does private analysis cost?</p>
-                    <p class="mb-0">A: $5-50 one-time for tools. Python and most analysis software is free. Zero ongoing costs.</p>
+                    <p class="font-semibold text-white mb-2">Q: Is the ClawHub skill safe to install?</p>
+                    <p class="mb-0">A: Yes. The published skill (<code>apple-health-export-analyzer@1.0.6</code>) is intentionally narrow: read-only localhost API, no bundled scripts, no repo clone fallback, no token-file behavior. It's designed to be easy to trust.</p>
                 </div>
 
                 <div class="bento-card p-6 mb-4">
-                    <p class="font-semibold text-white mb-2">Q: Do I need to be a programmer?</p>
-                    <p class="mb-0">A: No. Spreadsheet analysis (Numbers/Excel) requires no coding. Python gives you more power but has a learning curve.</p>
+                    <p class="font-semibold text-white mb-2">Q: Can I still use ChatGPT or Claude for health analysis?</p>
+                    <p class="mb-0">A: Absolutely. The privacy-first approach doesn't mean you can never use cloud AI. You can export anonymized subsets and upload those for specific questions. The key difference is control — you decide what leaves your machine.</p>
                 </div>
 
                 <div class="bento-card p-6 mb-4">
-                    <p class="font-semibold text-white mb-2">Q: How long does local analysis take to set up?</p>
-                    <p class="mb-0">A: Basic setup: 30 minutes. Intermediate (Python): 2 hours. Advanced (local AI): 1 day.</p>
+                    <p class="font-semibold text-white mb-2">Q: What Mac do I need?</p>
+                    <p class="mb-0">A: Any Mac that can run macOS and the Health Data AI Analyzer app. No special hardware required — the app handles the processing.</p>
                 </div>
-            </section>
-
-            <!-- Conclusion -->
-            <section class="mb-12">
-                <h2>Conclusion: Privacy Without Sacrificing Insights</h2>
-                <p>You don't have to choose between AI-powered health insights and privacy. With the right tools and workflow, you can:</p>
-                <div class="success-box">
-                    <ul class="mb-0">
-                        <li>✅ Analyze unlimited health history</li>
-                        <li>✅ Keep everything 100% local</li>
-                        <li>✅ Use AI when you choose</li>
-                        <li>✅ Own your data completely</li>
-                        <li>✅ Work offline</li>
-                        <li>✅ Avoid subscriptions</li>
-                    </ul>
-                </div>
-                <p>ChatGPT Health and Claude are excellent tools for many users. But if privacy matters to you - whether for legal, medical, or personal reasons - local analysis gives you complete control without sacrificing analytical power.</p>
-                <p>The future of health data is personal ownership. Start taking control today.</p>
             </section>
 
             <!-- Related Articles -->
             <section class="mb-12">
-                <h2>Related Articles</h2>
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <h2>Related</h2>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <a href="../openclaw-apple-health/" class="bento-card p-6 block hover:border-green-500/30 transition-all">
+                        <h3 class="text-lg font-semibold mb-2 text-green-400">OpenClaw + Apple Health</h3>
+                        <p class="text-sm text-slate-400 mb-0">Full landing page for the OpenClaw Apple Health integration.</p>
+                    </a>
                     <a href="chatgpt-health-limitations.html" class="bento-card p-6 block hover:border-rose-500/30 transition-all">
                         <h3 class="text-lg font-semibold mb-2 text-rose-400">ChatGPT Health Limitations</h3>
-                        <p class="text-sm text-slate-400 mb-0">Understand the critical limitations of ChatGPT Health including privacy concerns and data ownership issues.</p>
+                        <p class="text-sm text-slate-400 mb-0">Why ChatGPT Health has privacy and data ownership concerns.</p>
                     </a>
                     <a href="chatgpt-vs-claude-health.html" class="bento-card p-6 block hover:border-purple-500/30 transition-all">
                         <h3 class="text-lg font-semibold mb-2 text-purple-400">ChatGPT vs Claude Health</h3>
-                        <p class="text-sm text-slate-400 mb-0">Complete comparison of ChatGPT Health, Claude Health, and local analysis tools for your needs.</p>
+                        <p class="text-sm text-slate-400 mb-0">Compare cloud AI health tools with local alternatives.</p>
                     </a>
                 </div>
             </section>
 
             <!-- CTA -->
             <section class="bento-card p-8 bg-gradient-to-r from-green-600/10 to-blue-600/10 border-green-500/20">
-                <h3 class="text-2xl font-bold mb-4">Ready to start private health analysis?</h3>
-                <p class="text-lg mb-6">Process everything on your device, export to any format, analyze however you choose. $4.99 one-time, lifetime access.</p>
+                <h3 class="text-2xl font-bold mb-4">Get your first daily health brief in 5 minutes</h3>
+                <p class="text-lg mb-6">Install the Mac app, import your Apple Health data, connect OpenClaw. Your data stays on your machine.</p>
                 <div class="flex flex-col sm:flex-row gap-4">
-                    <a href="https://apps.apple.com/us/app/health-data-export-ai-analyzer/id6749297170?ct=private-analysis-bottom&pt=123456&mt=8"
+                    <a href="https://apps.apple.com/us/app/health-data-export-ai-analyzer/id6749297170"
                        target="_blank"
                        class="inline-flex items-center justify-center px-6 py-3 bg-gradient-to-r from-green-600 to-blue-600 rounded-lg hover:from-green-500 hover:to-blue-500 transition-all font-semibold"
                        onclick="gtag('event', 'download_click', {
                          'event_category': 'app_download',
-                         'event_label': 'Private Health Data Analysis',
+                         'event_label': 'Private Health Analysis OpenClaw',
                          'cta_location': 'bottom'
                        });">
                         <i data-lucide="download" class="w-5 h-5 mr-2"></i>
-                        Download iOS App - $4.99
+                        Download Mac App — $4.99
                     </a>
-                    <a href="../index.html" class="inline-flex items-center justify-center px-6 py-3 border border-white/20 rounded-lg hover:bg-white/5 transition-all font-semibold">
-                        Learn More
+                    <a href="https://clawhub.ai/krumjahn/apple-health-export-analyzer" target="_blank" class="inline-flex items-center justify-center px-6 py-3 border border-white/20 rounded-lg hover:bg-white/5 transition-all font-semibold">
+                        <i data-lucide="puzzle" class="w-5 h-5 mr-2"></i>
+                        Install ClawHub Skill
                     </a>
                 </div>
             </section>
@@ -733,16 +711,17 @@ response = llm("Analyze heart rate trends...")</code></pre>
                     <h4 class="font-semibold mb-4">Quick Links</h4>
                     <ul class="space-y-2 text-slate-400">
                         <li><a href="../index.html" class="hover:text-white transition-colors">Home</a></li>
+                        <li><a href="../openclaw-apple-health/" class="hover:text-white transition-colors">OpenClaw Integration</a></li>
                         <li><a href="../changelog.html" class="hover:text-white transition-colors">Changelog</a></li>
-                        <li><a href="https://apps.apple.com/us/app/health-data-export/id6749297170" target="_blank" class="hover:text-white transition-colors">Download App</a></li>
+                        <li><a href="https://apps.apple.com/us/app/health-data-export-ai-analyzer/id6749297170" target="_blank" class="hover:text-white transition-colors">Download App</a></li>
                     </ul>
                 </div>
                 <div>
                     <h4 class="font-semibold mb-4">Resources</h4>
                     <ul class="space-y-2 text-slate-400">
-                        <li><a href="../export-apple-health-data/index.html" class="hover:text-white transition-colors">Export Apple Health Data</a></li>
-                        <li><a href="../analyze-health-data-ai/index.html" class="hover:text-white transition-colors">AI Health Analysis</a></li>
-                        <li><a href="../convert-apple-health-xml/index.html" class="hover:text-white transition-colors">Convert XML to CSV</a></li>
+                        <li><a href="https://clawhub.ai/krumjahn/apple-health-export-analyzer" target="_blank" class="hover:text-white transition-colors">ClawHub Skill</a></li>
+                        <li><a href="https://github.com/krumjahn/applehealth" target="_blank" class="hover:text-white transition-colors">GitHub</a></li>
+                        <li><a href="../convert-tool/" class="hover:text-white transition-colors">XML to CSV Converter</a></li>
                     </ul>
                 </div>
             </div>
