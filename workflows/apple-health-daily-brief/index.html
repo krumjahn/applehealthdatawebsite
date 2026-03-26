@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Apple Health Daily Brief (OpenClaw Workflow) — Local AI Summary on Mac</title>
+  <meta name="description" content="Set up an OpenClaw Apple Health daily brief: a fast local-first summary of steps vs baseline, sleep, workouts, HR/HRV signals, and next actions — processed on your Mac." />
+  <link rel="canonical" href="https://applehealthdata.com/workflows/apple-health-daily-brief/" />
+  <meta name="robots" content="index,follow,max-image-preview:large" />
+  <meta name="apple-itunes-app" content="app-id=6749297170" />
+
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="Health Data Export & Analyze" />
+  <meta property="og:url" content="https://applehealthdata.com/workflows/apple-health-daily-brief/" />
+  <meta property="og:title" content="Apple Health Daily Brief (OpenClaw Workflow)" />
+  <meta property="og:description" content="A daily Apple Health summary generated locally on your Mac via OpenClaw + Health Data AI Analyzer." />
+  <meta property="og:image" content="https://applehealthdata.com/images/mac-app-openclaw-tab.png" />
+
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Apple Health Daily Brief (OpenClaw Workflow)" />
+  <meta name="twitter:description" content="A daily Apple Health summary generated locally on your Mac via OpenClaw + Health Data AI Analyzer." />
+  <meta name="twitter:image" content="https://applehealthdata.com/images/mac-app-openclaw-tab.png" />
+
+  <!-- Structured Data: FAQPage -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "What is an Apple Health daily brief?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "An Apple Health daily brief is a short daily summary generated from your health data: steps vs baseline, sleep, workouts, heart rate/HRV signals, and suggested next actions. In this workflow, OpenClaw generates the brief by reading your local dataset through the Mac app's localhost API."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Is my Apple Health data uploaded to the cloud?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "No. This workflow is local-first. The Mac app processes your Apple Health export locally and exposes a read-only API on 127.0.0.1. OpenClaw reads from localhost. Your health data stays on your Mac unless you choose to share it."
+        }
+      }
+    ]
+  }
+  </script>
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;700&display=swap');
+    :root { --glass-border: rgba(255, 255, 255, 0.08); --glass-bg: rgba(255, 255, 255, 0.03); }
+    body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: #020617; color: #f8fafc; overflow-x: hidden; }
+    .mesh-gradient { position: fixed; inset: 0; z-index: -1; background: radial-gradient(at 0% 0%, rgba(225, 29, 72, 0.15) 0px, transparent 50%), radial-gradient(at 100% 0%, rgba(56, 189, 248, 0.15) 0px, transparent 50%), radial-gradient(at 100% 100%, rgba(168, 85, 247, 0.15) 0px, transparent 50%); filter: blur(60px); }
+    .glass-card { background: var(--glass-bg); border: 1px solid var(--glass-border); border-radius: 1rem; }
+    .content h1 { color: #fff; font-weight: 800; letter-spacing: -0.02em; }
+    .content h2 { border-top: 1px solid var(--glass-border); padding-top: 2rem; margin-top: 2.5rem; color: #f8fafc; font-size: 1.875rem; font-weight: 700; margin-bottom: 1rem; }
+    .content h3 { color: #e2e8f0; font-size: 1.25rem; font-weight: 700; margin-top: 1.5rem; margin-bottom: 0.75rem; }
+    .content p { color: #94a3b8; font-size: 1.125rem; line-height: 1.75; margin-bottom: 1.25rem; }
+    .content a { color: #f43f5e; }
+    .content code, .content pre { font-family: 'JetBrains Mono', monospace; }
+    .content pre { background: #0f172a; border: 1px solid var(--glass-border); border-radius: 0.75rem; padding: 1rem; overflow-x: auto; margin-bottom: 1.25rem; }
+  </style>
+</head>
+<body>
+  <div class="mesh-gradient"></div>
+
+  <nav class="fixed w-full z-50 border-b border-white/10 bg-slate-950/80 backdrop-blur-xl">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex justify-between items-center h-20">
+        <a href="/" class="flex items-center gap-3 group">
+          <div class="w-10 h-10 bg-gradient-to-tr from-rose-600 to-orange-500 rounded-xl flex items-center justify-center shadow-lg shadow-rose-500/20 group-hover:scale-105 transition-transform">
+            <i data-lucide="activity" class="w-6 h-6 text-white"></i>
+          </div>
+          <div>
+            <span class="font-bold text-lg tracking-tight text-white block leading-none">Health Data</span>
+            <span class="text-xs text-slate-400 tracking-wider uppercase font-semibold">Export &amp; Analyze</span>
+          </div>
+        </a>
+        <div class="hidden md:flex gap-6 items-center">
+          <a href="/workflows/" class="text-sm font-medium text-slate-300 hover:text-white transition-colors">Workflows</a>
+          <a href="/openclaw-apple-health/" class="text-sm font-medium text-slate-300 hover:text-white transition-colors">OpenClaw</a>
+          <a href="https://apps.apple.com/us/app/health-data-export-ai-analyzer/id6749297170" class="text-sm font-bold text-rose-500 hover:text-rose-400 transition-colors">Download App</a>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <main class="pt-32 pb-20 lg:pt-48 lg:pb-32">
+    <div class="max-w-3xl mx-auto px-4 content">
+      <div class="text-center mb-14">
+        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-sky-500/10 border border-sky-500/20 text-sky-400 text-sm font-medium mb-6">
+          <i data-lucide="sun" class="w-4 h-4"></i>
+          Workflow
+        </div>
+        <h1 class="text-4xl lg:text-6xl mb-6">Apple Health Daily Brief</h1>
+        <p class="text-xl">A short daily summary (status → what changed → suggestions → missing data) generated from your local Apple Health dataset on Mac.</p>
+      </div>
+
+      <div class="glass-card p-7">
+        <h3 class="mt-0">What you get</h3>
+        <ul class="text-slate-300 list-disc pl-5 space-y-2">
+          <li>Steps vs your 7-day baseline</li>
+          <li>Sleep hours + missing-sleep detection</li>
+          <li>Workouts count + duration</li>
+          <li>Simple signals (e.g., activity below baseline)</li>
+          <li>3 suggested actions for today</li>
+        </ul>
+      </div>
+
+      <h2>Setup (5 minutes)</h2>
+      <ol class="text-slate-300 list-decimal pl-5 space-y-3">
+        <li><strong>Install the Mac app:</strong> <a href="https://apps.apple.com/us/app/health-data-export-ai-analyzer/id6749297170">Health Data Export &amp; AI Analyzer</a></li>
+        <li><strong>Export Apple Health data</strong> from iPhone and import it into the Mac app. (Guide: <a href="/export-apple-health-data/">How to export Apple Health data</a>)</li>
+        <li><strong>Install the OpenClaw skill</strong> from ClawHub: <a href="https://clawhub.ai/krumjahn/apple-health-export-analyzer">apple-health-export-analyzer</a></li>
+        <li><strong>Confirm the localhost API</strong> is running in the Mac app (OpenClaw / API tab). Then try:</li>
+      </ol>
+      <pre><code>curl http://127.0.0.1:8765/openclaw/status</code></pre>
+
+      <h2>The prompt (copy/paste)</h2>
+      <div class="glass-card p-6">
+        <p class="text-sm text-slate-400 mb-3">Use this exact prompt to get a consistent “daily brief” output:</p>
+        <pre><code>Use the "health-analyzer-mac-local" skill for this request.
+Give me my daily health brief for today and 3 suggestions.</code></pre>
+        <p class="text-sm text-slate-400 mb-0">Tip: change “today” to a specific date like <code>2026-03-19</code>.</p>
+      </div>
+
+      <h2>Make it a habit</h2>
+      <p>The daily brief is most valuable when it’s frictionless. Two easy patterns:</p>
+      <div class="grid sm:grid-cols-2 gap-4">
+        <div class="glass-card p-6">
+          <h3 class="mt-0">Morning check-in</h3>
+          <p class="text-base">Ask for yesterday + today. You’ll spot sleep gaps and activity drops quickly.</p>
+        </div>
+        <div class="glass-card p-6">
+          <h3 class="mt-0">After workouts</h3>
+          <p class="text-base">Ask “compare today’s workout load vs my baseline” to avoid overreaching.</p>
+        </div>
+      </div>
+
+      <div class="my-14 glass-card text-center py-10 px-6 border-rose-500/20">
+        <h2 class="border-0 mt-0 pt-0 text-3xl mb-4">Start with the Mac app</h2>
+        <p class="text-lg max-w-xl mx-auto">The daily brief workflow assumes your Apple Health export is already imported locally on Mac.</p>
+        <div class="flex flex-col sm:flex-row gap-4 justify-center mt-8">
+          <a href="https://apps.apple.com/us/app/health-data-export-ai-analyzer/id6749297170" class="inline-flex items-center justify-center gap-2 px-6 py-3 bg-white text-slate-900 font-bold rounded-xl hover:bg-slate-100 transition-colors">
+            <i data-lucide="download" class="w-5 h-5"></i>
+            Download Mac App
+          </a>
+          <a href="/workflows/apple-health-weekly-report/" class="inline-flex items-center justify-center gap-2 px-6 py-3 bg-white/5 border border-white/10 text-white font-semibold rounded-xl hover:bg-white/10 transition-colors">
+            <i data-lucide="calendar-range" class="w-5 h-5"></i>
+            Weekly Report Workflow
+          </a>
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+  <footer class="border-t border-white/5 bg-slate-950 py-12">
+    <div class="max-w-7xl mx-auto px-4 text-center">
+      <p class="text-slate-500 text-sm">&copy; 2026 Health Data Export. Not affiliated with Apple Inc.</p>
+    </div>
+  </footer>
+
+  <script>lucide.createIcons();</script>
+</body>
+</html>

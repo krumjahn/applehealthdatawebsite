@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Apple Health Weekly Report (OpenClaw Workflow) — Trends + Scorecard on Mac</title>
+  <meta name="description" content="Set up an OpenClaw Apple Health weekly report: week-over-week trends in steps, sleep, workouts, HR/HRV signals, plus a simple scorecard and next-week experiments — processed locally on your Mac." />
+  <link rel="canonical" href="https://applehealthdata.com/workflows/apple-health-weekly-report/" />
+  <meta name="robots" content="index,follow,max-image-preview:large" />
+  <meta name="apple-itunes-app" content="app-id=6749297170" />
+
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="Health Data Export & Analyze" />
+  <meta property="og:url" content="https://applehealthdata.com/workflows/apple-health-weekly-report/" />
+  <meta property="og:title" content="Apple Health Weekly Report (OpenClaw Workflow)" />
+  <meta property="og:description" content="A weekly Apple Health summary generated locally on your Mac via OpenClaw + Health Data AI Analyzer." />
+  <meta property="og:image" content="https://applehealthdata.com/images/openclaw-tui-output.png" />
+
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Apple Health Weekly Report (OpenClaw Workflow)" />
+  <meta name="twitter:description" content="A weekly Apple Health summary generated locally on your Mac via OpenClaw + Health Data AI Analyzer." />
+  <meta name="twitter:image" content="https://applehealthdata.com/images/openclaw-tui-output.png" />
+
+  <!-- Structured Data: FAQPage -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "What is an Apple Health weekly report?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "An Apple Health weekly report summarizes the last 7 days of your health data and highlights trends (steps, sleep, workouts), week-over-week changes, and suggested experiments for next week. In this workflow, OpenClaw generates the report from your local Mac dataset."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Can I generate weekly reports without uploading health data?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Yes. The Mac app processes your Apple Health export locally and exposes a read-only API on localhost. OpenClaw reads from localhost. Your data stays on your Mac unless you explicitly choose to share it." 
+        }
+      }
+    ]
+  }
+  </script>
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;700&display=swap');
+    :root { --glass-border: rgba(255, 255, 255, 0.08); --glass-bg: rgba(255, 255, 255, 0.03); }
+    body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: #020617; color: #f8fafc; overflow-x: hidden; }
+    .mesh-gradient { position: fixed; inset: 0; z-index: -1; background: radial-gradient(at 0% 0%, rgba(225, 29, 72, 0.15) 0px, transparent 50%), radial-gradient(at 100% 0%, rgba(56, 189, 248, 0.15) 0px, transparent 50%), radial-gradient(at 100% 100%, rgba(168, 85, 247, 0.15) 0px, transparent 50%); filter: blur(60px); }
+    .glass-card { background: var(--glass-bg); border: 1px solid var(--glass-border); border-radius: 1rem; }
+    .content h1 { color: #fff; font-weight: 800; letter-spacing: -0.02em; }
+    .content h2 { border-top: 1px solid var(--glass-border); padding-top: 2rem; margin-top: 2.5rem; color: #f8fafc; font-size: 1.875rem; font-weight: 700; margin-bottom: 1rem; }
+    .content h3 { color: #e2e8f0; font-size: 1.25rem; font-weight: 700; margin-top: 1.5rem; margin-bottom: 0.75rem; }
+    .content p { color: #94a3b8; font-size: 1.125rem; line-height: 1.75; margin-bottom: 1.25rem; }
+    .content a { color: #f43f5e; }
+    .content code, .content pre { font-family: 'JetBrains Mono', monospace; }
+    .content pre { background: #0f172a; border: 1px solid var(--glass-border); border-radius: 0.75rem; padding: 1rem; overflow-x: auto; margin-bottom: 1.25rem; }
+  </style>
+</head>
+<body>
+  <div class="mesh-gradient"></div>
+
+  <nav class="fixed w-full z-50 border-b border-white/10 bg-slate-950/80 backdrop-blur-xl">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex justify-between items-center h-20">
+        <a href="/" class="flex items-center gap-3 group">
+          <div class="w-10 h-10 bg-gradient-to-tr from-rose-600 to-orange-500 rounded-xl flex items-center justify-center shadow-lg shadow-rose-500/20 group-hover:scale-105 transition-transform">
+            <i data-lucide="activity" class="w-6 h-6 text-white"></i>
+          </div>
+          <div>
+            <span class="font-bold text-lg tracking-tight text-white block leading-none">Health Data</span>
+            <span class="text-xs text-slate-400 tracking-wider uppercase font-semibold">Export &amp; Analyze</span>
+          </div>
+        </a>
+        <div class="hidden md:flex gap-6 items-center">
+          <a href="/workflows/" class="text-sm font-medium text-slate-300 hover:text-white transition-colors">Workflows</a>
+          <a href="/openclaw-apple-health/" class="text-sm font-medium text-slate-300 hover:text-white transition-colors">OpenClaw</a>
+          <a href="https://apps.apple.com/us/app/health-data-export-ai-analyzer/id6749297170" class="text-sm font-bold text-rose-500 hover:text-rose-400 transition-colors">Download App</a>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <main class="pt-32 pb-20 lg:pt-48 lg:pb-32">
+    <div class="max-w-3xl mx-auto px-4 content">
+      <div class="text-center mb-14">
+        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-sm font-medium mb-6">
+          <i data-lucide="calendar-range" class="w-4 h-4"></i>
+          Workflow
+        </div>
+        <h1 class="text-4xl lg:text-6xl mb-6">Apple Health Weekly Report</h1>
+        <p class="text-xl">A weekly summary you can actually use: week-over-week trends, a simple scorecard, and a few high-confidence next actions — generated locally on your Mac.</p>
+      </div>
+
+      <div class="glass-card p-7">
+        <h3 class="mt-0">What you get</h3>
+        <ul class="text-slate-300 list-disc pl-5 space-y-2">
+          <li>7-day summary for steps, sleep, workouts (and any available HR/HRV signals)</li>
+          <li>Week-over-week deltas (this week vs last week)</li>
+          <li>A simple scorecard (Consistency, Recovery trend, Activity momentum)</li>
+          <li>3 experiments for next week (small, testable changes)</li>
+        </ul>
+      </div>
+
+      <h2>Setup</h2>
+      <ol class="text-slate-300 list-decimal pl-5 space-y-3">
+        <li><strong>Install the Mac app:</strong> <a href="https://apps.apple.com/us/app/health-data-export-ai-analyzer/id6749297170">Health Data Export &amp; AI Analyzer</a></li>
+        <li><strong>Import your Apple Health export</strong> into the Mac app. (Guide: <a href="/export-apple-health-data/">How to export Apple Health data</a>)</li>
+        <li><strong>Install the OpenClaw skill</strong> from ClawHub: <a href="https://clawhub.ai/krumjahn/apple-health-export-analyzer">apple-health-export-analyzer</a></li>
+      </ol>
+
+      <h2>The prompt (copy/paste)</h2>
+      <div class="glass-card p-6">
+        <p class="text-sm text-slate-400 mb-3">This prompt produces a consistent weekly summary format:</p>
+        <pre><code>Use the "health-analyzer-mac-local" skill for this request.
+Pull my daily brief for the last 7 days and summarize trends in steps, sleep, and workouts.
+Then give me a simple weekly scorecard (Consistency, Recovery, Activity) and 3 experiments for next week.</code></pre>
+      </div>
+
+      <h2>Optional: Save the report</h2>
+      <p>Once you like the output format, you can paste it into a note (Obsidian/Notion) or send it to yourself by email/DM. The goal is to make your weekly review fast and repeatable.</p>
+
+      <div class="my-14 glass-card text-center py-10 px-6 border-rose-500/20">
+        <h2 class="border-0 mt-0 pt-0 text-3xl mb-4">Start with the Mac app</h2>
+        <p class="text-lg max-w-xl mx-auto">This workflow assumes your Apple Health export is already imported locally on Mac.</p>
+        <div class="flex flex-col sm:flex-row gap-4 justify-center mt-8">
+          <a href="https://apps.apple.com/us/app/health-data-export-ai-analyzer/id6749297170" class="inline-flex items-center justify-center gap-2 px-6 py-3 bg-white text-slate-900 font-bold rounded-xl hover:bg-slate-100 transition-colors">
+            <i data-lucide="download" class="w-5 h-5"></i>
+            Download Mac App
+          </a>
+          <a href="/workflows/apple-health-daily-brief/" class="inline-flex items-center justify-center gap-2 px-6 py-3 bg-white/5 border border-white/10 text-white font-semibold rounded-xl hover:bg-white/10 transition-colors">
+            <i data-lucide="sun" class="w-5 h-5"></i>
+            Daily Brief Workflow
+          </a>
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+  <footer class="border-t border-white/5 bg-slate-950 py-12">
+    <div class="max-w-7xl mx-auto px-4 text-center">
+      <p class="text-slate-500 text-sm">&copy; 2026 Health Data Export. Not affiliated with Apple Inc.</p>
+    </div>
+  </footer>
+
+  <script>lucide.createIcons();</script>
+</body>
+</html>
