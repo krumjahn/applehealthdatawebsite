@@ -82,6 +82,32 @@
     <priority>0.9</priority>
   </url>
 
+  <!-- Apple Health + AI (Local API integrations) -->
+  <url>
+    <loc>https://applehealthdata.com/apple-health-ai/</loc>
+    <lastmod>2026-03-27</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://applehealthdata.com/apple-health-claude/</loc>
+    <lastmod>2026-03-27</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://applehealthdata.com/apple-health-openai/</loc>
+    <lastmod>2026-03-27</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://applehealthdata.com/apple-health-gemini/</loc>
+    <lastmod>2026-03-27</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
   <url>
     <loc>https://applehealthdata.com/apple-health-backup/</loc>
     <lastmod>2026-01-31</lastmod>

@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Apple Health + Claude: Chat With Your Health Data (Local API)</title>
+  <meta name="description" content="Use Claude with a local Apple Health API to query sleep, steps, workouts, and heart-rate trends—then ask better questions without uploading huge exports.">
+  <meta name="keywords" content="apple health claude, claude apple health, claude tools local api, analyze apple health data claude, apple health local api">
+  <link rel="canonical" href="https://applehealthdata.com/apple-health-claude/">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <!-- Matomo -->
+  <script>
+    var _paq = window._paq = window._paq || [];
+    _paq.push(['trackPageView']);
+    _paq.push(['enableLinkTracking']);
+    (function() {
+      var u="//shrewd-lyrebird.pikapod.net/";
+      _paq.push(['setTrackerUrl', u+'matomo.php']);
+      _paq.push(['setSiteId', '9']);
+      var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
+      g.async=true; g.src=u+'matomo.js'; s.parentNode.insertBefore(g,s);
+    })();
+  </script>
+  <!-- End Matomo Code -->
+
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;700&display=swap');
+    :root { --glass-border: rgba(255, 255, 255, 0.08); --glass-bg: rgba(255, 255, 255, 0.03); }
+    body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: #020617; color: #f8fafc; overflow-x: hidden; }
+    .mesh-gradient { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: -1; background: radial-gradient(at 0% 0%, rgba(225, 29, 72, 0.15) 0px, transparent 50%), radial-gradient(at 100% 0%, rgba(56, 189, 248, 0.15) 0px, transparent 50%), radial-gradient(at 100% 100%, rgba(168, 85, 247, 0.15) 0px, transparent 50%); filter: blur(60px); }
+    .content-section h2 { border-top: 1px solid var(--glass-border); padding-top: 2rem; margin-top: 3rem; color: #f8fafc; font-size: 1.875rem; font-weight: 700; margin-bottom: 1.25rem; }
+    .content-section h3 { color: #e2e8f0; font-size: 1.5rem; font-weight: 600; margin-top: 2rem; margin-bottom: 0.75rem; }
+    .content-section p { color: #94a3b8; font-size: 1.125rem; line-height: 1.75; margin-bottom: 1.25rem; }
+    .content-section a { color: #f43f5e; text-decoration: none; border-bottom: 1px solid transparent; transition: all 0.2s; }
+    .content-section a:hover { border-bottom-color: #f43f5e; }
+    .content-section ul, .content-section ol { padding-left: 1.5rem; margin-bottom: 1.25rem; color: #94a3b8; }
+    .content-section li { margin-bottom: 0.5rem; list-style-type: disc; }
+    .content-section pre { background: #0f172a; border: 1px solid var(--glass-border); border-radius: 0.75rem; padding: 1.25rem; overflow-x: auto; margin-bottom: 1.25rem; }
+    .content-section code { font-family: 'JetBrains Mono', monospace; color: #38bdf8; font-size: 0.875rem; }
+    .glass { background: rgba(255, 255, 255, 0.03); border: 1px solid var(--glass-border); border-radius: 1rem; }
+    .prompt-box { background: rgba(255, 255, 255, 0.03); border: 1px solid var(--glass-border); border-radius: 0.75rem; padding: 1.25rem; margin-bottom: 1.25rem; }
+  </style>
+
+  <!-- FAQ Schema -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "Can Claude read my entire Apple Health export?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Not effectively. Apple Health exports can be hundreds of MB to 1GB+. The better workflow is to query specific metrics and date ranges via a local API, then send the compact results to Claude for analysis."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What is the base URL for the Apple Health local API?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "By default the API runs locally at http://127.0.0.1:8765."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "How do I authenticate to the API?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Most routes require the header X-Health-Analyzer-Token: <token>. The token file path is exposed by GET /status."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Can Claude call the API automatically?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Yes—if your Claude setup supports tools/function calling. Otherwise you can paste the API JSON response into Claude manually."
+        }
+      }
+    ]
+  }
+  </script>
+</head>
+<body>
+  <div class="mesh-gradient"></div>
+
+  <nav class="fixed w-full z-50 border-b border-white/10 bg-slate-950/80 backdrop-blur-xl">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex justify-between items-center h-20">
+        <a href="/" class="flex items-center gap-3 group">
+          <div class="w-10 h-10 bg-gradient-to-tr from-rose-600 to-orange-500 rounded-xl flex items-center justify-center shadow-lg shadow-rose-500/20 group-hover:scale-105 transition-transform">
+            <i data-lucide="activity" class="w-6 h-6 text-white"></i>
+          </div>
+          <div>
+            <span class="font-bold text-lg tracking-tight text-white block leading-none">Health Data</span>
+            <span class="text-xs text-slate-400 tracking-wider uppercase font-semibold">Export & Analyze</span>
+          </div>
+        </a>
+        <div class="hidden md:flex gap-6">
+          <a href="/apple-health-ai/" class="text-sm font-medium text-slate-300 hover:text-white transition-colors">Apple Health + AI</a>
+          <a href="https://apps.apple.com/app/id6749297170" class="text-sm font-bold text-rose-500 hover:text-rose-400 transition-colors">Download App</a>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <main class="pt-32 pb-20 lg:pt-48 lg:pb-32">
+    <div class="max-w-3xl mx-auto px-4 content-section">
+      <div class="text-center mb-16">
+        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-rose-500/10 border border-rose-500/20 text-rose-400 text-sm font-medium mb-6">
+          <i data-lucide="sparkles" class="w-4 h-4"></i>
+          Claude + Local API
+        </div>
+        <h1 class="text-4xl lg:text-6xl font-bold text-white mb-6 tracking-tight">Apple Health + Claude (via a Local API)</h1>
+        <p class="text-xl text-slate-400 leading-relaxed">Claude can reason extremely well—but it can’t (and shouldn’t) ingest your full Apple Health export. Query the exact metric slice locally, then send a compact result for analysis.</p>
+      </div>
+
+      <div class="glass p-6">
+        <ul>
+          <li><strong>Base URL:</strong> <code>http://127.0.0.1:8765</code></li>
+          <li><strong>Auth header (most routes):</strong> <code>X-Health-Analyzer-Token: &lt;token&gt;</code></li>
+          <li><strong>Token file path:</strong> returned by <code>GET /status</code></li>
+        </ul>
+        <p class="mb-0">Docs: <a href="/apple-health-local-api/">Apple Health Local API</a> · Hub: <a href="/apple-health-ai/">Apple Health + AI</a></p>
+      </div>
+
+      <h2>What Claude is great at (once it has the right slice)</h2>
+      <ul>
+        <li><strong>Weekly reviews:</strong> “What changed vs last week?”</li>
+        <li><strong>Trend detection:</strong> resting HR drift, sleep consistency, training load shifts</li>
+        <li><strong>Hypotheses + next queries:</strong> what to pull next to confirm an idea</li>
+        <li><strong>Plans:</strong> turn findings into an actionable 7–14 day experiment</li>
+      </ul>
+
+      <h2>Quickstart</h2>
+      <ol class="list-decimal">
+        <li>Confirm the app is running: <code>GET http://127.0.0.1:8765/status</code></li>
+        <li>Read the token file path from <code>/status</code>, load the token</li>
+        <li>Call a summary endpoint with <code>X-Health-Analyzer-Token</code></li>
+        <li>Paste the JSON into Claude (or wire it up via tools/function calling)</li>
+      </ol>
+
+      <h2>Example Claude prompts (copy/paste)</h2>
+      <div class="prompt-box">
+        <p class="text-slate-300 mb-3"><strong>Prompt 1 — Weekly review</strong></p>
+        <pre><code>Analyze the JSON below for the last 30 days.
+
+1) 5-bullet executive summary
+2) Biggest week-over-week deltas
+3) 2 hypotheses for what caused the change
+4) The next 3 API queries I should run (endpoint + date range)
+
+Return concise bullet points.</code></pre>
+      </div>
+      <div class="prompt-box">
+        <p class="text-slate-300 mb-3"><strong>Prompt 2 — Recovery signal check</strong></p>
+        <pre><code>Based on these heart-rate trends and sleep summaries:
+
+- Do you see signs of overreaching, stress, or illness?
+- What signals are most predictive here?
+- What would you track next to increase confidence?
+
+Be explicit about confidence and alternative explanations.</code></pre>
+      </div>
+
+      <h2>Example API calls (minimal data in)</h2>
+      <p>Discover metrics:</p>
+      <pre><code>curl -s \
+  -H "X-Health-Analyzer-Token: $TOKEN" \
+  "http://127.0.0.1:8765/metrics"</code></pre>
+
+      <p>Sleep summary (date range):</p>
+      <pre><code>curl -s \
+  -H "X-Health-Analyzer-Token: $TOKEN" \
+  "http://127.0.0.1:8765/sleep/summary?start=2026-02-25&end=2026-03-27"</code></pre>
+
+      <p>Heart-rate trends (date range):</p>
+      <pre><code>curl -s \
+  -H "X-Health-Analyzer-Token: $TOKEN" \
+  "http://127.0.0.1:8765/heart-rate/trends?start=2026-02-25&end=2026-03-27"</code></pre>
+
+      <h2>Privacy & security notes</h2>
+      <ul>
+        <li>API runs locally on <code>127.0.0.1</code></li>
+        <li>Most endpoints require <code>X-Health-Analyzer-Token</code></li>
+        <li>Share only the summary/trend payload you want Claude to analyze</li>
+      </ul>
+
+      <h2>Compatibility routes</h2>
+      <p>Compatibility endpoints also exist under <code>/health/*</code>, for example <code>/health/sleep</code> and <code>/health/workouts</code>.</p>
+
+      <div class="mt-12 p-8 rounded-2xl bg-gradient-to-br from-rose-900/50 to-slate-900 border border-rose-500/20 text-center">
+        <h3 class="text-2xl font-bold text-white mb-4! mt-0!">Ready to query your data?</h3>
+        <p class="text-slate-300 mb-8">Start with the Local API docs, then build your Claude workflow.</p>
+        <div class="flex flex-col sm:flex-row gap-4 justify-center">
+          <a href="/apple-health-local-api/" class="inline-flex justify-center items-center gap-2 bg-rose-600 text-white font-bold py-3 px-8 rounded-xl hover:bg-rose-700 transition-all shadow-lg shadow-rose-600/20">
+            <i data-lucide="link" class="w-5 h-5"></i> Local API Docs
+          </a>
+          <a href="/apple-health-openai/" class="inline-flex justify-center items-center gap-2 bg-slate-800 text-white font-bold py-3 px-8 rounded-xl hover:bg-slate-700 transition-all border border-slate-700">
+            Next: OpenAI / ChatGPT
+          </a>
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+  <footer class="border-t border-white/5 bg-slate-950 py-12">
+    <div class="max-w-7xl mx-auto px-4 text-center">
+      <p class="text-slate-500 text-sm">© 2026 Health Data Export. Not affiliated with Apple Inc.</p>
+    </div>
+  </footer>
+
+  <script>
+    lucide.createIcons();
+  </script>
+</body>
+</html>

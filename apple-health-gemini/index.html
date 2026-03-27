@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Apple Health + Gemini: Ask Questions About Your Health Data (Local API)</title>
+  <meta name="description" content="Use Gemini with a local Apple Health API to query summaries and trends (sleep, workouts, HR, steps) and generate weekly/monthly reports.">
+  <meta name="keywords" content="apple health gemini, gemini apple health, google gemini apple health data, apple health local api, health data weekly report">
+  <link rel="canonical" href="https://applehealthdata.com/apple-health-gemini/">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <!-- Matomo -->
+  <script>
+    var _paq = window._paq = window._paq || [];
+    _paq.push(['trackPageView']);
+    _paq.push(['enableLinkTracking']);
+    (function() {
+      var u="//shrewd-lyrebird.pikapod.net/";
+      _paq.push(['setTrackerUrl', u+'matomo.php']);
+      _paq.push(['setSiteId', '9']);
+      var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
+      g.async=true; g.src=u+'matomo.js'; s.parentNode.insertBefore(g,s);
+    })();
+  </script>
+  <!-- End Matomo Code -->
+
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;700&display=swap');
+    :root { --glass-border: rgba(255, 255, 255, 0.08); --glass-bg: rgba(255, 255, 255, 0.03); }
+    body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: #020617; color: #f8fafc; overflow-x: hidden; }
+    .mesh-gradient { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: -1; background: radial-gradient(at 0% 0%, rgba(225, 29, 72, 0.15) 0px, transparent 50%), radial-gradient(at 100% 0%, rgba(56, 189, 248, 0.15) 0px, transparent 50%), radial-gradient(at 100% 100%, rgba(168, 85, 247, 0.15) 0px, transparent 50%); filter: blur(60px); }
+    .content-section h2 { border-top: 1px solid var(--glass-border); padding-top: 2rem; margin-top: 3rem; color: #f8fafc; font-size: 1.875rem; font-weight: 700; margin-bottom: 1.25rem; }
+    .content-section h3 { color: #e2e8f0; font-size: 1.5rem; font-weight: 600; margin-top: 2rem; margin-bottom: 0.75rem; }
+    .content-section p { color: #94a3b8; font-size: 1.125rem; line-height: 1.75; margin-bottom: 1.25rem; }
+    .content-section a { color: #f43f5e; text-decoration: none; border-bottom: 1px solid transparent; transition: all 0.2s; }
+    .content-section a:hover { border-bottom-color: #f43f5e; }
+    .content-section ul, .content-section ol { padding-left: 1.5rem; margin-bottom: 1.25rem; color: #94a3b8; }
+    .content-section li { margin-bottom: 0.5rem; list-style-type: disc; }
+    .content-section pre { background: #0f172a; border: 1px solid var(--glass-border); border-radius: 0.75rem; padding: 1.25rem; overflow-x: auto; margin-bottom: 1.25rem; }
+    .content-section code { font-family: 'JetBrains Mono', monospace; color: #38bdf8; font-size: 0.875rem; }
+    .glass { background: rgba(255, 255, 255, 0.03); border: 1px solid var(--glass-border); border-radius: 1rem; }
+    .prompt-box { background: rgba(255, 255, 255, 0.03); border: 1px solid var(--glass-border); border-radius: 0.75rem; padding: 1.25rem; margin-bottom: 1.25rem; }
+  </style>
+
+  <!-- FAQ Schema -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "Can Gemini read my whole Apple Health export?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Not practically. Exports can be huge. The better workflow is to query summaries and trends via a local API and send the compact result to Gemini for reporting and analysis."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Does the API require authentication?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Most app API routes require X-Health-Analyzer-Token. OpenClaw endpoints like /openclaw/status and /openclaw/daily-brief are read-only and do not require the token."
+        }
+      }
+    ]
+  }
+  </script>
+</head>
+<body>
+  <div class="mesh-gradient"></div>
+
+  <nav class="fixed w-full z-50 border-b border-white/10 bg-slate-950/80 backdrop-blur-xl">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex justify-between items-center h-20">
+        <a href="/" class="flex items-center gap-3 group">
+          <div class="w-10 h-10 bg-gradient-to-tr from-rose-600 to-orange-500 rounded-xl flex items-center justify-center shadow-lg shadow-rose-500/20 group-hover:scale-105 transition-transform">
+            <i data-lucide="activity" class="w-6 h-6 text-white"></i>
+          </div>
+          <div>
+            <span class="font-bold text-lg tracking-tight text-white block leading-none">Health Data</span>
+            <span class="text-xs text-slate-400 tracking-wider uppercase font-semibold">Export & Analyze</span>
+          </div>
+        </a>
+        <div class="hidden md:flex gap-6">
+          <a href="/apple-health-ai/" class="text-sm font-medium text-slate-300 hover:text-white transition-colors">Apple Health + AI</a>
+          <a href="https://apps.apple.com/app/id6749297170" class="text-sm font-bold text-rose-500 hover:text-rose-400 transition-colors">Download App</a>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <main class="pt-32 pb-20 lg:pt-48 lg:pb-32">
+    <div class="max-w-3xl mx-auto px-4 content-section">
+      <div class="text-center mb-16">
+        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-rose-500/10 border border-rose-500/20 text-rose-400 text-sm font-medium mb-6">
+          <i data-lucide="file-text" class="w-4 h-4"></i>
+          Gemini + Local API
+        </div>
+        <h1 class="text-4xl lg:text-6xl font-bold text-white mb-6 tracking-tight">Apple Health + Gemini (via a Local API)</h1>
+        <p class="text-xl text-slate-400 leading-relaxed">Gemini is excellent at turning structured inputs into clear reports. Query compact Apple Health summaries locally, then generate weekly/monthly briefs.</p>
+      </div>
+
+      <div class="glass p-6">
+        <ul>
+          <li><strong>Base URL:</strong> <code>http://127.0.0.1:8765</code></li>
+          <li><strong>Auth header (most routes):</strong> <code>X-Health-Analyzer-Token: &lt;token&gt;</code></li>
+          <li><strong>Token file path:</strong> returned by <code>GET /status</code></li>
+        </ul>
+        <p class="mb-0">Docs: <a href="/apple-health-local-api/">Apple Health Local API</a> · Hub: <a href="/apple-health-ai/">Apple Health + AI</a></p>
+      </div>
+
+      <h2>Best use case: recurring reports</h2>
+      <p>Instead of one-off analysis, use Gemini to generate:</p>
+      <ul>
+        <li>Weekly health brief (sleep, training, recovery signals)</li>
+        <li>Monthly trends report (baseline shifts and outliers)</li>
+        <li>“What changed?” analysis when your routine shifts</li>
+      </ul>
+
+      <h2>Quickstart</h2>
+      <ol class="list-decimal">
+        <li>Confirm API + token: <code>GET http://127.0.0.1:8765/status</code></li>
+        <li>Pull compact datasets: <code>/summary</code>, <code>/sleep/summary</code>, <code>/heart-rate/trends</code></li>
+        <li>Ask Gemini to format a report and propose follow-up queries</li>
+      </ol>
+
+      <h2>Example prompts (report-style)</h2>
+      <div class="prompt-box">
+        <p class="text-slate-300 mb-3"><strong>Prompt 1 — Weekly brief</strong></p>
+        <pre><code>Turn this JSON into a weekly report.
+
+Sections:
+- Highlights (bullets)
+- Concerns / risks (bullets)
+- What changed vs prior period
+- Recommended experiment for next 7 days
+- Next 3 API queries to run (endpoint + date range)</code></pre>
+      </div>
+      <div class="prompt-box">
+        <p class="text-slate-300 mb-3"><strong>Prompt 2 — Compare periods</strong></p>
+        <pre><code>Compare the last 14 days vs the previous 14 days.
+
+What shifted most, and what is the most likely explanation?
+List competing explanations and what data would disambiguate them.</code></pre>
+      </div>
+
+      <h2>Example API calls</h2>
+      <p>Overall summary:</p>
+      <pre><code>curl -s \
+  -H "X-Health-Analyzer-Token: $TOKEN" \
+  "http://127.0.0.1:8765/summary?start=2026-02-25&end=2026-03-27"</code></pre>
+
+      <p>Sleep summary:</p>
+      <pre><code>curl -s \
+  -H "X-Health-Analyzer-Token: $TOKEN" \
+  "http://127.0.0.1:8765/sleep/summary?start=2026-02-25&end=2026-03-27"</code></pre>
+
+      <h2>OpenClaw read-only endpoints (no token)</h2>
+      <p>If you’re using OpenClaw automation, these endpoints are read-only and do not require the token:</p>
+      <ul>
+        <li><code>GET /openclaw/status</code></li>
+        <li><code>GET /openclaw/daily-brief?date=YYYY-MM-DD</code></li>
+      </ul>
+
+      <h2>Compatibility routes</h2>
+      <p>Compatibility endpoints also exist under <code>/health/*</code>, for example <code>/health/status</code> and <code>/health/sleep</code>.</p>
+
+      <div class="mt-12 p-8 rounded-2xl bg-gradient-to-br from-rose-900/50 to-slate-900 border border-rose-500/20 text-center">
+        <h3 class="text-2xl font-bold text-white mb-4! mt-0!">Start with the Local API</h3>
+        <p class="text-slate-300 mb-8">Query compact summaries first. Expand only if Gemini asks for more data.</p>
+        <div class="flex flex-col sm:flex-row gap-4 justify-center">
+          <a href="/apple-health-local-api/" class="inline-flex justify-center items-center gap-2 bg-rose-600 text-white font-bold py-3 px-8 rounded-xl hover:bg-rose-700 transition-all shadow-lg shadow-rose-600/20">
+            <i data-lucide="link" class="w-5 h-5"></i> Local API Docs
+          </a>
+          <a href="/openclaw-apple-health/" class="inline-flex justify-center items-center gap-2 bg-slate-800 text-white font-bold py-3 px-8 rounded-xl hover:bg-slate-700 transition-all border border-slate-700">
+            OpenClaw Integration
+          </a>
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+  <footer class="border-t border-white/5 bg-slate-950 py-12">
+    <div class="max-w-7xl mx-auto px-4 text-center">
+      <p class="text-slate-500 text-sm">© 2026 Health Data Export. Not affiliated with Apple Inc.</p>
+    </div>
+  </footer>
+
+  <script>
+    lucide.createIcons();
+  </script>
+</body>
+</html>

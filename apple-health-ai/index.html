@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Apple Health + AI: Chat With Your Health Data (Local API)</title>
+  <meta name="description" content="Use a local API to query specific Apple Health metrics (sleep, HR, steps, workouts) and let Claude, OpenAI, or Gemini analyze the results-without uploading 1GB.">
+  <meta name="keywords" content="apple health ai, apple health claude, apple health chatgpt, apple health openai, apple health gemini, apple health local api, analyze apple health data with ai">
+  <link rel="canonical" href="https://applehealthdata.com/apple-health-ai/">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <!-- Matomo -->
+  <script>
+    var _paq = window._paq = window._paq || [];
+    _paq.push(['trackPageView']);
+    _paq.push(['enableLinkTracking']);
+    (function() {
+      var u="//shrewd-lyrebird.pikapod.net/";
+      _paq.push(['setTrackerUrl', u+'matomo.php']);
+      _paq.push(['setSiteId', '9']);
+      var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
+      g.async=true; g.src=u+'matomo.js'; s.parentNode.insertBefore(g,s);
+    })();
+  </script>
+  <!-- End Matomo Code -->
+
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;700&display=swap');
+    :root { --glass-border: rgba(255, 255, 255, 0.08); --glass-bg: rgba(255, 255, 255, 0.03); }
+    body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: #020617; color: #f8fafc; overflow-x: hidden; }
+    .mesh-gradient { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: -1; background: radial-gradient(at 0% 0%, rgba(225, 29, 72, 0.15) 0px, transparent 50%), radial-gradient(at 100% 0%, rgba(56, 189, 248, 0.15) 0px, transparent 50%), radial-gradient(at 100% 100%, rgba(168, 85, 247, 0.15) 0px, transparent 50%); filter: blur(60px); }
+    .content-section h2 { border-top: 1px solid var(--glass-border); padding-top: 2rem; margin-top: 3rem; color: #f8fafc; font-size: 1.875rem; font-weight: 700; margin-bottom: 1.25rem; }
+    .content-section h3 { color: #e2e8f0; font-size: 1.5rem; font-weight: 600; margin-top: 2rem; margin-bottom: 0.75rem; }
+    .content-section p { color: #94a3b8; font-size: 1.125rem; line-height: 1.75; margin-bottom: 1.25rem; }
+    .content-section a { color: #f43f5e; text-decoration: none; border-bottom: 1px solid transparent; transition: all 0.2s; }
+    .content-section a:hover { border-bottom-color: #f43f5e; }
+    .content-section ul, .content-section ol { padding-left: 1.5rem; margin-bottom: 1.25rem; color: #94a3b8; }
+    .content-section li { margin-bottom: 0.5rem; list-style-type: disc; }
+    .content-section pre { background: #0f172a; border: 1px solid var(--glass-border); border-radius: 0.75rem; padding: 1.25rem; overflow-x: auto; margin-bottom: 1.25rem; }
+    .content-section code { font-family: 'JetBrains Mono', monospace; color: #38bdf8; font-size: 0.875rem; }
+    .glass { background: rgba(255, 255, 255, 0.03); border: 1px solid var(--glass-border); border-radius: 1rem; }
+  </style>
+
+  <!-- FAQ Schema -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "Can Claude/ChatGPT/Gemini read my entire Apple Health export?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Not effectively. Apple Health exports can be hundreds of MB to 1GB+ and exceed practical context limits. A local API lets you query only the metric and date range you need and send a compact result to the model."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Is my Apple Health data uploaded to the cloud?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "The Mac Health Analyzer API runs locally on 127.0.0.1. What gets shared with an AI model is only what you choose to send (typically a small summary or trend payload)."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What's the difference between HealthKit and an export-based local API?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "HealthKit access is often constrained and app-specific. A local API can query your historical dataset using endpoints designed for summaries and trends across long time ranges."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "How do I secure the local API?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Most routes require an X-Health-Analyzer-Token header. You can find the token file path via GET /status. OpenClaw-specific endpoints are read-only and do not require the token."
+        }
+      }
+    ]
+  }
+  </script>
+</head>
+<body>
+  <div class="mesh-gradient"></div>
+
+  <nav class="fixed w-full z-50 border-b border-white/10 bg-slate-950/80 backdrop-blur-xl">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex justify-between items-center h-20">
+        <a href="/" class="flex items-center gap-3 group">
+          <div class="w-10 h-10 bg-gradient-to-tr from-rose-600 to-orange-500 rounded-xl flex items-center justify-center shadow-lg shadow-rose-500/20 group-hover:scale-105 transition-transform">
+            <i data-lucide="activity" class="w-6 h-6 text-white"></i>
+          </div>
+          <div>
+            <span class="font-bold text-lg tracking-tight text-white block leading-none">Health Data</span>
+            <span class="text-xs text-slate-400 tracking-wider uppercase font-semibold">Export & Analyze</span>
+          </div>
+        </a>
+        <div class="hidden md:flex gap-6">
+          <a href="/export-apple-health-data/" class="text-sm font-medium text-slate-300 hover:text-white transition-colors">Export Guide</a>
+          <a href="https://apps.apple.com/app/id6749297170" class="text-sm font-bold text-rose-500 hover:text-rose-400 transition-colors">Download App</a>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <main class="pt-32 pb-20 lg:pt-48 lg:pb-32">
+    <div class="max-w-3xl mx-auto px-4 content-section">
+      <div class="text-center mb-16">
+        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-rose-500/10 border border-rose-500/20 text-rose-400 text-sm font-medium mb-6">
+          <span class="relative flex h-2 w-2">
+            <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-rose-400 opacity-75"></span>
+            <span class="relative inline-flex rounded-full h-2 w-2 bg-rose-500"></span>
+          </span>
+          Local API + AI
+        </div>
+        <h1 class="text-4xl lg:text-6xl font-bold text-white mb-6 tracking-tight">Apple Health + AI: Chat With Your Health Data (Local API)</h1>
+        <p class="text-xl text-slate-400 leading-relaxed">Turn years of Apple Health exports into targeted queries (sleep, steps, workouts, heart rate) that Claude, OpenAI, or Gemini can analyze-without uploading a 1GB file.</p>
+      </div>
+
+      <div class="glass p-6">
+        <p class="text-slate-300 mb-4"><strong>The core idea:</strong> LLMs are great at reasoning, but they're not built to ingest your entire Apple Health export. A local API lets you fetch <em>only</em> the metric slice you need (date range + aggregation), then send that small result to your model.</p>
+        <ul>
+          <li><strong>Base URL:</strong> <code>http://127.0.0.1:8765</code></li>
+          <li><strong>Auth header (most routes):</strong> <code>X-Health-Analyzer-Token: &lt;token&gt;</code></li>
+          <li><strong>Token file path:</strong> returned by <code>GET /status</code></li>
+        </ul>
+        <p class="mb-0">Start here: <a href="/apple-health-local-api/">Apple Health Local API</a></p>
+      </div>
+
+      <h2>Pick your integration</h2>
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        <a class="glass p-5 hover:border-rose-500/40 transition-colors" href="/apple-health-claude/">
+          <div class="flex items-center gap-3">
+            <i data-lucide="sparkles" class="w-5 h-5 text-rose-400"></i>
+            <span class="text-white font-semibold">Apple Health + Claude</span>
+          </div>
+          <p class="text-slate-400 mt-2 mb-0">Best for tool-use workflows and iterative analysis.</p>
+        </a>
+        <a class="glass p-5 hover:border-rose-500/40 transition-colors" href="/apple-health-openai/">
+          <div class="flex items-center gap-3">
+            <i data-lucide="braces" class="w-5 h-5 text-rose-400"></i>
+            <span class="text-white font-semibold">Apple Health + OpenAI / ChatGPT</span>
+          </div>
+          <p class="text-slate-400 mt-2 mb-0">Best for function calling + structured outputs.</p>
+        </a>
+        <a class="glass p-5 hover:border-rose-500/40 transition-colors" href="/apple-health-gemini/">
+          <div class="flex items-center gap-3">
+            <i data-lucide="file-text" class="w-5 h-5 text-rose-400"></i>
+            <span class="text-white font-semibold">Apple Health + Gemini</span>
+          </div>
+          <p class="text-slate-400 mt-2 mb-0">Best for recurring weekly/monthly reports.</p>
+        </a>
+        <a class="glass p-5 hover:border-rose-500/40 transition-colors" href="/openclaw-apple-health/">
+          <div class="flex items-center gap-3">
+            <i data-lucide="bot" class="w-5 h-5 text-rose-400"></i>
+            <span class="text-white font-semibold">OpenClaw integration</span>
+          </div>
+          <p class="text-slate-400 mt-2 mb-0">Automate daily briefs and health workflows (read-only endpoints).</p>
+        </a>
+      </div>
+
+      <h2>Why a local API beats uploading an export</h2>
+      <p>Apple Health exports are time-series heavy: heart rate samples, sleep stages, workouts, steps, glucose, and more. That means <strong>tons of rows</strong> and a file that quickly becomes too big for an LLM context window.</p>
+      <p>Instead of "upload everything", do:</p>
+      <ol class="list-decimal">
+        <li>Ask a question (e.g., "How did my resting HR trend over the last 90 days?")</li>
+        <li>Call a single API endpoint for the metric + date range</li>
+        <li>Send the compact JSON to the model for analysis</li>
+      </ol>
+
+      <h2>Useful endpoints (examples)</h2>
+      <ul>
+        <li><code>GET /metrics</code> - available metric types</li>
+        <li><code>GET /summary?start=YYYY-MM-DD&amp;end=YYYY-MM-DD</code> - compact overall summary</li>
+        <li><code>GET /steps/daily?start=YYYY-MM-DD&amp;end=YYYY-MM-DD</code></li>
+        <li><code>GET /sleep/summary?start=YYYY-MM-DD&amp;end=YYYY-MM-DD</code></li>
+        <li><code>GET /workouts/summary?start=YYYY-MM-DD&amp;end=YYYY-MM-DD</code></li>
+        <li><code>GET /heart-rate/trends?start=YYYY-MM-DD&amp;end=YYYY-MM-DD</code></li>
+        <li><code>GET /blood-glucose/summary?start=YYYY-MM-DD&amp;end=YYYY-MM-DD</code></li>
+      </ul>
+
+      <h2>Security model</h2>
+      <p>Most routes require:</p>
+      <pre><code>X-Health-Analyzer-Token: &lt;token&gt;</code></pre>
+      <p>You can discover the token file path via <code>GET /status</code>.</p>
+      <p>OpenClaw-specific routes are read-only and do not require the token:</p>
+      <ul>
+        <li><code>GET /openclaw/status</code></li>
+        <li><code>GET /openclaw/daily-brief?date=YYYY-MM-DD</code></li>
+      </ul>
+
+      <h2>Compatibility routes</h2>
+      <p>Compatibility endpoints also exist under <code>/health/*</code>, for example:</p>
+      <ul>
+        <li><code>/health/status</code></li>
+        <li><code>/health/sleep</code></li>
+        <li><code>/health/workouts</code></li>
+        <li><code>/health/blood-glucose</code></li>
+      </ul>
+
+      <div class="mt-12 p-8 rounded-2xl bg-gradient-to-br from-rose-900/50 to-slate-900 border border-rose-500/20 text-center">
+        <h3 class="text-2xl font-bold text-white mb-4! mt-0!">Want to talk to your health data?</h3>
+        <p class="text-slate-300 mb-8">Start with the Local API docs, then pick your AI integration.</p>
+        <div class="flex flex-col sm:flex-row gap-4 justify-center">
+          <a href="/apple-health-local-api/" class="inline-flex justify-center items-center gap-2 bg-rose-600 text-white font-bold py-3 px-8 rounded-xl hover:bg-rose-700 transition-all shadow-lg shadow-rose-600/20">
+            <i data-lucide="link" class="w-5 h-5"></i> Local API Docs
+          </a>
+          <a href="/apple-health-claude/" class="inline-flex justify-center items-center gap-2 bg-slate-800 text-white font-bold py-3 px-8 rounded-xl hover:bg-slate-700 transition-all border border-slate-700">
+            Apple Health + Claude
+          </a>
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+  <footer class="border-t border-white/5 bg-slate-950 py-12">
+    <div class="max-w-7xl mx-auto px-4 text-center">
+      <p class="text-slate-500 text-sm">© 2026 Health Data Export. Not affiliated with Apple Inc.</p>
+    </div>
+  </footer>
+
+  <script>
+    lucide.createIcons();
+  </script>
+</body>
+</html>

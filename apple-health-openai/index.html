@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Apple Health + ChatGPT/OpenAI: Analyze Your Health Data (Local API)</title>
+  <meta name="description" content="Use ChatGPT/OpenAI with a local Apple Health API to fetch targeted metrics (sleep, steps, HR, workouts) and generate structured insights.">
+  <meta name="keywords" content="apple health openai, apple health chatgpt, chatgpt apple health export, function calling apple health, apple health local api">
+  <link rel="canonical" href="https://applehealthdata.com/apple-health-openai/">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <!-- Matomo -->
+  <script>
+    var _paq = window._paq = window._paq || [];
+    _paq.push(['trackPageView']);
+    _paq.push(['enableLinkTracking']);
+    (function() {
+      var u="//shrewd-lyrebird.pikapod.net/";
+      _paq.push(['setTrackerUrl', u+'matomo.php']);
+      _paq.push(['setSiteId', '9']);
+      var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
+      g.async=true; g.src=u+'matomo.js'; s.parentNode.insertBefore(g,s);
+    })();
+  </script>
+  <!-- End Matomo Code -->
+
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;700&display=swap');
+    :root { --glass-border: rgba(255, 255, 255, 0.08); --glass-bg: rgba(255, 255, 255, 0.03); }
+    body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: #020617; color: #f8fafc; overflow-x: hidden; }
+    .mesh-gradient { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: -1; background: radial-gradient(at 0% 0%, rgba(225, 29, 72, 0.15) 0px, transparent 50%), radial-gradient(at 100% 0%, rgba(56, 189, 248, 0.15) 0px, transparent 50%), radial-gradient(at 100% 100%, rgba(168, 85, 247, 0.15) 0px, transparent 50%); filter: blur(60px); }
+    .content-section h2 { border-top: 1px solid var(--glass-border); padding-top: 2rem; margin-top: 3rem; color: #f8fafc; font-size: 1.875rem; font-weight: 700; margin-bottom: 1.25rem; }
+    .content-section h3 { color: #e2e8f0; font-size: 1.5rem; font-weight: 600; margin-top: 2rem; margin-bottom: 0.75rem; }
+    .content-section p { color: #94a3b8; font-size: 1.125rem; line-height: 1.75; margin-bottom: 1.25rem; }
+    .content-section a { color: #f43f5e; text-decoration: none; border-bottom: 1px solid transparent; transition: all 0.2s; }
+    .content-section a:hover { border-bottom-color: #f43f5e; }
+    .content-section ul, .content-section ol { padding-left: 1.5rem; margin-bottom: 1.25rem; color: #94a3b8; }
+    .content-section li { margin-bottom: 0.5rem; list-style-type: disc; }
+    .content-section pre { background: #0f172a; border: 1px solid var(--glass-border); border-radius: 0.75rem; padding: 1.25rem; overflow-x: auto; margin-bottom: 1.25rem; }
+    .content-section code { font-family: 'JetBrains Mono', monospace; color: #38bdf8; font-size: 0.875rem; }
+    .glass { background: rgba(255, 255, 255, 0.03); border: 1px solid var(--glass-border); border-radius: 1rem; }
+    .prompt-box { background: rgba(255, 255, 255, 0.03); border: 1px solid var(--glass-border); border-radius: 0.75rem; padding: 1.25rem; margin-bottom: 1.25rem; }
+  </style>
+
+  <!-- FAQ Schema -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "Can ChatGPT analyze my entire Apple Health export?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Not effectively. Apple Health exports can be huge. The practical approach is to query targeted summaries and trends via a local API and send the compact result to ChatGPT for analysis."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What’s the base URL for the local API?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "By default it runs at http://127.0.0.1:8765 on your Mac."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Do I need function calling/tools to use this?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "No. You can paste API responses into ChatGPT manually. Tools/function calling make it automated, but the workflow works either way."
+        }
+      }
+    ]
+  }
+  </script>
+</head>
+<body>
+  <div class="mesh-gradient"></div>
+
+  <nav class="fixed w-full z-50 border-b border-white/10 bg-slate-950/80 backdrop-blur-xl">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex justify-between items-center h-20">
+        <a href="/" class="flex items-center gap-3 group">
+          <div class="w-10 h-10 bg-gradient-to-tr from-rose-600 to-orange-500 rounded-xl flex items-center justify-center shadow-lg shadow-rose-500/20 group-hover:scale-105 transition-transform">
+            <i data-lucide="activity" class="w-6 h-6 text-white"></i>
+          </div>
+          <div>
+            <span class="font-bold text-lg tracking-tight text-white block leading-none">Health Data</span>
+            <span class="text-xs text-slate-400 tracking-wider uppercase font-semibold">Export & Analyze</span>
+          </div>
+        </a>
+        <div class="hidden md:flex gap-6">
+          <a href="/apple-health-ai/" class="text-sm font-medium text-slate-300 hover:text-white transition-colors">Apple Health + AI</a>
+          <a href="https://apps.apple.com/app/id6749297170" class="text-sm font-bold text-rose-500 hover:text-rose-400 transition-colors">Download App</a>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <main class="pt-32 pb-20 lg:pt-48 lg:pb-32">
+    <div class="max-w-3xl mx-auto px-4 content-section">
+      <div class="text-center mb-16">
+        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-rose-500/10 border border-rose-500/20 text-rose-400 text-sm font-medium mb-6">
+          <i data-lucide="braces" class="w-4 h-4"></i>
+          OpenAI + Local API
+        </div>
+        <h1 class="text-4xl lg:text-6xl font-bold text-white mb-6 tracking-tight">Apple Health + OpenAI / ChatGPT (via a Local API)</h1>
+        <p class="text-xl text-slate-400 leading-relaxed">Fetch the exact metric slice you need locally (sleep, steps, workouts, heart rate), then ask ChatGPT to summarize, detect trends, and return structured next steps.</p>
+      </div>
+
+      <div class="glass p-6">
+        <ul>
+          <li><strong>Base URL:</strong> <code>http://127.0.0.1:8765</code></li>
+          <li><strong>Auth header (most routes):</strong> <code>X-Health-Analyzer-Token: &lt;token&gt;</code></li>
+          <li><strong>Token file path:</strong> returned by <code>GET /status</code></li>
+        </ul>
+        <p class="mb-0">Docs: <a href="/apple-health-local-api/">Apple Health Local API</a> · Hub: <a href="/apple-health-ai/">Apple Health + AI</a></p>
+      </div>
+
+      <h2>Why OpenAI + local query endpoints works</h2>
+      <p>Time-series health data explodes in size. The trick is to keep the model focused: query summaries and trends (already aggregated), then ask ChatGPT to reason over the compact payload.</p>
+
+      <h2>Quickstart</h2>
+      <ol class="list-decimal">
+        <li>Confirm the API is running: <code>GET http://127.0.0.1:8765/status</code></li>
+        <li>Load your token (path returned by <code>/status</code>)</li>
+        <li>Pull one metric slice (e.g., 30–90 days) using a summary/trend endpoint</li>
+        <li>Paste the JSON into ChatGPT and ask for structured outputs</li>
+      </ol>
+
+      <h2>Prompts that work well (OpenAI-optimized)</h2>
+      <div class="prompt-box">
+        <p class="text-slate-300 mb-3"><strong>Prompt 1 — Findings + next queries</strong></p>
+        <pre><code>Analyze the JSON below.
+
+Return:
+1) Key findings (bullets)
+2) Confidence level (high/med/low) with reasons
+3) Outliers/anomalies
+4) The next 3 API queries to run (endpoint + date range) to validate your hypothesis</code></pre>
+      </div>
+      <div class="prompt-box">
+        <p class="text-slate-300 mb-3"><strong>Prompt 2 — Structured action plan</strong></p>
+        <pre><code>Based on the dataset below, produce:
+
+A) A plain-English summary (max 8 bullets)
+B) A JSON action plan with fields:
+- goals
+- constraints
+- interventions
+- metrics_to_track
+- 14_day_experiment
+- follow_up_questions</code></pre>
+      </div>
+
+      <h2>Example API calls</h2>
+      <p>Daily steps (chart-ready):</p>
+      <pre><code>curl -s \
+  -H "X-Health-Analyzer-Token: $TOKEN" \
+  "http://127.0.0.1:8765/steps/daily?start=2026-01-01&end=2026-03-27"</code></pre>
+
+      <p>Workouts summary:</p>
+      <pre><code>curl -s \
+  -H "X-Health-Analyzer-Token: $TOKEN" \
+  "http://127.0.0.1:8765/workouts/summary?start=2026-02-25&end=2026-03-27"</code></pre>
+
+      <p>Blood glucose summary:</p>
+      <pre><code>curl -s \
+  -H "X-Health-Analyzer-Token: $TOKEN" \
+  "http://127.0.0.1:8765/blood-glucose/summary?start=2026-02-25&end=2026-03-27"</code></pre>
+
+      <h2>Cost & accuracy best practices</h2>
+      <ul>
+        <li>Prefer <code>/summary</code> and <code>*/summary</code> endpoints over raw samples</li>
+        <li>Start with 30–90 days; expand only if needed</li>
+        <li>Ask ChatGPT to explicitly request more data (endpoint + range) before making strong claims</li>
+      </ul>
+
+      <h2>Compatibility routes</h2>
+      <p>Compatibility endpoints also exist under <code>/health/*</code> (for example <code>/health/sleep</code> and <code>/health/workouts</code>).</p>
+
+      <div class="mt-12 p-8 rounded-2xl bg-gradient-to-br from-rose-900/50 to-slate-900 border border-rose-500/20 text-center">
+        <h3 class="text-2xl font-bold text-white mb-4! mt-0!">Want the docs + endpoints list?</h3>
+        <p class="text-slate-300 mb-8">Start with the Local API, then build your ChatGPT workflow.</p>
+        <div class="flex flex-col sm:flex-row gap-4 justify-center">
+          <a href="/apple-health-local-api/" class="inline-flex justify-center items-center gap-2 bg-rose-600 text-white font-bold py-3 px-8 rounded-xl hover:bg-rose-700 transition-all shadow-lg shadow-rose-600/20">
+            <i data-lucide="link" class="w-5 h-5"></i> Local API Docs
+          </a>
+          <a href="/apple-health-gemini/" class="inline-flex justify-center items-center gap-2 bg-slate-800 text-white font-bold py-3 px-8 rounded-xl hover:bg-slate-700 transition-all border border-slate-700">
+            Next: Gemini
+          </a>
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+  <footer class="border-t border-white/5 bg-slate-950 py-12">
+    <div class="max-w-7xl mx-auto px-4 text-center">
+      <p class="text-slate-500 text-sm">© 2026 Health Data Export. Not affiliated with Apple Inc.</p>
+    </div>
+  </footer>
+
+  <script>
+    lucide.createIcons();
+  </script>
+</body>
+</html>
