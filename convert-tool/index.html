@@ -732,7 +732,9 @@
                             gtag('event', 'app_store_click', {
                                 link_url: a.href,
                                 cta_location: a.dataset.ctaLocation || 'unknown',
-                                page_path: window.location.pathname
+                                page_path: window.location.pathname,
+                                experiment_id: window.__abExperimentId || undefined,
+                                variant: window.__abVariant || undefined
                             });
                         }
                     } catch (e) {}
