@@ -3,25 +3,25 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Apple Health XML to CSV Converter | Convert export.xml Privately</title>
-    <meta name="description" content="Convert Apple Health export.xml to CSV in your browser with no uploads. Fast private Apple Health XML to CSV conversion for analysis in Excel, Sheets, or AI tools.">
+    <title>Apple Health XML to CSV, JSON & Excel Converter | Free Private Tool</title>
+    <meta name="description" content="Convert Apple Health export.xml to CSV, JSON, or Excel (XLSX) in your browser with no uploads. Fast private Apple Health XML conversion for analysis in Excel, Sheets, Python, or AI tools.">
     <link rel="canonical" href="https://applehealthdata.com/convert-tool/">
 
     <!-- SEO/Share: Open Graph + Twitter Cards -->
     <meta property="og:type" content="website">
     <meta property="og:site_name" content="AppleHealthData.com">
     <meta property="og:url" content="https://applehealthdata.com/convert-tool/">
-    <meta property="og:title" content="Apple Health XML to CSV Converter | Convert export.xml Privately">
-    <meta property="og:description" content="Convert Apple Health export.xml to CSV locally in your browser. No uploads.">
+    <meta property="og:title" content="Apple Health XML to CSV, JSON & Excel Converter | Free Private Tool">
+    <meta property="og:description" content="Convert Apple Health export.xml to CSV, JSON, or Excel locally in your browser. No uploads.">
     <meta property="og:image" content="https://applehealthdata.com/images/iphone-app-screenshot.png">
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Apple Health XML to CSV Converter | Convert export.xml Privately">
-    <meta name="twitter:description" content="Convert Apple Health export.xml to CSV locally in your browser. No uploads.">
+    <meta name="twitter:title" content="Apple Health XML to CSV, JSON & Excel Converter | Free Private Tool">
+    <meta name="twitter:description" content="Convert Apple Health export.xml to CSV, JSON, or Excel locally in your browser. No uploads.">
     <meta name="twitter:image" content="https://applehealthdata.com/images/iphone-app-screenshot.png">
     <meta name="robots" content="index,follow,max-image-preview:large">
 
     <meta name="apple-itunes-app" content="app-id=6749297170">
-    <meta name="keywords" content="convert apple health xml, apple health export.xml to csv, health export.xml converter, convert healthkit xml, apple health parser, xml to csv tool, free converter, private health data tool">
+    <meta name="keywords" content="convert apple health xml, apple health export.xml to csv, apple health xml to json, apple health xml to excel, apple health xml to xlsx, health export.xml converter, convert healthkit xml, apple health parser, xml to csv tool, xml to json tool, free converter, private health data tool">
 
     <!-- SEO: FAQ Schema (helps SERP rich results) -->
     <script type="application/ld+json">
@@ -31,10 +31,10 @@
       "mainEntity": [
         {
           "@type": "Question",
-          "name": "Is this XML to CSV converter tool truly private?",
+          "name": "Is this XML converter tool truly private?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Yes. All conversion happens locally in your browser. Your export.xml file is never uploaded to any server."
+            "text": "Yes. All conversion happens locally in your browser. Your export.xml file is never uploaded to any server, whether you export to CSV, JSON, or Excel."
           }
         },
         {
@@ -47,18 +47,34 @@
         },
         {
           "@type": "Question",
-          "name": "Why should I convert Apple Health XML to CSV?",
+          "name": "What output formats are supported?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "CSV is easier to analyze than XML. You can open CSV directly in Excel/Google Sheets for sorting, filtering, charting, and downstream analysis."
+            "text": "You can convert your Apple Health export.xml to three formats: CSV (for spreadsheets and data analysis), JSON (for programming and AI tools), or Excel XLSX (for professional spreadsheet work with proper formatting)."
           }
         },
         {
           "@type": "Question",
-          "name": "What data types are included in the CSV conversion?",
+          "name": "Why should I convert Apple Health XML to JSON?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "The converter extracts key attributes from each Apple Health ‘Record’ element, including type, sourceName, unit, startDate, endDate, and value (covering the majority of quantitative HealthKit records)."
+            "text": "JSON is the standard data format for programming and AI tools. If you want to analyze your Apple Health data with Python, JavaScript, ChatGPT, Claude, or any API, JSON is the easiest format to work with."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Why should I convert Apple Health XML to Excel (XLSX)?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Excel XLSX gives you a real spreadsheet file with proper column formatting, filters, and compatibility with Microsoft Excel, Google Sheets, and Numbers. It’s ideal for sorting, charting, and sharing health data reports."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What data types are included in the conversion?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "The converter extracts key attributes from each Apple Health Record element, including type, sourceName, unit, startDate, endDate, and value. All three output formats include the same data."
           }
         },
         {
@@ -83,6 +99,7 @@
 
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
+    <script src="https://cdn.sheetjs.com/xlsx-0.20.3/package/dist/xlsx.full.min.js"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;700&display=swap');
         
@@ -205,6 +222,36 @@
         .download-button:hover {
             background-color: #16a34a; /* green-600 */
         }
+
+        /* Format Selector */
+        .format-selector {
+            display: inline-flex;
+            gap: 0.5rem;
+            padding: 0.25rem;
+            border-radius: 0.75rem;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--glass-border);
+        }
+        .format-btn {
+            padding: 0.5rem 1.25rem;
+            border-radius: 0.5rem;
+            font-size: 0.875rem;
+            font-weight: 600;
+            color: #94a3b8;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            border: none;
+            background: transparent;
+        }
+        .format-btn:hover {
+            color: #e2e8f0;
+            background: rgba(255, 255, 255, 0.05);
+        }
+        .format-btn.active {
+            color: #fff;
+            background: #f43f5e;
+            box-shadow: 0 0 12px rgba(244, 63, 94, 0.3);
+        }
     </style>
     <!-- Analytics scripts from index.html -->
     <meta name="google-site-verification" content="mfw8yyYjETYvKDrxInR-_YSvL8zUQJ2qAB3N_OVbjjM" />
@@ -269,8 +316,17 @@
 
     <main class="pt-32 pb-20 lg:pt-48 lg:pb-32">
         <div class="max-w-2xl mx-auto text-center px-4">
-            <h1 class="text-4xl lg:text-5xl font-bold text-white mb-6">Convert Apple Health XML to CSV (Private Browser Tool)</h1>
-            <p class="text-xl text-slate-400 leading-relaxed mb-12">Stuck with a complex <code>export.xml</code> file? This free tool converts it into a clean, usable CSV file directly in your browser. <strong>Your data is never uploaded and remains completely private.</strong></p>
+            <h1 class="text-4xl lg:text-5xl font-bold text-white mb-6">Convert Apple Health XML to CSV, JSON & Excel</h1>
+            <p class="text-xl text-slate-400 leading-relaxed mb-8">Stuck with a complex <code>export.xml</code> file? This free tool converts it into CSV, JSON, or Excel directly in your browser. <strong>Your data is never uploaded and remains completely private.</strong></p>
+
+            <!-- Format Selector -->
+            <div class="mb-8">
+                <div class="format-selector">
+                    <button class="format-btn active" data-format="csv">CSV</button>
+                    <button class="format-btn" data-format="json">JSON</button>
+                    <button class="format-btn" data-format="xlsx">Excel (XLSX)</button>
+                </div>
+            </div>
 
             <div id="drop-zone" class="drop-zone w-full p-8 md:p-16 rounded-2xl border-rose-500 border-4">
                 <div class="flex flex-col items-center justify-center">
@@ -280,7 +336,7 @@
                     </label>
                     <input type="file" id="file-upload" class="hidden" accept=".xml">
                     <p id="status" class="text-slate-400 mt-4">... or drop your <code>export.xml</code> file here</p>
-                    <a id="download-link" class="hidden w-full mt-6 download-button text-white font-bold py-3 px-8 rounded-lg hover:bg-green-600 transition-all">Download CSV</a>
+                    <a id="download-link" class="hidden w-full mt-6 download-button text-white font-bold py-3 px-8 rounded-lg hover:bg-green-600 transition-all text-center">Download CSV</a>
                 </div>
             </div>
 
@@ -295,9 +351,10 @@
                 <h3 class="text-xl font-bold text-white mb-4">How it Works</h3>
                 <ol class="list-decimal list-inside text-slate-400 space-y-2">
                     <li>Use the official <a href="/export-apple-health-data/" class="text-rose-400">Apple Health export</a> feature on your iPhone to get the <code>export.xml</code> file.</li>
+                    <li>Choose your output format: <strong class="text-slate-200">CSV</strong>, <strong class="text-slate-200">JSON</strong>, or <strong class="text-slate-200">Excel (XLSX)</strong>.</li>
                     <li>Click the button above or drag-and-drop your <code>export.xml</code> file.</li>
                     <li>The tool processes the file locally in your browser.</li>
-                    <li>A download button will appear. Click it to save your new CSV file.</li>
+                    <li>A download button will appear. Click it to save your converted file.</li>
                 </ol>
             </div>
         </div>
@@ -305,14 +362,14 @@
         <!-- CTA Section - Lead Magnet -->
         <section class="py-20 bg-slate-900 border-t border-white/5 mt-16">
             <div class="max-w-4xl mx-auto px-4 text-center">
-                <h2 class="text-3xl md:text-5xl font-bold text-white mb-6">After You Convert Apple Health XML to CSV, What's Next?</h2>
-                <p class="text-lg text-slate-400 max-w-2xl mx-auto mb-8">This converter is a great start. To truly own your health data and gain deeper AI-powered insights, explore our full suite of tools.</p>
+                <h2 class="text-3xl md:text-5xl font-bold text-white mb-6">After You Convert, What's Next?</h2>
+                <p class="text-lg text-slate-400 max-w-2xl mx-auto mb-8">Whether you exported CSV, JSON, or Excel — this converter is a great start. To truly own your health data and gain deeper AI-powered insights, explore our full suite of tools.</p>
                 <div class="mb-8 p-6 rounded-2xl bg-slate-950/50 border border-white/10 text-left">
                     <h3 class="text-xl font-bold text-white mb-3">Related Apple Health export pages</h3>
                     <div class="grid md:grid-cols-3 gap-3 text-sm">
                         <a href="/" class="p-3 rounded-xl border border-white/10 bg-white/5 text-slate-200 hover:border-rose-400 transition">Apple Health export hub</a>
                         <a href="/export-apple-health-data/" class="p-3 rounded-xl border border-white/10 bg-white/5 text-slate-200 hover:border-rose-400 transition">How to export Apple Health data</a>
-                        <a href="/convert-tool/" class="p-3 rounded-xl border border-white/10 bg-white/5 text-slate-200 hover:border-rose-400 transition">Apple Health XML to CSV converter</a>
+                        <a href="/convert-tool/" class="p-3 rounded-xl border border-white/10 bg-white/5 text-slate-200 hover:border-rose-400 transition">Apple Health XML converter (CSV, JSON, Excel)</a>
                     </div>
                 </div>
 
@@ -340,11 +397,11 @@
                 <div class="faq-accordion space-y-2">
                     <details>
                         <summary class="flex justify-between items-center">
-                            <span>Q: Is this XML to CSV converter tool truly private?</span>
+                            <span>Q: Is this converter tool truly private?</span>
                             <i data-lucide="chevron-right" class="chevron w-6 h-6 text-rose-400"></i>
                         </summary>
                         <div class="faq-content">
-                            <p>A: Yes, absolutely. All conversion processes happen directly in your web browser. Your <code>export.xml</code> file is never uploaded to any server, ensuring your sensitive health data remains completely private and secure.</p>
+                            <p>A: Yes, absolutely. All conversion happens directly in your web browser — whether you choose CSV, JSON, or Excel. Your <code>export.xml</code> file is never uploaded to any server.</p>
                         </div>
                     </details>
                     <details>
@@ -358,20 +415,38 @@
                     </details>
                     <details>
                         <summary class="flex justify-between items-center">
-                            <span>Q: Why should I convert Apple Health XML to CSV?</span>
+                            <span>Q: What output formats are supported?</span>
                             <i data-lucide="chevron-right" class="chevron w-6 h-6 text-rose-400"></i>
                         </summary>
                         <div class="faq-content">
-                            <p>A: While XML is comprehensive, CSV is much easier to work with for analysis. CSV files can be opened directly in spreadsheet software like Excel or Google Sheets, allowing for simple sorting, filtering, charting, and further data manipulation.</p>
+                            <p>A: Three formats: <strong>CSV</strong> for spreadsheets and data analysis, <strong>JSON</strong> for programming and AI tools (Python, ChatGPT, Claude), and <strong>Excel (XLSX)</strong> for professional spreadsheet work with proper formatting in Microsoft Excel, Google Sheets, or Numbers.</p>
                         </div>
                     </details>
                     <details>
                         <summary class="flex justify-between items-center">
-                            <span>Q: What data types are included in the CSV conversion?</span>
+                            <span>Q: Why should I convert Apple Health XML to JSON?</span>
                             <i data-lucide="chevron-right" class="chevron w-6 h-6 text-rose-400"></i>
                         </summary>
                         <div class="faq-content">
-                            <p>A: The converter extracts key attributes from each <code>&lt;Record&gt;</code> element, including <code>type</code>, <code>sourceName</code>, <code>unit</code>, <code>startDate</code>, <code>endDate</code>, and <code>value</code>. This covers the majority of your quantitative health data.</p>
+                            <p>A: JSON is the standard data format for programming and AI tools. If you want to analyze your Apple Health data with Python, JavaScript, ChatGPT, Claude, or any API, JSON is the easiest format to work with — no parsing required.</p>
+                        </div>
+                    </details>
+                    <details>
+                        <summary class="flex justify-between items-center">
+                            <span>Q: Why should I convert Apple Health XML to Excel (XLSX)?</span>
+                            <i data-lucide="chevron-right" class="chevron w-6 h-6 text-rose-400"></i>
+                        </summary>
+                        <div class="faq-content">
+                            <p>A: Excel XLSX gives you a real spreadsheet file with proper column formatting and compatibility with Microsoft Excel, Google Sheets, and Numbers. It's ideal for sorting, charting, pivoting, and sharing health data reports.</p>
+                        </div>
+                    </details>
+                    <details>
+                        <summary class="flex justify-between items-center">
+                            <span>Q: What data types are included in the conversion?</span>
+                            <i data-lucide="chevron-right" class="chevron w-6 h-6 text-rose-400"></i>
+                        </summary>
+                        <div class="faq-content">
+                            <p>A: The converter extracts key attributes from each <code>&lt;Record&gt;</code> element, including <code>type</code>, <code>sourceName</code>, <code>unit</code>, <code>startDate</code>, <code>endDate</code>, and <code>value</code>. All three output formats include the same data.</p>
                         </div>
                     </details>
                     <details>
@@ -400,8 +475,8 @@
         <section class="py-12">
             <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div class="bento-card p-8">
-                    <h2 class="text-2xl font-bold text-white mb-3">Copy prompts after converting XML to CSV</h2>
-                    <p class="text-slate-400 mb-4">Use these right after download for fast insights:</p>
+                    <h2 class="text-2xl font-bold text-white mb-3">Copy prompts after converting your health data</h2>
+                    <p class="text-slate-400 mb-4">Use these with your CSV, JSON, or Excel file for fast AI insights:</p>
                     <div class="space-y-3 text-left">
                         <div class="p-3 rounded-xl bg-black/30 border border-white/10 text-slate-300 font-mono text-sm">"Summarize my Apple Health CSV by week and highlight unusual changes in sleep, HRV, and activity."</div>
                         <div class="p-3 rounded-xl bg-black/30 border border-white/10 text-slate-300 font-mono text-sm">"Find patterns where low sleep is followed by lower activity or higher resting heart rate."</div>
@@ -443,6 +518,21 @@
         const fileInput = document.getElementById('file-upload');
         const statusDiv = document.getElementById('status');
         const downloadLink = document.getElementById('download-link');
+        const formatBtns = document.querySelectorAll('.format-btn');
+
+        let selectedFormat = 'csv';
+
+        // Format selector
+        formatBtns.forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                formatBtns.forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                selectedFormat = btn.dataset.format;
+                downloadLink.classList.add('hidden');
+                statusDiv.textContent = '... or drop your export.xml file here';
+            });
+        });
 
         // Handle file selection via button
         fileInput.addEventListener('change', (event) => {
@@ -470,12 +560,57 @@
                 handleFile(files[0]);
             }
         });
-        
+
         // Make the dropzone clickable
         dropZone.addEventListener('click', () => {
             fileInput.click();
         });
 
+        // Extract records from XML into an array of objects
+        const extractRecords = (xmlDoc) => {
+            const records = xmlDoc.getElementsByTagName('Record');
+            const data = [];
+            for (let i = 0; i < records.length; i++) {
+                const r = records[i];
+                data.push({
+                    type: r.getAttribute('type') || '',
+                    sourceName: r.getAttribute('sourceName') || '',
+                    unit: r.getAttribute('unit') || '',
+                    startDate: r.getAttribute('startDate') || '',
+                    endDate: r.getAttribute('endDate') || '',
+                    value: r.getAttribute('value') || ''
+                });
+            }
+            return data;
+        };
+
+        // Generate CSV string
+        const toCSV = (data) => {
+            const escape = (str) => `"${(str || '').replace(/"/g, '""')}"`;
+            let csv = 'type,sourceName,unit,startDate,endDate,value\n';
+            for (const row of data) {
+                csv += [escape(row.type), escape(row.sourceName), escape(row.unit), escape(row.startDate), escape(row.endDate), escape(row.value)].join(',') + '\n';
+            }
+            return new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+        };
+
+        // Generate JSON blob
+        const toJSON = (data) => {
+            const json = JSON.stringify(data, null, 2);
+            return new Blob([json], { type: 'application/json;charset=utf-8;' });
+        };
+
+        // Generate XLSX blob using SheetJS
+        const toXLSX = (data) => {
+            const ws = XLSX.utils.json_to_sheet(data);
+            const wb = XLSX.utils.book_new();
+            XLSX.utils.book_append_sheet(wb, ws, 'Health Records');
+            const wbout = XLSX.write(wb, { bookType: 'xlsx', type: 'array' });
+            return new Blob([wbout], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
+        };
+
+        const formatLabels = { csv: 'CSV', json: 'JSON', xlsx: 'Excel (XLSX)' };
+        const formatExtensions = { csv: '.csv', json: '.json', xlsx: '.xlsx' };
 
         const handleFile = (file) => {
             if (!file || !file.name.endsWith('.xml')) {
@@ -498,50 +633,35 @@
                     if (xmlDoc.getElementsByTagName("parsererror").length) {
                         throw new Error("Failed to parse XML. Please ensure it's a valid Apple Health export.xml file.");
                     }
-                    
-                    statusDiv.textContent = 'Converting to CSV...';
 
-                    const records = xmlDoc.getElementsByTagName('Record');
-                    let csvContent = 'type,sourceName,unit,startDate,endDate,value\n';
-                    
-                    for (let i = 0; i < records.length; i++) {
-                        const record = records[i];
-                        const type = record.getAttribute('type') || '';
-                        const sourceName = record.getAttribute('sourceName') || '';
-                        const unit = record.getAttribute('unit') || '';
-                        const startDate = record.getAttribute('startDate') || '';
-                        const endDate = record.getAttribute('endDate') || '';
-                        const value = record.getAttribute('value') || '';
+                    statusDiv.textContent = `Converting to ${formatLabels[selectedFormat]}...`;
 
-                        const escape = (str) => `"${(str || '').replace(/"/g, '""')}"`;
+                    const data = extractRecords(xmlDoc);
 
-                        const row = [
-                            escape(type),
-                            escape(sourceName),
-                            escape(unit),
-                            escape(startDate),
-                            escape(endDate),
-                            escape(value)
-                        ].join(',');
-                        
-                        csvContent += row + '\n';
-                    }
-
-                    if (records.length === 0) {
+                    if (data.length === 0) {
                         statusDiv.textContent = 'No records found. Is this a valid Apple Health export file?';
                         return;
                     }
 
-                    const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
-                    const url = URL.createObjectURL(blob);
+                    let blob;
+                    if (selectedFormat === 'json') {
+                        blob = toJSON(data);
+                    } else if (selectedFormat === 'xlsx') {
+                        blob = toXLSX(data);
+                    } else {
+                        blob = toCSV(data);
+                    }
 
+                    const url = URL.createObjectURL(blob);
                     downloadLink.href = url;
-                    downloadLink.setAttribute('download', 'converted-health-data.csv');
+                    downloadLink.setAttribute('download', 'converted-health-data' + formatExtensions[selectedFormat]);
+                    downloadLink.textContent = `Download ${formatLabels[selectedFormat]}`;
                     downloadLink.classList.remove('hidden');
-                    statusDiv.innerHTML = `Success! Converted ${records.length.toLocaleString()} records.`;
+                    statusDiv.innerHTML = `Success! Converted ${data.length.toLocaleString()} records to ${formatLabels[selectedFormat]}.`;
 
                     // --- DASHBOARD INTEGRATION ---
                     try {
+                        const records = xmlDoc.getElementsByTagName('Record');
                         const DB_NAME = 'HealthDashboardDB';
                         const DB_VERSION = 1;
                         const STORE_NAME = 'metrics';
@@ -560,8 +680,7 @@
                             const db = event.target.result;
                             const transaction = db.transaction([STORE_NAME], 'readwrite');
                             const store = transaction.objectStore(STORE_NAME);
-                            
-                            // Only save specific types for the dashboard to keep it performant
+
                             const allowedTypes = ['StepCount', 'HeartRate', 'SleepAnalysis'];
                             let savedCount = 0;
 
@@ -595,7 +714,7 @@
             reader.onerror = () => {
                 statusDiv.textContent = 'Error reading file.';
             };
-            
+
             reader.readAsText(file);
         };
 
