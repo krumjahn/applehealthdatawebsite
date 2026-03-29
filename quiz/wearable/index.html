@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Wearable Quiz: Which device should you buy? (Apple Watch vs Oura vs Whoop vs Garmin)</title>
+  <meta name="description" content="A 2-minute quiz to pick the best wearable for your goals (sleep, recovery, training). Get a clear recommendation and then import Apple Health into the app." />
+  <link rel="canonical" href="https://applehealthdata.com/quiz/wearable/" />
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="AppleHealthData.com" />
+  <meta property="og:url" content="https://applehealthdata.com/quiz/wearable/" />
+  <meta property="og:title" content="Wearable Quiz: Which device should you buy?" />
+  <meta property="og:description" content="A 2-minute quiz to pick the best wearable for your goals (sleep, recovery, training)." />
+  <meta property="og:image" content="https://applehealthdata.com/images/mac-app-screenshot-1.png" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="robots" content="index,follow,max-image-preview:large" />
+  <meta name="apple-itunes-app" content="app-id=6749297170" />
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap');
+    body { font-family: 'Plus Jakarta Sans', sans-serif; background:#020617; color:#f8fafc; }
+  </style>
+</head>
+<body>
+  <header class="max-w-3xl mx-auto px-4 pt-10 pb-6">
+    <div class="flex items-center justify-between gap-4">
+      <a href="/" class="text-sm text-slate-300 hover:text-white">← AppleHealthData.com</a>
+      <a href="https://apps.apple.com/us/app/health-data-export-ai-analyzer/id6749297170" target="_blank" rel="noopener" class="text-sm px-3 py-2 rounded-lg bg-rose-600 hover:bg-rose-500 font-semibold">Get the app</a>
+    </div>
+    <h1 class="mt-6 text-3xl sm:text-4xl font-extrabold tracking-tight">Which wearable should you buy?</h1>
+    <p class="mt-2 text-slate-300">2 minutes. Clear recommendation. Built for people who want actionable insights from their health data.</p>
+  </header>
+
+  <main class="max-w-3xl mx-auto px-4 pb-16">
+    <div id="quizCard" class="p-6 sm:p-8 rounded-2xl border border-white/10 bg-white/5">
+      <div class="flex items-center justify-between">
+        <div class="text-sm text-slate-300"><span id="progress">1</span>/<span id="total">7</span></div>
+        <button id="restartBtn" class="text-sm text-slate-400 hover:text-slate-200">Restart</button>
+      </div>
+
+      <h2 id="qTitle" class="mt-4 text-xl sm:text-2xl font-bold"></h2>
+      <p id="qHint" class="mt-1 text-slate-300"></p>
+
+      <div id="options" class="mt-6 grid gap-3"></div>
+
+      <div class="mt-6 flex items-center justify-between">
+        <button id="backBtn" class="px-4 py-2 rounded-lg border border-white/10 bg-white/5 hover:border-rose-400 disabled:opacity-40" disabled>Back</button>
+        <button id="nextBtn" class="px-4 py-2 rounded-lg bg-rose-600 hover:bg-rose-500 font-semibold disabled:opacity-40" disabled>Next</button>
+      </div>
+    </div>
+
+    <div id="resultCard" class="hidden mt-6 p-6 sm:p-8 rounded-2xl border border-white/10 bg-white/5">
+      <h2 class="text-2xl font-extrabold">Your result</h2>
+      <p id="resultSummary" class="mt-2 text-slate-200"></p>
+
+      <div class="mt-6 grid gap-3">
+        <div class="p-4 rounded-xl bg-black/30 border border-white/10">
+          <div class="text-sm text-slate-400">Top recommendation</div>
+          <div id="topPick" class="mt-1 text-xl font-bold"></div>
+          <ul id="topWhy" class="mt-2 list-disc pl-5 text-slate-300"></ul>
+        </div>
+        <div class="p-4 rounded-xl bg-black/30 border border-white/10">
+          <div class="text-sm text-slate-400">Runner-up</div>
+          <div id="runnerUp" class="mt-1 text-lg font-semibold"></div>
+          <div id="runnerWhy" class="mt-1 text-slate-300"></div>
+        </div>
+      </div>
+
+      <div id="iosCTA" class="mt-6 p-4 rounded-xl border border-rose-500/30 bg-rose-500/10">
+        <div class="font-bold">On iPhone?</div>
+        <p class="text-slate-200 mt-1">Download the app, import Apple Health, and get your baseline + trends in minutes.</p>
+        <a href="https://apps.apple.com/us/app/health-data-export-ai-analyzer/id6749297170" target="_blank" rel="noopener" class="inline-block mt-3 px-4 py-2 rounded-lg bg-rose-600 hover:bg-rose-500 font-semibold">Download on the App Store</a>
+        <div class="mt-2 text-xs text-slate-300">Tip: even if you choose Garmin/Oura/Whoop, you can still centralize many metrics via Apple Health.</div>
+      </div>
+
+      <div class="mt-6 text-sm text-slate-400">
+        <a href="/convert-tool/" class="underline hover:text-slate-200">Already have an Apple Health export?</a>
+        <span> · </span>
+        <a href="/export-apple-health-data/" class="underline hover:text-slate-200">How to export Apple Health data</a>
+      </div>
+    </div>
+
+    <section class="max-w-3xl mx-auto px-0 mt-10">
+      <div class="p-6 rounded-2xl border border-white/10 bg-white/5">
+        <h3 class="text-lg font-bold">FAQ</h3>
+        <div class="mt-4 space-y-4 text-slate-300">
+          <div>
+            <div class="font-semibold text-white">Do I need a wearable to use Apple Health insights?</div>
+            <div class="mt-1">No. You can start with iPhone-based metrics and habits, then add a wearable later.</div>
+          </div>
+          <div>
+            <div class="font-semibold text-white">Is Apple Watch always the best choice on iPhone?</div>
+            <div class="mt-1">It’s the best generalist for iPhone users. But sleep-first (ring) or training-first (Garmin) can win depending on goals.</div>
+          </div>
+          <div>
+            <div class="font-semibold text-white">Why does subscription tolerance matter?</div>
+            <div class="mt-1">Some devices (e.g., Whoop) are designed around ongoing coaching/analytics subscriptions.</div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    const APP_STORE_URL = 'https://apps.apple.com/us/app/health-data-export-ai-analyzer/id6749297170';
+
+    const QUESTIONS = [
+      {
+        id: 'phone',
+        title: 'What phone do you use?',
+        hint: 'This quiz is neutral, but the app is iPhone/Apple Health-based.',
+        options: [
+          { key: 'iphone', label: 'iPhone' },
+          { key: 'android', label: 'Android' },
+        ],
+      },
+      {
+        id: 'goal',
+        title: 'What’s your #1 goal?',
+        hint: 'Pick the main job you want the device to do.',
+        options: [
+          { key: 'sleep', label: 'Better sleep + recovery' },
+          { key: 'training', label: 'Training performance (running/gym/cycling)' },
+          { key: 'general', label: 'General health + convenience + smartwatch' },
+          { key: 'stress', label: 'Stress / readiness / recovery coaching' },
+        ],
+      },
+      {
+        id: 'form',
+        title: 'Which form factor do you prefer?',
+        hint: 'Be honest. Wear compliance beats “best specs.”',
+        options: [
+          { key: 'ring', label: 'Ring (I don’t want a watch)' },
+          { key: 'watch', label: 'Watch is fine' },
+          { key: 'either', label: 'Either is fine' },
+        ],
+      },
+      {
+        id: 'battery',
+        title: 'How often are you willing to charge?',
+        hint: 'Battery tolerance strongly changes the best pick.',
+        options: [
+          { key: 'daily', label: 'Daily is OK' },
+          { key: 'fewdays', label: 'Every few days' },
+          { key: 'weekly', label: 'Weekly (or close) preferred' },
+        ],
+      },
+      {
+        id: 'subs',
+        title: 'Are you OK with a subscription for insights?',
+        hint: 'Some devices are built around subscription coaching.',
+        options: [
+          { key: 'yes', label: 'Yes' },
+          { key: 'no', label: 'No' },
+          { key: 'maybe', label: 'Maybe (if it’s worth it)' },
+        ],
+      },
+      {
+        id: 'smartwatch',
+        title: 'Do you want smartwatch features (notifications/apps)?',
+        hint: 'If yes, that usually pushes toward Apple Watch / Pixel Watch.',
+        options: [
+          { key: 'yes', label: 'Yes' },
+          { key: 'no', label: 'No, I want a focused tracker' },
+        ],
+      },
+      {
+        id: 'budget',
+        title: 'Budget range (roughly)?',
+        hint: 'Just helps avoid recommending an unrealistic pick.',
+        options: [
+          { key: 'low', label: 'Budget' },
+          { key: 'mid', label: 'Mid' },
+          { key: 'high', label: 'Premium' },
+        ],
+      },
+    ];
+
+    const state = {
+      idx: 0,
+      answers: {},
+    };
+
+    const el = {
+      progress: document.getElementById('progress'),
+      total: document.getElementById('total'),
+      qTitle: document.getElementById('qTitle'),
+      qHint: document.getElementById('qHint'),
+      options: document.getElementById('options'),
+      backBtn: document.getElementById('backBtn'),
+      nextBtn: document.getElementById('nextBtn'),
+      restartBtn: document.getElementById('restartBtn'),
+      quizCard: document.getElementById('quizCard'),
+      resultCard: document.getElementById('resultCard'),
+      resultSummary: document.getElementById('resultSummary'),
+      topPick: document.getElementById('topPick'),
+      topWhy: document.getElementById('topWhy'),
+      runnerUp: document.getElementById('runnerUp'),
+      runnerWhy: document.getElementById('runnerWhy'),
+    };
+
+    el.total.textContent = String(QUESTIONS.length);
+
+    function renderQuestion() {
+      const q = QUESTIONS[state.idx];
+      el.progress.textContent = String(state.idx + 1);
+      el.qTitle.textContent = q.title;
+      el.qHint.textContent = q.hint || '';
+
+      el.options.innerHTML = '';
+      const selected = state.answers[q.id];
+
+      q.options.forEach(opt => {
+        const btn = document.createElement('button');
+        btn.className = 'text-left p-4 rounded-xl border border-white/10 bg-white/5 hover:border-rose-400 transition';
+        btn.innerHTML = `<div class="font-semibold">${opt.label}</div>`;
+        if (selected === opt.key) {
+          btn.className = 'text-left p-4 rounded-xl border border-rose-400/70 bg-rose-500/10 transition';
+        }
+        btn.addEventListener('click', () => {
+          state.answers[q.id] = opt.key;
+          renderQuestion();
+          el.nextBtn.disabled = false;
+        });
+        el.options.appendChild(btn);
+      });
+
+      el.backBtn.disabled = state.idx === 0;
+      el.nextBtn.disabled = !state.answers[q.id];
+    }
+
+    function scoreRecommendation(a) {
+      // Scores: higher wins
+      const s = { 'Apple Watch': 0, 'Garmin': 0, 'Oura Ring': 0, 'WHOOP': 0, 'Pixel Watch': 0 };
+
+      // Platform
+      if (a.phone === 'iphone') {
+        s['Apple Watch'] += 3;
+        s['Oura Ring'] += 1;
+        s['Garmin'] += 1;
+        s['WHOOP'] += 1;
+      } else {
+        s['Pixel Watch'] += 3;
+        s['Garmin'] += 2;
+        s['Oura Ring'] += 1;
+        s['WHOOP'] += 1;
+        s['Apple Watch'] -= 2;
+      }
+
+      // Goal
+      if (a.goal === 'sleep') { s['Oura Ring'] += 3; s['Apple Watch'] += 1; s['WHOOP'] += 1; }
+      if (a.goal === 'training') { s['Garmin'] += 4; s['Apple Watch'] += 1; }
+      if (a.goal === 'general') { s['Apple Watch'] += 4; s['Pixel Watch'] += 2; }
+      if (a.goal === 'stress') { s['WHOOP'] += 3; s['Oura Ring'] += 1; s['Apple Watch'] += 1; }
+
+      // Form factor
+      if (a.form === 'ring') { s['Oura Ring'] += 4; s['Apple Watch'] -= 1; s['Garmin'] -= 1; s['Pixel Watch'] -= 1; }
+      if (a.form === 'watch') { s['Apple Watch'] += 2; s['Garmin'] += 2; s['Pixel Watch'] += 2; }
+
+      // Battery
+      if (a.battery === 'daily') { s['Apple Watch'] += 2; s['Pixel Watch'] += 2; }
+      if (a.battery === 'fewdays') { s['Oura Ring'] += 2; s['WHOOP'] += 1; }
+      if (a.battery === 'weekly') { s['Garmin'] += 3; s['Oura Ring'] += 2; s['Apple Watch'] -= 1; s['Pixel Watch'] -= 1; }
+
+      // Subscription tolerance
+      if (a.subs === 'yes') { s['WHOOP'] += 3; s['Oura Ring'] += 1; }
+      if (a.subs === 'no') { s['WHOOP'] -= 4; s['Apple Watch'] += 1; s['Garmin'] += 1; }
+      if (a.subs === 'maybe') { s['WHOOP'] += 1; }
+
+      // Smartwatch
+      if (a.smartwatch === 'yes') { s['Apple Watch'] += 4; s['Pixel Watch'] += 4; s['Garmin'] += 1; }
+      if (a.smartwatch === 'no') { s['Garmin'] += 2; s['Oura Ring'] += 2; s['WHOOP'] += 2; s['Apple Watch'] -= 1; s['Pixel Watch'] -= 1; }
+
+      // Budget
+      if (a.budget === 'low') { s['Apple Watch'] += 1; s['Garmin'] -= 1; s['Oura Ring'] -= 1; }
+      if (a.budget === 'mid') { s['Apple Watch'] += 1; s['Garmin'] += 1; }
+      if (a.budget === 'high') { s['Garmin'] += 1; s['Oura Ring'] += 1; s['Apple Watch'] += 1; }
+
+      // Pick top 2
+      const ranked = Object.entries(s).sort((a,b) => b[1] - a[1]);
+      const top = ranked[0][0];
+      const runner = ranked[1][0];
+      return { scores: s, top, runner };
+    }
+
+    function buildWhy(top, a) {
+      const why = [];
+      if (top === 'Apple Watch') {
+        why.push('Best iPhone integration (Apple Health + ecosystem).');
+        why.push('Strong generalist: sleep, activity, heart trends, and convenience.');
+        if (a.smartwatch === 'yes') why.push('You said you want smartwatch features.');
+        if (a.goal === 'training') why.push('Good enough for most training; pair with structured plans if needed.');
+      }
+      if (top === 'Garmin') {
+        why.push('Training-first: great for running/cycling/structured workouts.');
+        why.push('Battery life is typically excellent.');
+        if (a.goal === 'training') why.push('You picked training performance as your #1 goal.');
+      }
+      if (top === 'Oura Ring') {
+        why.push('Sleep-first + recovery: easy to wear consistently.');
+        why.push('Ring form factor fits your preference.');
+        if (a.goal === 'sleep') why.push('You picked sleep + recovery as your #1 goal.');
+      }
+      if (top === 'WHOOP') {
+        why.push('Recovery/readiness coaching is the core experience.');
+        why.push('Works well if you like subscription-based insights.');
+        if (a.subs === 'yes') why.push('You’re OK with a subscription.');
+      }
+      if (top === 'Pixel Watch') {
+        why.push('Best generalist smartwatch path on Android.');
+        if (a.smartwatch === 'yes') why.push('You said you want smartwatch features.');
+      }
+      return why.slice(0, 4);
+    }
+
+    function showResults() {
+      const a = state.answers;
+      const { top, runner } = scoreRecommendation(a);
+
+      el.quizCard.classList.add('hidden');
+      el.resultCard.classList.remove('hidden');
+
+      const summaryParts = [];
+      if (a.goal) summaryParts.push(`Goal: ${a.goal}`);
+      if (a.form) summaryParts.push(`Form: ${a.form}`);
+      if (a.battery) summaryParts.push(`Battery: ${a.battery}`);
+      el.resultSummary.textContent = summaryParts.length ? summaryParts.join(' · ') : '';
+
+      el.topPick.textContent = top;
+      el.topWhy.innerHTML = '';
+      buildWhy(top, a).forEach(line => {
+        const li = document.createElement('li');
+        li.textContent = line;
+        el.topWhy.appendChild(li);
+      });
+
+      el.runnerUp.textContent = runner;
+      el.runnerWhy.textContent = 'If your preferences shift (battery, form factor, or smartwatch needs), this becomes the better pick.';
+
+      // If Android, be explicit about app availability.
+      if (a.phone === 'android') {
+        const cta = document.getElementById('iosCTA');
+        cta.innerHTML = `
+          <div class="font-bold">Note</div>
+          <p class="text-slate-200 mt-1">The AppleHealthData app is iPhone/Apple Health based. If you’re on Android, you can still use this quiz to pick a wearable — and consider switching later if you want Apple Health–style exports.</p>
+        `;
+      }
+    }
+
+    el.backBtn.addEventListener('click', () => {
+      if (state.idx === 0) return;
+      state.idx -= 1;
+      renderQuestion();
+    });
+
+    el.nextBtn.addEventListener('click', () => {
+      if (state.idx < QUESTIONS.length - 1) {
+        state.idx += 1;
+        renderQuestion();
+        return;
+      }
+      showResults();
+    });
+
+    el.restartBtn.addEventListener('click', () => {
+      state.idx = 0;
+      state.answers = {};
+      el.resultCard.classList.add('hidden');
+      el.quizCard.classList.remove('hidden');
+      renderQuestion();
+    });
+
+    renderQuestion();
+  </script>
+</body>
+</html>

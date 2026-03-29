@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Health Data Quiz: What should you track first in Apple Health?</title>
+  <meta name="description" content="A 2-minute quiz to identify the most useful health metrics to track first (sleep, resting HR, HRV, activity). Get a starter plan and then import Apple Health into the app." />
+  <link rel="canonical" href="https://applehealthdata.com/quiz/what-to-track/" />
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="AppleHealthData.com" />
+  <meta property="og:url" content="https://applehealthdata.com/quiz/what-to-track/" />
+  <meta property="og:title" content="Health Data Quiz: What should you track first?" />
+  <meta property="og:description" content="A 2-minute quiz to identify the most useful health metrics to track first." />
+  <meta property="og:image" content="https://applehealthdata.com/images/mac-app-screenshot-1.png" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="robots" content="index,follow,max-image-preview:large" />
+  <meta name="apple-itunes-app" content="app-id=6749297170" />
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap');
+    body { font-family: 'Plus Jakarta Sans', sans-serif; background:#020617; color:#f8fafc; }
+  </style>
+</head>
+<body>
+  <header class="max-w-3xl mx-auto px-4 pt-10 pb-6">
+    <div class="flex items-center justify-between gap-4">
+      <a href="/" class="text-sm text-slate-300 hover:text-white">← AppleHealthData.com</a>
+      <a href="https://apps.apple.com/us/app/health-data-export-ai-analyzer/id6749297170" target="_blank" rel="noopener" class="text-sm px-3 py-2 rounded-lg bg-rose-600 hover:bg-rose-500 font-semibold">Get the app</a>
+    </div>
+    <h1 class="mt-6 text-3xl sm:text-4xl font-extrabold tracking-tight">What should you track first?</h1>
+    <p class="mt-2 text-slate-300">This quiz prioritizes the 2–3 metrics that will give you the biggest payoff in the next 7 days.</p>
+  </header>
+
+  <main class="max-w-3xl mx-auto px-4 pb-16">
+    <div id="quizCard" class="p-6 sm:p-8 rounded-2xl border border-white/10 bg-white/5">
+      <div class="flex items-center justify-between">
+        <div class="text-sm text-slate-300"><span id="progress">1</span>/<span id="total">6</span></div>
+        <button id="restartBtn" class="text-sm text-slate-400 hover:text-slate-200">Restart</button>
+      </div>
+
+      <h2 id="qTitle" class="mt-4 text-xl sm:text-2xl font-bold"></h2>
+      <p id="qHint" class="mt-1 text-slate-300"></p>
+
+      <div id="options" class="mt-6 grid gap-3"></div>
+
+      <div class="mt-6 flex items-center justify-between">
+        <button id="backBtn" class="px-4 py-2 rounded-lg border border-white/10 bg-white/5 hover:border-rose-400 disabled:opacity-40" disabled>Back</button>
+        <button id="nextBtn" class="px-4 py-2 rounded-lg bg-rose-600 hover:bg-rose-500 font-semibold disabled:opacity-40" disabled>Next</button>
+      </div>
+    </div>
+
+    <div id="resultCard" class="hidden mt-6 p-6 sm:p-8 rounded-2xl border border-white/10 bg-white/5">
+      <h2 class="text-2xl font-extrabold">Your 7-day starter plan</h2>
+      <p id="resultSummary" class="mt-2 text-slate-200"></p>
+
+      <div class="mt-6 grid gap-3">
+        <div class="p-4 rounded-xl bg-black/30 border border-white/10">
+          <div class="text-sm text-slate-400">Focus metrics (start here)</div>
+          <ul id="metrics" class="mt-2 list-disc pl-5 text-slate-300"></ul>
+        </div>
+        <div class="p-4 rounded-xl bg-black/30 border border-white/10">
+          <div class="text-sm text-slate-400">Daily routine (5 minutes)</div>
+          <ul id="routine" class="mt-2 list-disc pl-5 text-slate-300"></ul>
+        </div>
+      </div>
+
+      <div class="mt-6 p-4 rounded-xl border border-rose-500/30 bg-rose-500/10">
+        <div class="font-bold">Next step</div>
+        <p class="text-slate-200 mt-1">Download the app, import Apple Health, and you’ll see trends and baselines for these metrics immediately.</p>
+        <a href="https://apps.apple.com/us/app/health-data-export-ai-analyzer/id6749297170" target="_blank" rel="noopener" class="inline-block mt-3 px-4 py-2 rounded-lg bg-rose-600 hover:bg-rose-500 font-semibold">Download on the App Store</a>
+      </div>
+
+      <div class="mt-6 text-sm text-slate-400">
+        <a href="/convert-tool/" class="underline hover:text-slate-200">Convert an Apple Health export</a>
+        <span> · </span>
+        <a href="/export-apple-health-data/" class="underline hover:text-slate-200">How to export Apple Health data</a>
+      </div>
+    </div>
+
+    <section class="max-w-3xl mx-auto px-0 mt-10">
+      <div class="p-6 rounded-2xl border border-white/10 bg-white/5">
+        <h3 class="text-lg font-bold">FAQ</h3>
+        <div class="mt-4 space-y-4 text-slate-300">
+          <div>
+            <div class="font-semibold text-white">What if I don’t have HRV?</div>
+            <div class="mt-1">That’s fine. Use resting heart rate + sleep consistency + activity minutes as your core scorecard.</div>
+          </div>
+          <div>
+            <div class="font-semibold text-white">Why “sleep consistency” over “sleep score”?</div>
+            <div class="mt-1">Consistency is more controllable and correlates strongly with energy, mood, and training readiness.</div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    const QUESTIONS = [
+      {
+        id: 'goal',
+        title: 'What do you want to improve first?',
+        hint: 'Pick the outcome you care about most right now.',
+        options: [
+          { key: 'energy', label: 'Energy / fatigue' },
+          { key: 'sleep', label: 'Sleep quality' },
+          { key: 'weight', label: 'Weight / body composition' },
+          { key: 'performance', label: 'Training performance' },
+          { key: 'stress', label: 'Stress / mood' },
+        ],
+      },
+      {
+        id: 'schedule',
+        title: 'How stable is your schedule?',
+        hint: 'Sleep timing chaos changes what to focus on.',
+        options: [
+          { key: 'stable', label: 'Mostly stable' },
+          { key: 'chaos', label: 'Travel / kids / shift work (chaotic)' },
+        ],
+      },
+      {
+        id: 'training',
+        title: 'How often do you train?',
+        hint: 'This changes whether activity load metrics matter.',
+        options: [
+          { key: 'none', label: '0–1x/week' },
+          { key: 'some', label: '2–3x/week' },
+          { key: 'often', label: '4+ times/week' },
+        ],
+      },
+      {
+        id: 'sleepHours',
+        title: 'Average sleep (guess is fine)',
+        hint: 'No judgment — this just calibrates the plan.',
+        options: [
+          { key: 'lt6', label: '< 6 hours' },
+          { key: '6to7', label: '6–7 hours' },
+          { key: '7plus', label: '7+ hours' },
+        ],
+      },
+      {
+        id: 'signals',
+        title: 'Which signal do you trust more?',
+        hint: 'Choose the one you’d actually act on.',
+        options: [
+          { key: 'feel', label: 'How I feel (subjective)' },
+          { key: 'numbers', label: 'Numbers/trends (objective)' },
+          { key: 'both', label: 'Both' },
+        ],
+      },
+      {
+        id: 'time',
+        title: 'How much time can you spend daily?',
+        hint: 'We’ll design the routine to fit.',
+        options: [
+          { key: '2', label: '2 minutes' },
+          { key: '5', label: '5 minutes' },
+          { key: '10', label: '10 minutes' },
+        ],
+      },
+    ];
+
+    const state = { idx: 0, answers: {} };
+
+    const el = {
+      progress: document.getElementById('progress'),
+      total: document.getElementById('total'),
+      qTitle: document.getElementById('qTitle'),
+      qHint: document.getElementById('qHint'),
+      options: document.getElementById('options'),
+      backBtn: document.getElementById('backBtn'),
+      nextBtn: document.getElementById('nextBtn'),
+      restartBtn: document.getElementById('restartBtn'),
+      quizCard: document.getElementById('quizCard'),
+      resultCard: document.getElementById('resultCard'),
+      resultSummary: document.getElementById('resultSummary'),
+      metrics: document.getElementById('metrics'),
+      routine: document.getElementById('routine'),
+    };
+
+    el.total.textContent = String(QUESTIONS.length);
+
+    function renderQuestion() {
+      const q = QUESTIONS[state.idx];
+      el.progress.textContent = String(state.idx + 1);
+      el.qTitle.textContent = q.title;
+      el.qHint.textContent = q.hint || '';
+      el.options.innerHTML = '';
+
+      const selected = state.answers[q.id];
+      q.options.forEach(opt => {
+        const btn = document.createElement('button');
+        btn.className = 'text-left p-4 rounded-xl border border-white/10 bg-white/5 hover:border-rose-400 transition';
+        btn.innerHTML = `<div class="font-semibold">${opt.label}</div>`;
+        if (selected === opt.key) btn.className = 'text-left p-4 rounded-xl border border-rose-400/70 bg-rose-500/10 transition';
+        btn.addEventListener('click', () => {
+          state.answers[q.id] = opt.key;
+          renderQuestion();
+          el.nextBtn.disabled = false;
+        });
+        el.options.appendChild(btn);
+      });
+
+      el.backBtn.disabled = state.idx === 0;
+      el.nextBtn.disabled = !state.answers[q.id];
+    }
+
+    function decidePlan(a) {
+      // Always include: sleep consistency + resting HR trend + activity minutes
+      const metrics = ['Sleep consistency (bed/wake time variability)', 'Resting heart rate trend', 'Daily activity minutes (or steps)'];
+      if (a.training === 'often' || a.goal === 'performance') metrics.push('Training load proxy (workout minutes + intensity)');
+      if (a.goal === 'stress' || a.goal === 'energy') metrics.push('HRV trend (if available)');
+
+      const routine = [];
+      routine.push('Every morning: check sleep duration + bed/wake consistency (don’t over-optimize stages).');
+      routine.push('Midday: 10–20 min walk if you’re low-activity (momentum beats intensity).');
+      if (a.training !== 'none') routine.push('After workouts: note RPE (how hard it felt) to contextualize numbers.');
+      routine.push('Weekly: look for 1 pattern (sleep → RHR/HRV → energy). Pick one experiment for next week.');
+
+      const summary = [];
+      summary.push(`Primary focus: ${a.goal}.`);
+      if (a.schedule === 'chaos') summary.push('Because your schedule is chaotic, prioritize consistency + trends over perfect targets.');
+      if (a.sleepHours === 'lt6') summary.push('Sleep duration is likely the highest-leverage lever for the next 7 days.');
+
+      return { metrics: Array.from(new Set(metrics)).slice(0, 4), routine: routine.slice(0, 4), summary: summary.join(' ') };
+    }
+
+    function showResults() {
+      const a = state.answers;
+      const plan = decidePlan(a);
+
+      el.quizCard.classList.add('hidden');
+      el.resultCard.classList.remove('hidden');
+
+      el.resultSummary.textContent = plan.summary;
+      el.metrics.innerHTML = '';
+      plan.metrics.forEach(m => { const li = document.createElement('li'); li.textContent = m; el.metrics.appendChild(li); });
+
+      el.routine.innerHTML = '';
+      plan.routine.forEach(r => { const li = document.createElement('li'); li.textContent = r; el.routine.appendChild(li); });
+    }
+
+    el.backBtn.addEventListener('click', () => {
+      if (state.idx === 0) return;
+      state.idx -= 1;
+      renderQuestion();
+    });
+
+    el.nextBtn.addEventListener('click', () => {
+      if (state.idx < QUESTIONS.length - 1) { state.idx += 1; renderQuestion(); return; }
+      showResults();
+    });
+
+    el.restartBtn.addEventListener('click', () => {
+      state.idx = 0;
+      state.answers = {};
+      el.resultCard.classList.add('hidden');
+      el.quizCard.classList.remove('hidden');
+      renderQuestion();
+    });
+
+    renderQuestion();
+  </script>
+</body>
+</html>

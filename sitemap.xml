@@ -8,6 +8,21 @@
     <priority>1.0</priority>
   </url>
 
+  <!-- Quizzes -->
+  <url>
+    <loc>https://applehealthdata.com/quiz/wearable/</loc>
+    <lastmod>2026-03-29</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+  <url>
+    <loc>https://applehealthdata.com/quiz/what-to-track/</loc>
+    <lastmod>2026-03-29</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
   <!-- Blog Hub Page - High Priority -->
   <url>
     <loc>https://applehealthdata.com/blog/chatgpt-health-alternatives.html</loc>
