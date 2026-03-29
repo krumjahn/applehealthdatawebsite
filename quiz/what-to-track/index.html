@@ -16,6 +16,15 @@
   <meta name="robots" content="index,follow,max-image-preview:large" />
   <meta name="apple-itunes-app" content="app-id=6749297170" />
 
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-8SMQRLT4VS"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);} 
+    gtag('js', new Date());
+    gtag('config', 'G-8SMQRLT4VS');
+  </script>
+
   <script src="https://cdn.tailwindcss.com"></script>
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap');
@@ -65,10 +74,19 @@
         </div>
       </div>
 
+      <div id="valueBlock" class="hidden mt-6 p-4 rounded-xl border border-white/10 bg-black/30">
+        <div class="text-sm text-slate-400">What you’ll get in ~5 minutes</div>
+        <ul class="mt-2 list-disc pl-5 text-slate-300">
+          <li>Baselines for the focus metrics (so you’re not guessing)</li>
+          <li>Trend lines (7/30/90 days) to spot what’s actually changing</li>
+          <li>A weekly scorecard you can reuse</li>
+        </ul>
+      </div>
+
       <div class="mt-6 p-4 rounded-xl border border-rose-500/30 bg-rose-500/10">
         <div class="font-bold">Next step</div>
         <p class="text-slate-200 mt-1">Download the app, import Apple Health, and you’ll see trends and baselines for these metrics immediately.</p>
-        <a href="https://apps.apple.com/us/app/health-data-export-ai-analyzer/id6749297170" target="_blank" rel="noopener" class="inline-block mt-3 px-4 py-2 rounded-lg bg-rose-600 hover:bg-rose-500 font-semibold">Download on the App Store</a>
+        <a href="https://apps.apple.com/us/app/health-data-export-ai-analyzer/id6749297170" target="_blank" rel="noopener" data-cta-location="quiz_track_result" class="inline-block mt-3 px-4 py-2 rounded-lg bg-rose-600 hover:bg-rose-500 font-semibold">Download on the App Store</a>
       </div>
 
       <div class="mt-6 text-sm text-slate-400">
@@ -258,6 +276,60 @@
       el.quizCard.classList.remove('hidden');
       renderQuestion();
     });
+
+    // Track App Store outbound clicks (GA4)
+    (function () {
+      var APP_STORE_URL = "https://apps.apple.com/us/app/health-data-export-ai-analyzer/id6749297170";
+      var links = document.querySelectorAll('a[href^="' + APP_STORE_URL + '"]');
+      links.forEach(function (a) {
+        a.addEventListener('click', function () {
+          try {
+            if (typeof gtag === 'function') {
+              gtag('event', 'app_store_click', {
+                link_url: a.href,
+                cta_location: a.dataset.ctaLocation || 'unknown',
+                page_path: window.location.pathname,
+                experiment_id: window.__abExperimentId || undefined,
+                variant: window.__abVariant || undefined
+              });
+            }
+          } catch (e) {}
+        }, { capture: true });
+      });
+    })();
+
+    // A/B: prime value before install CTA (Pre-Suasion)
+    (function () {
+      var experimentId = 'quiz_track_value_v1';
+      var storageKey = 'ab_' + experimentId;
+
+      var variant = localStorage.getItem(storageKey);
+      if (!variant) {
+        variant = (Math.random() < 0.5) ? 'A' : 'B';
+        localStorage.setItem(storageKey, variant);
+      }
+
+      window.__abExperimentId = experimentId;
+      window.__abVariant = variant;
+
+      try {
+        if (typeof gtag === 'function') {
+          gtag('event', 'experiment_exposure', {
+            experiment_id: experimentId,
+            variant: variant,
+            page_path: window.location.pathname
+          });
+        }
+      } catch (e) {}
+
+      if (variant === 'B') {
+        var block = document.getElementById('valueBlock');
+        if (block) block.classList.remove('hidden');
+
+        var cta = document.querySelector('[data-cta-location="quiz_track_result"]');
+        if (cta) cta.textContent = 'Download → Import Apple Health';
+      }
+    })();
 
     renderQuestion();
   </script>
