@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Export Apple Health Data — Health Data Export & AI Analyzer</title>
+    <meta name="description" content="Learn how to export Apple Health data from your iPhone using the Health Data Export app or Apple's built-in export. Covers CSV, JSON, and XML formats.">
+    <link rel="canonical" href="https://applehealthdata.com/docs/export-health-data.html">
+    <meta name="apple-itunes-app" content="app-id=6749297170">
+    <meta name="robots" content="index,follow">
+
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Health Data Export & Analyze">
+    <meta property="og:url" content="https://applehealthdata.com/docs/export-health-data.html">
+    <meta property="og:title" content="Export Apple Health Data — Health Data Export & AI Analyzer">
+    <meta property="og:description" content="Step-by-step guide to exporting Apple Health data in CSV, JSON, or XML format.">
+    <meta property="og:image" content="https://applehealthdata.com/images/mac-app-screenshot-1.png">
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;700&display=swap');
+
+        :root { --glass-border: rgba(255, 255, 255, 0.08); --glass-bg: rgba(255, 255, 255, 0.03); }
+
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: #020617;
+            color: #f8fafc;
+        }
+
+        .font-mono { font-family: 'JetBrains Mono', monospace; }
+
+        /* Sidebar */
+        .docs-sidebar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 280px;
+            height: 100vh;
+            background: #0f172a;
+            border-right: 1px solid var(--glass-border);
+            overflow-y: auto;
+            z-index: 40;
+            transition: transform 0.3s ease;
+        }
+
+        .docs-sidebar a {
+            display: block;
+            padding: 8px 16px 8px 24px;
+            color: #94a3b8;
+            font-size: 0.875rem;
+            border-radius: 6px;
+            margin: 1px 8px;
+            transition: all 0.15s ease;
+            text-decoration: none;
+        }
+
+        .docs-sidebar a:hover {
+            color: #e2e8f0;
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .docs-sidebar a.active {
+            color: #fff;
+            background: rgba(244, 63, 94, 0.15);
+            border-left: 2px solid #f43f5e;
+            padding-left: 22px;
+        }
+
+        .docs-sidebar .section-label {
+            font-size: 0.7rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            color: #64748b;
+            padding: 20px 24px 6px;
+        }
+
+        /* Main content */
+        .docs-main {
+            margin-left: 280px;
+            min-height: 100vh;
+        }
+
+        /* Mobile sidebar toggle */
+        .sidebar-toggle {
+            display: none;
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 50;
+            background: #f43f5e;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 48px;
+            height: 48px;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(244, 63, 94, 0.4);
+        }
+
+        @media (max-width: 768px) {
+            .docs-sidebar {
+                transform: translateX(-100%);
+            }
+            .docs-sidebar.open {
+                transform: translateX(0);
+            }
+            .docs-main {
+                margin-left: 0;
+            }
+            .sidebar-toggle {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+        }
+
+        /* Content styles */
+        .doc-content h1 { font-size: 2rem; font-weight: 800; margin-bottom: 1rem; color: #fff; }
+        .doc-content h2 { font-size: 1.5rem; font-weight: 700; margin-top: 2.5rem; margin-bottom: 0.75rem; color: #fff; padding-bottom: 0.5rem; border-bottom: 1px solid var(--glass-border); }
+        .doc-content h3 { font-size: 1.125rem; font-weight: 600; margin-top: 1.5rem; margin-bottom: 0.5rem; color: #e2e8f0; }
+        .doc-content p { color: #94a3b8; line-height: 1.75; margin-bottom: 1rem; }
+        .doc-content ul, .doc-content ol { color: #94a3b8; margin-bottom: 1rem; padding-left: 1.5rem; }
+        .doc-content li { margin-bottom: 0.5rem; line-height: 1.6; }
+        .doc-content strong { color: #e2e8f0; }
+        .doc-content code { font-family: 'JetBrains Mono', monospace; background: rgba(255,255,255,0.06); padding: 2px 6px; border-radius: 4px; font-size: 0.85em; color: #f0abfc; }
+        .doc-content pre { background: #0c0a09; border: 1px solid var(--glass-border); border-radius: 8px; padding: 16px; overflow-x: auto; margin-bottom: 1rem; }
+        .doc-content pre code { background: none; padding: 0; color: #a5f3fc; }
+        .doc-content a { color: #f43f5e; text-decoration: underline; text-underline-offset: 2px; }
+        .doc-content a:hover { color: #fb7185; }
+        .doc-content table { width: 100%; border-collapse: collapse; margin-bottom: 1rem; }
+        .doc-content th { text-align: left; padding: 10px 12px; border-bottom: 2px solid #1e293b; color: #e2e8f0; font-size: 0.85rem; font-weight: 600; }
+        .doc-content td { padding: 10px 12px; border-bottom: 1px solid #1e293b; color: #94a3b8; font-size: 0.875rem; }
+        .doc-content blockquote { border-left: 3px solid #f43f5e; padding: 12px 16px; margin: 1rem 0; background: rgba(244, 63, 94, 0.05); border-radius: 0 8px 8px 0; }
+        .doc-content blockquote p { color: #cbd5e1; margin-bottom: 0; }
+
+        .doc-card {
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 12px;
+            padding: 24px;
+            transition: border-color 0.2s;
+        }
+        .doc-card:hover { border-color: rgba(244, 63, 94, 0.3); }
+
+        /* Search */
+        .docs-search {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--glass-border);
+            border-radius: 8px;
+            padding: 8px 12px;
+            color: #e2e8f0;
+            width: 100%;
+            font-size: 0.875rem;
+            outline: none;
+        }
+        .docs-search::placeholder { color: #475569; }
+        .docs-search:focus { border-color: #f43f5e; }
+    </style>
+
+    <!-- Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-8SMQRLT4VS"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-8SMQRLT4VS');
+    </script>
+</head>
+<body>
+
+    <!-- Sidebar -->
+    <aside class="docs-sidebar" id="sidebar">
+        <div class="p-4 border-b border-white/5">
+            <a href="/" class="flex items-center gap-2 text-white no-underline mb-3">
+                <div class="w-8 h-8 bg-gradient-to-tr from-rose-600 to-orange-500 rounded-lg flex items-center justify-center">
+                    <i data-lucide="activity" class="w-4 h-4 text-white"></i>
+                </div>
+                <span class="font-bold text-sm">Health Data Docs</span>
+            </a>
+            <input type="text" class="docs-search" placeholder="Search docs..." id="docs-search" oninput="filterNav(this.value)">
+        </div>
+
+        <nav class="py-3" id="docs-nav">
+            <div class="section-label">Overview</div>
+            <a href="/docs/">Welcome</a>
+            <a href="/docs/getting-started.html">Getting Started</a>
+
+            <div class="section-label">iPhone App</div>
+            <a href="/docs/export-health-data.html" class="active">Export Apple Health Data</a>
+            <a href="/docs/wifi-sync.html">iPhone-to-Mac Sync</a>
+
+            <div class="section-label">Mac App</div>
+            <a href="/docs/mac-app.html">Mac App Overview</a>
+            <a href="/docs/convert-tool.html">Convert XML to CSV/JSON/XLSX</a>
+            <a href="/docs/ai-analysis.html">AI Analysis</a>
+            <a href="/docs/backup.html">Apple Health Backup</a>
+
+            <div class="section-label">Integrations</div>
+            <a href="/docs/openclaw.html">OpenClaw Integration</a>
+            <a href="/docs/api-reference.html">API Reference</a>
+            <a href="/docs/workflows.html">Workflows & Automation</a>
+            <a href="/docs/prompts.html">Prompt Library</a>
+
+            <div class="section-label">Resources</div>
+            <a href="/docs/changelog.html">Changelog</a>
+            <a href="https://apps.apple.com/us/app/health-data-export-ai-analyzer/id6749297170" target="_blank">Download App</a>
+            <a href="https://github.com/krumjahn/applehealth" target="_blank">GitHub (Open Source)</a>
+        </nav>
+    </aside>
+
+    <!-- Mobile toggle -->
+    <button class="sidebar-toggle" onclick="document.getElementById('sidebar').classList.toggle('open')">
+        <i data-lucide="menu" class="w-5 h-5"></i>
+    </button>
+
+    <!-- Main Content -->
+    <main class="docs-main">
+        <div class="max-w-3xl mx-auto px-6 py-16">
+            <div class="doc-content">
+                <h1>Export Apple Health Data</h1>
+                <p>Your Apple Health data is immensely valuable, but it is locked inside Apple's ecosystem. This guide covers every method to export it so you can analyze trends, create backups, share data with professionals, or build custom integrations.</p>
+
+                <h2>Why Export Your Apple Health Data?</h2>
+                <p>Having a portable copy of your health data lets you:</p>
+                <ul>
+                    <li><strong>Perform custom analysis</strong> — Go beyond the Health app's built-in charts. Use spreadsheets, scripts, or AI tools to find correlations and trends unique to you.</li>
+                    <li><strong>Create a secure backup</strong> — An independent backup protects you from data corruption, accidental deletion, or issues when switching devices.</li>
+                    <li><strong>Share with professionals</strong> — Provide your doctor, trainer, or therapist with a detailed dataset they can review in a standard format.</li>
+                    <li><strong>Fuel development projects</strong> — Developers can use real-world HealthKit data to build and test applications.</li>
+                </ul>
+
+                <h2>Method 1: Using the Health Data Export App (Recommended)</h2>
+                <p>The dedicated iOS app provides the fastest path to clean, analysis-ready data. It reads directly from HealthKit and exports in your choice of format without any post-processing required.</p>
+
+                <h3>How to export</h3>
+                <ol>
+                    <li>Open <strong>Health Data Export</strong> on your iPhone.</li>
+                    <li>Select the data categories you want (steps, heart rate, sleep, workouts, etc.) or tap <strong>Select All</strong>.</li>
+                    <li>Choose your <strong>date range</strong> (last 30 days, last year, or all time).</li>
+                    <li>Pick your <strong>output format</strong>: CSV, JSON, or XML.</li>
+                    <li>Tap <strong>Export</strong> and share the file via AirDrop, iCloud, or any other method.</li>
+                </ol>
+
+                <blockquote>
+                    <p>The app processes everything on-device. Your health data is never uploaded to any server.</p>
+                </blockquote>
+
+                <p>If you do not have the app yet, <a href="https://apps.apple.com/us/app/health-data-export-ai-analyzer/id6749297170">download it from the App Store</a>.</p>
+
+                <h2>Method 2: Apple's Built-In Export</h2>
+                <p>Apple provides a native export function that produces a complete dump of all your Health data. The output is comprehensive but not user-friendly.</p>
+
+                <h3>How to export using the Health app</h3>
+                <ol>
+                    <li>Open the <strong>Health</strong> app on your iPhone.</li>
+                    <li>Tap your <strong>profile icon</strong> in the top-right corner.</li>
+                    <li>Scroll to the bottom and tap <strong>Export All Health Data</strong>.</li>
+                    <li>Confirm by tapping <strong>Export</strong> and wait for the process to complete.</li>
+                    <li>When the Share Sheet appears, save the <code>health-records.zip</code> file to your preferred location.</li>
+                </ol>
+
+                <h3>What you get</h3>
+                <p>Inside the ZIP file is <code>export.xml</code>, a large and complex XML file containing every health record on your device. This file is typically hundreds of megabytes and is difficult to open in standard tools. You will almost always need to <a href="/docs/convert-tool.html">convert the XML to CSV, JSON, or XLSX</a> before you can work with it.</p>
+
+                <h2>Comparison of Export Methods</h2>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Feature</th>
+                            <th>Health Data Export App</th>
+                            <th>Apple's Built-In Export</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Output format</strong></td>
+                            <td>Clean CSV, JSON, or XML</td>
+                            <td>Raw XML only</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Ease of use</strong></td>
+                            <td>One-tap export with format selection</td>
+                            <td>Multi-step, no format options</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Time to usable data</strong></td>
+                            <td>Under 60 seconds</td>
+                            <td>15+ minutes (export + conversion)</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Category filtering</strong></td>
+                            <td>Select specific categories</td>
+                            <td>All-or-nothing export</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Date range selection</strong></td>
+                            <td>Customizable</td>
+                            <td>Exports everything</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Requires conversion</strong></td>
+                            <td>No, output is ready to use</td>
+                            <td>Yes, almost always</td>
+                        </tr>
+                        <tr>
+                            <td><strong>File size</strong></td>
+                            <td>Small (filtered data)</td>
+                            <td>Large (often 500MB+)</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h2>Transfer Options</h2>
+                <p>Once your data is exported, you need to get it to your Mac (or another device) for analysis. Here are the available methods:</p>
+
+                <h3>AirDrop (fastest)</h3>
+                <p>Tap the Share button after export and select your Mac from the AirDrop targets. The file arrives in your Downloads folder within seconds. Both devices must have Bluetooth and Wi-Fi enabled.</p>
+
+                <h3>Wi-Fi Sync (most seamless)</h3>
+                <p>If both your iPhone and Mac are on the same network, the Health Data Export app can send data directly to the Mac app without creating any intermediate files. See the <a href="/docs/wifi-sync.html">Wi-Fi Sync guide</a> for setup instructions.</p>
+
+                <h3>iCloud Drive</h3>
+                <p>Save the exported file to iCloud Drive from the Share Sheet. It will appear in the iCloud Drive folder on your Mac within moments. This method works well when your devices are not physically nearby.</p>
+
+                <h3>Google Drive, Dropbox, or other cloud storage</h3>
+                <p>If you prefer third-party cloud storage, save the file to your chosen service from the Share Sheet. Open it on your Mac from the corresponding app or folder.</p>
+
+                <h2>Supported Export Formats</h2>
+                <p>The Health Data Export app supports three output formats. Choose the one that best fits your workflow:</p>
+
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Format</th>
+                            <th>Best For</th>
+                            <th>Details</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>CSV</strong></td>
+                            <td>Spreadsheets and BI tools</td>
+                            <td>Opens directly in Excel, Google Sheets, Numbers, or any data analysis tool. One row per record with clean column headers.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>JSON</strong></td>
+                            <td>Developers and scripts</td>
+                            <td>Structured data format ideal for programmatic access, API integrations, and AI analysis pipelines.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>XML</strong></td>
+                            <td>Maximum compatibility</td>
+                            <td>Matches Apple's native schema. Useful when you need to preserve the original data structure or work with tools that expect HealthKit XML.</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <blockquote>
+                    <p>If you already have an <code>export.xml</code> file from Apple's built-in export, you can convert it to CSV, JSON, or XLSX using the <a href="/docs/convert-tool.html">Convert Tool</a>.</p>
+                </blockquote>
+
+                <h2>Next Steps</h2>
+                <p>With your data exported and transferred, you are ready to put it to work:</p>
+
+                <div class="grid md:grid-cols-2 gap-4 mt-4">
+                    <a href="/docs/convert-tool.html" class="doc-card block no-underline">
+                        <div class="flex items-center gap-3 mb-2">
+                            <i data-lucide="file-code-2" class="w-5 h-5 text-green-400"></i>
+                            <h3 class="text-white font-bold m-0">Convert Tool</h3>
+                        </div>
+                        <p class="text-slate-400 text-sm m-0">Convert Apple Health XML to CSV, JSON, or XLSX directly in your browser.</p>
+                    </a>
+
+                    <a href="/docs/ai-analysis.html" class="doc-card block no-underline">
+                        <div class="flex items-center gap-3 mb-2">
+                            <i data-lucide="brain" class="w-5 h-5 text-purple-400"></i>
+                            <h3 class="text-white font-bold m-0">AI Analysis</h3>
+                        </div>
+                        <p class="text-slate-400 text-sm m-0">Run local AI analysis on your health data using ChatGPT, Claude, Gemini, or local LLMs.</p>
+                    </a>
+
+                    <a href="/docs/wifi-sync.html" class="doc-card block no-underline">
+                        <div class="flex items-center gap-3 mb-2">
+                            <i data-lucide="wifi" class="w-5 h-5 text-blue-400"></i>
+                            <h3 class="text-white font-bold m-0">Wi-Fi Sync</h3>
+                        </div>
+                        <p class="text-slate-400 text-sm m-0">Skip the export file entirely. Sync data from iPhone to Mac over your local network.</p>
+                    </a>
+
+                    <a href="/docs/getting-started.html" class="doc-card block no-underline">
+                        <div class="flex items-center gap-3 mb-2">
+                            <i data-lucide="rocket" class="w-5 h-5 text-rose-400"></i>
+                            <h3 class="text-white font-bold m-0">Getting Started</h3>
+                        </div>
+                        <p class="text-slate-400 text-sm m-0">Full end-to-end setup guide from installation to your first AI analysis.</p>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        function filterNav(query) {
+            const links = document.querySelectorAll('#docs-nav a');
+            const q = query.toLowerCase();
+            links.forEach(link => {
+                const text = link.textContent.toLowerCase();
+                link.style.display = text.includes(q) || q === '' ? 'block' : 'none';
+            });
+        }
+        lucide.createIcons();
+    </script>
+</body>
+</html>

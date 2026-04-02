@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Changelog — Health Data Export & AI Analyzer</title>
+    <meta name="description" content="Complete changelog for Health Data Export & AI Analyzer. See every update to the iOS and Mac app.">
+    <link rel="canonical" href="https://applehealthdata.com/docs/changelog.html">
+    <meta name="apple-itunes-app" content="app-id=6749297170">
+    <meta name="robots" content="index,follow">
+
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Health Data Export & Analyze">
+    <meta property="og:url" content="https://applehealthdata.com/docs/changelog.html">
+    <meta property="og:title" content="Changelog — Health Data Export & AI Analyzer">
+    <meta property="og:description" content="Complete changelog for Health Data Export & AI Analyzer.">
+    <meta property="og:image" content="https://applehealthdata.com/images/mac-app-screenshot-1.png">
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;700&display=swap');
+
+        :root { --glass-border: rgba(255, 255, 255, 0.08); --glass-bg: rgba(255, 255, 255, 0.03); }
+
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: #020617;
+            color: #f8fafc;
+        }
+
+        .font-mono { font-family: 'JetBrains Mono', monospace; }
+
+        /* Sidebar */
+        .docs-sidebar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 280px;
+            height: 100vh;
+            background: #0f172a;
+            border-right: 1px solid var(--glass-border);
+            overflow-y: auto;
+            z-index: 40;
+            transition: transform 0.3s ease;
+        }
+
+        .docs-sidebar a {
+            display: block;
+            padding: 8px 16px 8px 24px;
+            color: #94a3b8;
+            font-size: 0.875rem;
+            border-radius: 6px;
+            margin: 1px 8px;
+            transition: all 0.15s ease;
+            text-decoration: none;
+        }
+
+        .docs-sidebar a:hover {
+            color: #e2e8f0;
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .docs-sidebar a.active {
+            color: #fff;
+            background: rgba(244, 63, 94, 0.15);
+            border-left: 2px solid #f43f5e;
+            padding-left: 22px;
+        }
+
+        .docs-sidebar .section-label {
+            font-size: 0.7rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            color: #64748b;
+            padding: 20px 24px 6px;
+        }
+
+        /* Main content */
+        .docs-main {
+            margin-left: 280px;
+            min-height: 100vh;
+        }
+
+        /* Mobile sidebar toggle */
+        .sidebar-toggle {
+            display: none;
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 50;
+            background: #f43f5e;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 48px;
+            height: 48px;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(244, 63, 94, 0.4);
+        }
+
+        @media (max-width: 768px) {
+            .docs-sidebar {
+                transform: translateX(-100%);
+            }
+            .docs-sidebar.open {
+                transform: translateX(0);
+            }
+            .docs-main {
+                margin-left: 0;
+            }
+            .sidebar-toggle {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+        }
+
+        /* Content styles */
+        .doc-content h1 { font-size: 2rem; font-weight: 800; margin-bottom: 1rem; color: #fff; }
+        .doc-content h2 { font-size: 1.5rem; font-weight: 700; margin-top: 2.5rem; margin-bottom: 0.75rem; color: #fff; padding-bottom: 0.5rem; border-bottom: 1px solid var(--glass-border); }
+        .doc-content h3 { font-size: 1.125rem; font-weight: 600; margin-top: 1.5rem; margin-bottom: 0.5rem; color: #e2e8f0; }
+        .doc-content p { color: #94a3b8; line-height: 1.75; margin-bottom: 1rem; }
+        .doc-content ul, .doc-content ol { color: #94a3b8; margin-bottom: 1rem; padding-left: 1.5rem; }
+        .doc-content li { margin-bottom: 0.5rem; line-height: 1.6; }
+        .doc-content strong { color: #e2e8f0; }
+        .doc-content code { font-family: 'JetBrains Mono', monospace; background: rgba(255,255,255,0.06); padding: 2px 6px; border-radius: 4px; font-size: 0.85em; color: #f0abfc; }
+        .doc-content pre { background: #0c0a09; border: 1px solid var(--glass-border); border-radius: 8px; padding: 16px; overflow-x: auto; margin-bottom: 1rem; }
+        .doc-content pre code { background: none; padding: 0; color: #a5f3fc; }
+        .doc-content a { color: #f43f5e; text-decoration: underline; text-underline-offset: 2px; }
+        .doc-content a:hover { color: #fb7185; }
+        .doc-content table { width: 100%; border-collapse: collapse; margin-bottom: 1rem; }
+        .doc-content th { text-align: left; padding: 10px 12px; border-bottom: 2px solid #1e293b; color: #e2e8f0; font-size: 0.85rem; font-weight: 600; }
+        .doc-content td { padding: 10px 12px; border-bottom: 1px solid #1e293b; color: #94a3b8; font-size: 0.875rem; }
+        .doc-content blockquote { border-left: 3px solid #f43f5e; padding: 12px 16px; margin: 1rem 0; background: rgba(244, 63, 94, 0.05); border-radius: 0 8px 8px 0; }
+        .doc-content blockquote p { color: #cbd5e1; margin-bottom: 0; }
+
+        .doc-card {
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 12px;
+            padding: 24px;
+            transition: border-color 0.2s;
+        }
+        .doc-card:hover { border-color: rgba(244, 63, 94, 0.3); }
+
+        /* Search */
+        .docs-search {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--glass-border);
+            border-radius: 8px;
+            padding: 8px 12px;
+            color: #e2e8f0;
+            width: 100%;
+            font-size: 0.875rem;
+            outline: none;
+        }
+        .docs-search::placeholder { color: #475569; }
+        .docs-search:focus { border-color: #f43f5e; }
+
+        /* Changelog-specific styles */
+        .changelog-entry {
+            position: relative;
+            padding-left: 1.5rem;
+            border-left: 2px solid rgba(148, 163, 184, 0.2);
+        }
+        .changelog-entry::before {
+            content: "";
+            position: absolute;
+            left: -5px;
+            top: 6px;
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: #22d3ee;
+            box-shadow: 0 0 0 3px rgba(34, 211, 238, 0.15);
+        }
+        .changelog-date {
+            font-size: 0.85rem;
+            font-weight: 700;
+            color: #22d3ee;
+            font-family: 'JetBrains Mono', monospace;
+            margin-bottom: 0.5rem;
+        }
+    </style>
+
+    <!-- Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-8SMQRLT4VS"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-8SMQRLT4VS');
+    </script>
+</head>
+<body>
+
+    <!-- Sidebar -->
+    <aside class="docs-sidebar" id="sidebar">
+        <div class="p-4 border-b border-white/5">
+            <a href="/" class="flex items-center gap-2 text-white no-underline mb-3">
+                <div class="w-8 h-8 bg-gradient-to-tr from-rose-600 to-orange-500 rounded-lg flex items-center justify-center">
+                    <i data-lucide="activity" class="w-4 h-4 text-white"></i>
+                </div>
+                <span class="font-bold text-sm">Health Data Docs</span>
+            </a>
+            <input type="text" class="docs-search" placeholder="Search docs..." id="docs-search" oninput="filterNav(this.value)">
+        </div>
+
+        <nav class="py-3" id="docs-nav">
+            <div class="section-label">Overview</div>
+            <a href="/docs/">Welcome</a>
+            <a href="/docs/getting-started.html">Getting Started</a>
+
+            <div class="section-label">iPhone App</div>
+            <a href="/docs/export-health-data.html">Export Apple Health Data</a>
+            <a href="/docs/wifi-sync.html">iPhone-to-Mac Sync</a>
+
+            <div class="section-label">Mac App</div>
+            <a href="/docs/mac-app.html">Mac App Overview</a>
+            <a href="/docs/convert-tool.html">Convert XML to CSV/JSON/XLSX</a>
+            <a href="/docs/ai-analysis.html">AI Analysis</a>
+            <a href="/docs/backup.html">Apple Health Backup</a>
+
+            <div class="section-label">Integrations</div>
+            <a href="/docs/openclaw.html">OpenClaw Integration</a>
+            <a href="/docs/api-reference.html">API Reference</a>
+            <a href="/docs/workflows.html">Workflows & Automation</a>
+            <a href="/docs/prompts.html">Prompt Library</a>
+
+            <div class="section-label">Resources</div>
+            <a href="/docs/changelog.html" class="active">Changelog</a>
+            <a href="https://apps.apple.com/us/app/health-data-export-ai-analyzer/id6749297170" target="_blank">Download App</a>
+            <a href="https://github.com/krumjahn/applehealth" target="_blank">GitHub (Open Source)</a>
+        </nav>
+    </aside>
+
+    <!-- Mobile toggle -->
+    <button class="sidebar-toggle" onclick="document.getElementById('sidebar').classList.toggle('open')">
+        <i data-lucide="menu" class="w-5 h-5"></i>
+    </button>
+
+    <!-- Main Content -->
+    <main class="docs-main">
+        <div class="max-w-3xl mx-auto px-6 py-16">
+            <div class="doc-content">
+                <h1>Changelog</h1>
+                <p>A plain-language timeline of updates to the iOS and Mac app. Most recent first.</p>
+
+                <div class="space-y-8 mt-8">
+
+                    <div class="changelog-entry">
+                        <div class="changelog-date">2026-03-27</div>
+                        <ul>
+                            <li><strong>Added</strong> OpenClaw support for daily Apple Health check-ins.</li>
+                            <li><strong>Added</strong> a local API for AI tools and developer workflows.</li>
+                            <li><strong>Added</strong> Mac menu bar sync status.</li>
+                            <li><strong>Added</strong> direct iPhone-to-Mac WiFi/ethernet sync within local network.</li>
+                            <li><strong>Improved</strong> iPhone-to-Mac sync and cloud export handling.</li>
+                            <li><strong>Improved</strong> XML import, saved-analysis loading, and startup responsiveness.</li>
+                            <li><strong>Improved</strong> subscription reliability and macOS paywall behavior.</li>
+                        </ul>
+                    </div>
+
+                    <div class="changelog-entry">
+                        <div class="changelog-date">2026-02-14</div>
+                        <ul>
+                            <li>Merged and stabilized recent app improvements.</li>
+                        </ul>
+                    </div>
+
+                    <div class="changelog-entry">
+                        <div class="changelog-date">2026-02-13</div>
+                        <ul>
+                            <li><strong>Improved</strong> AI model selection so setup is simpler and more flexible.</li>
+                            <li><strong>Added</strong> support for more smart ring health metrics.</li>
+                            <li><strong>Improved</strong> pricing messaging: AI analysis is free when using your own API key.</li>
+                            <li><strong>Improved</strong> release quality checks to reduce regressions.</li>
+                        </ul>
+                    </div>
+
+                    <div class="changelog-entry">
+                        <div class="changelog-date">2026-02-12</div>
+                        <ul>
+                            <li><strong>Improved</strong> sleep duration tracking accuracy.</li>
+                            <li><strong>Improved</strong> import errors to explain what went wrong in clearer language.</li>
+                            <li><strong>Fixed</strong> large health export files now load more reliably.</li>
+                        </ul>
+                    </div>
+
+                    <div class="changelog-entry">
+                        <div class="changelog-date">2026-02-08</div>
+                        <ul>
+                            <li><strong>Fixed</strong> chart labels on Mac now display correctly, making trends easier to read.</li>
+                        </ul>
+                    </div>
+
+                    <div class="changelog-entry">
+                        <div class="changelog-date">2026-02-05</div>
+                        <ul>
+                            <li>Merged and stabilized recent app improvements.</li>
+                            <li><strong>Added</strong> daily summaries so it is easier to check day-by-day patterns.</li>
+                        </ul>
+                    </div>
+
+                    <div class="changelog-entry">
+                        <div class="changelog-date">2026-02-01</div>
+                        <ul>
+                            <li><strong>Fixed</strong> first-time sync stability, resolving a crash some users could hit.</li>
+                        </ul>
+                    </div>
+
+                    <div class="changelog-entry">
+                        <div class="changelog-date">2026-01-31</div>
+                        <ul>
+                            <li><strong>Fixed</strong> data export to include complete history by default.</li>
+                        </ul>
+                    </div>
+
+                    <div class="changelog-entry">
+                        <div class="changelog-date">2026-01-24</div>
+                        <ul>
+                            <li><strong>Improved</strong> daily step count accuracy using HKStatisticsCollectionQuery.</li>
+                            <li><strong>Added</strong> social sharing cards, iOS companion QR code, and updated App Store links.</li>
+                        </ul>
+                    </div>
+
+                    <div class="changelog-entry">
+                        <div class="changelog-date">2026-01-22</div>
+                        <ul>
+                            <li><strong>Fixed</strong> fallback parsing and added mood tracking results.</li>
+                        </ul>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        function filterNav(query) {
+            const links = document.querySelectorAll('#docs-nav a');
+            const q = query.toLowerCase();
+            links.forEach(link => {
+                const text = link.textContent.toLowerCase();
+                link.style.display = text.includes(q) || q === '' ? 'block' : 'none';
+            });
+        }
+        lucide.createIcons();
+    </script>
+</body>
+</html>

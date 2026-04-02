@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Documentation — Health Data Export & AI Analyzer</title>
+    <meta name="description" content="Complete documentation for Health Data Export & AI Analyzer. Learn how to export, sync, convert, and analyze your Apple Health data with local AI tools.">
+    <link rel="canonical" href="https://applehealthdata.com/docs/">
+    <meta name="apple-itunes-app" content="app-id=6749297170">
+    <meta name="robots" content="index,follow">
+
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Health Data Export & Analyze">
+    <meta property="og:url" content="https://applehealthdata.com/docs/">
+    <meta property="og:title" content="Documentation — Health Data Export & AI Analyzer">
+    <meta property="og:description" content="Complete documentation for Health Data Export & AI Analyzer.">
+    <meta property="og:image" content="https://applehealthdata.com/images/mac-app-screenshot-1.png">
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;700&display=swap');
+
+        :root { --glass-border: rgba(255, 255, 255, 0.08); --glass-bg: rgba(255, 255, 255, 0.03); }
+
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: #020617;
+            color: #f8fafc;
+        }
+
+        .font-mono { font-family: 'JetBrains Mono', monospace; }
+
+        /* Sidebar */
+        .docs-sidebar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 280px;
+            height: 100vh;
+            background: #0f172a;
+            border-right: 1px solid var(--glass-border);
+            overflow-y: auto;
+            z-index: 40;
+            transition: transform 0.3s ease;
+        }
+
+        .docs-sidebar a {
+            display: block;
+            padding: 8px 16px 8px 24px;
+            color: #94a3b8;
+            font-size: 0.875rem;
+            border-radius: 6px;
+            margin: 1px 8px;
+            transition: all 0.15s ease;
+            text-decoration: none;
+        }
+
+        .docs-sidebar a:hover {
+            color: #e2e8f0;
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .docs-sidebar a.active {
+            color: #fff;
+            background: rgba(244, 63, 94, 0.15);
+            border-left: 2px solid #f43f5e;
+            padding-left: 22px;
+        }
+
+        .docs-sidebar .section-label {
+            font-size: 0.7rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            color: #64748b;
+            padding: 20px 24px 6px;
+        }
+
+        /* Main content */
+        .docs-main {
+            margin-left: 280px;
+            min-height: 100vh;
+        }
+
+        /* Mobile sidebar toggle */
+        .sidebar-toggle {
+            display: none;
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 50;
+            background: #f43f5e;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 48px;
+            height: 48px;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(244, 63, 94, 0.4);
+        }
+
+        @media (max-width: 768px) {
+            .docs-sidebar {
+                transform: translateX(-100%);
+            }
+            .docs-sidebar.open {
+                transform: translateX(0);
+            }
+            .docs-main {
+                margin-left: 0;
+            }
+            .sidebar-toggle {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+        }
+
+        /* Content styles */
+        .doc-content h1 { font-size: 2rem; font-weight: 800; margin-bottom: 1rem; color: #fff; }
+        .doc-content h2 { font-size: 1.5rem; font-weight: 700; margin-top: 2.5rem; margin-bottom: 0.75rem; color: #fff; padding-bottom: 0.5rem; border-bottom: 1px solid var(--glass-border); }
+        .doc-content h3 { font-size: 1.125rem; font-weight: 600; margin-top: 1.5rem; margin-bottom: 0.5rem; color: #e2e8f0; }
+        .doc-content p { color: #94a3b8; line-height: 1.75; margin-bottom: 1rem; }
+        .doc-content ul, .doc-content ol { color: #94a3b8; margin-bottom: 1rem; padding-left: 1.5rem; }
+        .doc-content li { margin-bottom: 0.5rem; line-height: 1.6; }
+        .doc-content strong { color: #e2e8f0; }
+        .doc-content code { font-family: 'JetBrains Mono', monospace; background: rgba(255,255,255,0.06); padding: 2px 6px; border-radius: 4px; font-size: 0.85em; color: #f0abfc; }
+        .doc-content pre { background: #0c0a09; border: 1px solid var(--glass-border); border-radius: 8px; padding: 16px; overflow-x: auto; margin-bottom: 1rem; }
+        .doc-content pre code { background: none; padding: 0; color: #a5f3fc; }
+        .doc-content a { color: #f43f5e; text-decoration: underline; text-underline-offset: 2px; }
+        .doc-content a:hover { color: #fb7185; }
+        .doc-content table { width: 100%; border-collapse: collapse; margin-bottom: 1rem; }
+        .doc-content th { text-align: left; padding: 10px 12px; border-bottom: 2px solid #1e293b; color: #e2e8f0; font-size: 0.85rem; font-weight: 600; }
+        .doc-content td { padding: 10px 12px; border-bottom: 1px solid #1e293b; color: #94a3b8; font-size: 0.875rem; }
+        .doc-content blockquote { border-left: 3px solid #f43f5e; padding: 12px 16px; margin: 1rem 0; background: rgba(244, 63, 94, 0.05); border-radius: 0 8px 8px 0; }
+        .doc-content blockquote p { color: #cbd5e1; margin-bottom: 0; }
+
+        .doc-card {
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 12px;
+            padding: 24px;
+            transition: border-color 0.2s;
+        }
+        .doc-card:hover { border-color: rgba(244, 63, 94, 0.3); }
+
+        /* Search */
+        .docs-search {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--glass-border);
+            border-radius: 8px;
+            padding: 8px 12px;
+            color: #e2e8f0;
+            width: 100%;
+            font-size: 0.875rem;
+            outline: none;
+        }
+        .docs-search::placeholder { color: #475569; }
+        .docs-search:focus { border-color: #f43f5e; }
+    </style>
+
+    <!-- Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-8SMQRLT4VS"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-8SMQRLT4VS');
+    </script>
+</head>
+<body>
+
+    <!-- Sidebar -->
+    <aside class="docs-sidebar" id="sidebar">
+        <div class="p-4 border-b border-white/5">
+            <a href="/" class="flex items-center gap-2 text-white no-underline mb-3">
+                <div class="w-8 h-8 bg-gradient-to-tr from-rose-600 to-orange-500 rounded-lg flex items-center justify-center">
+                    <i data-lucide="activity" class="w-4 h-4 text-white"></i>
+                </div>
+                <span class="font-bold text-sm">Health Data Docs</span>
+            </a>
+            <input type="text" class="docs-search" placeholder="Search docs..." id="docs-search" oninput="filterNav(this.value)">
+        </div>
+
+        <nav class="py-3" id="docs-nav">
+            <div class="section-label">Overview</div>
+            <a href="/docs/" class="active">Welcome</a>
+            <a href="/docs/getting-started.html">Getting Started</a>
+
+            <div class="section-label">iPhone App</div>
+            <a href="/docs/export-health-data.html">Export Apple Health Data</a>
+            <a href="/docs/wifi-sync.html">iPhone-to-Mac Sync</a>
+
+            <div class="section-label">Mac App</div>
+            <a href="/docs/mac-app.html">Mac App Overview</a>
+            <a href="/docs/convert-tool.html">Convert XML to CSV/JSON/XLSX</a>
+            <a href="/docs/ai-analysis.html">AI Analysis</a>
+            <a href="/docs/backup.html">Apple Health Backup</a>
+
+            <div class="section-label">Integrations</div>
+            <a href="/docs/openclaw.html">OpenClaw Integration</a>
+            <a href="/docs/api-reference.html">API Reference</a>
+            <a href="/docs/workflows.html">Workflows & Automation</a>
+            <a href="/docs/prompts.html">Prompt Library</a>
+
+            <div class="section-label">Resources</div>
+            <a href="/docs/changelog.html">Changelog</a>
+            <a href="https://apps.apple.com/us/app/health-data-export-ai-analyzer/id6749297170" target="_blank">Download App</a>
+            <a href="https://github.com/krumjahn/applehealth" target="_blank">GitHub (Open Source)</a>
+        </nav>
+    </aside>
+
+    <!-- Mobile toggle -->
+    <button class="sidebar-toggle" onclick="document.getElementById('sidebar').classList.toggle('open')">
+        <i data-lucide="menu" class="w-5 h-5"></i>
+    </button>
+
+    <!-- Main Content -->
+    <main class="docs-main">
+        <div class="max-w-3xl mx-auto px-6 py-16">
+            <div class="doc-content">
+                <h1>Health Data Export & AI Analyzer</h1>
+                <p>Welcome to the documentation for <strong>Health Data Export & AI Analyzer</strong> — the privacy-first toolkit for exporting, syncing, converting, and analyzing your Apple Health data on iPhone and Mac.</p>
+
+                <blockquote>
+                    <p>All data processing happens locally on your devices. Your health data is never uploaded to any server.</p>
+                </blockquote>
+
+                <h2>What Can You Do?</h2>
+
+                <div class="grid md:grid-cols-2 gap-4 mt-6">
+                    <a href="/docs/getting-started.html" class="doc-card block no-underline">
+                        <div class="flex items-center gap-3 mb-2">
+                            <i data-lucide="rocket" class="w-5 h-5 text-rose-400"></i>
+                            <h3 class="text-white font-bold m-0">Getting Started</h3>
+                        </div>
+                        <p class="text-slate-400 text-sm m-0">Install the app, export your data, and run your first analysis in under 5 minutes.</p>
+                    </a>
+
+                    <a href="/docs/wifi-sync.html" class="doc-card block no-underline">
+                        <div class="flex items-center gap-3 mb-2">
+                            <i data-lucide="wifi" class="w-5 h-5 text-blue-400"></i>
+                            <h3 class="text-white font-bold m-0">iPhone-to-Mac Sync</h3>
+                        </div>
+                        <p class="text-slate-400 text-sm m-0">Sync Apple Health data directly over your local network — no export files needed.</p>
+                    </a>
+
+                    <a href="/docs/convert-tool.html" class="doc-card block no-underline">
+                        <div class="flex items-center gap-3 mb-2">
+                            <i data-lucide="file-code-2" class="w-5 h-5 text-green-400"></i>
+                            <h3 class="text-white font-bold m-0">Convert Tool</h3>
+                        </div>
+                        <p class="text-slate-400 text-sm m-0">Convert Apple Health XML to CSV, JSON, or Excel directly in your browser.</p>
+                    </a>
+
+                    <a href="/docs/openclaw.html" class="doc-card block no-underline">
+                        <div class="flex items-center gap-3 mb-2">
+                            <i data-lucide="message-circle" class="w-5 h-5 text-amber-400"></i>
+                            <h3 class="text-white font-bold m-0">OpenClaw Integration</h3>
+                        </div>
+                        <p class="text-slate-400 text-sm m-0">Talk to your health data with AI. Get daily briefs and suggestions from OpenClaw.</p>
+                    </a>
+
+                    <a href="/docs/api-reference.html" class="doc-card block no-underline">
+                        <div class="flex items-center gap-3 mb-2">
+                            <i data-lucide="terminal" class="w-5 h-5 text-cyan-400"></i>
+                            <h3 class="text-white font-bold m-0">API Reference</h3>
+                        </div>
+                        <p class="text-slate-400 text-sm m-0">Read-only localhost API for developers, scripts, and custom integrations.</p>
+                    </a>
+
+                    <a href="/docs/ai-analysis.html" class="doc-card block no-underline">
+                        <div class="flex items-center gap-3 mb-2">
+                            <i data-lucide="brain" class="w-5 h-5 text-purple-400"></i>
+                            <h3 class="text-white font-bold m-0">AI Analysis</h3>
+                        </div>
+                        <p class="text-slate-400 text-sm m-0">Use ChatGPT, Claude, Gemini, or local LLMs to analyze your health data.</p>
+                    </a>
+                </div>
+
+                <h2>Quick Links</h2>
+                <ul>
+                    <li><a href="https://apps.apple.com/us/app/health-data-export-ai-analyzer/id6749297170">Download from the App Store</a></li>
+                    <li><a href="https://github.com/krumjahn/applehealth">Open-source tools on GitHub</a></li>
+                    <li><a href="/docs/changelog.html">Latest updates and changelog</a></li>
+                    <li><a href="https://clawhub.ai/krumjahn/apple-health-export-analyzer">ClawHub Skill</a></li>
+                </ul>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        function filterNav(query) {
+            const links = document.querySelectorAll('#docs-nav a');
+            const q = query.toLowerCase();
+            links.forEach(link => {
+                const text = link.textContent.toLowerCase();
+                link.style.display = text.includes(q) || q === '' ? 'block' : 'none';
+            });
+        }
+        lucide.createIcons();
+    </script>
+</body>
+</html>

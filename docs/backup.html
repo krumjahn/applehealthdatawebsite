@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Apple Health Backup — Health Data Export & AI Analyzer</title>
+    <meta name="description" content="Learn why iCloud alone isn't enough to protect your Apple Health data and how to create secure, user-controlled backups of your health records.">
+    <link rel="canonical" href="https://applehealthdata.com/docs/backup.html">
+    <meta name="apple-itunes-app" content="app-id=6749297170">
+    <meta name="robots" content="index,follow">
+
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Health Data Export & Analyze">
+    <meta property="og:url" content="https://applehealthdata.com/docs/backup.html">
+    <meta property="og:title" content="Apple Health Backup — Health Data Export & AI Analyzer">
+    <meta property="og:description" content="Why iCloud backup isn't enough for your health data and how to create secure, independent backups.">
+    <meta property="og:image" content="https://applehealthdata.com/images/mac-app-screenshot-1.png">
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;700&display=swap');
+
+        :root { --glass-border: rgba(255, 255, 255, 0.08); --glass-bg: rgba(255, 255, 255, 0.03); }
+
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: #020617;
+            color: #f8fafc;
+        }
+
+        .font-mono { font-family: 'JetBrains Mono', monospace; }
+
+        /* Sidebar */
+        .docs-sidebar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 280px;
+            height: 100vh;
+            background: #0f172a;
+            border-right: 1px solid var(--glass-border);
+            overflow-y: auto;
+            z-index: 40;
+            transition: transform 0.3s ease;
+        }
+
+        .docs-sidebar a {
+            display: block;
+            padding: 8px 16px 8px 24px;
+            color: #94a3b8;
+            font-size: 0.875rem;
+            border-radius: 6px;
+            margin: 1px 8px;
+            transition: all 0.15s ease;
+            text-decoration: none;
+        }
+
+        .docs-sidebar a:hover {
+            color: #e2e8f0;
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .docs-sidebar a.active {
+            color: #fff;
+            background: rgba(244, 63, 94, 0.15);
+            border-left: 2px solid #f43f5e;
+            padding-left: 22px;
+        }
+
+        .docs-sidebar .section-label {
+            font-size: 0.7rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            color: #64748b;
+            padding: 20px 24px 6px;
+        }
+
+        /* Main content */
+        .docs-main {
+            margin-left: 280px;
+            min-height: 100vh;
+        }
+
+        /* Mobile sidebar toggle */
+        .sidebar-toggle {
+            display: none;
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 50;
+            background: #f43f5e;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 48px;
+            height: 48px;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(244, 63, 94, 0.4);
+        }
+
+        @media (max-width: 768px) {
+            .docs-sidebar {
+                transform: translateX(-100%);
+            }
+            .docs-sidebar.open {
+                transform: translateX(0);
+            }
+            .docs-main {
+                margin-left: 0;
+            }
+            .sidebar-toggle {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+        }
+
+        /* Content styles */
+        .doc-content h1 { font-size: 2rem; font-weight: 800; margin-bottom: 1rem; color: #fff; }
+        .doc-content h2 { font-size: 1.5rem; font-weight: 700; margin-top: 2.5rem; margin-bottom: 0.75rem; color: #fff; padding-bottom: 0.5rem; border-bottom: 1px solid var(--glass-border); }
+        .doc-content h3 { font-size: 1.125rem; font-weight: 600; margin-top: 1.5rem; margin-bottom: 0.5rem; color: #e2e8f0; }
+        .doc-content p { color: #94a3b8; line-height: 1.75; margin-bottom: 1rem; }
+        .doc-content ul, .doc-content ol { color: #94a3b8; margin-bottom: 1rem; padding-left: 1.5rem; }
+        .doc-content li { margin-bottom: 0.5rem; line-height: 1.6; }
+        .doc-content strong { color: #e2e8f0; }
+        .doc-content code { font-family: 'JetBrains Mono', monospace; background: rgba(255,255,255,0.06); padding: 2px 6px; border-radius: 4px; font-size: 0.85em; color: #f0abfc; }
+        .doc-content pre { background: #0c0a09; border: 1px solid var(--glass-border); border-radius: 8px; padding: 16px; overflow-x: auto; margin-bottom: 1rem; }
+        .doc-content pre code { background: none; padding: 0; color: #a5f3fc; }
+        .doc-content a { color: #f43f5e; text-decoration: underline; text-underline-offset: 2px; }
+        .doc-content a:hover { color: #fb7185; }
+        .doc-content table { width: 100%; border-collapse: collapse; margin-bottom: 1rem; }
+        .doc-content th { text-align: left; padding: 10px 12px; border-bottom: 2px solid #1e293b; color: #e2e8f0; font-size: 0.85rem; font-weight: 600; }
+        .doc-content td { padding: 10px 12px; border-bottom: 1px solid #1e293b; color: #94a3b8; font-size: 0.875rem; }
+        .doc-content blockquote { border-left: 3px solid #f43f5e; padding: 12px 16px; margin: 1rem 0; background: rgba(244, 63, 94, 0.05); border-radius: 0 8px 8px 0; }
+        .doc-content blockquote p { color: #cbd5e1; margin-bottom: 0; }
+
+        .doc-card {
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 12px;
+            padding: 24px;
+            transition: border-color 0.2s;
+        }
+        .doc-card:hover { border-color: rgba(244, 63, 94, 0.3); }
+
+        /* Search */
+        .docs-search {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--glass-border);
+            border-radius: 8px;
+            padding: 8px 12px;
+            color: #e2e8f0;
+            width: 100%;
+            font-size: 0.875rem;
+            outline: none;
+        }
+        .docs-search::placeholder { color: #475569; }
+        .docs-search:focus { border-color: #f43f5e; }
+    </style>
+
+    <!-- Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-8SMQRLT4VS"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-8SMQRLT4VS');
+    </script>
+</head>
+<body>
+
+    <!-- Sidebar -->
+    <aside class="docs-sidebar" id="sidebar">
+        <div class="p-4 border-b border-white/5">
+            <a href="/" class="flex items-center gap-2 text-white no-underline mb-3">
+                <div class="w-8 h-8 bg-gradient-to-tr from-rose-600 to-orange-500 rounded-lg flex items-center justify-center">
+                    <i data-lucide="activity" class="w-4 h-4 text-white"></i>
+                </div>
+                <span class="font-bold text-sm">Health Data Docs</span>
+            </a>
+            <input type="text" class="docs-search" placeholder="Search docs..." id="docs-search" oninput="filterNav(this.value)">
+        </div>
+
+        <nav class="py-3" id="docs-nav">
+            <div class="section-label">Overview</div>
+            <a href="/docs/">Welcome</a>
+            <a href="/docs/getting-started.html">Getting Started</a>
+
+            <div class="section-label">iPhone App</div>
+            <a href="/docs/export-health-data.html">Export Apple Health Data</a>
+            <a href="/docs/wifi-sync.html">iPhone-to-Mac Sync</a>
+
+            <div class="section-label">Mac App</div>
+            <a href="/docs/mac-app.html">Mac App Overview</a>
+            <a href="/docs/convert-tool.html">Convert XML to CSV/JSON/XLSX</a>
+            <a href="/docs/ai-analysis.html">AI Analysis</a>
+            <a href="/docs/backup.html" class="active">Apple Health Backup</a>
+
+            <div class="section-label">Integrations</div>
+            <a href="/docs/openclaw.html">OpenClaw Integration</a>
+            <a href="/docs/api-reference.html">API Reference</a>
+            <a href="/docs/workflows.html">Workflows & Automation</a>
+            <a href="/docs/prompts.html">Prompt Library</a>
+
+            <div class="section-label">Resources</div>
+            <a href="/docs/changelog.html">Changelog</a>
+            <a href="https://apps.apple.com/us/app/health-data-export-ai-analyzer/id6749297170" target="_blank">Download App</a>
+            <a href="https://github.com/krumjahn/applehealth" target="_blank">GitHub (Open Source)</a>
+        </nav>
+    </aside>
+
+    <!-- Mobile toggle -->
+    <button class="sidebar-toggle" onclick="document.getElementById('sidebar').classList.toggle('open')">
+        <i data-lucide="menu" class="w-5 h-5"></i>
+    </button>
+
+    <!-- Main Content -->
+    <main class="docs-main">
+        <div class="max-w-3xl mx-auto px-6 py-16">
+            <div class="doc-content">
+                <h1>Apple Health Backup</h1>
+                <p>Your Apple Health data represents years of health, fitness, and wellness history. Losing it is preventable. This guide explains why you need an independent backup strategy and how to set one up.</p>
+
+                <h2>Why Backup Your Apple Health Data?</h2>
+                <p>Apple Health stores an enormous amount of data: step counts, heart rate, sleep, workouts, lab results, medications, and more. Much of this data is collected passively over years and cannot be recreated if lost.</p>
+                <p>While iCloud does include Health data in device backups, relying on iCloud alone has serious limitations that most people do not realize until it is too late.</p>
+
+                <h2>The Problem with iCloud Alone</h2>
+                <p>An iCloud backup of your Health data is not the same as a true backup. Here is why:</p>
+                <ul>
+                    <li><strong>Locked-in ecosystem.</strong> Your Health data is tied to your Apple ID. You cannot access it outside of an iPhone restore. There is no way to browse, export, or verify the data inside an iCloud backup.</li>
+                    <li><strong>Sync deletes your history.</strong> If you delete a record on your iPhone, that deletion syncs to iCloud. Your "backup" permanently loses that data too.</li>
+                    <li><strong>Corruption risk.</strong> iCloud backups can fail silently or become corrupted, and you will not know until you try to restore.</li>
+                    <li><strong>Proprietary format.</strong> Even if you could extract the data, it is stored in a format only Apple can read. You cannot open it in Excel, Python, or any analysis tool.</li>
+                    <li><strong>No version history.</strong> iCloud keeps only the most recent backup. There is no way to restore data from a specific point in time.</li>
+                </ul>
+
+                <blockquote>
+                    <p>A real backup is a file you control, stored independently, in a format you can open on any platform.</p>
+                </blockquote>
+
+                <h2>iCloud Backup vs. Manual Export Backup</h2>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Feature</th>
+                            <th>iCloud Backup</th>
+                            <th>Manual Export Backup</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Control</strong></td>
+                            <td>Controlled by Apple</td>
+                            <td>You own the file</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Accessibility</strong></td>
+                            <td>Only accessible via iPhone restore</td>
+                            <td>Open on any computer</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Format</strong></td>
+                            <td>Proprietary, unreadable</td>
+                            <td>Universal (XML, CSV, JSON, XLSX)</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Verification</strong></td>
+                            <td>Cannot inspect contents</td>
+                            <td>Open and verify anytime</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Deletion protection</strong></td>
+                            <td>Syncs deletes from device</td>
+                            <td>Independent snapshot in time</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Platform lock-in</strong></td>
+                            <td>Apple ecosystem only</td>
+                            <td>Works anywhere</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Version history</strong></td>
+                            <td>Latest backup only</td>
+                            <td>Keep as many versions as you want</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h2>How to Create a Backup</h2>
+                <p>Creating an independent backup of your Apple Health data is straightforward. Follow these steps:</p>
+                <ol>
+                    <li><strong>Export from your iPhone.</strong> Open the Health app, tap your profile picture in the top right, scroll down, and tap "Export All Health Data." This creates a zip file containing your <code>export.xml</code>. For detailed instructions, see the <a href="/docs/export-health-data.html">export guide</a>.</li>
+                    <li><strong>Save to a safe location.</strong> Transfer the exported file to a location you control: an external hard drive, a cloud storage service (Google Drive, Dropbox, OneDrive), or your Mac. Use the Share Sheet on your iPhone to send the file directly.</li>
+                    <li><strong>Keep multiple versions over time.</strong> Name each export with a date (e.g., <code>health-export-2026-04.zip</code>) and keep previous versions. This gives you point-in-time snapshots of your health history.</li>
+                </ol>
+                <p>Optionally, you can <a href="/docs/convert-tool.html">convert the XML to CSV, JSON, or Excel</a> for easier analysis and long-term readability.</p>
+
+                <h2>Who Needs Dedicated Backups?</h2>
+                <p>Everyone with an iPhone benefits from an independent backup, but some groups have an especially strong need:</p>
+                <ul>
+                    <li><strong>Device switchers.</strong> If you are moving from iPhone to Android, or upgrading to a new device, a manual export is the only way to guarantee your health history transfers completely.</li>
+                    <li><strong>Chronic condition trackers.</strong> People monitoring blood pressure, blood glucose, medications, or other long-term metrics cannot afford to lose years of trend data.</li>
+                    <li><strong>Athletes and fitness enthusiasts.</strong> Workout history, VO2 max trends, resting heart rate over time, and training load data represent months or years of effort.</li>
+                    <li><strong>Researchers and quantified-self enthusiasts.</strong> Anyone doing personal health analysis needs reliable, portable data they can feed into spreadsheets, scripts, or AI tools.</li>
+                    <li><strong>Anyone sharing data with a doctor.</strong> Having a portable export makes it easy to bring your health history to medical appointments.</li>
+                </ul>
+
+                <h2>Backup Best Practices</h2>
+
+                <h3>Set a regular schedule</h3>
+                <p>Export your Health data on a recurring basis. Once a month is a good starting point. Quarterly works for less active trackers. Set a calendar reminder so you do not forget.</p>
+
+                <h3>Store in multiple locations</h3>
+                <p>Follow the 3-2-1 rule: keep at least three copies, on two different types of storage, with one stored off-site. For example, keep one copy on your Mac, one on an external drive, and one in cloud storage.</p>
+
+                <h3>Verify your exports</h3>
+                <p>After exporting, open the zip file and confirm it contains a valid <code>export.xml</code>. You can use the <a href="/convert-tool/">online converter</a> to quickly verify the file is readable and contains your expected data.</p>
+
+                <h3>Use meaningful file names</h3>
+                <p>Name your exports with the date so you can easily identify versions later. For example: <code>health-export-2026-04-01.zip</code>.</p>
+
+                <h3>Do not rely on a single method</h3>
+                <p>iCloud backup and manual export serve different purposes. Use both. iCloud provides convenience for device restores. Manual exports provide independence and long-term safety.</p>
+
+                <h2>Get Started</h2>
+                <p>The easiest way to create your first backup is with the Health Data Export app. It handles the export process and gives you files in universal formats.</p>
+                <p><a href="https://apps.apple.com/us/app/health-data-export-ai-analyzer/id6749297170" style="display:inline-block;background:#f43f5e;color:#fff;font-weight:700;padding:12px 28px;border-radius:9999px;text-decoration:none;margin-top:0.5rem;">Download on the App Store</a></p>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        function filterNav(query) {
+            const links = document.querySelectorAll('#docs-nav a');
+            const q = query.toLowerCase();
+            links.forEach(link => {
+                const text = link.textContent.toLowerCase();
+                link.style.display = text.includes(q) || q === '' ? 'block' : 'none';
+            });
+        }
+        lucide.createIcons();
+    </script>
+</body>
+</html>

@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>iPhone-to-Mac WiFi Sync — Health Data Export & AI Analyzer</title>
+    <meta name="description" content="Sync Apple Health data directly from iPhone to Mac over your local WiFi network. No export files, no cloud, no AirDrop needed.">
+    <link rel="canonical" href="https://applehealthdata.com/docs/wifi-sync.html">
+    <meta name="apple-itunes-app" content="app-id=6749297170">
+    <meta name="robots" content="index,follow">
+
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Health Data Export & Analyze">
+    <meta property="og:url" content="https://applehealthdata.com/docs/wifi-sync.html">
+    <meta property="og:title" content="iPhone-to-Mac WiFi Sync — Health Data Export & AI Analyzer">
+    <meta property="og:description" content="Sync Apple Health data directly from iPhone to Mac over your local WiFi network.">
+    <meta property="og:image" content="https://applehealthdata.com/images/mac-app-screenshot-1.png">
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;700&display=swap');
+
+        :root { --glass-border: rgba(255, 255, 255, 0.08); --glass-bg: rgba(255, 255, 255, 0.03); }
+
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: #020617;
+            color: #f8fafc;
+        }
+
+        .font-mono { font-family: 'JetBrains Mono', monospace; }
+
+        /* Sidebar */
+        .docs-sidebar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 280px;
+            height: 100vh;
+            background: #0f172a;
+            border-right: 1px solid var(--glass-border);
+            overflow-y: auto;
+            z-index: 40;
+            transition: transform 0.3s ease;
+        }
+
+        .docs-sidebar a {
+            display: block;
+            padding: 8px 16px 8px 24px;
+            color: #94a3b8;
+            font-size: 0.875rem;
+            border-radius: 6px;
+            margin: 1px 8px;
+            transition: all 0.15s ease;
+            text-decoration: none;
+        }
+
+        .docs-sidebar a:hover {
+            color: #e2e8f0;
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .docs-sidebar a.active {
+            color: #fff;
+            background: rgba(244, 63, 94, 0.15);
+            border-left: 2px solid #f43f5e;
+            padding-left: 22px;
+        }
+
+        .docs-sidebar .section-label {
+            font-size: 0.7rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            color: #64748b;
+            padding: 20px 24px 6px;
+        }
+
+        /* Main content */
+        .docs-main {
+            margin-left: 280px;
+            min-height: 100vh;
+        }
+
+        /* Mobile sidebar toggle */
+        .sidebar-toggle {
+            display: none;
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 50;
+            background: #f43f5e;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 48px;
+            height: 48px;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(244, 63, 94, 0.4);
+        }
+
+        @media (max-width: 768px) {
+            .docs-sidebar {
+                transform: translateX(-100%);
+            }
+            .docs-sidebar.open {
+                transform: translateX(0);
+            }
+            .docs-main {
+                margin-left: 0;
+            }
+            .sidebar-toggle {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+        }
+
+        /* Content styles */
+        .doc-content h1 { font-size: 2rem; font-weight: 800; margin-bottom: 1rem; color: #fff; }
+        .doc-content h2 { font-size: 1.5rem; font-weight: 700; margin-top: 2.5rem; margin-bottom: 0.75rem; color: #fff; padding-bottom: 0.5rem; border-bottom: 1px solid var(--glass-border); }
+        .doc-content h3 { font-size: 1.125rem; font-weight: 600; margin-top: 1.5rem; margin-bottom: 0.5rem; color: #e2e8f0; }
+        .doc-content p { color: #94a3b8; line-height: 1.75; margin-bottom: 1rem; }
+        .doc-content ul, .doc-content ol { color: #94a3b8; margin-bottom: 1rem; padding-left: 1.5rem; }
+        .doc-content li { margin-bottom: 0.5rem; line-height: 1.6; }
+        .doc-content strong { color: #e2e8f0; }
+        .doc-content code { font-family: 'JetBrains Mono', monospace; background: rgba(255,255,255,0.06); padding: 2px 6px; border-radius: 4px; font-size: 0.85em; color: #f0abfc; }
+        .doc-content pre { background: #0c0a09; border: 1px solid var(--glass-border); border-radius: 8px; padding: 16px; overflow-x: auto; margin-bottom: 1rem; }
+        .doc-content pre code { background: none; padding: 0; color: #a5f3fc; }
+        .doc-content a { color: #f43f5e; text-decoration: underline; text-underline-offset: 2px; }
+        .doc-content a:hover { color: #fb7185; }
+        .doc-content table { width: 100%; border-collapse: collapse; margin-bottom: 1rem; }
+        .doc-content th { text-align: left; padding: 10px 12px; border-bottom: 2px solid #1e293b; color: #e2e8f0; font-size: 0.85rem; font-weight: 600; }
+        .doc-content td { padding: 10px 12px; border-bottom: 1px solid #1e293b; color: #94a3b8; font-size: 0.875rem; }
+        .doc-content blockquote { border-left: 3px solid #f43f5e; padding: 12px 16px; margin: 1rem 0; background: rgba(244, 63, 94, 0.05); border-radius: 0 8px 8px 0; }
+        .doc-content blockquote p { color: #cbd5e1; margin-bottom: 0; }
+
+        .doc-card {
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 12px;
+            padding: 24px;
+            transition: border-color 0.2s;
+        }
+        .doc-card:hover { border-color: rgba(244, 63, 94, 0.3); }
+
+        /* Search */
+        .docs-search {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--glass-border);
+            border-radius: 8px;
+            padding: 8px 12px;
+            color: #e2e8f0;
+            width: 100%;
+            font-size: 0.875rem;
+            outline: none;
+        }
+        .docs-search::placeholder { color: #475569; }
+        .docs-search:focus { border-color: #f43f5e; }
+    </style>
+
+    <!-- Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-8SMQRLT4VS"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-8SMQRLT4VS');
+    </script>
+</head>
+<body>
+
+    <!-- Sidebar -->
+    <aside class="docs-sidebar" id="sidebar">
+        <div class="p-4 border-b border-white/5">
+            <a href="/" class="flex items-center gap-2 text-white no-underline mb-3">
+                <div class="w-8 h-8 bg-gradient-to-tr from-rose-600 to-orange-500 rounded-lg flex items-center justify-center">
+                    <i data-lucide="activity" class="w-4 h-4 text-white"></i>
+                </div>
+                <span class="font-bold text-sm">Health Data Docs</span>
+            </a>
+            <input type="text" class="docs-search" placeholder="Search docs..." id="docs-search" oninput="filterNav(this.value)">
+        </div>
+
+        <nav class="py-3" id="docs-nav">
+            <div class="section-label">Overview</div>
+            <a href="/docs/">Welcome</a>
+            <a href="/docs/getting-started.html">Getting Started</a>
+
+            <div class="section-label">iPhone App</div>
+            <a href="/docs/export-health-data.html">Export Apple Health Data</a>
+            <a href="/docs/wifi-sync.html" class="active">iPhone-to-Mac Sync</a>
+
+            <div class="section-label">Mac App</div>
+            <a href="/docs/mac-app.html">Mac App Overview</a>
+            <a href="/docs/convert-tool.html">Convert XML to CSV/JSON/XLSX</a>
+            <a href="/docs/ai-analysis.html">AI Analysis</a>
+            <a href="/docs/backup.html">Apple Health Backup</a>
+
+            <div class="section-label">Integrations</div>
+            <a href="/docs/openclaw.html">OpenClaw Integration</a>
+            <a href="/docs/api-reference.html">API Reference</a>
+            <a href="/docs/workflows.html">Workflows & Automation</a>
+            <a href="/docs/prompts.html">Prompt Library</a>
+
+            <div class="section-label">Resources</div>
+            <a href="/docs/changelog.html">Changelog</a>
+            <a href="https://apps.apple.com/us/app/health-data-export-ai-analyzer/id6749297170" target="_blank">Download App</a>
+            <a href="https://github.com/krumjahn/applehealth" target="_blank">GitHub (Open Source)</a>
+        </nav>
+    </aside>
+
+    <!-- Mobile toggle -->
+    <button class="sidebar-toggle" onclick="document.getElementById('sidebar').classList.toggle('open')">
+        <i data-lucide="menu" class="w-5 h-5"></i>
+    </button>
+
+    <!-- Main Content -->
+    <main class="docs-main">
+        <div class="max-w-3xl mx-auto px-6 py-16">
+            <div class="doc-content">
+                <h1>iPhone-to-Mac WiFi Sync</h1>
+                <p>Sync your Apple Health data directly from your iPhone to the Mac app over your local WiFi or ethernet network. No export files to manage, no cloud services, and no AirDrop required. Just a fast, private, device-to-device transfer.</p>
+
+                <blockquote>
+                    <p>Your health data travels directly between your iPhone and Mac on your local network. It never touches the internet.</p>
+                </blockquote>
+
+                <h2>Requirements</h2>
+                <ul>
+                    <li><strong>iPhone app</strong> installed on your iPhone (iOS 16 or later)</li>
+                    <li><strong>Mac app</strong> installed on your Mac (macOS 13 Ventura or later)</li>
+                    <li>Both devices connected to the <strong>same local network</strong> (WiFi or ethernet)</li>
+                </ul>
+
+                <h2>How It Works</h2>
+                <ol>
+                    <li><strong>Open the Mac app</strong> and navigate to the <strong>Sync</strong> tab.</li>
+                    <li>The Mac app displays a <strong>connection code</strong> and its local IP address.</li>
+                    <li>On your iPhone, open the app and tap <strong>"Sync to Mac"</strong>.</li>
+                    <li>Your Mac appears automatically on the local network, or you can enter the connection code manually.</li>
+                    <li><strong>Select which health metrics</strong> you want to sync (steps, heart rate, sleep, workouts, and more).</li>
+                    <li>Tap <strong>Start Sync</strong>. Data transfers directly over the local network to your Mac.</li>
+                </ol>
+
+                <h2>What Gets Synced</h2>
+                <p>WiFi Sync transfers all Apple Health record types, including:</p>
+                <ul>
+                    <li><strong>Activity</strong> -- steps, distance, flights climbed, active energy</li>
+                    <li><strong>Heart</strong> -- heart rate, resting heart rate, HRV, blood pressure</li>
+                    <li><strong>Sleep</strong> -- sleep stages, time in bed, sleep duration</li>
+                    <li><strong>Workouts</strong> -- type, duration, calories, route data</li>
+                    <li><strong>Body</strong> -- weight, BMI, body fat percentage</li>
+                    <li><strong>Nutrition</strong> -- dietary energy, macronutrients, water intake</li>
+                    <li><strong>Vitals</strong> -- blood oxygen, respiratory rate, body temperature</li>
+                    <li><strong>Mindfulness</strong> -- mindful minutes, state of mind</li>
+                </ul>
+                <p>You can choose to sync everything or select only the categories you need.</p>
+
+                <h2>Privacy and Security</h2>
+                <p>WiFi Sync is designed with privacy as the top priority:</p>
+                <ul>
+                    <li>Data is transferred <strong>directly between your devices</strong> on the local network.</li>
+                    <li><strong>No data leaves your network.</strong> Nothing is uploaded to any server or cloud service.</li>
+                    <li>The connection uses your local network only -- no internet connection is required during the sync.</li>
+                    <li>The connection code ensures only your devices can pair.</li>
+                </ul>
+
+                <h2>Menu Bar Sync Status</h2>
+                <p>The Mac app includes a <strong>macOS menu bar indicator</strong> that shows the current sync status. You can see at a glance whether a sync is in progress, when the last sync completed, and if any errors occurred. Click the menu bar icon to quickly open the Sync tab or trigger a new sync.</p>
+
+                <h2>Troubleshooting</h2>
+
+                <h3>Mac not appearing on iPhone</h3>
+                <ul>
+                    <li>Confirm both devices are on the <strong>same WiFi network</strong> or the same ethernet subnet.</li>
+                    <li>Check your Mac's <strong>firewall settings</strong> (System Settings &gt; Network &gt; Firewall). The Health Data Export app must be allowed to accept incoming connections.</li>
+                    <li>Try entering the connection code manually instead of relying on automatic discovery.</li>
+                    <li>Restart both apps and try again.</li>
+                </ul>
+
+                <h3>Sync is slow</h3>
+                <ul>
+                    <li>Large datasets (several years of health data) may take a few minutes, especially on slower WiFi connections.</li>
+                    <li>A 5 GHz WiFi connection will be faster than 2.4 GHz.</li>
+                    <li>Ethernet connections provide the most reliable and fastest transfer speeds.</li>
+                </ul>
+
+                <h3>Sync fails or disconnects</h3>
+                <ul>
+                    <li>Make sure neither device goes to sleep during the transfer. Keep the iPhone screen on and prevent the Mac from sleeping.</li>
+                    <li>Move closer to your WiFi router if the signal is weak.</li>
+                    <li>If the problem persists, try syncing a smaller selection of health categories first.</li>
+                </ul>
+
+                <h2>Comparison: Transfer Methods</h2>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Feature</th>
+                            <th>WiFi Sync</th>
+                            <th>AirDrop</th>
+                            <th>Cloud Export</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Setup required</td>
+                            <td>Same network</td>
+                            <td>Bluetooth + WiFi</td>
+                            <td>Cloud account</td>
+                        </tr>
+                        <tr>
+                            <td>Export file needed</td>
+                            <td>No</td>
+                            <td>Yes</td>
+                            <td>Yes</td>
+                        </tr>
+                        <tr>
+                            <td>Data leaves your network</td>
+                            <td>No</td>
+                            <td>No</td>
+                            <td>Yes</td>
+                        </tr>
+                        <tr>
+                            <td>Selective sync</td>
+                            <td>Yes</td>
+                            <td>No (full export)</td>
+                            <td>Depends on service</td>
+                        </tr>
+                        <tr>
+                            <td>Speed (large datasets)</td>
+                            <td>Fast</td>
+                            <td>Moderate</td>
+                            <td>Varies</td>
+                        </tr>
+                        <tr>
+                            <td>Repeat syncs</td>
+                            <td>One tap</td>
+                            <td>Re-export each time</td>
+                            <td>Manual upload</td>
+                        </tr>
+                        <tr>
+                            <td>Internet required</td>
+                            <td>No</td>
+                            <td>No</td>
+                            <td>Yes</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h2>Related Pages</h2>
+                <ul>
+                    <li><a href="/docs/mac-app.html">Mac App Overview</a></li>
+                    <li><a href="/docs/export-health-data.html">Export Apple Health Data</a></li>
+                    <li><a href="/docs/ai-analysis.html">AI Analysis</a></li>
+                    <li><a href="/docs/getting-started.html">Getting Started</a></li>
+                </ul>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        function filterNav(query) {
+            const links = document.querySelectorAll('#docs-nav a');
+            const q = query.toLowerCase();
+            links.forEach(link => {
+                const text = link.textContent.toLowerCase();
+                link.style.display = text.includes(q) || q === '' ? 'block' : 'none';
+            });
+        }
+        lucide.createIcons();
+    </script>
+</body>
+</html>

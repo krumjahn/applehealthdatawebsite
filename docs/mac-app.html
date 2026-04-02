@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mac App Overview — Health Data Export & AI Analyzer</title>
+    <meta name="description" content="The Mac app is your analysis hub. Import health data, run AI analysis, use the local API, and sync with OpenClaw.">
+    <link rel="canonical" href="https://applehealthdata.com/docs/mac-app.html">
+    <meta name="apple-itunes-app" content="app-id=6749297170">
+    <meta name="robots" content="index,follow">
+
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Health Data Export & Analyze">
+    <meta property="og:url" content="https://applehealthdata.com/docs/mac-app.html">
+    <meta property="og:title" content="Mac App Overview — Health Data Export & AI Analyzer">
+    <meta property="og:description" content="The Mac app is your analysis hub. Import health data, run AI analysis, use the local API, and sync with OpenClaw.">
+    <meta property="og:image" content="https://applehealthdata.com/images/mac-app-screenshot-1.png">
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;700&display=swap');
+
+        :root { --glass-border: rgba(255, 255, 255, 0.08); --glass-bg: rgba(255, 255, 255, 0.03); }
+
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: #020617;
+            color: #f8fafc;
+        }
+
+        .font-mono { font-family: 'JetBrains Mono', monospace; }
+
+        /* Sidebar */
+        .docs-sidebar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 280px;
+            height: 100vh;
+            background: #0f172a;
+            border-right: 1px solid var(--glass-border);
+            overflow-y: auto;
+            z-index: 40;
+            transition: transform 0.3s ease;
+        }
+
+        .docs-sidebar a {
+            display: block;
+            padding: 8px 16px 8px 24px;
+            color: #94a3b8;
+            font-size: 0.875rem;
+            border-radius: 6px;
+            margin: 1px 8px;
+            transition: all 0.15s ease;
+            text-decoration: none;
+        }
+
+        .docs-sidebar a:hover {
+            color: #e2e8f0;
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .docs-sidebar a.active {
+            color: #fff;
+            background: rgba(244, 63, 94, 0.15);
+            border-left: 2px solid #f43f5e;
+            padding-left: 22px;
+        }
+
+        .docs-sidebar .section-label {
+            font-size: 0.7rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            color: #64748b;
+            padding: 20px 24px 6px;
+        }
+
+        /* Main content */
+        .docs-main {
+            margin-left: 280px;
+            min-height: 100vh;
+        }
+
+        /* Mobile sidebar toggle */
+        .sidebar-toggle {
+            display: none;
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 50;
+            background: #f43f5e;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 48px;
+            height: 48px;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(244, 63, 94, 0.4);
+        }
+
+        @media (max-width: 768px) {
+            .docs-sidebar {
+                transform: translateX(-100%);
+            }
+            .docs-sidebar.open {
+                transform: translateX(0);
+            }
+            .docs-main {
+                margin-left: 0;
+            }
+            .sidebar-toggle {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+        }
+
+        /* Content styles */
+        .doc-content h1 { font-size: 2rem; font-weight: 800; margin-bottom: 1rem; color: #fff; }
+        .doc-content h2 { font-size: 1.5rem; font-weight: 700; margin-top: 2.5rem; margin-bottom: 0.75rem; color: #fff; padding-bottom: 0.5rem; border-bottom: 1px solid var(--glass-border); }
+        .doc-content h3 { font-size: 1.125rem; font-weight: 600; margin-top: 1.5rem; margin-bottom: 0.5rem; color: #e2e8f0; }
+        .doc-content p { color: #94a3b8; line-height: 1.75; margin-bottom: 1rem; }
+        .doc-content ul, .doc-content ol { color: #94a3b8; margin-bottom: 1rem; padding-left: 1.5rem; }
+        .doc-content li { margin-bottom: 0.5rem; line-height: 1.6; }
+        .doc-content strong { color: #e2e8f0; }
+        .doc-content code { font-family: 'JetBrains Mono', monospace; background: rgba(255,255,255,0.06); padding: 2px 6px; border-radius: 4px; font-size: 0.85em; color: #f0abfc; }
+        .doc-content pre { background: #0c0a09; border: 1px solid var(--glass-border); border-radius: 8px; padding: 16px; overflow-x: auto; margin-bottom: 1rem; }
+        .doc-content pre code { background: none; padding: 0; color: #a5f3fc; }
+        .doc-content a { color: #f43f5e; text-decoration: underline; text-underline-offset: 2px; }
+        .doc-content a:hover { color: #fb7185; }
+        .doc-content table { width: 100%; border-collapse: collapse; margin-bottom: 1rem; }
+        .doc-content th { text-align: left; padding: 10px 12px; border-bottom: 2px solid #1e293b; color: #e2e8f0; font-size: 0.85rem; font-weight: 600; }
+        .doc-content td { padding: 10px 12px; border-bottom: 1px solid #1e293b; color: #94a3b8; font-size: 0.875rem; }
+        .doc-content blockquote { border-left: 3px solid #f43f5e; padding: 12px 16px; margin: 1rem 0; background: rgba(244, 63, 94, 0.05); border-radius: 0 8px 8px 0; }
+        .doc-content blockquote p { color: #cbd5e1; margin-bottom: 0; }
+
+        .doc-card {
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 12px;
+            padding: 24px;
+            transition: border-color 0.2s;
+        }
+        .doc-card:hover { border-color: rgba(244, 63, 94, 0.3); }
+
+        /* Search */
+        .docs-search {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--glass-border);
+            border-radius: 8px;
+            padding: 8px 12px;
+            color: #e2e8f0;
+            width: 100%;
+            font-size: 0.875rem;
+            outline: none;
+        }
+        .docs-search::placeholder { color: #475569; }
+        .docs-search:focus { border-color: #f43f5e; }
+    </style>
+
+    <!-- Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-8SMQRLT4VS"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-8SMQRLT4VS');
+    </script>
+</head>
+<body>
+
+    <!-- Sidebar -->
+    <aside class="docs-sidebar" id="sidebar">
+        <div class="p-4 border-b border-white/5">
+            <a href="/" class="flex items-center gap-2 text-white no-underline mb-3">
+                <div class="w-8 h-8 bg-gradient-to-tr from-rose-600 to-orange-500 rounded-lg flex items-center justify-center">
+                    <i data-lucide="activity" class="w-4 h-4 text-white"></i>
+                </div>
+                <span class="font-bold text-sm">Health Data Docs</span>
+            </a>
+            <input type="text" class="docs-search" placeholder="Search docs..." id="docs-search" oninput="filterNav(this.value)">
+        </div>
+
+        <nav class="py-3" id="docs-nav">
+            <div class="section-label">Overview</div>
+            <a href="/docs/">Welcome</a>
+            <a href="/docs/getting-started.html">Getting Started</a>
+
+            <div class="section-label">iPhone App</div>
+            <a href="/docs/export-health-data.html">Export Apple Health Data</a>
+            <a href="/docs/wifi-sync.html">iPhone-to-Mac Sync</a>
+
+            <div class="section-label">Mac App</div>
+            <a href="/docs/mac-app.html" class="active">Mac App Overview</a>
+            <a href="/docs/convert-tool.html">Convert XML to CSV/JSON/XLSX</a>
+            <a href="/docs/ai-analysis.html">AI Analysis</a>
+            <a href="/docs/backup.html">Apple Health Backup</a>
+
+            <div class="section-label">Integrations</div>
+            <a href="/docs/openclaw.html">OpenClaw Integration</a>
+            <a href="/docs/api-reference.html">API Reference</a>
+            <a href="/docs/workflows.html">Workflows & Automation</a>
+            <a href="/docs/prompts.html">Prompt Library</a>
+
+            <div class="section-label">Resources</div>
+            <a href="/docs/changelog.html">Changelog</a>
+            <a href="https://apps.apple.com/us/app/health-data-export-ai-analyzer/id6749297170" target="_blank">Download App</a>
+            <a href="https://github.com/krumjahn/applehealth" target="_blank">GitHub (Open Source)</a>
+        </nav>
+    </aside>
+
+    <!-- Mobile toggle -->
+    <button class="sidebar-toggle" onclick="document.getElementById('sidebar').classList.toggle('open')">
+        <i data-lucide="menu" class="w-5 h-5"></i>
+    </button>
+
+    <!-- Main Content -->
+    <main class="docs-main">
+        <div class="max-w-3xl mx-auto px-6 py-16">
+            <div class="doc-content">
+                <h1>Mac App Overview</h1>
+                <p>The Mac app is your central hub for working with Apple Health data. Import exports from your iPhone, run AI-powered analysis with your choice of provider, serve data through the local API, and connect to OpenClaw for natural language health queries.</p>
+
+                <blockquote>
+                    <p>All processing happens locally on your Mac. Your health data stays on your device unless you explicitly choose to send it to an AI provider.</p>
+                </blockquote>
+
+                <h2>Key Features</h2>
+
+                <div class="grid md:grid-cols-2 gap-4 mt-4">
+                    <div class="doc-card">
+                        <div class="flex items-center gap-3 mb-2">
+                            <i data-lucide="file-input" class="w-5 h-5 text-green-400"></i>
+                            <h3 class="text-white font-bold m-0">Multi-Format Import</h3>
+                        </div>
+                        <p class="text-slate-400 text-sm m-0">Import Apple Health exports in XML, CSV, and JSON formats.</p>
+                    </div>
+
+                    <div class="doc-card">
+                        <div class="flex items-center gap-3 mb-2">
+                            <i data-lucide="brain" class="w-5 h-5 text-purple-400"></i>
+                            <h3 class="text-white font-bold m-0">AI Analysis</h3>
+                        </div>
+                        <p class="text-slate-400 text-sm m-0">Analyze data with OpenAI, Anthropic, OpenRouter, Ollama, or LM Studio.</p>
+                    </div>
+
+                    <div class="doc-card">
+                        <div class="flex items-center gap-3 mb-2">
+                            <i data-lucide="terminal" class="w-5 h-5 text-cyan-400"></i>
+                            <h3 class="text-white font-bold m-0">Local API</h3>
+                        </div>
+                        <p class="text-slate-400 text-sm m-0">Read-only API on port <code>8765</code> for scripts, automations, and integrations.</p>
+                    </div>
+
+                    <div class="doc-card">
+                        <div class="flex items-center gap-3 mb-2">
+                            <i data-lucide="message-circle" class="w-5 h-5 text-amber-400"></i>
+                            <h3 class="text-white font-bold m-0">OpenClaw</h3>
+                        </div>
+                        <p class="text-slate-400 text-sm m-0">Natural language health queries and daily briefs powered by OpenClaw.</p>
+                    </div>
+
+                    <div class="doc-card">
+                        <div class="flex items-center gap-3 mb-2">
+                            <i data-lucide="cloud" class="w-5 h-5 text-blue-400"></i>
+                            <h3 class="text-white font-bold m-0">Cloud Backup</h3>
+                        </div>
+                        <p class="text-slate-400 text-sm m-0">Sync backups to iCloud or Google Drive for safekeeping.</p>
+                    </div>
+
+                    <div class="doc-card">
+                        <div class="flex items-center gap-3 mb-2">
+                            <i data-lucide="panel-top" class="w-5 h-5 text-rose-400"></i>
+                            <h3 class="text-white font-bold m-0">Menu Bar Status</h3>
+                        </div>
+                        <p class="text-slate-400 text-sm m-0">Always-visible menu bar indicator for sync status and quick actions.</p>
+                    </div>
+                </div>
+
+                <h2>System Requirements</h2>
+                <ul>
+                    <li><strong>macOS 13 Ventura</strong> or later</li>
+                    <li>Apple silicon (M1 or later) or Intel Mac</li>
+                    <li>An Apple Health export file, or the iPhone app for <a href="/docs/wifi-sync.html">WiFi Sync</a></li>
+                </ul>
+
+                <h2>Installation</h2>
+                <p>Download the Mac app from the <a href="https://apps.apple.com/us/app/health-data-export-ai-analyzer/id6749297170">App Store</a>. Open it and you are ready to import your first health data export.</p>
+
+                <h2>App Sections</h2>
+
+                <h3>Dashboard</h3>
+                <p>Your at-a-glance overview of imported health metrics. See trends for steps, heart rate, sleep, workouts, and more. The dashboard updates automatically when new data is imported or synced.</p>
+
+                <h3>Analysis</h3>
+                <p>Run AI-powered analysis on your health data. Choose your preferred AI provider, select the metrics and date range you want to analyze, and get insights in plain language. Supports OpenAI (GPT-4o, o1, o3), Anthropic (Claude), OpenRouter, and local models via Ollama or LM Studio.</p>
+
+                <h3>Export</h3>
+                <p>Convert your imported health data into different formats. Export to <strong>CSV</strong> for spreadsheets, <strong>JSON</strong> for developers, or <strong>XLSX</strong> for Excel. Filter by date range and health category before exporting.</p>
+
+                <h3>API / OpenClaw</h3>
+                <p>Configure the local API server and OpenClaw integration. The API runs on <code>localhost:8765</code> and provides read-only access to your health data for scripts, shortcuts, and third-party tools. OpenClaw connects your health data to a conversational AI interface for natural language queries.</p>
+
+                <h3>Settings</h3>
+                <p>Manage your API keys for AI providers, configure sync preferences, set up cloud backup destinations (iCloud, Google Drive), and customize which health categories to track.</p>
+
+                <h2>Getting Data into the Mac App</h2>
+                <p>There are three ways to get your Apple Health data into the Mac app:</p>
+
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Method</th>
+                            <th>How It Works</th>
+                            <th>Best For</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>WiFi Sync</strong></td>
+                            <td>Direct transfer from iPhone over your local network</td>
+                            <td>Regular syncs, selective data, fastest setup</td>
+                        </tr>
+                        <tr>
+                            <td><strong>AirDrop</strong></td>
+                            <td>Export from the iPhone app, then AirDrop the file to your Mac</td>
+                            <td>One-time transfers, full exports</td>
+                        </tr>
+                        <tr>
+                            <td><strong>File Import</strong></td>
+                            <td>Drag and drop an export file (XML, CSV, or JSON) into the Mac app</td>
+                            <td>Files from email, cloud storage, or other sources</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <p>For the smoothest experience, <a href="/docs/wifi-sync.html">WiFi Sync</a> is recommended. It handles everything automatically and lets you choose exactly which health categories to transfer.</p>
+
+                <h2>Related Pages</h2>
+                <ul>
+                    <li><a href="/docs/wifi-sync.html">iPhone-to-Mac WiFi Sync</a></li>
+                    <li><a href="/docs/ai-analysis.html">AI Analysis</a></li>
+                    <li><a href="/docs/api-reference.html">API Reference</a></li>
+                    <li><a href="/docs/openclaw.html">OpenClaw Integration</a></li>
+                    <li><a href="/docs/convert-tool.html">Convert XML to CSV/JSON/XLSX</a></li>
+                    <li><a href="/docs/getting-started.html">Getting Started</a></li>
+                </ul>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        function filterNav(query) {
+            const links = document.querySelectorAll('#docs-nav a');
+            const q = query.toLowerCase();
+            links.forEach(link => {
+                const text = link.textContent.toLowerCase();
+                link.style.display = text.includes(q) || q === '' ? 'block' : 'none';
+            });
+        }
+        lucide.createIcons();
+    </script>
+</body>
+</html>

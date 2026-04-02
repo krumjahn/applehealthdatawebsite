@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Analysis — Health Data Export & AI Analyzer</title>
+    <meta name="description" content="Use AI to find patterns in your Apple Health data. Supports OpenAI, Anthropic Claude, OpenRouter, Ollama, and LM Studio for cloud and local analysis.">
+    <link rel="canonical" href="https://applehealthdata.com/docs/ai-analysis.html">
+    <meta name="apple-itunes-app" content="app-id=6749297170">
+    <meta name="robots" content="index,follow">
+
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Health Data Export & Analyze">
+    <meta property="og:url" content="https://applehealthdata.com/docs/ai-analysis.html">
+    <meta property="og:title" content="AI Analysis — Health Data Export & AI Analyzer">
+    <meta property="og:description" content="Use AI to find patterns in your Apple Health data.">
+    <meta property="og:image" content="https://applehealthdata.com/images/mac-app-screenshot-1.png">
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;700&display=swap');
+
+        :root { --glass-border: rgba(255, 255, 255, 0.08); --glass-bg: rgba(255, 255, 255, 0.03); }
+
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: #020617;
+            color: #f8fafc;
+        }
+
+        .font-mono { font-family: 'JetBrains Mono', monospace; }
+
+        /* Sidebar */
+        .docs-sidebar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 280px;
+            height: 100vh;
+            background: #0f172a;
+            border-right: 1px solid var(--glass-border);
+            overflow-y: auto;
+            z-index: 40;
+            transition: transform 0.3s ease;
+        }
+
+        .docs-sidebar a {
+            display: block;
+            padding: 8px 16px 8px 24px;
+            color: #94a3b8;
+            font-size: 0.875rem;
+            border-radius: 6px;
+            margin: 1px 8px;
+            transition: all 0.15s ease;
+            text-decoration: none;
+        }
+
+        .docs-sidebar a:hover {
+            color: #e2e8f0;
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .docs-sidebar a.active {
+            color: #fff;
+            background: rgba(244, 63, 94, 0.15);
+            border-left: 2px solid #f43f5e;
+            padding-left: 22px;
+        }
+
+        .docs-sidebar .section-label {
+            font-size: 0.7rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            color: #64748b;
+            padding: 20px 24px 6px;
+        }
+
+        /* Main content */
+        .docs-main {
+            margin-left: 280px;
+            min-height: 100vh;
+        }
+
+        /* Mobile sidebar toggle */
+        .sidebar-toggle {
+            display: none;
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 50;
+            background: #f43f5e;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 48px;
+            height: 48px;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(244, 63, 94, 0.4);
+        }
+
+        @media (max-width: 768px) {
+            .docs-sidebar {
+                transform: translateX(-100%);
+            }
+            .docs-sidebar.open {
+                transform: translateX(0);
+            }
+            .docs-main {
+                margin-left: 0;
+            }
+            .sidebar-toggle {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+        }
+
+        /* Content styles */
+        .doc-content h1 { font-size: 2rem; font-weight: 800; margin-bottom: 1rem; color: #fff; }
+        .doc-content h2 { font-size: 1.5rem; font-weight: 700; margin-top: 2.5rem; margin-bottom: 0.75rem; color: #fff; padding-bottom: 0.5rem; border-bottom: 1px solid var(--glass-border); }
+        .doc-content h3 { font-size: 1.125rem; font-weight: 600; margin-top: 1.5rem; margin-bottom: 0.5rem; color: #e2e8f0; }
+        .doc-content p { color: #94a3b8; line-height: 1.75; margin-bottom: 1rem; }
+        .doc-content ul, .doc-content ol { color: #94a3b8; margin-bottom: 1rem; padding-left: 1.5rem; }
+        .doc-content li { margin-bottom: 0.5rem; line-height: 1.6; }
+        .doc-content strong { color: #e2e8f0; }
+        .doc-content code { font-family: 'JetBrains Mono', monospace; background: rgba(255,255,255,0.06); padding: 2px 6px; border-radius: 4px; font-size: 0.85em; color: #f0abfc; }
+        .doc-content pre { background: #0c0a09; border: 1px solid var(--glass-border); border-radius: 8px; padding: 16px; overflow-x: auto; margin-bottom: 1rem; }
+        .doc-content pre code { background: none; padding: 0; color: #a5f3fc; }
+        .doc-content a { color: #f43f5e; text-decoration: underline; text-underline-offset: 2px; }
+        .doc-content a:hover { color: #fb7185; }
+        .doc-content table { width: 100%; border-collapse: collapse; margin-bottom: 1rem; }
+        .doc-content th { text-align: left; padding: 10px 12px; border-bottom: 2px solid #1e293b; color: #e2e8f0; font-size: 0.85rem; font-weight: 600; }
+        .doc-content td { padding: 10px 12px; border-bottom: 1px solid #1e293b; color: #94a3b8; font-size: 0.875rem; }
+        .doc-content blockquote { border-left: 3px solid #f43f5e; padding: 12px 16px; margin: 1rem 0; background: rgba(244, 63, 94, 0.05); border-radius: 0 8px 8px 0; }
+        .doc-content blockquote p { color: #cbd5e1; margin-bottom: 0; }
+
+        .doc-card {
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 12px;
+            padding: 24px;
+            transition: border-color 0.2s;
+        }
+        .doc-card:hover { border-color: rgba(244, 63, 94, 0.3); }
+
+        /* Search */
+        .docs-search {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--glass-border);
+            border-radius: 8px;
+            padding: 8px 12px;
+            color: #e2e8f0;
+            width: 100%;
+            font-size: 0.875rem;
+            outline: none;
+        }
+        .docs-search::placeholder { color: #475569; }
+        .docs-search:focus { border-color: #f43f5e; }
+    </style>
+
+    <!-- Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-8SMQRLT4VS"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-8SMQRLT4VS');
+    </script>
+</head>
+<body>
+
+    <!-- Sidebar -->
+    <aside class="docs-sidebar" id="sidebar">
+        <div class="p-4 border-b border-white/5">
+            <a href="/" class="flex items-center gap-2 text-white no-underline mb-3">
+                <div class="w-8 h-8 bg-gradient-to-tr from-rose-600 to-orange-500 rounded-lg flex items-center justify-center">
+                    <i data-lucide="activity" class="w-4 h-4 text-white"></i>
+                </div>
+                <span class="font-bold text-sm">Health Data Docs</span>
+            </a>
+            <input type="text" class="docs-search" placeholder="Search docs..." id="docs-search" oninput="filterNav(this.value)">
+        </div>
+
+        <nav class="py-3" id="docs-nav">
+            <div class="section-label">Overview</div>
+            <a href="/docs/">Welcome</a>
+            <a href="/docs/getting-started.html">Getting Started</a>
+
+            <div class="section-label">iPhone App</div>
+            <a href="/docs/export-health-data.html">Export Apple Health Data</a>
+            <a href="/docs/wifi-sync.html">iPhone-to-Mac Sync</a>
+
+            <div class="section-label">Mac App</div>
+            <a href="/docs/mac-app.html">Mac App Overview</a>
+            <a href="/docs/convert-tool.html">Convert XML to CSV/JSON/XLSX</a>
+            <a href="/docs/ai-analysis.html" class="active">AI Analysis</a>
+            <a href="/docs/backup.html">Apple Health Backup</a>
+
+            <div class="section-label">Integrations</div>
+            <a href="/docs/openclaw.html">OpenClaw Integration</a>
+            <a href="/docs/api-reference.html">API Reference</a>
+            <a href="/docs/workflows.html">Workflows & Automation</a>
+            <a href="/docs/prompts.html">Prompt Library</a>
+
+            <div class="section-label">Resources</div>
+            <a href="/docs/changelog.html">Changelog</a>
+            <a href="https://apps.apple.com/us/app/health-data-export-ai-analyzer/id6749297170" target="_blank">Download App</a>
+            <a href="https://github.com/krumjahn/applehealth" target="_blank">GitHub (Open Source)</a>
+        </nav>
+    </aside>
+
+    <!-- Mobile toggle -->
+    <button class="sidebar-toggle" onclick="document.getElementById('sidebar').classList.toggle('open')">
+        <i data-lucide="menu" class="w-5 h-5"></i>
+    </button>
+
+    <!-- Main Content -->
+    <main class="docs-main">
+        <div class="max-w-3xl mx-auto px-6 py-16">
+            <div class="doc-content">
+                <h1>AI Analysis</h1>
+                <p>Use AI to find patterns, trends, and anomalies in your Apple Health data. The Mac app supports multiple AI providers -- both cloud-based and fully local -- so you can choose the balance of capability and privacy that works for you.</p>
+
+                <blockquote>
+                    <p>AI analysis is free when you use your own API key. The app never uploads your health data to our servers. Data goes directly from your Mac to the AI provider you choose.</p>
+                </blockquote>
+
+                <h2>Supported AI Providers</h2>
+                <p>The Mac app connects to these providers out of the box. You can switch between them at any time.</p>
+
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Provider</th>
+                            <th>Type</th>
+                            <th>Cost</th>
+                            <th>Best For</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>OpenAI (ChatGPT)</strong></td>
+                            <td>Cloud</td>
+                            <td>Pay-per-use</td>
+                            <td>Strong general analysis, large context windows</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Anthropic (Claude)</strong></td>
+                            <td>Cloud</td>
+                            <td>Pay-per-use</td>
+                            <td>Nuanced health reasoning, detailed explanations</td>
+                        </tr>
+                        <tr>
+                            <td><strong>OpenRouter</strong></td>
+                            <td>Cloud</td>
+                            <td>Pay-per-use</td>
+                            <td>Access to many models (Llama, Mistral, Gemini, etc.) through a single API key</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Ollama</strong></td>
+                            <td>Local</td>
+                            <td>Free</td>
+                            <td>Maximum privacy, no data leaves your Mac</td>
+                        </tr>
+                        <tr>
+                            <td><strong>LM Studio</strong></td>
+                            <td>Local</td>
+                            <td>Free</td>
+                            <td>User-friendly local inference with a GUI for model management</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h2>Setting Up Each Provider</h2>
+
+                <h3>OpenAI (ChatGPT)</h3>
+                <ol>
+                    <li>Go to <a href="https://platform.openai.com/api-keys">platform.openai.com/api-keys</a> and create an API key.</li>
+                    <li>In the Mac app, open <strong>Settings</strong> and select <strong>OpenAI</strong> as your provider.</li>
+                    <li>Paste your API key into the field provided.</li>
+                    <li>Choose a model (e.g., <code>gpt-4o</code> for the best analysis quality, or <code>gpt-4o-mini</code> for faster, cheaper responses).</li>
+                </ol>
+
+                <h3>Anthropic (Claude)</h3>
+                <ol>
+                    <li>Go to <a href="https://console.anthropic.com/settings/keys">console.anthropic.com/settings/keys</a> and create an API key.</li>
+                    <li>In the Mac app, open <strong>Settings</strong> and select <strong>Anthropic</strong> as your provider.</li>
+                    <li>Paste your API key.</li>
+                    <li>Choose a model (e.g., <code>claude-sonnet-4-20250514</code> for detailed analysis).</li>
+                </ol>
+
+                <h3>OpenRouter</h3>
+                <ol>
+                    <li>Go to <a href="https://openrouter.ai/keys">openrouter.ai/keys</a> and create an API key.</li>
+                    <li>In the Mac app, open <strong>Settings</strong> and select <strong>OpenRouter</strong> as your provider.</li>
+                    <li>Paste your API key.</li>
+                    <li>Choose from any available model. OpenRouter gives you access to models from many providers (Llama, Mistral, Gemini, and more) through a single key.</li>
+                </ol>
+
+                <h3>Ollama (Local, Free)</h3>
+                <ol>
+                    <li>Install Ollama from <a href="https://ollama.com">ollama.com</a>.</li>
+                    <li>Pull a model: <code>ollama pull llama3</code></li>
+                    <li>Make sure Ollama is running on your Mac.</li>
+                    <li>In the Mac app, open <strong>Settings</strong> and select <strong>Ollama</strong> as your provider. The app auto-detects the local Ollama server at <code>http://localhost:11434</code>.</li>
+                    <li>No API key is needed. All processing stays on your machine.</li>
+                </ol>
+
+                <h3>LM Studio (Local, Free)</h3>
+                <ol>
+                    <li>Download LM Studio from <a href="https://lmstudio.ai">lmstudio.ai</a>.</li>
+                    <li>Open LM Studio and download a model (e.g., Llama 3, Mistral, Phi-3).</li>
+                    <li>Start the local server in LM Studio (it runs on <code>http://localhost:1234</code> by default).</li>
+                    <li>In the Mac app, open <strong>Settings</strong> and select <strong>LM Studio</strong> as your provider.</li>
+                    <li>No API key is needed. All processing stays on your machine.</li>
+                </ol>
+
+                <h2>What AI Analysis Can Find</h2>
+                <p>Once you have a provider configured, you can run analysis on your imported Apple Health data. The AI examines your metrics and produces insights that go far beyond what the Health app shows you.</p>
+
+                <h3>Trends</h3>
+                <p>The AI identifies upward and downward trends in your metrics over time. For example, it might notice that your resting heart rate has been gradually declining over the past three months, or that your step count drops every weekend.</p>
+
+                <h3>Anomalies</h3>
+                <p>Unusual data points get flagged automatically. A sudden spike in resting heart rate, an unusually short sleep night, or a gap in workout data can all indicate something worth investigating.</p>
+
+                <h3>Correlations</h3>
+                <p>The AI looks for relationships between different metrics. Does your sleep quality improve on days you walk more than 8,000 steps? Does your HRV drop after late-night workouts? These cross-metric patterns are difficult to spot manually but straightforward for an AI model.</p>
+
+                <h3>Suggestions</h3>
+                <p>Based on the patterns it finds, the AI generates actionable recommendations. These might include adjusting your bedtime, modifying your workout schedule, or investigating a metric that has changed unexpectedly.</p>
+
+                <h2>Privacy Considerations</h2>
+                <p>Your choice of provider directly affects where your health data is processed.</p>
+
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Provider Type</th>
+                            <th>Data Location</th>
+                            <th>Privacy Level</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Cloud (OpenAI, Anthropic, OpenRouter)</strong></td>
+                            <td>Data is sent to the provider's servers for processing</td>
+                            <td>Your data is transmitted over an encrypted connection. Review each provider's data retention policy. The Mac app strips personally identifiable information before sending.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Local (Ollama, LM Studio)</strong></td>
+                            <td>Data never leaves your Mac</td>
+                            <td>Maximum privacy. No network requests are made. All inference runs on your local hardware.</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <p>If privacy is your top priority, use <strong>Ollama</strong> or <strong>LM Studio</strong>. Your health data stays entirely on your machine, and no API key or internet connection is required for analysis.</p>
+
+                <h2>Example Analysis Output</h2>
+                <p>Here is what a typical AI analysis response looks like when you ask for a health summary:</p>
+
+                <pre><code>Health Summary — Last 7 Days
+============================
+
+Steps
+  Average: 8,432/day (up 12% from prior week)
+  Best day: Tuesday (12,104)
+  Lowest: Sunday (3,210)
+
+Sleep
+  Average duration: 7h 14m
+  Bedtime consistency: Fair (std dev: 48 min)
+  Trend: Slightly improving since last week
+
+Resting Heart Rate
+  Average: 58 bpm (stable, within normal range)
+  Anomaly: Thursday spike to 67 bpm — likely correlated
+  with short sleep the night before (5h 22m)
+
+Workouts
+  4 sessions logged (2 running, 1 strength, 1 cycling)
+  Total active calories: 2,180 kcal
+
+Suggestions
+  1. Your Sunday step count is consistently low. Consider
+     adding a short walk to your weekend routine.
+  2. Your Thursday heart rate spike correlates with poor
+     sleep. Prioritize 7+ hours on Wednesday nights.
+  3. You are on a 3-week upward trend in running distance.
+     Consider a deload week to support recovery.</code></pre>
+
+                <h2>Next Steps</h2>
+                <ul>
+                    <li>Browse the <a href="/docs/prompts.html">Prompt Library</a> for ready-to-use prompts that produce structured analysis.</li>
+                    <li>Set up <a href="/docs/workflows.html">Workflows & Automation</a> to get daily and weekly analysis without manual effort.</li>
+                    <li>Learn about the <a href="/docs/openclaw.html">OpenClaw Integration</a> for conversational health check-ins.</li>
+                </ul>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        function filterNav(query) {
+            const links = document.querySelectorAll('#docs-nav a');
+            const q = query.toLowerCase();
+            links.forEach(link => {
+                const text = link.textContent.toLowerCase();
+                link.style.display = text.includes(q) || q === '' ? 'block' : 'none';
+            });
+        }
+        lucide.createIcons();
+    </script>
+</body>
+</html>
