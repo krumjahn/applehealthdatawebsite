@@ -209,4 +209,11 @@
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
+  <!-- Direct Sync -->
+  <url>
+    <loc>https://applehealthdata.com/sync-apple-health-to-mac/</loc>
+    <lastmod>2026-04-02</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
 </urlset>
