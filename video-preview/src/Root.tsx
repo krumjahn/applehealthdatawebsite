@@ -1,3 +1,4 @@
+import React from "react";
 import { Composition } from "remotion";
 import { AppPreview } from "./AppPreview";
 
@@ -7,9 +8,9 @@ export const RemotionRoot: React.FC = () => {
       <Composition
         id="AppPreview"
         component={AppPreview}
-        durationInFrames={1800}
+        durationInFrames={864}
         fps={30}
-        width={1080}
+        width={886}
         height={1920}
         defaultProps={{}}
       />

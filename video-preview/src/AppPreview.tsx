@@ -1,21 +1,33 @@
 import React from "react";
-import { AbsoluteFill, Video, useCurrentFrame, useVideoConfig, interpolate, spring } from "remotion";
+import { AbsoluteFill, Video, useCurrentFrame, useVideoConfig, interpolate, spring, staticFile } from "remotion";
 
 export const AppPreview: React.FC = () => {
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
 
-  // Caption data: [startFrame, endFrame, text]
-  const captions: [number, number, string][] = [
-    [0, 90, "Track your Apple Health data"],
-    [100, 200, "Visualize trends over time"],
-    [210, 320, "Export and share easily"],
+  // Caption data: [startFrame, endFrame, title, subtitle?]
+  const captions: [number, number, string, string?][] = [
+    [0,   120, "Your Health Data", "Private. On-device. Yours."],
+    [120, 270, "Export from Apple Health", "One tap to back up everything"],
+    [270, 420, "Convert XML → CSV", "Clean, structured data instantly"],
+    [420, 570, "Analyze with AI", "Claude, ChatGPT, or local LLMs"],
+    [570, 720, "Sync to Mac", "WiFi sync — no cloud required"],
+    [720, 864, "Your Health. Your Rules.", "applehealthdata.com"],
   ];
 
   const activeCaption = captions.find(([start, end]) => frame >= start && frame <= end);
 
   const captionOpacity = activeCaption
-    ? interpolate(frame, [activeCaption[0], activeCaption[0] + 15], [0, 1], { extrapolateRight: "clamp" })
+    ? interpolate(
+        frame,
+        [activeCaption[0], activeCaption[0] + 12, activeCaption[1] - 12, activeCaption[1]],
+        [0, 1, 1, 0],
+        { extrapolateLeft: "clamp", extrapolateRight: "clamp" }
+      )
+    : 0;
+
+  const captionY = activeCaption
+    ? interpolate(frame, [activeCaption[0], activeCaption[0] + 12], [20, 0], { extrapolateRight: "clamp" })
     : 0;
 
   const phoneScale = spring({
@@ -72,7 +84,7 @@ export const AppPreview: React.FC = () => {
 
           {/* Screen recording */}
           <Video
-            src={`/recording.mp4`}
+            src={staticFile("recording.mp4")}
             style={{
               width: "100%",
               height: "100%",
@@ -89,34 +101,51 @@ export const AppPreview: React.FC = () => {
             display: "flex",
             alignItems: "flex-end",
             justifyContent: "center",
-            paddingBottom: 120,
+            paddingBottom: 100,
             opacity: captionOpacity,
+            transform: `translateY(${captionY}px)`,
           }}
         >
           <div
             style={{
-              backgroundColor: "rgba(0, 0, 0, 0.75)",
-              borderRadius: 16,
-              paddingTop: 16,
-              paddingBottom: 16,
-              paddingLeft: 32,
-              paddingRight: 32,
-              maxWidth: 800,
+              backgroundColor: "rgba(0, 0, 0, 0.7)",
+              backdropFilter: "blur(20px)",
+              borderRadius: 20,
+              paddingTop: 18,
+              paddingBottom: 18,
+              paddingLeft: 36,
+              paddingRight: 36,
+              maxWidth: 820,
+              border: "1px solid rgba(255,255,255,0.12)",
+              textAlign: "center",
             }}
           >
             <p
               style={{
                 color: "#ffffff",
-                fontSize: 48,
+                fontSize: 46,
                 fontWeight: 700,
                 fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif",
                 margin: 0,
-                textAlign: "center",
-                lineHeight: 1.3,
+                lineHeight: 1.2,
               }}
             >
               {activeCaption[2]}
             </p>
+            {activeCaption[3] && (
+              <p
+                style={{
+                  color: "rgba(255,255,255,0.7)",
+                  fontSize: 30,
+                  fontWeight: 400,
+                  fontFamily: "-apple-system, BlinkMacSystemFont, 'SF Pro Text', sans-serif",
+                  margin: "8px 0 0",
+                  lineHeight: 1.3,
+                }}
+              >
+                {activeCaption[3]}
+              </p>
+            )}
           </div>
         </AbsoluteFill>
       )}
