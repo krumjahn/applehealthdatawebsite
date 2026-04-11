@@ -740,9 +740,11 @@
             </div>
 
             <div class="flex flex-col md:flex-row items-center justify-center gap-8 md:gap-16">
-                <!-- iPhone Image -->
+                <!-- iPhone Video Preview -->
                 <div class="w-1/2 md:w-1/3">
-                    <img src="images/iphone-app-screenshot.png" alt="iPhone App showing Health Data Export" class="rounded-3xl shadow-2xl">
+                    <video autoplay muted loop playsinline class="rounded-3xl shadow-2xl w-full" poster="images/iphone-app-screenshot.png">
+                        <source src="images/app-preview-video.mp4" type="video/mp4">
+                    </video>
                 </div>
 
                 <!-- Sync Animation (now representing export) -->
