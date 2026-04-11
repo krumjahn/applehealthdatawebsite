@@ -211,11 +211,13 @@
 
   <!-- ---- HERO ---- -->
   <section id="hero" class="text-center py-6">
+    <p class="text-xs font-semibold uppercase tracking-widest text-rose-400 mb-3">Real data · Updated April 11, 2026</p>
     <h1 id="hero-name" class="text-4xl sm:text-5xl font-extrabold text-white mb-2"></h1>
-    <p id="hero-location" class="text-slate-400 text-lg mb-5 flex items-center justify-center gap-1.5">
+    <p id="hero-location" class="text-slate-400 text-lg mb-3 flex items-center justify-center gap-1.5">
       <i data-lucide="map-pin" class="w-4 h-4 text-rose-500"></i>
       <span></span>
     </p>
+    <p class="text-slate-500 text-sm max-w-md mx-auto mb-5">Developer of this app. This is my actual Apple Health data, exported and published as a live showcase of what the dashboard can show.</p>
     <div class="flex flex-wrap items-center justify-center gap-3">
       <span id="badge-exported" class="badge text-rose-400 border-rose-500/30 bg-rose-500/10">
         <i data-lucide="refresh-cw" class="w-3 h-3"></i>
@@ -517,7 +519,7 @@
     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
 
       <!-- Nutrition -->
-      <div class="glass-card">
+      <div id="nutrition-card" class="glass-card">
         <h3 class="text-sm font-semibold text-slate-300 mb-4 flex items-center gap-2">
           <i data-lucide="utensils" class="w-4 h-4 accent-amber"></i>
           Daily Nutrition (avg)
@@ -573,12 +575,12 @@
             <div id="v-glucose" class="text-xl font-bold accent-amber">—</div>
             <div class="text-xs text-slate-600">mg/dL</div>
           </div>
-          <div class="stat-tile">
+          <div id="v-resp-tile" class="stat-tile">
             <div class="text-xs text-slate-500 mb-1">Resp. Rate</div>
             <div id="v-resp" class="text-xl font-bold accent-teal">—</div>
             <div class="text-xs text-slate-600">br/min</div>
           </div>
-          <div class="stat-tile">
+          <div id="v-temp-tile" class="stat-tile">
             <div class="text-xs text-slate-500 mb-1">Body Temp</div>
             <div id="v-temp" class="text-xl font-bold accent-amber">—</div>
             <div class="text-xs text-slate-600">°C</div>
@@ -592,11 +594,11 @@
   <!-- ---- CTA ---- -->
   <section>
     <div class="glass-card text-center py-10 px-6" style="background: linear-gradient(135deg, rgba(244,63,94,0.06) 0%, rgba(56,189,248,0.04) 100%); border-color: rgba(244,63,94,0.2);">
-      <div class="w-12 h-12 bg-gradient-to-tr from-rose-600 to-orange-500 rounded-xl flex items-center justify-center mx-auto mb-4">
-        <i data-lucide="github" class="w-6 h-6 text-white"></i>
+      <div class="w-12 h-12 bg-gradient-to-tr from-emerald-500 to-teal-400 rounded-xl flex items-center justify-center mx-auto mb-4">
+        <i data-lucide="bar-chart-2" class="w-6 h-6 text-white"></i>
       </div>
-      <h2 class="text-2xl font-extrabold text-white mb-2">Build your own</h2>
-      <p class="text-slate-400 max-w-md mx-auto mb-6">Fork the open source template and drop in your own data exported from Apple Health.</p>
+      <h2 class="text-2xl font-extrabold text-white mb-2">Build your own dashboard</h2>
+      <p class="text-slate-400 max-w-md mx-auto mb-6">The template is open source. Fork it on GitHub, export your data from the app, and host your own public health dashboard in minutes.</p>
       <div class="flex flex-wrap items-center justify-center gap-3">
         <a href="https://github.com/krumjahn/health-dashboard" target="_blank"
            class="flex items-center gap-2 bg-white/10 hover:bg-white/15 border border-white/15 text-white font-semibold px-5 py-2.5 rounded-lg transition-all">
@@ -749,26 +751,36 @@
     document.getElementById('rec-hrv-val').textContent    = (allTime.highestHRV?.value ?? '—') + ' ms';
     document.getElementById('rec-hrv-date').textContent   = allTime.highestHRV?.date ? formatShortDate(allTime.highestHRV.date) : '—';
 
-    // Nutrition (optional — null if no data)
+    // Nutrition (optional — hide card entirely if null)
     if (nutrition) {
       document.getElementById('n-calories').textContent = nutrition.avgDailyCalories != null ? num(nutrition.avgDailyCalories) : '—';
       document.getElementById('n-protein').textContent  = nutrition.avgProtein  != null ? nutrition.avgProtein  : '—';
       document.getElementById('n-carbs').textContent    = nutrition.avgCarbs    != null ? nutrition.avgCarbs    : '—';
       document.getElementById('n-fat').textContent      = nutrition.avgFat      != null ? nutrition.avgFat      : '—';
       document.getElementById('n-water').textContent    = nutrition.avgWater    != null ? nutrition.avgWater    : '—';
+    } else {
+      document.getElementById('nutrition-card').style.display = 'none';
     }
 
-    // Vitals (optional — null if no data)
+    // Vitals (optional — hide individual tiles if null)
     if (vitals) {
-      document.getElementById('v-spo2').textContent = vitals.avgBloodOxygen       != null ? vitals.avgBloodOxygen       : '—';
-      document.getElementById('v-resp').textContent = vitals.avgRespiratoryRate    != null ? vitals.avgRespiratoryRate    : '—';
-      document.getElementById('v-temp').textContent = vitals.avgBodyTemp           != null ? vitals.avgBodyTemp           : '—';
+      document.getElementById('v-spo2').textContent = vitals.avgBloodOxygen != null ? vitals.avgBloodOxygen : '—';
       const bpEl = document.getElementById('v-bp');
       if (bpEl) bpEl.textContent = (vitals.avgBloodPressureSystolic != null && vitals.avgBloodPressureDiastolic != null)
         ? `${Math.round(vitals.avgBloodPressureSystolic)}/${Math.round(vitals.avgBloodPressureDiastolic)}`
         : '—';
       const glucoseEl = document.getElementById('v-glucose');
       if (glucoseEl) glucoseEl.textContent = vitals.avgBloodGlucose != null ? Math.round(vitals.avgBloodGlucose) : '—';
+      if (vitals.avgRespiratoryRate != null) {
+        document.getElementById('v-resp').textContent = vitals.avgRespiratoryRate;
+      } else {
+        document.getElementById('v-resp-tile').style.display = 'none';
+      }
+      if (vitals.avgBodyTemp != null) {
+        document.getElementById('v-temp').textContent = vitals.avgBodyTemp;
+      } else {
+        document.getElementById('v-temp-tile').style.display = 'none';
+      }
     }
 
     // Show dashboard, hide loading
