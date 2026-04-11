@@ -3,17 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Changelog — Health Data Export & AI Analyzer</title>
-    <meta name="description" content="Complete changelog for Health Data Export & AI Analyzer. See every update to the iOS and Mac app.">
-    <link rel="canonical" href="https://applehealthdata.com/docs/changelog.html">
+    <title>Home Screen Widget — Health Data Export & AI Analyzer</title>
+    <meta name="description" content="Add a sync widget to your iPhone Home Screen for one-tap Apple Health data sync. Available in small and medium sizes with live sync status.">
+    <link rel="canonical" href="https://applehealthdata.com/docs/widgets.html">
     <meta name="apple-itunes-app" content="app-id=6749297170">
     <meta name="robots" content="index,follow">
 
     <meta property="og:type" content="website">
     <meta property="og:site_name" content="Health Data Export & Analyze">
-    <meta property="og:url" content="https://applehealthdata.com/docs/changelog.html">
-    <meta property="og:title" content="Changelog — Health Data Export & AI Analyzer">
-    <meta property="og:description" content="Complete changelog for Health Data Export & AI Analyzer.">
+    <meta property="og:url" content="https://applehealthdata.com/docs/widgets.html">
+    <meta property="og:title" content="Home Screen Widget — Health Data Export & AI Analyzer">
+    <meta property="og:description" content="Add a sync widget to your iPhone Home Screen for one-tap Apple Health data sync.">
     <meta property="og:image" content="https://applehealthdata.com/images/mac-app-screenshot-1.png">
 
     <script src="https://cdn.tailwindcss.com"></script>
@@ -158,31 +158,6 @@
         }
         .docs-search::placeholder { color: #475569; }
         .docs-search:focus { border-color: #f43f5e; }
-
-        /* Changelog-specific styles */
-        .changelog-entry {
-            position: relative;
-            padding-left: 1.5rem;
-            border-left: 2px solid rgba(148, 163, 184, 0.2);
-        }
-        .changelog-entry::before {
-            content: "";
-            position: absolute;
-            left: -5px;
-            top: 6px;
-            width: 8px;
-            height: 8px;
-            border-radius: 50%;
-            background: #22d3ee;
-            box-shadow: 0 0 0 3px rgba(34, 211, 238, 0.15);
-        }
-        .changelog-date {
-            font-size: 0.85rem;
-            font-weight: 700;
-            color: #22d3ee;
-            font-family: 'JetBrains Mono', monospace;
-            margin-bottom: 0.5rem;
-        }
     </style>
 
     <!-- Analytics -->
@@ -216,7 +191,7 @@
             <div class="section-label">iPhone App</div>
             <a href="/docs/export-health-data.html">Export Apple Health Data</a>
             <a href="/docs/wifi-sync.html">iPhone-to-Mac Sync</a>
-            <a href="/docs/widgets.html">Home Screen Widget</a>
+            <a href="/docs/widgets.html" class="active">Home Screen Widget</a>
 
             <div class="section-label">Mac App</div>
             <a href="/docs/mac-app.html">Mac App Overview</a>
@@ -231,7 +206,7 @@
             <a href="/docs/prompts.html">Prompt Library</a>
 
             <div class="section-label">Resources</div>
-            <a href="/docs/changelog.html" class="active">Changelog</a>
+            <a href="/docs/changelog.html">Changelog</a>
             <a href="https://apps.apple.com/us/app/health-data-export-ai-analyzer/id6749297170" target="_blank">Download App</a>
             <a href="https://github.com/krumjahn/applehealth" target="_blank">GitHub (Open Source)</a>
         </nav>
@@ -246,105 +221,155 @@
     <main class="docs-main">
         <div class="max-w-3xl mx-auto px-6 py-16">
             <div class="doc-content">
-                <h1>Changelog</h1>
-                <p>A plain-language timeline of updates to the iOS and Mac app. Most recent first.</p>
+                <h1>Home Screen Widget</h1>
+                <p>Add a <strong>Health Data Sync widget</strong> to your iPhone Home Screen for one-tap syncing. The widget shows live sync status, progress, and your last sync time -- no need to open the app.</p>
 
-                <div class="space-y-8 mt-8">
+                <blockquote>
+                    <p>The widget requires iOS 16 or later and works with both small and medium widget sizes.</p>
+                </blockquote>
 
-                    <div class="changelog-entry">
-                        <div class="changelog-date">2026-04-11</div>
-                        <ul>
-                            <li><strong>Added</strong> Home Screen sync widget for iPhone -- one-tap sync, live progress, and quick export without opening the app.</li>
-                            <li><strong>Added</strong> widget documentation page with setup guide and troubleshooting.</li>
-                            <li><strong>Added</strong> Apple Health Widget SEO landing page.</li>
-                            <li><strong>Added</strong> widget demo video to docs and marketing pages.</li>
-                        </ul>
-                    </div>
-
-                    <div class="changelog-entry">
-                        <div class="changelog-date">2026-03-27</div>
-                        <ul>
-                            <li><strong>Added</strong> OpenClaw support for daily Apple Health check-ins.</li>
-                            <li><strong>Added</strong> a local API for AI tools and developer workflows.</li>
-                            <li><strong>Added</strong> Mac menu bar sync status.</li>
-                            <li><strong>Added</strong> direct iPhone-to-Mac WiFi/ethernet sync within local network.</li>
-                            <li><strong>Improved</strong> iPhone-to-Mac sync and cloud export handling.</li>
-                            <li><strong>Improved</strong> XML import, saved-analysis loading, and startup responsiveness.</li>
-                            <li><strong>Improved</strong> subscription reliability and macOS paywall behavior.</li>
-                        </ul>
-                    </div>
-
-                    <div class="changelog-entry">
-                        <div class="changelog-date">2026-02-14</div>
-                        <ul>
-                            <li>Merged and stabilized recent app improvements.</li>
-                        </ul>
-                    </div>
-
-                    <div class="changelog-entry">
-                        <div class="changelog-date">2026-02-13</div>
-                        <ul>
-                            <li><strong>Improved</strong> AI model selection so setup is simpler and more flexible.</li>
-                            <li><strong>Added</strong> support for more smart ring health metrics.</li>
-                            <li><strong>Improved</strong> pricing messaging: AI analysis is free when using your own API key.</li>
-                            <li><strong>Improved</strong> release quality checks to reduce regressions.</li>
-                        </ul>
-                    </div>
-
-                    <div class="changelog-entry">
-                        <div class="changelog-date">2026-02-12</div>
-                        <ul>
-                            <li><strong>Improved</strong> sleep duration tracking accuracy.</li>
-                            <li><strong>Improved</strong> import errors to explain what went wrong in clearer language.</li>
-                            <li><strong>Fixed</strong> large health export files now load more reliably.</li>
-                        </ul>
-                    </div>
-
-                    <div class="changelog-entry">
-                        <div class="changelog-date">2026-02-08</div>
-                        <ul>
-                            <li><strong>Fixed</strong> chart labels on Mac now display correctly, making trends easier to read.</li>
-                        </ul>
-                    </div>
-
-                    <div class="changelog-entry">
-                        <div class="changelog-date">2026-02-05</div>
-                        <ul>
-                            <li>Merged and stabilized recent app improvements.</li>
-                            <li><strong>Added</strong> daily summaries so it is easier to check day-by-day patterns.</li>
-                        </ul>
-                    </div>
-
-                    <div class="changelog-entry">
-                        <div class="changelog-date">2026-02-01</div>
-                        <ul>
-                            <li><strong>Fixed</strong> first-time sync stability, resolving a crash some users could hit.</li>
-                        </ul>
-                    </div>
-
-                    <div class="changelog-entry">
-                        <div class="changelog-date">2026-01-31</div>
-                        <ul>
-                            <li><strong>Fixed</strong> data export to include complete history by default.</li>
-                        </ul>
-                    </div>
-
-                    <div class="changelog-entry">
-                        <div class="changelog-date">2026-01-24</div>
-                        <ul>
-                            <li><strong>Improved</strong> daily step count accuracy using HKStatisticsCollectionQuery.</li>
-                            <li><strong>Added</strong> social sharing cards, iOS companion QR code, and updated App Store links.</li>
-                        </ul>
-                    </div>
-
-                    <div class="changelog-entry">
-                        <div class="changelog-date">2026-01-22</div>
-                        <ul>
-                            <li><strong>Fixed</strong> fallback parsing and added mood tracking results.</li>
-                        </ul>
-                    </div>
-
+                <!-- Widget Demo Video -->
+                <div style="margin: 2rem 0; border-radius: 12px; overflow: hidden; border: 1px solid var(--glass-border);">
+                    <video autoplay muted loop playsinline style="width: 100%; display: block;">
+                        <source src="/images/WidgetDemo.mp4" type="video/mp4">
+                    </video>
                 </div>
+
+                <h2>Adding the Widget</h2>
+                <ol>
+                    <li><strong>Long-press</strong> on an empty area of your iPhone Home Screen until the apps start to jiggle.</li>
+                    <li>Tap the <strong>+</strong> button in the top-left corner to open the widget gallery.</li>
+                    <li>Search for <strong>"Health Data Export"</strong> or scroll to find it in the list.</li>
+                    <li>Choose your preferred size -- <strong>Small</strong> or <strong>Medium</strong>.</li>
+                    <li>Tap <strong>"Add Widget"</strong>, then position it on your Home Screen.</li>
+                    <li>Tap <strong>Done</strong> to save.</li>
+                </ol>
+
+                <h2>Widget Sizes</h2>
+
+                <h3>Small Widget</h3>
+                <p>A compact widget that shows:</p>
+                <ul>
+                    <li>Current sync status (syncing, idle, or first sync prompt)</li>
+                    <li>Last sync time (e.g., "1 hr ago", "2d ago")</li>
+                    <li>Sync progress percentage when actively syncing</li>
+                    <li>One-tap action button</li>
+                </ul>
+
+                <h3>Medium Widget</h3>
+                <p>A wider widget with more detail:</p>
+                <ul>
+                    <li>Everything in the small widget, plus expanded status messages</li>
+                    <li>Sync phase details (preparing, exporting, uploading)</li>
+                    <li>Provider information (e.g., "Direct to Mac", "iCloud")</li>
+                    <li>More descriptive status text with full context</li>
+                </ul>
+
+                <h2>Widget Actions</h2>
+                <p>You can configure what happens when you tap the widget. Open the main app, go to <strong>Settings &gt; Widget</strong>, and choose one of these actions:</p>
+
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Action</th>
+                            <th>What It Does</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Quick Sync</strong> (default)</td>
+                            <td>Immediately starts a sync to your Mac. The fastest way to keep your data up to date.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Quick Export</strong></td>
+                            <td>Exports your health data as XML and opens AirDrop or the Share Sheet, depending on your preference.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Open Sync Screen</strong></td>
+                            <td>Opens the Sync tab in the app so you can review settings before starting.</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h2>Sync Status Indicators</h2>
+                <p>The widget updates in real time to reflect what's happening:</p>
+
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Status</th>
+                            <th>Widget Shows</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Idle</strong></td>
+                            <td>"Ready to sync" with last sync time. Tap to start.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Preparing</strong></td>
+                            <td>"Getting ready" -- checking permissions and settings.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Exporting</strong></td>
+                            <td>"Exporting data" with a progress percentage (e.g., "30% done").</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Uploading</strong></td>
+                            <td>"Uploading export" with transfer progress.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Complete</strong></td>
+                            <td>"Sync complete" -- your data is ready on your Mac.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Failed</strong></td>
+                            <td>"Sync failed" -- tap to open the app and retry.</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h2>First-Time Setup</h2>
+                <p>If you add the widget before completing your first sync, it shows a <strong>"First Sync"</strong> prompt encouraging you to start your initial sync. After your first successful sync, the widget automatically switches to showing your sync status and last sync time.</p>
+
+                <h2>Export Settings</h2>
+                <p>When using the <strong>Quick Export</strong> action, you can configure two additional preferences in the app:</p>
+                <ul>
+                    <li><strong>Export range:</strong> Choose between the last 90 days or all-time data.</li>
+                    <li><strong>Delivery method:</strong> Choose AirDrop (sends directly to a nearby device) or Share Sheet (lets you choose any sharing destination).</li>
+                </ul>
+
+                <h2>How Often Does the Widget Update?</h2>
+                <p>The widget refreshes approximately every <strong>15 minutes</strong> when idle. During an active sync, it updates more frequently to show real-time progress. The widget uses shared app storage to display the most current sync state without consuming significant battery.</p>
+
+                <h2>Troubleshooting</h2>
+
+                <h3>Widget shows "First Sync" even after syncing</h3>
+                <ul>
+                    <li>Make sure you completed a full sync (not just opened the sync screen).</li>
+                    <li>Wait up to 15 minutes for the widget timeline to refresh.</li>
+                    <li>Remove and re-add the widget if it remains stuck.</li>
+                </ul>
+
+                <h3>Widget not updating during sync</h3>
+                <ul>
+                    <li>Widget updates rely on iOS timeline refresh. The progress may lag slightly behind the actual sync.</li>
+                    <li>Open the main app to see real-time sync progress.</li>
+                </ul>
+
+                <h3>Widget not appearing in the widget gallery</h3>
+                <ul>
+                    <li>Make sure the app is installed and has been opened at least once.</li>
+                    <li>Restart your iPhone if the widget doesn't appear after installation.</li>
+                    <li>Check that you're running iOS 16 or later.</li>
+                </ul>
+
+                <h2>Related Pages</h2>
+                <ul>
+                    <li><a href="/docs/wifi-sync.html">iPhone-to-Mac WiFi Sync</a></li>
+                    <li><a href="/docs/export-health-data.html">Export Apple Health Data</a></li>
+                    <li><a href="/docs/getting-started.html">Getting Started</a></li>
+                </ul>
             </div>
         </div>
     </main>

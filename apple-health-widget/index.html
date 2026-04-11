@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Apple Health Widget — One-Tap Sync from Your iPhone Home Screen</title>
+    <meta name="description" content="Add an Apple Health sync widget to your iPhone Home Screen. One-tap sync to your Mac, live progress tracking, and quick export — all without opening the app.">
+    <meta name="keywords" content="Apple Health widget, iPhone health widget, health data widget, sync Apple Health, Apple Health home screen, health sync widget, WidgetKit health">
+    <link rel="canonical" href="https://applehealthdata.com/apple-health-widget/">
+    <meta name="apple-itunes-app" content="app-id=6749297170">
+
+    <!-- Open Graph -->
+    <meta property="og:title" content="Apple Health Widget — One-Tap Sync from Your iPhone Home Screen">
+    <meta property="og:description" content="Add an Apple Health sync widget to your iPhone Home Screen. One-tap sync, live progress, and quick export.">
+    <meta property="og:url" content="https://applehealthdata.com/apple-health-widget/">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Health Data Export & Analyze">
+    <meta property="og:image" content="https://applehealthdata.com/images/mac-app-screenshot-1.png">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Apple Health Widget — One-Tap Sync from Your iPhone Home Screen">
+    <meta name="twitter:description" content="Add an Apple Health sync widget to your iPhone Home Screen. One-tap sync, live progress, and quick export.">
+    <meta name="twitter:image" content="https://applehealthdata.com/images/mac-app-screenshot-1.png">
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <!-- Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-8SMQRLT4VS"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-8SMQRLT4VS');
+    </script>
+
+    <!-- Structured Data: FAQPage -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "Can I add an Apple Health widget to my iPhone Home Screen?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes. Health Data Export & AI Analyzer includes an iOS Home Screen widget that lets you sync your Apple Health data to your Mac with a single tap. The widget is available in small and medium sizes and shows live sync status, progress, and last sync time."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What does the Apple Health sync widget show?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "The widget shows your current sync status (idle, syncing, complete, or failed), progress percentage during active syncs, your last sync time, and a configurable action button for quick sync, quick export, or opening the sync screen."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What sizes does the health widget support?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "The widget supports two iOS sizes: Small (compact, shows status and one-tap action) and Medium (wider, with expanded status messages, sync phase details, and provider information)."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Does the health widget work without opening the app?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes. Tapping the widget triggers your configured action (sync, export, or open) directly via deep links without needing to navigate the app manually. The widget updates every 15 minutes and shows real-time progress during active syncs."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Is my health data private when using the widget?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes. The widget communicates with the main app through on-device shared storage (App Groups). No health data is sent to any server. Syncs happen directly between your iPhone and Mac over your local network."
+          }
+        }
+      ]
+    }
+    </script>
+
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;700&display=swap');
+        :root { --glass-border: rgba(255, 255, 255, 0.08); --glass-bg: rgba(255, 255, 255, 0.03); }
+        body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: #020617; color: #f8fafc; overflow-x: hidden; }
+        .mesh-gradient { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: -1; background: radial-gradient(at 0% 0%, rgba(225, 29, 72, 0.15) 0px, transparent 50%), radial-gradient(at 100% 0%, rgba(56, 189, 248, 0.15) 0px, transparent 50%), radial-gradient(at 100% 100%, rgba(168, 85, 247, 0.15) 0px, transparent 50%); filter: blur(60px); }
+        .content-section h2 { border-top: 1px solid var(--glass-border); padding-top: 2rem; margin-top: 3rem; color: #f8fafc; font-size: 1.875rem; font-weight: 700; margin-bottom: 1.5rem; }
+        .content-section h3 { color: #e2e8f0; font-size: 1.5rem; font-weight: 600; margin-top: 2rem; margin-bottom: 1rem; }
+        .content-section p { color: #94a3b8; font-size: 1.125rem; line-height: 1.75; margin-bottom: 1.5rem; }
+        .content-section a { color: #f43f5e; text-decoration: none; border-bottom: 1px solid transparent; transition: all 0.2s; }
+        .content-section a:hover { border-bottom-color: #f43f5e; }
+        .content-section ul, .content-section ol { padding-left: 1.5rem; margin-bottom: 1.5rem; color: #94a3b8; }
+        .content-section li { margin-bottom: 0.75rem; list-style-type: disc; }
+        .content-section blockquote { border-left: 4px solid #f43f5e; padding-left: 1.5rem; color: #cbd5e1; font-style: italic; margin: 2rem 0; background: rgba(244, 63, 94, 0.05); padding: 1.5rem; border-radius: 0 0.75rem 0.75rem 0; }
+        .glass-card { background: var(--glass-bg); border: 1px solid var(--glass-border); border-radius: 0.75rem; padding: 1.5rem; }
+        .step-number { width: 3rem; height: 3rem; border-radius: 0.75rem; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 1.25rem; flex-shrink: 0; }
+        .feature-icon { width: 2.5rem; height: 2.5rem; border-radius: 0.75rem; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+    </style>
+</head>
+<body>
+    <div class="mesh-gradient"></div>
+
+    <nav class="fixed w-full z-50 border-b border-white/10 bg-slate-950/80 backdrop-blur-xl">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-20">
+                <a href="/" class="flex items-center gap-3 group">
+                    <div class="w-10 h-10 bg-gradient-to-tr from-rose-600 to-orange-500 rounded-xl flex items-center justify-center shadow-lg shadow-rose-500/20 group-hover:scale-105 transition-transform">
+                        <i data-lucide="activity" class="w-6 h-6 text-white"></i>
+                    </div>
+                    <div>
+                        <span class="font-bold text-lg tracking-tight text-white block leading-none">Health Data</span>
+                        <span class="text-xs text-slate-400 tracking-wider uppercase font-semibold">Export &amp; Analyze</span>
+                    </div>
+                </a>
+                <div class="hidden md:flex gap-6 items-center">
+                    <a href="/docs/" class="text-sm font-medium text-slate-300 hover:text-white transition-colors">Docs</a>
+                    <a href="/docs/wifi-sync.html" class="text-sm font-medium text-slate-300 hover:text-white transition-colors">WiFi Sync</a>
+                    <a href="/openclaw-apple-health/" class="text-sm font-medium text-slate-300 hover:text-white transition-colors">OpenClaw</a>
+                    <a href="https://apps.apple.com/app/id6749297170" class="text-sm font-bold text-rose-500 hover:text-rose-400 transition-colors">Download App</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <main class="pt-32 pb-20 lg:pt-48 lg:pb-32">
+        <div class="max-w-3xl mx-auto px-4 content-section">
+
+            <!-- Hero -->
+            <div class="text-center mb-16">
+                <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-sky-500/10 border border-sky-500/20 text-sky-400 text-sm font-medium mb-6">
+                    <span class="relative flex h-2 w-2">
+                      <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-sky-400 opacity-75"></span>
+                      <span class="relative inline-flex rounded-full h-2 w-2 bg-sky-500"></span>
+                    </span>
+                    iPhone Widget
+                </div>
+                <h1 class="text-4xl lg:text-6xl font-bold text-white mb-6 tracking-tight">Apple Health Widget:<br>One-Tap Sync from Your Home Screen</h1>
+                <p class="text-xl text-slate-400 leading-relaxed">Skip the app. Add a sync widget to your iPhone Home Screen and keep your Apple Health data flowing to your Mac with a single tap. Live progress, instant export, zero friction.</p>
+            </div>
+
+            <!-- Widget Demo Video -->
+            <div class="my-12 rounded-2xl overflow-hidden border border-white/10 shadow-2xl">
+                <video autoplay muted loop playsinline class="w-full">
+                    <source src="/images/WidgetDemo.mp4" type="video/mp4">
+                </video>
+            </div>
+
+            <!-- Why a Widget? -->
+            <h2>Why a Health Sync Widget?</h2>
+            <p>You already track your health every day. Your Apple Watch records steps, heart rate, and workouts automatically. But getting that data off your iPhone and onto your Mac for analysis usually means opening the app, navigating to the sync screen, and tapping Start.</p>
+            <p>The <strong>Health Data sync widget</strong> removes those steps. Place it on your Home Screen and sync becomes a reflex -- one tap, done. The widget shows live progress so you know exactly when your data is ready for <a href="/docs/ai-analysis.html">AI analysis</a>, <a href="/docs/convert-tool.html">CSV/JSON conversion</a>, or <a href="/openclaw-apple-health/">OpenClaw queries</a>.</p>
+
+            <!-- Widget Sizes -->
+            <h2>Two Sizes, Your Choice</h2>
+            <p>The widget comes in two iOS sizes to fit your Home Screen layout:</p>
+
+            <div class="grid md:grid-cols-2 gap-4 my-8">
+                <div class="glass-card">
+                    <div class="flex items-center gap-3 mb-3">
+                        <div class="feature-icon bg-gradient-to-tr from-rose-600 to-orange-500">
+                            <i data-lucide="square" class="w-4 h-4 text-white"></i>
+                        </div>
+                        <h3 class="text-white font-bold text-lg m-0">Small</h3>
+                    </div>
+                    <p class="text-sm text-slate-400 mb-0">Compact 2x2 widget. Shows sync status, last sync time, and a one-tap action. Perfect for a quick glance.</p>
+                </div>
+                <div class="glass-card">
+                    <div class="flex items-center gap-3 mb-3">
+                        <div class="feature-icon bg-gradient-to-tr from-sky-500 to-cyan-400">
+                            <i data-lucide="rectangle-horizontal" class="w-4 h-4 text-white"></i>
+                        </div>
+                        <h3 class="text-white font-bold text-lg m-0">Medium</h3>
+                    </div>
+                    <p class="text-sm text-slate-400 mb-0">Wider 4x2 widget. Everything in the small widget plus expanded sync phase details, provider info, and richer status messages.</p>
+                </div>
+            </div>
+
+            <!-- How to Add -->
+            <h2>How to Add the Widget</h2>
+            <p>Adding the widget takes about 30 seconds:</p>
+
+            <div class="grid gap-4 my-8">
+                <div class="glass-card flex items-start gap-4">
+                    <div class="step-number bg-gradient-to-tr from-rose-600 to-orange-500 text-white">1</div>
+                    <div>
+                        <h3 class="mt-0 mb-1 text-lg">Long-Press Your Home Screen</h3>
+                        <p class="text-base mb-0">Touch and hold an empty area until the apps start jiggling. Tap the <strong>+</strong> button in the top-left corner.</p>
+                    </div>
+                </div>
+                <div class="glass-card flex items-start gap-4">
+                    <div class="step-number bg-gradient-to-tr from-sky-500 to-cyan-400 text-white">2</div>
+                    <div>
+                        <h3 class="mt-0 mb-1 text-lg">Search for "Health Data Export"</h3>
+                        <p class="text-base mb-0">Type the app name in the widget gallery search bar, or scroll to find it in the list.</p>
+                    </div>
+                </div>
+                <div class="glass-card flex items-start gap-4">
+                    <div class="step-number bg-gradient-to-tr from-purple-500 to-violet-400 text-white">3</div>
+                    <div>
+                        <h3 class="mt-0 mb-1 text-lg">Choose Your Size</h3>
+                        <p class="text-base mb-0">Swipe between <strong>Small</strong> and <strong>Medium</strong>, then tap <strong>"Add Widget"</strong>.</p>
+                    </div>
+                </div>
+                <div class="glass-card flex items-start gap-4">
+                    <div class="step-number bg-gradient-to-tr from-emerald-500 to-green-400 text-white">4</div>
+                    <div>
+                        <h3 class="mt-0 mb-1 text-lg">Position and Done</h3>
+                        <p class="text-base mb-0">Drag the widget where you want it, then tap <strong>Done</strong>. Your sync shortcut is now one tap away.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- What the Widget Does -->
+            <h2>What the Widget Does</h2>
+            <p>The widget isn't just a shortcut -- it's a live status dashboard for your health data pipeline:</p>
+
+            <ul>
+                <li><strong>Idle state:</strong> Shows "Ready to sync" with the time since your last sync (e.g., "1 hr ago", "2d ago"). Tap to start a new sync.</li>
+                <li><strong>Syncing:</strong> Displays the current phase (preparing, exporting, uploading) with a real-time progress percentage like "Exporting data -- 30% done".</li>
+                <li><strong>Complete:</strong> Confirms "Sync complete" so you know your Mac has the latest data.</li>
+                <li><strong>Failed:</strong> Shows "Sync failed" with a tap-to-retry action that opens the app.</li>
+            </ul>
+
+            <!-- Configurable Actions -->
+            <h2>Three Tap Actions</h2>
+            <p>Configure what happens when you tap the widget. Open the app and go to <strong>Settings &gt; Widget</strong> to choose:</p>
+
+            <div class="grid gap-4 my-8">
+                <div class="glass-card flex items-start gap-4">
+                    <div class="feature-icon bg-gradient-to-tr from-emerald-500 to-green-400">
+                        <i data-lucide="refresh-cw" class="w-4 h-4 text-white"></i>
+                    </div>
+                    <div>
+                        <h3 class="mt-0 mb-1 text-lg">Quick Sync (Default)</h3>
+                        <p class="text-base mb-0 text-slate-400">Immediately starts syncing your Apple Health data to your paired Mac over WiFi. The fastest path from raw data to analysis.</p>
+                    </div>
+                </div>
+                <div class="glass-card flex items-start gap-4">
+                    <div class="feature-icon bg-gradient-to-tr from-amber-500 to-orange-400">
+                        <i data-lucide="share" class="w-4 h-4 text-white"></i>
+                    </div>
+                    <div>
+                        <h3 class="mt-0 mb-1 text-lg">Quick Export</h3>
+                        <p class="text-base mb-0 text-slate-400">Exports your health data as XML and sends it via AirDrop or the Share Sheet. Choose between the last 90 days or all-time data.</p>
+                    </div>
+                </div>
+                <div class="glass-card flex items-start gap-4">
+                    <div class="feature-icon bg-gradient-to-tr from-sky-500 to-blue-400">
+                        <i data-lucide="external-link" class="w-4 h-4 text-white"></i>
+                    </div>
+                    <div>
+                        <h3 class="mt-0 mb-1 text-lg">Open Sync Screen</h3>
+                        <p class="text-base mb-0 text-slate-400">Opens the Sync tab so you can review settings, select specific health categories, or change your sync provider before starting.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Privacy -->
+            <h2>Privacy First</h2>
+            <p>The widget communicates with the main app through <strong>on-device App Group storage</strong>. Your health data never leaves your iPhone except during a sync to your own Mac on your local network. There are no servers, no cloud, and no tracking.</p>
+
+            <blockquote>
+                <p>All sync data travels directly between your iPhone and Mac. The widget itself stores only sync status metadata -- never your actual health records.</p>
+            </blockquote>
+
+            <!-- Use Cases -->
+            <h2>When to Use the Widget</h2>
+            <ul>
+                <li><strong>Morning routine:</strong> Tap the widget after waking up to sync overnight sleep and heart rate data to your Mac for your <a href="/openclaw-apple-health/">OpenClaw daily brief</a>.</li>
+                <li><strong>Post-workout:</strong> Sync immediately after a workout so your Mac has the latest exercise data for <a href="/docs/ai-analysis.html">AI analysis</a>.</li>
+                <li><strong>Weekly exports:</strong> Use Quick Export to share a health data file with your doctor or personal trainer.</li>
+                <li><strong>Data pipeline:</strong> Keep your Mac's local health database always current for <a href="/docs/api-reference.html">API integrations</a> and <a href="/docs/workflows.html">automation workflows</a>.</li>
+            </ul>
+
+            <!-- Requirements -->
+            <h2>Requirements</h2>
+            <ul>
+                <li><strong>iOS 16 or later</strong> (WidgetKit support)</li>
+                <li><a href="https://apps.apple.com/us/app/health-data-export-ai-analyzer/id6749297170">Health Data Export & AI Analyzer</a> installed on your iPhone</li>
+                <li>For sync: the <a href="/docs/mac-app.html">Mac app</a> installed and both devices on the same network</li>
+            </ul>
+
+            <!-- CTA -->
+            <div class="mt-16 text-center">
+                <a href="https://apps.apple.com/us/app/health-data-export-ai-analyzer/id6749297170" class="inline-flex items-center gap-2 bg-gradient-to-r from-rose-600 to-orange-500 text-white font-bold px-8 py-4 rounded-xl text-lg shadow-lg shadow-rose-500/20 hover:shadow-rose-500/40 transition-all hover:scale-105 border-0">
+                    <i data-lucide="download" class="w-5 h-5"></i>
+                    Download on the App Store
+                </a>
+                <p class="mt-4 text-sm text-slate-500">Widget included with the app.</p>
+            </div>
+
+            <!-- Related -->
+            <h2>Related</h2>
+            <ul>
+                <li><a href="/docs/widgets.html">Widget Documentation</a> -- full setup guide, troubleshooting, and configuration reference</li>
+                <li><a href="/docs/wifi-sync.html">iPhone-to-Mac WiFi Sync</a> -- how the underlying sync works</li>
+                <li><a href="/openclaw-apple-health/">OpenClaw Apple Health</a> -- AI daily briefs from your synced data</li>
+                <li><a href="/docs/export-health-data.html">Export Apple Health Data</a> -- manual export guide</li>
+            </ul>
+        </div>
+    </main>
+
+    <footer class="border-t border-white/5 py-8">
+        <div class="max-w-3xl mx-auto px-4 text-center text-sm text-slate-500">
+            <p>Health Data Export & AI Analyzer &mdash; Privacy-first Apple Health tools for iPhone and Mac.</p>
+        </div>
+    </footer>
+
+    <script>lucide.createIcons();</script>
+</body>
+</html>
