@@ -349,7 +349,7 @@
       <i data-lucide="trophy" class="w-4 h-4 text-amber-400"></i>
       Streaks &amp; Totals
     </h2>
-    <div class="grid grid-cols-2 lg:grid-cols-4 gap-4">
+    <div class="grid grid-cols-2 sm:grid-cols-4 gap-4">
 
       <div class="glass-card text-center">
         <div class="text-3xl mb-1">🔥</div>
@@ -388,7 +388,7 @@
       <i data-lucide="trending-up" class="w-4 h-4 text-rose-400"></i>
       Last 30 Days
     </h2>
-    <div class="grid grid-cols-2 lg:grid-cols-4 gap-4">
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
 
       <!-- Steps sparkline -->
       <div class="glass-card">
@@ -397,7 +397,7 @@
           <span class="w-2 h-2 rounded-full dot-rose"></span>
         </div>
         <div class="sparkline-wrap">
-          <canvas id="chart-steps"></canvas>
+          <canvas id="chart-steps" role="img" aria-label="Steps over last 30 days, line chart"></canvas>
         </div>
         <div class="mt-3">
           <span class="text-xs text-slate-500">30-day avg</span>
@@ -412,7 +412,7 @@
           <span class="w-2 h-2 rounded-full dot-blue"></span>
         </div>
         <div class="sparkline-wrap">
-          <canvas id="chart-sleep"></canvas>
+          <canvas id="chart-sleep" role="img" aria-label="Sleep hours over last 30 days, line chart"></canvas>
         </div>
         <div class="mt-3">
           <span class="text-xs text-slate-500">30-day avg</span>
@@ -427,7 +427,7 @@
           <span class="w-2 h-2 rounded-full dot-purple"></span>
         </div>
         <div class="sparkline-wrap">
-          <canvas id="chart-hrv"></canvas>
+          <canvas id="chart-hrv" role="img" aria-label="HRV over last 30 days, line chart"></canvas>
         </div>
         <div class="mt-3">
           <span class="text-xs text-slate-500">30-day avg</span>
@@ -442,7 +442,7 @@
           <span class="w-2 h-2 rounded-full dot-amber"></span>
         </div>
         <div class="sparkline-wrap">
-          <canvas id="chart-weight"></canvas>
+          <canvas id="chart-weight" role="img" aria-label="Weight over last 30 days, line chart"></canvas>
         </div>
         <div class="mt-3">
           <span class="text-xs text-slate-500">30-day avg</span>
@@ -629,7 +629,10 @@
 
   // ── Sparkline factory
   function createSparkline(canvasId, labels, values, color, fillColor) {
-    new Chart(document.getElementById(canvasId), {
+    const canvas = document.getElementById(canvasId);
+    const existing = Chart.getChart(canvas);
+    if (existing) existing.destroy();
+    new Chart(canvas, {
       type: 'line',
       data: {
         labels,
@@ -701,10 +704,11 @@
     document.getElementById('avg-weight').textContent = last30Days.avgWeight + ' kg';
 
     // Workout breakdown
-    const totalMins = workoutBreakdown.reduce((a, w) => a + w.totalMinutes, 0);
+    const breakdown = Array.isArray(workoutBreakdown) ? workoutBreakdown : [];
+    const totalMins = breakdown.reduce((a, w) => a + (w.totalMinutes ?? 0), 0);
     const barColors = ['#f43f5e','#38bdf8','#a78bfa','#34d399','#fbbf24','#fb923c'];
     const wrapEl = document.getElementById('workout-breakdown');
-    wrapEl.innerHTML = workoutBreakdown.map((w, i) => {
+    wrapEl.innerHTML = breakdown.map((w, i) => {
       const pct = totalMins > 0 ? Math.round((w.totalMinutes / totalMins) * 100) : 0;
       const hrs = (w.totalMinutes / 60).toFixed(1);
       const color = barColors[i % barColors.length];
@@ -728,12 +732,12 @@
     }).join('');
 
     // All-time records
-    document.getElementById('rec-steps-val').textContent  = num(allTime.peakStepsDay.value) + ' steps';
-    document.getElementById('rec-steps-date').textContent = formatShortDate(allTime.peakStepsDay.date);
-    document.getElementById('rec-hr-val').textContent     = allTime.lowestRestingHR.value + ' bpm';
-    document.getElementById('rec-hr-date').textContent    = formatShortDate(allTime.lowestRestingHR.date);
-    document.getElementById('rec-hrv-val').textContent    = allTime.highestHRV.value + ' ms';
-    document.getElementById('rec-hrv-date').textContent   = formatShortDate(allTime.highestHRV.date);
+    document.getElementById('rec-steps-val').textContent  = (allTime.peakStepsDay?.value ?? '—') + ' steps';
+    document.getElementById('rec-steps-date').textContent = allTime.peakStepsDay?.date ? formatShortDate(allTime.peakStepsDay.date) : '—';
+    document.getElementById('rec-hr-val').textContent     = (allTime.lowestRestingHR?.value ?? '—') + ' bpm';
+    document.getElementById('rec-hr-date').textContent    = allTime.lowestRestingHR?.date ? formatShortDate(allTime.lowestRestingHR.date) : '—';
+    document.getElementById('rec-hrv-val').textContent    = (allTime.highestHRV?.value ?? '—') + ' ms';
+    document.getElementById('rec-hrv-date').textContent   = allTime.highestHRV?.date ? formatShortDate(allTime.highestHRV.date) : '—';
 
     // Nutrition
     document.getElementById('n-calories').textContent = num(nutrition.avgDailyCalories);
@@ -763,12 +767,13 @@
       const data = await res.json();
       renderDashboard(data);
     } catch (e) {
-      document.getElementById('loading-text').textContent = 'Could not load health data. (' + e.message + ')';
+      const el = document.getElementById('loading-text') || document.getElementById('loading');
+      if (el) el.textContent = 'Could not load health data. (' + e.message + ')';
+      console.error(e);
     }
   }
 
   document.addEventListener('DOMContentLoaded', () => {
-    lucide.createIcons();
     loadData();
   });
 </script>
