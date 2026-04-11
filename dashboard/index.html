@@ -557,11 +557,21 @@
           <i data-lucide="heart" class="w-4 h-4 accent-rose"></i>
           Vitals (avg)
         </h3>
-        <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+        <div class="grid grid-cols-2 sm:grid-cols-3 gap-3">
           <div class="stat-tile">
             <div class="text-xs text-slate-500 mb-1">Blood Oxygen</div>
             <div id="v-spo2" class="text-xl font-bold accent-blue">—</div>
             <div class="text-xs text-slate-600">%</div>
+          </div>
+          <div class="stat-tile">
+            <div class="text-xs text-slate-500 mb-1">Blood Pressure</div>
+            <div id="v-bp" class="text-xl font-bold accent-rose">—</div>
+            <div class="text-xs text-slate-600">mmHg</div>
+          </div>
+          <div class="stat-tile">
+            <div class="text-xs text-slate-500 mb-1">Blood Glucose</div>
+            <div id="v-glucose" class="text-xl font-bold accent-amber">—</div>
+            <div class="text-xs text-slate-600">mg/dL</div>
           </div>
           <div class="stat-tile">
             <div class="text-xs text-slate-500 mb-1">Resp. Rate</div>
@@ -739,17 +749,27 @@
     document.getElementById('rec-hrv-val').textContent    = (allTime.highestHRV?.value ?? '—') + ' ms';
     document.getElementById('rec-hrv-date').textContent   = allTime.highestHRV?.date ? formatShortDate(allTime.highestHRV.date) : '—';
 
-    // Nutrition
-    document.getElementById('n-calories').textContent = num(nutrition.avgDailyCalories);
-    document.getElementById('n-protein').textContent  = nutrition.avgProtein;
-    document.getElementById('n-carbs').textContent    = nutrition.avgCarbs;
-    document.getElementById('n-fat').textContent      = nutrition.avgFat;
-    document.getElementById('n-water').textContent    = nutrition.avgWater;
+    // Nutrition (optional — null if no data)
+    if (nutrition) {
+      document.getElementById('n-calories').textContent = nutrition.avgDailyCalories != null ? num(nutrition.avgDailyCalories) : '—';
+      document.getElementById('n-protein').textContent  = nutrition.avgProtein  != null ? nutrition.avgProtein  : '—';
+      document.getElementById('n-carbs').textContent    = nutrition.avgCarbs    != null ? nutrition.avgCarbs    : '—';
+      document.getElementById('n-fat').textContent      = nutrition.avgFat      != null ? nutrition.avgFat      : '—';
+      document.getElementById('n-water').textContent    = nutrition.avgWater    != null ? nutrition.avgWater    : '—';
+    }
 
-    // Vitals
-    document.getElementById('v-spo2').textContent = vitals.avgBloodOxygen;
-    document.getElementById('v-resp').textContent = vitals.avgRespiratoryRate;
-    document.getElementById('v-temp').textContent = vitals.avgBodyTemp;
+    // Vitals (optional — null if no data)
+    if (vitals) {
+      document.getElementById('v-spo2').textContent = vitals.avgBloodOxygen       != null ? vitals.avgBloodOxygen       : '—';
+      document.getElementById('v-resp').textContent = vitals.avgRespiratoryRate    != null ? vitals.avgRespiratoryRate    : '—';
+      document.getElementById('v-temp').textContent = vitals.avgBodyTemp           != null ? vitals.avgBodyTemp           : '—';
+      const bpEl = document.getElementById('v-bp');
+      if (bpEl) bpEl.textContent = (vitals.avgBloodPressureSystolic != null && vitals.avgBloodPressureDiastolic != null)
+        ? `${Math.round(vitals.avgBloodPressureSystolic)}/${Math.round(vitals.avgBloodPressureDiastolic)}`
+        : '—';
+      const glucoseEl = document.getElementById('v-glucose');
+      if (glucoseEl) glucoseEl.textContent = vitals.avgBloodGlucose != null ? Math.round(vitals.avgBloodGlucose) : '—';
+    }
 
     // Show dashboard, hide loading
     document.getElementById('loading').style.display = 'none';
