@@ -1,178 +1,406 @@
 {
   "meta": {
-    "exportedAt": "2026-04-11T09:00:00Z",
+    "exportedAt": "2026-04-11T15:17:31Z",
     "exportedBy": "Health Data Export & AI Analyzer",
     "version": "1.0",
     "owner": "Keith Rumjahn",
     "location": "Hong Kong"
   },
   "summary": {
-    "dataStartDate": "2022-01-01",
+    "dataStartDate": "2026-03-12",
     "dataEndDate": "2026-04-11",
-    "totalDays": 1196,
-    "activeDays": 1089
+    "totalDays": 30,
+    "activeDays": 30
   },
   "today": {
     "date": "2026-04-11",
-    "steps": 8432,
-    "activeEnergy": 420,
-    "exerciseMinutes": 35,
-    "standHours": 10,
-    "restingHeartRate": 58,
-    "hrv": 52,
-    "sleepHours": 7.2,
-    "sleepQuality": "good",
-    "weight": 72.4,
-    "bodyFat": 14.2,
-    "workouts": [
-      { "type": "Running", "duration": 35, "calories": 380, "distance": 5.2 }
-    ]
+    "steps": 3696,
+    "activeEnergy": 267,
+    "exerciseMinutes": null,
+    "standHours": null,
+    "restingHeartRate": 60,
+    "hrv": 37,
+    "sleepHours": 5.6,
+    "sleepQuality": "fair",
+    "weight": null,
+    "bodyFat": null,
+    "workouts": []
   },
   "last30Days": {
-    "avgSteps": 9210,
-    "avgSleepHours": 7.4,
-    "avgRestingHR": 57,
-    "avgHRV": 54,
-    "totalWorkouts": 18,
-    "totalActiveMinutes": 720,
-    "avgWeight": 72.8,
+    "avgSteps": 12097,
+    "avgSleepHours": 7.1,
+    "avgRestingHR": 59,
+    "avgHRV": 36,
+    "totalWorkouts": 24,
+    "totalActiveMinutes": 1031,
+    "avgWeight": null,
     "stepsHistory": [
-      { "date": "2026-03-13", "value": 12043 },
-      { "date": "2026-03-14", "value": 7821 },
-      { "date": "2026-03-15", "value": 9432 },
-      { "date": "2026-03-16", "value": 11203 },
-      { "date": "2026-03-17", "value": 6543 },
-      { "date": "2026-03-18", "value": 8901 },
-      { "date": "2026-03-19", "value": 10234 },
-      { "date": "2026-03-20", "value": 9876 },
-      { "date": "2026-03-21", "value": 7654 },
-      { "date": "2026-03-22", "value": 11432 },
-      { "date": "2026-03-23", "value": 8765 },
-      { "date": "2026-03-24", "value": 9321 },
-      { "date": "2026-03-25", "value": 10543 },
-      { "date": "2026-03-26", "value": 7890 },
-      { "date": "2026-03-27", "value": 12341 },
-      { "date": "2026-03-28", "value": 9087 },
-      { "date": "2026-03-29", "value": 8432 },
-      { "date": "2026-03-30", "value": 10987 },
-      { "date": "2026-03-31", "value": 7654 },
-      { "date": "2026-04-01", "value": 9210 },
-      { "date": "2026-04-02", "value": 11032 },
-      { "date": "2026-04-03", "value": 8765 },
-      { "date": "2026-04-04", "value": 9543 },
-      { "date": "2026-04-05", "value": 7321 },
-      { "date": "2026-04-06", "value": 10876 },
-      { "date": "2026-04-07", "value": 9654 },
-      { "date": "2026-04-08", "value": 8432 },
-      { "date": "2026-04-09", "value": 11234 },
-      { "date": "2026-04-10", "value": 9087 },
-      { "date": "2026-04-11", "value": 8432 }
+      {
+        "date": "2026-03-13",
+        "value": 12668
+      },
+      {
+        "date": "2026-03-14",
+        "value": 13320
+      },
+      {
+        "date": "2026-03-15",
+        "value": 12619
+      },
+      {
+        "date": "2026-03-16",
+        "value": 8760
+      },
+      {
+        "date": "2026-03-17",
+        "value": 12123
+      },
+      {
+        "date": "2026-03-18",
+        "value": 3775
+      },
+      {
+        "date": "2026-03-19",
+        "value": 7159
+      },
+      {
+        "date": "2026-03-20",
+        "value": 7520
+      },
+      {
+        "date": "2026-03-21",
+        "value": 4827
+      },
+      {
+        "date": "2026-03-22",
+        "value": 6351
+      },
+      {
+        "date": "2026-03-23",
+        "value": 6546
+      },
+      {
+        "date": "2026-03-24",
+        "value": 4996
+      },
+      {
+        "date": "2026-03-25",
+        "value": 3467
+      },
+      {
+        "date": "2026-03-26",
+        "value": 4929
+      },
+      {
+        "date": "2026-03-27",
+        "value": 14815
+      },
+      {
+        "date": "2026-03-28",
+        "value": 23993
+      },
+      {
+        "date": "2026-03-29",
+        "value": 23235
+      },
+      {
+        "date": "2026-03-30",
+        "value": 4303
+      },
+      {
+        "date": "2026-03-31",
+        "value": 3753
+      },
+      {
+        "date": "2026-04-01",
+        "value": 4624
+      },
+      {
+        "date": "2026-04-02",
+        "value": 18073
+      },
+      {
+        "date": "2026-04-03",
+        "value": 22329
+      },
+      {
+        "date": "2026-04-04",
+        "value": 19080
+      },
+      {
+        "date": "2026-04-05",
+        "value": 13336
+      },
+      {
+        "date": "2026-04-06",
+        "value": 33236
+      },
+      {
+        "date": "2026-04-07",
+        "value": 11547
+      },
+      {
+        "date": "2026-04-08",
+        "value": 21272
+      },
+      {
+        "date": "2026-04-09",
+        "value": 26105
+      },
+      {
+        "date": "2026-04-10",
+        "value": 10475
+      },
+      {
+        "date": "2026-04-11",
+        "value": 3696
+      }
     ],
     "sleepHistory": [
-      { "date": "2026-03-13", "value": 7.5 },
-      { "date": "2026-03-14", "value": 6.8 },
-      { "date": "2026-03-15", "value": 7.9 },
-      { "date": "2026-03-16", "value": 7.2 },
-      { "date": "2026-03-17", "value": 8.1 },
-      { "date": "2026-03-18", "value": 6.5 },
-      { "date": "2026-03-19", "value": 7.3 },
-      { "date": "2026-03-20", "value": 7.8 },
-      { "date": "2026-03-21", "value": 6.9 },
-      { "date": "2026-03-22", "value": 7.4 },
-      { "date": "2026-03-23", "value": 8.0 },
-      { "date": "2026-03-24", "value": 7.1 },
-      { "date": "2026-03-25", "value": 7.6 },
-      { "date": "2026-03-26", "value": 6.7 },
-      { "date": "2026-03-27", "value": 7.9 },
-      { "date": "2026-03-28", "value": 7.3 },
-      { "date": "2026-03-29", "value": 6.8 },
-      { "date": "2026-03-30", "value": 7.5 },
-      { "date": "2026-03-31", "value": 7.2 },
-      { "date": "2026-04-01", "value": 7.8 },
-      { "date": "2026-04-02", "value": 6.9 },
-      { "date": "2026-04-03", "value": 7.4 },
-      { "date": "2026-04-04", "value": 7.1 },
-      { "date": "2026-04-05", "value": 8.2 },
-      { "date": "2026-04-06", "value": 7.0 },
-      { "date": "2026-04-07", "value": 7.6 },
-      { "date": "2026-04-08", "value": 6.8 },
-      { "date": "2026-04-09", "value": 7.3 },
-      { "date": "2026-04-10", "value": 7.5 },
-      { "date": "2026-04-11", "value": 7.2 }
+      {
+        "date": "2026-03-13",
+        "value": 5.7
+      },
+      {
+        "date": "2026-03-14",
+        "value": 6.6
+      },
+      {
+        "date": "2026-03-15",
+        "value": 7.0
+      },
+      {
+        "date": "2026-03-16",
+        "value": 5.4
+      },
+      {
+        "date": "2026-03-17",
+        "value": 5.9
+      },
+      {
+        "date": "2026-03-18",
+        "value": 8.3
+      },
+      {
+        "date": "2026-03-19",
+        "value": 8.2
+      },
+      {
+        "date": "2026-03-21",
+        "value": 1.2
+      },
+      {
+        "date": "2026-03-24",
+        "value": 7.3
+      },
+      {
+        "date": "2026-03-25",
+        "value": 9.9
+      },
+      {
+        "date": "2026-03-26",
+        "value": 8.2
+      },
+      {
+        "date": "2026-03-27",
+        "value": 6.3
+      },
+      {
+        "date": "2026-03-28",
+        "value": 7.6
+      },
+      {
+        "date": "2026-03-29",
+        "value": 8.7
+      },
+      {
+        "date": "2026-03-30",
+        "value": 5.4
+      },
+      {
+        "date": "2026-03-31",
+        "value": 5.5
+      },
+      {
+        "date": "2026-04-01",
+        "value": 8.1
+      },
+      {
+        "date": "2026-04-02",
+        "value": 8.9
+      },
+      {
+        "date": "2026-04-03",
+        "value": 8.3
+      },
+      {
+        "date": "2026-04-05",
+        "value": 8.4
+      },
+      {
+        "date": "2026-04-06",
+        "value": 8.2
+      },
+      {
+        "date": "2026-04-07",
+        "value": 7.2
+      },
+      {
+        "date": "2026-04-08",
+        "value": 6.3
+      },
+      {
+        "date": "2026-04-09",
+        "value": 9.2
+      },
+      {
+        "date": "2026-04-10",
+        "value": 5.6
+      }
     ],
     "hrvHistory": [
-      { "date": "2026-03-13", "value": 58 },
-      { "date": "2026-03-14", "value": 49 },
-      { "date": "2026-03-15", "value": 55 },
-      { "date": "2026-03-16", "value": 61 },
-      { "date": "2026-03-17", "value": 47 },
-      { "date": "2026-03-18", "value": 53 },
-      { "date": "2026-03-19", "value": 59 },
-      { "date": "2026-03-20", "value": 56 },
-      { "date": "2026-03-21", "value": 44 },
-      { "date": "2026-03-22", "value": 62 },
-      { "date": "2026-03-23", "value": 51 },
-      { "date": "2026-03-24", "value": 57 },
-      { "date": "2026-03-25", "value": 63 },
-      { "date": "2026-03-26", "value": 48 },
-      { "date": "2026-03-27", "value": 55 },
-      { "date": "2026-03-28", "value": 52 },
-      { "date": "2026-03-29", "value": 46 },
-      { "date": "2026-03-30", "value": 58 },
-      { "date": "2026-03-31", "value": 54 },
-      { "date": "2026-04-01", "value": 60 },
-      { "date": "2026-04-02", "value": 50 },
-      { "date": "2026-04-03", "value": 56 },
-      { "date": "2026-04-04", "value": 53 },
-      { "date": "2026-04-05", "value": 65 },
-      { "date": "2026-04-06", "value": 49 },
-      { "date": "2026-04-07", "value": 57 },
-      { "date": "2026-04-08", "value": 51 },
-      { "date": "2026-04-09", "value": 59 },
-      { "date": "2026-04-10", "value": 55 },
-      { "date": "2026-04-11", "value": 52 }
+      {
+        "date": "2026-03-13",
+        "value": 36
+      },
+      {
+        "date": "2026-03-14",
+        "value": 35
+      },
+      {
+        "date": "2026-03-15",
+        "value": 34
+      },
+      {
+        "date": "2026-03-16",
+        "value": 28
+      },
+      {
+        "date": "2026-03-17",
+        "value": 37
+      },
+      {
+        "date": "2026-03-18",
+        "value": 36
+      },
+      {
+        "date": "2026-03-19",
+        "value": 37
+      },
+      {
+        "date": "2026-03-20",
+        "value": 34
+      },
+      {
+        "date": "2026-03-21",
+        "value": 18
+      },
+      {
+        "date": "2026-03-23",
+        "value": 32
+      },
+      {
+        "date": "2026-03-24",
+        "value": 30
+      },
+      {
+        "date": "2026-03-25",
+        "value": 37
+      },
+      {
+        "date": "2026-03-26",
+        "value": 31
+      },
+      {
+        "date": "2026-03-27",
+        "value": 35
+      },
+      {
+        "date": "2026-03-28",
+        "value": 42
+      },
+      {
+        "date": "2026-03-29",
+        "value": 36
+      },
+      {
+        "date": "2026-03-30",
+        "value": 50
+      },
+      {
+        "date": "2026-03-31",
+        "value": 33
+      },
+      {
+        "date": "2026-04-01",
+        "value": 41
+      },
+      {
+        "date": "2026-04-02",
+        "value": 37
+      },
+      {
+        "date": "2026-04-03",
+        "value": 34
+      },
+      {
+        "date": "2026-04-04",
+        "value": 36
+      },
+      {
+        "date": "2026-04-05",
+        "value": 41
+      },
+      {
+        "date": "2026-04-06",
+        "value": 35
+      },
+      {
+        "date": "2026-04-07",
+        "value": 40
+      },
+      {
+        "date": "2026-04-08",
+        "value": 36
+      },
+      {
+        "date": "2026-04-09",
+        "value": 43
+      },
+      {
+        "date": "2026-04-10",
+        "value": 37
+      }
     ],
-    "weightHistory": [
-      { "date": "2026-03-13", "value": 73.4 },
-      { "date": "2026-03-16", "value": 73.1 },
-      { "date": "2026-03-19", "value": 73.2 },
-      { "date": "2026-03-22", "value": 72.9 },
-      { "date": "2026-03-25", "value": 73.0 },
-      { "date": "2026-03-28", "value": 72.7 },
-      { "date": "2026-03-31", "value": 72.8 },
-      { "date": "2026-04-03", "value": 72.6 },
-      { "date": "2026-04-06", "value": 72.5 },
-      { "date": "2026-04-09", "value": 72.4 },
-      { "date": "2026-04-11", "value": 72.4 }
-    ]
+    "weightHistory": []
   },
   "allTime": {
-    "totalSteps": 12450000,
-    "totalWorkouts": 487,
-    "totalActiveMinutes": 29400,
-    "longestStreak": 142,
-    "currentStreak": 23,
-    "peakStepsDay": { "date": "2024-08-15", "value": 28432 },
-    "lowestRestingHR": { "date": "2024-09-01", "value": 44 },
-    "highestHRV": { "date": "2024-09-03", "value": 98 }
+    "totalSteps": 362932,
+    "totalWorkouts": 24,
+    "totalActiveMinutes": 1031,
+    "longestStreak": 30,
+    "currentStreak": 30,
+    "peakStepsDay": {
+      "date": "2026-04-06",
+      "value": 33236
+    },
+    "lowestRestingHR": {
+      "date": "2026-03-14",
+      "value": 59
+    },
+    "highestHRV": {
+      "date": "2026-03-30",
+      "value": 50
+    }
   },
-  "workoutBreakdown": [
-    { "type": "Running", "count": 210, "totalMinutes": 12600, "totalCalories": 126000 },
-    { "type": "Cycling", "count": 87, "totalMinutes": 5220, "totalCalories": 43500 },
-    { "type": "Strength Training", "count": 134, "totalMinutes": 8040, "totalCalories": 53600 },
-    { "type": "Swimming", "count": 28, "totalMinutes": 1680, "totalCalories": 16800 },
-    { "type": "Yoga", "count": 28, "totalMinutes": 1680, "totalCalories": 5600 }
-  ],
-  "nutrition": {
-    "avgDailyCalories": 2100,
-    "avgProtein": 145,
-    "avgCarbs": 220,
-    "avgFat": 72,
-    "avgWater": 2.4
-  },
+  "workoutBreakdown": [],
+  "nutrition": null,
   "vitals": {
-    "avgBloodOxygen": 98.2,
-    "avgRespiratoryRate": 14.8,
-    "avgBodyTemp": 36.6
+    "avgBloodOxygen": 96.5,
+    "avgRespiratoryRate": null,
+    "avgBodyTemp": null,
+    "avgBloodPressureSystolic": 111.9,
+    "avgBloodPressureDiastolic": 73.9,
+    "avgBloodGlucose": 156.2
   }
 }
