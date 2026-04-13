@@ -1,0 +1,233 @@
+<!doctype html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>How to Sync Apple Health Data to Dropbox (Automatic Export Guide)</title>
+  <meta name="description" content="Automatically sync your Apple Health data to Dropbox as JSON or CSV. Step-by-step guide using Health Data Export app — set it and forget it." />
+  <link rel="canonical" href="https://applehealthdata.com/apple-health-to-dropbox/" />
+  <meta name="keywords" content="apple health dropbox, export apple health to dropbox, apple health data dropbox sync, health data dropbox" />
+  <meta name="apple-itunes-app" content="app-id=6749297170">
+
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Health Data Export & Analyze">
+  <meta property="og:url" content="https://applehealthdata.com/apple-health-to-dropbox/">
+  <meta property="og:title" content="How to Sync Apple Health Data to Dropbox (Automatic Export Guide)">
+  <meta property="og:description" content="Automatically sync your Apple Health data to Dropbox as JSON or CSV. Step-by-step guide using Health Data Export app — set it and forget it.">
+  <meta property="og:image" content="https://applehealthdata.com/images/mac-app-screenshot-1.png">
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="How to Sync Apple Health Data to Dropbox (Automatic Export Guide)">
+  <meta name="twitter:description" content="Automatically sync your Apple Health data to Dropbox as JSON or CSV. Step-by-step guide using Health Data Export app — set it and forget it.">
+  <meta name="twitter:image" content="https://applehealthdata.com/images/mac-app-screenshot-1.png">
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script defer src="https://umami.rumjahn.synology.me/script.js" data-website-id="5d7b4fa8-90b2-4191-8daf-8ea487a8d961"></script>
+  <script>
+    var _paq = window._paq = window._paq || [];
+    _paq.push(['trackPageView']);
+    _paq.push(['enableLinkTracking']);
+    (function() {
+      var u="//shrewd-lyrebird.pikapod.net/";
+      _paq.push(['setTrackerUrl', u+'matomo.php']);
+      _paq.push(['setSiteId', '9']);
+      var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
+      g.async=true; g.src=u+'matomo.js'; s.parentNode.insertBefore(g,s);
+    })();
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "HowTo",
+    "name": "How to Sync Apple Health Data to Dropbox Automatically",
+    "description": "Automatically export your Apple Health data to a Dropbox folder on a schedule using the Health Data Export app.",
+    "step": [
+      {
+        "@type": "HowToStep",
+        "name": "Download Health Data Export",
+        "text": "Download Health Data Export from the App Store on your iPhone."
+      },
+      {
+        "@type": "HowToStep",
+        "name": "Choose Dropbox as your sync destination",
+        "text": "Open the app and go to Settings → Sync, then select Dropbox as the sync provider."
+      },
+      {
+        "@type": "HowToStep",
+        "name": "Generate a Dropbox access token",
+        "text": "Go to dropbox.com/developers/apps, create a new app with full Dropbox access, and generate an access token."
+      },
+      {
+        "@type": "HowToStep",
+        "name": "Paste your token and set a folder path",
+        "text": "Paste the Dropbox access token into the app and set your target folder path, for example /HealthData/."
+      },
+      {
+        "@type": "HowToStep",
+        "name": "Choose a file naming mode",
+        "text": "Select Timestamped to create a new file on every sync and build a history, or Stable to always overwrite the same file and keep it current."
+      },
+      {
+        "@type": "HowToStep",
+        "name": "Enable Auto-Sync and set an interval",
+        "text": "Turn on Auto-Sync and choose how often to sync — daily, weekly, or another interval."
+      },
+      {
+        "@type": "HowToStep",
+        "name": "Tap Sync Now to confirm",
+        "text": "Tap Sync Now to run your first sync. Open your Dropbox folder to verify the export file has arrived."
+      }
+    ]
+  }
+  </script>
+  <style>
+    body{font-family:Plus Jakarta Sans,system-ui,-apple-system,sans-serif;background:#020617;color:#f8fafc}
+    .mesh{position:fixed;inset:0;z-index:-1;background:radial-gradient(at 0% 0%,rgba(29,78,216,.18),transparent 50%),radial-gradient(at 100% 0%,rgba(56,189,248,.16),transparent 50%),radial-gradient(at 100% 100%,rgba(168,85,247,.14),transparent 50%);filter:blur(60px)}
+    .card{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.1);border-radius:1rem}
+    code{background:rgba(255,255,255,.08);padding:.1rem .35rem;border-radius:.35rem}
+    table{width:100%;border-collapse:collapse}
+    th,td{padding:.75rem 1rem;border-bottom:1px solid rgba(255,255,255,.08);text-align:left}
+    th{color:#f9fafb;font-weight:600}
+  </style>
+</head>
+<body>
+  <div class="mesh"></div>
+  <main class="max-w-4xl mx-auto px-4 py-10">
+    <a href="/" class="text-slate-300 hover:text-white text-sm">← Back to home</a>
+
+    <section class="card p-8 mt-3 text-center">
+      <p class="text-blue-400 text-sm font-semibold uppercase tracking-widest mb-3">Apple Health → Dropbox</p>
+      <h1 class="text-4xl font-extrabold text-white mb-4">Sync Apple Health Data to Dropbox Automatically</h1>
+      <p class="text-slate-300 text-lg max-w-2xl mx-auto">Export your health data on a schedule and have it land in your Dropbox folder — no manual steps, no cloud middleman beyond Dropbox itself.</p>
+      <a href="https://apps.apple.com/us/app/health-data-export-ai-analyzer/id6749297170" class="inline-block mt-6 bg-blue-600 text-white font-bold py-4 px-8 rounded-full text-lg hover:bg-blue-700 transition-all">Download on the App Store</a>
+    </section>
+
+    <section class="card p-6 mt-5">
+      <h2 class="text-2xl font-bold text-white mb-4">How it works</h2>
+      <p class="text-slate-300 mb-4">The Health Data Export app reads your HealthKit data directly on your iPhone, converts it to JSON or CSV, and uploads the file to a Dropbox folder of your choosing via the Dropbox API. You supply a personal access token once during setup — after that, the app handles every sync on its own. No sharing your Apple Health data with third-party servers; the file goes from your phone straight to your Dropbox account.</p>
+      <p class="text-slate-300">You can trigger syncs manually or let Auto-Sync run on a schedule. Either way, the result is an always-fresh export file sitting in your Dropbox, ready to open, share, or pipe into other tools.</p>
+    </section>
+
+    <section class="card p-6 mt-5">
+      <h2 class="text-2xl font-bold text-white mb-5">Step-by-step setup</h2>
+      <div class="space-y-4">
+        <div class="flex gap-4">
+          <div class="flex-shrink-0 w-9 h-9 rounded-full bg-blue-600/20 border border-blue-500/30 flex items-center justify-center text-blue-400 font-bold text-sm">1</div>
+          <div>
+            <p class="text-white font-semibold mb-1">Download Health Data Export from the App Store</p>
+            <p class="text-slate-400 text-sm">Get the free iPhone app at <a href="https://apps.apple.com/us/app/health-data-export-ai-analyzer/id6749297170" class="text-blue-400 hover:underline">apps.apple.com</a>. Grant it read access to Apple Health when prompted — everything runs on-device.</p>
+          </div>
+        </div>
+        <div class="flex gap-4">
+          <div class="flex-shrink-0 w-9 h-9 rounded-full bg-blue-600/20 border border-blue-500/30 flex items-center justify-center text-blue-400 font-bold text-sm">2</div>
+          <div>
+            <p class="text-white font-semibold mb-1">Open Settings → Sync → choose Dropbox</p>
+            <p class="text-slate-400 text-sm">Inside the app, tap the Settings tab, then Sync. Select <strong class="text-slate-200">Dropbox</strong> from the list of sync providers.</p>
+          </div>
+        </div>
+        <div class="flex gap-4">
+          <div class="flex-shrink-0 w-9 h-9 rounded-full bg-blue-600/20 border border-blue-500/30 flex items-center justify-center text-blue-400 font-bold text-sm">3</div>
+          <div>
+            <p class="text-white font-semibold mb-1">Generate a Dropbox access token at dropbox.com/developers/apps</p>
+            <p class="text-slate-400 text-sm">Log into the Dropbox developer console, create a new app (choose <strong class="text-slate-200">Full Dropbox</strong> access scope), and click <strong class="text-slate-200">Generate access token</strong>. Copy the token — you won't see it again.</p>
+          </div>
+        </div>
+        <div class="flex gap-4">
+          <div class="flex-shrink-0 w-9 h-9 rounded-full bg-blue-600/20 border border-blue-500/30 flex items-center justify-center text-blue-400 font-bold text-sm">4</div>
+          <div>
+            <p class="text-white font-semibold mb-1">Paste the token and set your folder path</p>
+            <p class="text-slate-400 text-sm">Paste the token into the app's Dropbox token field. Set a destination folder path such as <code>/HealthData/</code>. The folder is created automatically if it doesn't exist yet.</p>
+          </div>
+        </div>
+        <div class="flex gap-4">
+          <div class="flex-shrink-0 w-9 h-9 rounded-full bg-blue-600/20 border border-blue-500/30 flex items-center justify-center text-blue-400 font-bold text-sm">5</div>
+          <div>
+            <p class="text-white font-semibold mb-1">Choose file naming: Timestamped or Stable</p>
+            <p class="text-slate-400 text-sm">Pick <strong class="text-slate-200">Timestamped</strong> to save a new file each sync (e.g. <code>health-2026-04-13.json</code>) and build a history. Pick <strong class="text-slate-200">Stable</strong> to always write to the same filename (e.g. <code>health-latest.json</code>) and keep it current.</p>
+          </div>
+        </div>
+        <div class="flex gap-4">
+          <div class="flex-shrink-0 w-9 h-9 rounded-full bg-blue-600/20 border border-blue-500/30 flex items-center justify-center text-blue-400 font-bold text-sm">6</div>
+          <div>
+            <p class="text-white font-semibold mb-1">Enable Auto-Sync and pick your interval</p>
+            <p class="text-slate-400 text-sm">Toggle <strong class="text-slate-200">Auto-Sync</strong> on and choose your preferred cadence — daily, weekly, or another interval. The app will sync in the background even when you don't open it.</p>
+          </div>
+        </div>
+        <div class="flex gap-4">
+          <div class="flex-shrink-0 w-9 h-9 rounded-full bg-blue-600/20 border border-blue-500/30 flex items-center justify-center text-blue-400 font-bold text-sm">7</div>
+          <div>
+            <p class="text-white font-semibold mb-1">Tap Sync Now to test — check your Dropbox folder</p>
+            <p class="text-slate-400 text-sm">Tap <strong class="text-slate-200">Sync Now</strong> to run the first sync immediately. Open your Dropbox folder on any device and confirm the export file is there.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="card p-6 mt-5">
+      <h2 class="text-2xl font-bold text-white mb-4">What data syncs to Dropbox</h2>
+      <p class="text-slate-300 mb-4">Every major Apple Health data type is included in the export file:</p>
+      <div class="overflow-x-auto">
+        <table>
+          <thead>
+            <tr>
+              <th>Data type</th>
+              <th>Included</th>
+            </tr>
+          </thead>
+          <tbody class="text-slate-300">
+            <tr><td>Steps</td><td>✅</td></tr>
+            <tr><td>Sleep stages</td><td>✅</td></tr>
+            <tr><td>Heart Rate</td><td>✅</td></tr>
+            <tr><td>Heart Rate Variability (HRV)</td><td>✅</td></tr>
+            <tr><td>Workouts</td><td>✅</td></tr>
+            <tr><td>Weight</td><td>✅</td></tr>
+            <tr><td>VO2 Max</td><td>✅</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="card p-6 mt-5">
+      <h2 class="text-2xl font-bold text-white mb-4">Stable vs Timestamped file naming</h2>
+      <p class="text-slate-300 mb-4">The app offers two file naming modes for your Dropbox exports, each suited to a different use case:</p>
+      <div class="grid md:grid-cols-2 gap-4">
+        <div class="rounded-xl bg-blue-900/20 border border-blue-500/20 p-5">
+          <p class="text-blue-400 font-bold mb-2">Stable</p>
+          <p class="text-slate-300 text-sm">Always writes to the same filename (e.g. <code>health-latest.json</code>). Every sync overwrites the previous file, so the file is always up to date. Best for integrations, automations, and scripts that need to read the latest snapshot without tracking filenames.</p>
+        </div>
+        <div class="rounded-xl bg-slate-800/60 border border-white/10 p-5">
+          <p class="text-white font-bold mb-2">Timestamped</p>
+          <p class="text-slate-300 text-sm">Creates a new file on every sync (e.g. <code>health-2026-04-13T08-00.json</code>). Each file is preserved, building a chronological archive in your Dropbox folder. Best for long-term data history, version comparison, or reviewing how your metrics change over time.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="card p-6 mt-5">
+      <h2 class="text-2xl font-bold text-white mb-4">Why sync to Dropbox?</h2>
+      <ul class="space-y-3 text-slate-300">
+        <li><strong class="text-white">Access from any device.</strong> Your health export is available on iPhone, iPad, Mac, Windows, Android, and the web — anywhere Dropbox runs.</li>
+        <li><strong class="text-white">Share with your nutritionist or doctor.</strong> Drop a shared link to your latest export file so a healthcare provider can review the data without needing your phone.</li>
+        <li><strong class="text-white">Connect to Zapier or Make automations.</strong> Trigger workflows whenever a new file lands in the Dropbox folder — send a weekly summary email, log data to a spreadsheet, or push metrics to a dashboard.</li>
+        <li><strong class="text-white">Use with AI tools like Claude or ChatGPT.</strong> Upload the JSON or CSV file directly into a Claude or ChatGPT conversation to ask questions about your health trends, get personalized summaries, or flag anomalies in your data.</li>
+      </ul>
+    </section>
+
+    <section class="card p-8 mt-5 text-center bg-gradient-to-br from-blue-900/40 to-slate-900">
+      <h2 class="text-2xl font-bold text-white mb-3">Start syncing Apple Health to Dropbox</h2>
+      <p class="text-slate-300 mb-6 max-w-xl mx-auto">Download the app, connect your Dropbox account once, and your health data lands there automatically on your schedule.</p>
+      <a href="https://apps.apple.com/us/app/health-data-export-ai-analyzer/id6749297170" class="inline-block bg-blue-600 text-white font-bold py-4 px-8 rounded-full text-lg hover:bg-blue-700 transition-all">Download on the App Store</a>
+      <p class="mt-3 text-xs text-slate-500">Free to download · iPhone · No account required</p>
+    </section>
+
+    <section class="card p-6 mt-5">
+      <h2 class="text-xl font-bold text-white mb-3">Related guides</h2>
+      <div class="flex flex-wrap gap-3 text-sm">
+        <a href="/export-apple-health-data/" class="px-3 py-2 rounded-lg bg-white/10 hover:bg-white/20 text-slate-200">Full Apple Health export guide</a>
+        <a href="/apple-health-to-nextcloud/" class="px-3 py-2 rounded-lg bg-white/10 hover:bg-white/20 text-slate-200">Sync to Nextcloud</a>
+        <a href="/apple-health-to-home-assistant/" class="px-3 py-2 rounded-lg bg-white/10 hover:bg-white/20 text-slate-200">Sync to Home Assistant</a>
+        <a href="/apple-health-to-rest-api/" class="px-3 py-2 rounded-lg bg-white/10 hover:bg-white/20 text-slate-200">Sync to REST API</a>
+      </div>
+    </section>
+  </main>
+</body>
+</html>

@@ -1,0 +1,217 @@
+<!doctype html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Sync Apple Health Data to Home Assistant (Sensors &amp; Automations)</title>
+  <meta name="description" content="Push Apple Health metrics to Home Assistant as sensor states. Create automations based on your sleep, HRV, steps, and more. Step-by-step setup guide." />
+  <link rel="canonical" href="https://applehealthdata.com/apple-health-to-home-assistant/" />
+  <meta name="keywords" content="apple health home assistant, apple health ha integration, home assistant health sensors, apple health automation" />
+  <meta name="apple-itunes-app" content="app-id=6749297170">
+
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Health Data Export &amp; Analyze">
+  <meta property="og:url" content="https://applehealthdata.com/apple-health-to-home-assistant/">
+  <meta property="og:title" content="Sync Apple Health Data to Home Assistant (Sensors &amp; Automations)">
+  <meta property="og:description" content="Push Apple Health metrics to Home Assistant as sensor states. Create automations based on your sleep, HRV, steps, and more. Step-by-step setup guide.">
+  <meta property="og:image" content="https://applehealthdata.com/images/mac-app-screenshot-1.png">
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Sync Apple Health Data to Home Assistant (Sensors &amp; Automations)">
+  <meta name="twitter:description" content="Push Apple Health metrics to Home Assistant as sensor states. Create automations based on your sleep, HRV, steps, and more.">
+  <meta name="twitter:image" content="https://applehealthdata.com/images/mac-app-screenshot-1.png">
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script defer src="https://umami.rumjahn.synology.me/script.js" data-website-id="5d7b4fa8-90b2-4191-8daf-8ea487a8d961"></script>
+  <script>
+    var _paq = window._paq = window._paq || [];
+    _paq.push(['trackPageView']);
+    _paq.push(['enableLinkTracking']);
+    (function() {
+      var u="//shrewd-lyrebird.pikapod.net/";
+      _paq.push(['setTrackerUrl', u+'matomo.php']);
+      _paq.push(['setSiteId', '9']);
+      var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
+      g.async=true; g.src=u+'matomo.js'; s.parentNode.insertBefore(g,s);
+    })();
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "HowTo",
+    "name": "Sync Apple Health Data to Home Assistant",
+    "description": "Push your Apple Health metrics to Home Assistant as sensor entities and build automations based on sleep, HRV, steps, and more.",
+    "step": [
+      {
+        "@type": "HowToStep",
+        "position": 1,
+        "name": "Download Health Data Export",
+        "text": "Download the Health Data Export app from the App Store on your iPhone."
+      },
+      {
+        "@type": "HowToStep",
+        "position": 2,
+        "name": "Open Sync Settings",
+        "text": "Open Settings → Sync in the app and choose Home Assistant as your sync destination."
+      },
+      {
+        "@type": "HowToStep",
+        "position": 3,
+        "name": "Enter your Home Assistant URL",
+        "text": "Enter your Home Assistant URL, for example http://homeassistant.local:8123."
+      },
+      {
+        "@type": "HowToStep",
+        "position": 4,
+        "name": "Generate a long-lived access token",
+        "text": "In Home Assistant, go to your Profile → Long-Lived Access Tokens → Create Token and copy the token."
+      },
+      {
+        "@type": "HowToStep",
+        "position": 5,
+        "name": "Paste the token into the app",
+        "text": "Paste the long-lived access token into the app's Home Assistant settings field."
+      },
+      {
+        "@type": "HowToStep",
+        "position": 6,
+        "name": "Set your entity prefix",
+        "text": "Set your entity prefix, for example 'health'. Sensors will appear as sensor.health_steps, sensor.health_sleep, etc."
+      },
+      {
+        "@type": "HowToStep",
+        "position": 7,
+        "name": "Test connection and enable Auto-Sync",
+        "text": "Tap Test Connection to verify everything works, then enable Auto-Sync to keep your sensors updated automatically."
+      }
+    ]
+  }
+  </script>
+  <style>
+    body{font-family:Plus Jakarta Sans,system-ui,-apple-system,sans-serif;background:#020617;color:#f8fafc}
+    .mesh{position:fixed;inset:0;z-index:-1;background:radial-gradient(at 0% 0%,rgba(234,88,12,.18),transparent 50%),radial-gradient(at 100% 0%,rgba(251,146,60,.14),transparent 50%),radial-gradient(at 100% 100%,rgba(168,85,247,.14),transparent 50%);filter:blur(60px)}
+    .card{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.1);border-radius:1rem}
+    code{background:rgba(255,255,255,.08);padding:.1rem .35rem;border-radius:.35rem;font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:.875em}
+    table{width:100%;border-collapse:collapse}
+    th,td{padding:.75rem 1rem;border-bottom:1px solid rgba(255,255,255,.08);text-align:left}
+    th{color:#f9fafb;font-weight:600}
+  </style>
+</head>
+<body>
+  <div class="mesh"></div>
+  <main class="max-w-4xl mx-auto px-4 py-10">
+    <a href="/" class="text-slate-300 hover:text-white text-sm">← Back to home</a>
+
+    <section class="card p-8 mt-3 text-center">
+      <p class="text-orange-400 text-sm font-semibold uppercase tracking-widest mb-3">Apple Health → Home Assistant</p>
+      <h1 class="text-4xl font-extrabold text-white mb-4">Sync Apple Health Data to Home Assistant</h1>
+      <p class="text-slate-300 text-lg max-w-2xl mx-auto">Turn your health metrics into Home Assistant sensor entities — then build automations that respond to your sleep quality, HRV, activity, and more.</p>
+    </section>
+
+    <section class="card p-6 mt-5">
+      <h2 class="text-2xl font-bold text-white mb-4">What You Can Build</h2>
+      <p class="text-slate-300 mb-4">Once your Apple Health data flows into Home Assistant as live sensor states, your smart home can actually respond to how your body feels:</p>
+      <ul class="list-disc pl-6 space-y-3 text-slate-200">
+        <li>Turn on a "recovery mode" scene automatically when your sleep score is low</li>
+        <li>Show your HRV trend on a dashboard card alongside other home metrics</li>
+        <li>Get notified if your resting heart rate spikes above your personal baseline</li>
+        <li>Trigger a "wind down" lighting routine when your daily step goal is met</li>
+        <li>Display today's activity ring progress on a wall panel or tablet dashboard</li>
+      </ul>
+    </section>
+
+    <section class="card p-6 mt-5">
+      <h2 class="text-2xl font-bold text-white mb-4">Step-by-Step Setup</h2>
+      <p class="text-slate-300 mb-5">The app pushes health data to Home Assistant's <code>/api/states/sensor.&lt;prefix&gt;_&lt;metric&gt;</code> endpoint using a long-lived access token. Each metric becomes a sensor entity with a state value and attributes including unit, friendly_name, and source.</p>
+      <ol class="list-decimal pl-6 space-y-4 text-slate-200">
+        <li>
+          <strong>Download Health Data Export</strong> from the App Store on your iPhone.
+        </li>
+        <li>
+          Open <strong>Settings → Sync</strong> and choose <strong>Home Assistant</strong> as your sync destination.
+        </li>
+        <li>
+          Enter your Home Assistant URL — for example <code>http://homeassistant.local:8123</code>.
+        </li>
+        <li>
+          Generate a long-lived access token in HA: go to <strong>Profile → Long-Lived Access Tokens → Create Token</strong>, then copy the token.
+        </li>
+        <li>
+          Paste the token into the app's Home Assistant settings field.
+        </li>
+        <li>
+          Set your entity prefix — for example <code>health</code>. Sensors will appear as <code>sensor.health_steps</code>, <code>sensor.health_sleep</code>, etc. The prefix is fully configurable.
+        </li>
+        <li>
+          Tap <strong>Test Connection</strong> to verify, then enable <strong>Auto-Sync</strong> to keep your sensors updated on a schedule.
+        </li>
+      </ol>
+    </section>
+
+    <section class="card p-6 mt-5">
+      <h2 class="text-2xl font-bold text-white mb-4">What Sensors Get Created</h2>
+      <p class="text-slate-300 mb-4">Each health metric becomes a named sensor entity in Home Assistant. The state holds the current value; attributes carry the unit, friendly name, and data source.</p>
+      <div class="overflow-x-auto">
+        <table>
+          <thead>
+            <tr>
+              <th>Sensor Entity</th>
+              <th>State Value</th>
+              <th>Unit</th>
+            </tr>
+          </thead>
+          <tbody class="text-slate-300">
+            <tr><td><code>sensor.&lt;prefix&gt;_steps</code></td><td>Daily step count</td><td>steps</td></tr>
+            <tr><td><code>sensor.&lt;prefix&gt;_sleep</code></td><td>Sleep duration</td><td>hours</td></tr>
+            <tr><td><code>sensor.&lt;prefix&gt;_resting_heart_rate</code></td><td>Resting HR</td><td>bpm</td></tr>
+            <tr><td><code>sensor.&lt;prefix&gt;_hrv</code></td><td>HRV (SDNN)</td><td>ms</td></tr>
+            <tr><td><code>sensor.&lt;prefix&gt;_active_energy</code></td><td>Calories burned</td><td>kcal</td></tr>
+            <tr><td><code>sensor.&lt;prefix&gt;_weight</code></td><td>Body weight</td><td>kg</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="card p-6 mt-5">
+      <h2 class="text-2xl font-bold text-white mb-4">Example Automation YAML</h2>
+      <p class="text-slate-300 mb-4">Once your sensors are live, drop this into your Home Assistant automations to activate a recovery scene whenever last night's sleep was under 6 hours:</p>
+      <pre class="bg-slate-900/70 border border-white/5 rounded-xl p-4 text-sm font-mono text-slate-300 overflow-x-auto"><code class="bg-transparent p-0 text-slate-300">automation:
+  - alias: "Recovery Mode when Sleep &lt; 6h"
+    trigger:
+      platform: state
+      entity_id: sensor.health_sleep
+    condition:
+      condition: numeric_state
+      entity_id: sensor.health_sleep
+      below: 6
+    action:
+      service: scene.turn_on
+      target:
+        entity_id: scene.recovery_mode</code></pre>
+      <p class="text-slate-400 text-sm mt-3">Replace <code>health</code> with whatever entity prefix you configured in the app. The same pattern works for any numeric sensor — HRV, resting heart rate, steps, or active energy.</p>
+    </section>
+
+    <section class="card p-6 mt-5">
+      <h2 class="text-2xl font-bold text-white mb-3">Dashboard Card Tip</h2>
+      <p class="text-slate-300">Add a <strong>Gauge card</strong> or <strong>Entity card</strong> in your Lovelace dashboard pointing at any health sensor — for example <code>sensor.health_hrv</code> or <code>sensor.health_steps</code>. The Gauge card works especially well for metrics like HRV or resting heart rate where you want a quick visual against a target range. For timeline views, the History Graph card shows you how a metric moved across the day.</p>
+    </section>
+
+    <section class="card p-8 mt-5 text-center" style="background:linear-gradient(135deg,rgba(154,52,18,.35) 0%,rgba(2,6,23,1) 100%)">
+      <h2 class="text-2xl font-bold text-white mb-3">Start Syncing Apple Health to Home Assistant</h2>
+      <p class="text-slate-300 mb-6 max-w-xl mx-auto">Download Health Data Export, point it at your Home Assistant instance, and your health metrics are live sensors in minutes.</p>
+      <a href="https://apps.apple.com/us/app/health-data-export-ai-analyzer/id6749297170" class="inline-block bg-orange-600 text-white font-bold py-4 px-8 rounded-full text-lg hover:bg-orange-700 transition-all">Download on the App Store</a>
+      <p class="mt-3 text-xs text-slate-500">100% Private · Data stays on your device</p>
+    </section>
+
+    <section class="card p-6 mt-5">
+      <h2 class="text-xl font-bold mb-3">Related guides</h2>
+      <div class="flex flex-wrap gap-3 text-sm">
+        <a href="/export-apple-health-data/" class="px-3 py-2 rounded-lg bg-white/10 hover:bg-white/20 text-slate-200">Full Apple Health export guide</a>
+        <a href="/apple-health-to-dropbox/" class="px-3 py-2 rounded-lg bg-white/10 hover:bg-white/20 text-slate-200">Apple Health to Dropbox</a>
+        <a href="/apple-health-to-nextcloud/" class="px-3 py-2 rounded-lg bg-white/10 hover:bg-white/20 text-slate-200">Apple Health to Nextcloud</a>
+        <a href="/apple-health-to-rest-api/" class="px-3 py-2 rounded-lg bg-white/10 hover:bg-white/20 text-slate-200">Apple Health to REST API</a>
+      </div>
+    </section>
+  </main>
+</body>
+</html>

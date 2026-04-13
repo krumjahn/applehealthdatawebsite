@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Send Apple Health Data to Any REST API or Webhook</title>
+  <meta name="description" content="POST your Apple Health data to any HTTP endpoint automatically. Supports Bearer token, Basic Auth, custom headers. Works with n8n, Make, Zapier, and custom APIs.">
+  <meta name="keywords" content="apple health api, apple health webhook, apple health rest api, send apple health data to api, apple health n8n">
+  <link rel="canonical" href="https://applehealthdata.com/apple-health-to-rest-api/">
+  <meta name="apple-itunes-app" content="app-id=6749297170">
+  <meta name="robots" content="index,follow">
+
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Health Data Export & Analyze">
+  <meta property="og:url" content="https://applehealthdata.com/apple-health-to-rest-api/">
+  <meta property="og:title" content="Send Apple Health Data to Any REST API or Webhook">
+  <meta property="og:description" content="POST your Apple Health data to any HTTP endpoint automatically. Supports Bearer token, Basic Auth, custom headers. Works with n8n, Make, Zapier, and custom APIs.">
+  <meta property="og:image" content="https://applehealthdata.com/images/mac-app-screenshot-1.png">
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Send Apple Health Data to Any REST API or Webhook">
+  <meta name="twitter:description" content="POST your Apple Health data to any HTTP endpoint automatically. Supports Bearer token, Basic Auth, custom headers. Works with n8n, Make, Zapier, and custom APIs.">
+  <meta name="twitter:image" content="https://applehealthdata.com/images/mac-app-screenshot-1.png">
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <script defer src="https://umami.rumjahn.synology.me/script.js" data-website-id="5d7b4fa8-90b2-4191-8daf-8ea487a8d961"></script>
+  <script>
+    var _paq = window._paq = window._paq || [];
+    _paq.push(['trackPageView']);
+    _paq.push(['enableLinkTracking']);
+    (function() {
+      var u="//shrewd-lyrebird.pikapod.net/";
+      _paq.push(['setTrackerUrl', u+'matomo.php']);
+      _paq.push(['setSiteId', '9']);
+      var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
+      g.async=true; g.src=u+'matomo.js'; s.parentNode.insertBefore(g,s);
+    })();
+  </script>
+
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;700&display=swap');
+    :root { --glass-border: rgba(255, 255, 255, 0.08); --glass-bg: rgba(255, 255, 255, 0.03); }
+    body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: #020617; color: #f8fafc; overflow-x: hidden; }
+    .mesh-gradient { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: -1; background: radial-gradient(at 0% 0%, rgba(109, 40, 217, 0.18) 0px, transparent 50%), radial-gradient(at 100% 0%, rgba(56, 189, 248, 0.12) 0px, transparent 50%), radial-gradient(at 50% 100%, rgba(139, 92, 246, 0.12) 0px, transparent 50%); filter: blur(60px); }
+    .content-section h2 { border-top: 1px solid var(--glass-border); padding-top: 2rem; margin-top: 3rem; color: #f8fafc; font-size: 1.875rem; font-weight: 700; margin-bottom: 1.25rem; }
+    .content-section h3 { color: #e2e8f0; font-size: 1.5rem; font-weight: 600; margin-top: 2rem; margin-bottom: 0.75rem; }
+    .content-section p { color: #94a3b8; font-size: 1.125rem; line-height: 1.75; margin-bottom: 1.25rem; }
+    .content-section a { color: #a78bfa; text-decoration: none; border-bottom: 1px solid transparent; transition: all 0.2s; }
+    .content-section a:hover { border-bottom-color: #a78bfa; }
+    .content-section ul, .content-section ol { padding-left: 1.5rem; margin-bottom: 1.25rem; color: #94a3b8; }
+    .content-section li { margin-bottom: 0.5rem; list-style-type: disc; }
+    .content-section ol li { list-style-type: decimal; }
+    .glass { background: rgba(255, 255, 255, 0.03); border: 1px solid var(--glass-border); border-radius: 1rem; }
+  </style>
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "HowTo",
+    "name": "How to Send Apple Health Data to a REST API or Webhook",
+    "description": "Configure Health Data Export to POST Apple Health metrics as JSON to any HTTP endpoint, with support for Bearer token, Basic Auth, and custom headers.",
+    "step": [
+      {
+        "@type": "HowToStep",
+        "position": 1,
+        "name": "Download Health Data Export",
+        "text": "Download Health Data Export & AI Analyzer from the App Store on your iPhone."
+      },
+      {
+        "@type": "HowToStep",
+        "position": 2,
+        "name": "Open Settings and choose REST API",
+        "text": "Open the app, go to Settings → Sync, and select REST API as the sync destination."
+      },
+      {
+        "@type": "HowToStep",
+        "position": 3,
+        "name": "Enter your endpoint URL",
+        "text": "Type your full endpoint URL, for example https://your-server.com/api/health or an n8n webhook URL."
+      },
+      {
+        "@type": "HowToStep",
+        "position": 4,
+        "name": "Choose HTTP method",
+        "text": "Select the HTTP method your endpoint expects: POST, PUT, or PATCH."
+      },
+      {
+        "@type": "HowToStep",
+        "position": 5,
+        "name": "Configure authentication",
+        "text": "Choose None, Bearer Token, or Basic Auth and fill in the required credentials."
+      },
+      {
+        "@type": "HowToStep",
+        "position": 6,
+        "name": "Add custom headers",
+        "text": "Optionally add custom request headers such as X-Api-Key for API gateway authentication."
+      },
+      {
+        "@type": "HowToStep",
+        "position": 7,
+        "name": "Enable Auto-Sync",
+        "text": "Turn on Auto-Sync. The app will POST your health data to the endpoint on schedule."
+      }
+    ]
+  }
+  </script>
+</head>
+<body>
+  <div class="mesh-gradient"></div>
+
+  <nav class="fixed w-full z-50 border-b border-white/10 bg-slate-950/80 backdrop-blur-xl">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex justify-between items-center h-20">
+        <a href="/" class="flex items-center gap-3 group">
+          <div class="w-10 h-10 bg-gradient-to-tr from-violet-600 to-purple-500 rounded-xl flex items-center justify-center shadow-lg shadow-violet-500/20 group-hover:scale-105 transition-transform">
+            <i data-lucide="webhook" class="w-6 h-6 text-white"></i>
+          </div>
+          <div>
+            <span class="font-bold text-lg tracking-tight text-white block leading-none">Health Data</span>
+            <span class="text-xs text-slate-400 tracking-wider uppercase font-semibold">Export &amp; Analyze</span>
+          </div>
+        </a>
+        <div class="hidden md:flex gap-6">
+          <a href="/workflows/" class="text-sm font-medium text-slate-300 hover:text-white transition-colors">Workflows</a>
+          <a href="/export-apple-health-data/" class="text-sm font-medium text-slate-300 hover:text-white transition-colors">Export Guide</a>
+          <a href="https://apps.apple.com/us/app/health-data-export-ai-analyzer/id6749297170" class="text-sm font-bold text-violet-400 hover:text-violet-300 transition-colors">Download App</a>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <main class="pt-32 pb-20 lg:pt-48 lg:pb-32">
+    <div class="max-w-3xl mx-auto px-4 content-section">
+
+      <div class="text-center mb-16">
+        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-violet-500/10 border border-violet-500/20 text-violet-400 text-sm font-medium mb-6">
+          Apple Health → REST API
+        </div>
+        <h1 class="text-4xl lg:text-6xl font-bold text-white mb-6 tracking-tight">Send Apple Health Data to Any REST API or Webhook</h1>
+        <p class="text-xl text-slate-400 leading-relaxed">POST your health metrics as JSON to any endpoint — your own backend, n8n, Make, Zapier, or a custom automation pipeline. Supports POST, PUT, PATCH with Bearer, Basic, or custom auth.</p>
+      </div>
+
+      <div class="glass p-6 mb-10">
+        <div class="flex flex-col sm:flex-row gap-3 items-stretch sm:items-center">
+          <a href="https://apps.apple.com/us/app/health-data-export-ai-analyzer/id6749297170" class="inline-flex justify-center items-center gap-2 bg-violet-600 text-white font-bold py-3 px-6 rounded-xl hover:bg-violet-700 transition-all shadow-lg shadow-violet-600/20">
+            <i data-lucide="download" class="w-5 h-5"></i> Download on the App Store
+          </a>
+          <a href="/" class="inline-flex justify-center items-center gap-2 bg-slate-800 text-white font-bold py-3 px-6 rounded-xl hover:bg-slate-700 transition-all border border-slate-700">
+            ← Back to home
+          </a>
+        </div>
+      </div>
+
+      <h2>What you can do with Apple Health webhooks</h2>
+      <p>Once the app is configured with a REST API endpoint, every sync posts a structured JSON payload to your server. Here is what that unlocks:</p>
+      <ul>
+        <li>Store health data in your own database or backend on your own terms</li>
+        <li>Trigger n8n, Make, or Zapier workflows automatically on each new health export</li>
+        <li>Feed data into a custom dashboard — Grafana, Metabase, Retool, or any BI tool</li>
+        <li>Send health context to an AI agent or RAG pipeline for personalized insights</li>
+        <li>Log to a time-series database like InfluxDB via an n8n bridge node</li>
+      </ul>
+
+      <h2>How to set up Apple Health to REST API (7 steps)</h2>
+
+      <div class="space-y-6 mb-8">
+        <div class="glass p-5 flex gap-4">
+          <div class="flex-shrink-0 w-10 h-10 bg-violet-500/20 rounded-full flex items-center justify-center text-violet-400 font-bold">1</div>
+          <div>
+            <h3 class="text-white font-bold text-base" style="margin-top: 0;">Download Health Data Export</h3>
+            <p class="text-slate-400 text-sm mb-0">Install <strong>Health Data Export &amp; AI Analyzer</strong> from the App Store on your iPhone.</p>
+          </div>
+        </div>
+        <div class="glass p-5 flex gap-4">
+          <div class="flex-shrink-0 w-10 h-10 bg-violet-500/20 rounded-full flex items-center justify-center text-violet-400 font-bold">2</div>
+          <div>
+            <h3 class="text-white font-bold text-base" style="margin-top: 0;">Open Settings → Sync → REST API</h3>
+            <p class="text-slate-400 text-sm mb-0">In the app, navigate to <strong>Settings</strong>, tap <strong>Sync</strong>, and select <strong>REST API</strong> as your sync destination.</p>
+          </div>
+        </div>
+        <div class="glass p-5 flex gap-4">
+          <div class="flex-shrink-0 w-10 h-10 bg-violet-500/20 rounded-full flex items-center justify-center text-violet-400 font-bold">3</div>
+          <div>
+            <h3 class="text-white font-bold text-base" style="margin-top: 0;">Enter your endpoint URL</h3>
+            <p class="text-slate-400 text-sm mb-0">Paste your full endpoint URL — for example <code style="color: #a78bfa;">https://your-server.com/api/health</code> or an n8n webhook URL.</p>
+          </div>
+        </div>
+        <div class="glass p-5 flex gap-4">
+          <div class="flex-shrink-0 w-10 h-10 bg-violet-500/20 rounded-full flex items-center justify-center text-violet-400 font-bold">4</div>
+          <div>
+            <h3 class="text-white font-bold text-base" style="margin-top: 0;">Choose HTTP method</h3>
+            <p class="text-slate-400 text-sm mb-0">Select the HTTP method your endpoint expects: <strong>POST</strong>, <strong>PUT</strong>, or <strong>PATCH</strong>.</p>
+          </div>
+        </div>
+        <div class="glass p-5 flex gap-4">
+          <div class="flex-shrink-0 w-10 h-10 bg-violet-500/20 rounded-full flex items-center justify-center text-violet-400 font-bold">5</div>
+          <div>
+            <h3 class="text-white font-bold text-base" style="margin-top: 0;">Choose auth and fill in credentials</h3>
+            <p class="text-slate-400 text-sm mb-0">Select <strong>None</strong>, <strong>Bearer Token</strong>, or <strong>Basic Auth</strong> and enter the required credentials. See the auth table below for guidance.</p>
+          </div>
+        </div>
+        <div class="glass p-5 flex gap-4">
+          <div class="flex-shrink-0 w-10 h-10 bg-violet-500/20 rounded-full flex items-center justify-center text-violet-400 font-bold">6</div>
+          <div>
+            <h3 class="text-white font-bold text-base" style="margin-top: 0;">Add custom headers</h3>
+            <p class="text-slate-400 text-sm mb-0">Optionally add custom request headers — for example <code style="color: #a78bfa;">X-Api-Key: your-key</code> for API gateway authentication.</p>
+          </div>
+        </div>
+        <div class="glass p-5 flex gap-4">
+          <div class="flex-shrink-0 w-10 h-10 bg-violet-500/20 rounded-full flex items-center justify-center text-violet-400 font-bold">7</div>
+          <div>
+            <h3 class="text-white font-bold text-base" style="margin-top: 0;">Enable Auto-Sync</h3>
+            <p class="text-slate-400 text-sm mb-0">Toggle <strong>Auto-Sync</strong> on. The app will POST your health data to the endpoint on a schedule — no manual trigger needed.</p>
+          </div>
+        </div>
+      </div>
+
+      <h2>JSON payload structure</h2>
+      <p>The app sends a compact, structured JSON payload using the <code style="color: #a78bfa;">ai-preset-v1</code> format. Each section includes a human-readable summary and a daily breakdown array.</p>
+
+      <div class="bg-slate-900/70 border border-white/5 rounded-xl p-4 text-sm font-mono text-slate-300 overflow-x-auto whitespace-pre mb-8">{
+  "formatVersion": "ai-preset-v1",
+  "preset": { "id": "webhook_compact" },
+  "sections": {
+    "steps": {
+      "summary": "Avg 8,432 steps/day over 30 days",
+      "days": [...]
+    },
+    "sleep": {
+      "summary": "Avg 7.2h/night, 22% deep sleep",
+      "diagnostics": ["Consistent bedtime variance < 30min"],
+      "days": [...]
+    },
+    "workouts": {
+      "summary": "14 workouts in 30 days",
+      "days": [...]
+    },
+    "resting_heart_rate": {
+      "summary": "Avg 58 bpm, trending down",
+      "days": [...]
+    },
+    "hrv": {
+      "summary": "Avg 42ms SDNN",
+      "days": [...]
+    }
+  }
+}</div>
+
+      <h2>n8n and Make integration</h2>
+      <p>For n8n, create a <strong>Webhook</strong> node and copy its URL as the endpoint in the app. For a local n8n instance, no auth is required — just paste the webhook URL and select POST. The app will deliver the JSON payload on each sync.</p>
+      <p>Once the data is in n8n, you can use it to insert records into a database with a Postgres or MySQL node, send a Slack or Telegram summary using the messaging nodes, trigger further automations based on health signals, or forward clean JSON to any downstream service. Make and Zapier work the same way — use their webhook trigger URL as the endpoint.</p>
+
+      <h2>Authentication options</h2>
+      <div class="glass overflow-hidden mb-8">
+        <table class="w-full text-sm">
+          <thead>
+            <tr class="border-b border-white/10">
+              <th class="text-left p-4 text-slate-300 font-semibold">Auth type</th>
+              <th class="text-left p-4 text-slate-300 font-semibold">When to use</th>
+            </tr>
+          </thead>
+          <tbody class="text-slate-400">
+            <tr class="border-b border-white/5">
+              <td class="p-4 text-violet-400 font-semibold">None</td>
+              <td class="p-4">Local n8n or Make instances on your own network, or endpoints protected by IP allowlist / VPN.</td>
+            </tr>
+            <tr class="border-b border-white/5">
+              <td class="p-4 text-violet-400 font-semibold">Bearer Token</td>
+              <td class="p-4">Most REST APIs and cloud services. Sends an <code>Authorization: Bearer &lt;token&gt;</code> header. Use for your own backend, Supabase, or any JWT-protected endpoint.</td>
+            </tr>
+            <tr>
+              <td class="p-4 text-violet-400 font-semibold">Basic Auth</td>
+              <td class="p-4">Legacy APIs or self-hosted services that require a username and password. Credentials are base64-encoded in the Authorization header.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h2>Download the app</h2>
+      <div class="glass p-8 text-center mb-8">
+        <p class="text-slate-300 mb-6 text-lg">Health Data Export is available on iPhone and iPad. Set up your REST API endpoint in minutes.</p>
+        <a href="https://apps.apple.com/us/app/health-data-export-ai-analyzer/id6749297170" class="inline-flex items-center gap-2 bg-violet-600 text-white font-bold py-4 px-8 rounded-xl hover:bg-violet-700 transition-all shadow-lg shadow-violet-600/20 text-lg">
+          <i data-lucide="download" class="w-6 h-6"></i> Download on the App Store
+        </a>
+      </div>
+
+      <h2>Related guides</h2>
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        <a class="glass p-5 hover:border-violet-500/40 transition-colors" href="/export-apple-health-data/">
+          <div class="flex items-center gap-3">
+            <i data-lucide="download" class="w-5 h-5 text-violet-400"></i>
+            <span class="text-white font-semibold">Export Apple Health data</span>
+          </div>
+          <p class="text-slate-400 mt-2 mb-0 text-sm">Step-by-step guide to exporting your Apple Health data.</p>
+        </a>
+        <a class="glass p-5 hover:border-violet-500/40 transition-colors" href="/apple-health-to-dropbox/">
+          <div class="flex items-center gap-3">
+            <i data-lucide="cloud" class="w-5 h-5 text-blue-400"></i>
+            <span class="text-white font-semibold">Apple Health to Dropbox</span>
+          </div>
+          <p class="text-slate-400 mt-2 mb-0 text-sm">Automatically sync health exports to your Dropbox folder.</p>
+        </a>
+        <a class="glass p-5 hover:border-violet-500/40 transition-colors" href="/apple-health-to-nextcloud/">
+          <div class="flex items-center gap-3">
+            <i data-lucide="server" class="w-5 h-5 text-green-400"></i>
+            <span class="text-white font-semibold">Apple Health to Nextcloud</span>
+          </div>
+          <p class="text-slate-400 mt-2 mb-0 text-sm">Push health data to your self-hosted Nextcloud instance.</p>
+        </a>
+        <a class="glass p-5 hover:border-violet-500/40 transition-colors" href="/apple-health-to-home-assistant/">
+          <div class="flex items-center gap-3">
+            <i data-lucide="home" class="w-5 h-5 text-amber-400"></i>
+            <span class="text-white font-semibold">Apple Health to Home Assistant</span>
+          </div>
+          <p class="text-slate-400 mt-2 mb-0 text-sm">Send health metrics as sensors into Home Assistant.</p>
+        </a>
+      </div>
+
+    </div>
+  </main>
+
+  <footer class="border-t border-white/5 bg-slate-950 py-12">
+    <div class="max-w-7xl mx-auto px-4 text-center">
+      <p class="text-slate-500 text-sm">&copy; 2026 Health Data Export. Not affiliated with Apple Inc.</p>
+    </div>
+  </footer>
+
+  <script>lucide.createIcons();</script>
+</body>
+</html>
