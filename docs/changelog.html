@@ -224,6 +224,12 @@
             <a href="/docs/ai-analysis.html">AI Analysis</a>
             <a href="/docs/backup.html">Apple Health Backup</a>
 
+            <div class="section-label">Sync Destinations</div>
+            <a href="/docs/sync-dropbox.html">Dropbox</a>
+            <a href="/docs/sync-nextcloud.html">Nextcloud / WebDAV</a>
+            <a href="/docs/sync-home-assistant.html">Home Assistant</a>
+            <a href="/docs/sync-rest-api.html">REST API / Webhook</a>
+
             <div class="section-label">Integrations</div>
             <a href="/docs/openclaw.html">OpenClaw Integration</a>
             <a href="/docs/api-reference.html">API Reference</a>
@@ -250,6 +256,17 @@
                 <p>A plain-language timeline of updates to the iOS and Mac app. Most recent first.</p>
 
                 <div class="space-y-8 mt-8">
+
+                    <div class="changelog-entry">
+                        <div class="changelog-date">2026-04-13</div>
+                        <ul>
+                            <li><strong>Added</strong> Dropbox sync &mdash; export health data directly to a Dropbox folder using a personal access token.</li>
+                            <li><strong>Added</strong> Nextcloud / WebDAV sync &mdash; upload to any Nextcloud server or WebDAV-compatible storage.</li>
+                            <li><strong>Added</strong> Home Assistant sync &mdash; push health metrics as sensor states using a long-lived access token and configurable entity prefix.</li>
+                            <li><strong>Added</strong> REST API / Webhook sync &mdash; POST a compact JSON health payload to any endpoint; supports POST/PUT/PATCH, Bearer, Basic Auth, and custom headers.</li>
+                            <li><strong>Added</strong> stable file naming mode &mdash; overwrite the same file on each sync instead of creating timestamped copies.</li>
+                        </ul>
+                    </div>
 
                     <div class="changelog-entry">
                         <div class="changelog-date">2026-04-11</div>

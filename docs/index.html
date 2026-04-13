@@ -199,6 +199,12 @@
             <a href="/docs/ai-analysis.html">AI Analysis</a>
             <a href="/docs/backup.html">Apple Health Backup</a>
 
+            <div class="section-label">Sync Destinations</div>
+            <a href="/docs/sync-dropbox.html">Dropbox</a>
+            <a href="/docs/sync-nextcloud.html">Nextcloud / WebDAV</a>
+            <a href="/docs/sync-home-assistant.html">Home Assistant</a>
+            <a href="/docs/sync-rest-api.html">REST API / Webhook</a>
+
             <div class="section-label">Integrations</div>
             <a href="/docs/openclaw.html">OpenClaw Integration</a>
             <a href="/docs/api-reference.html">API Reference</a>
@@ -222,10 +228,10 @@
         <div class="max-w-3xl mx-auto px-6 py-16">
             <div class="doc-content">
                 <h1>Health Data Export & AI Analyzer</h1>
-                <p>Welcome to the documentation for <strong>Health Data Export & AI Analyzer</strong> — the privacy-first toolkit for exporting, syncing, converting, and analyzing your Apple Health data on iPhone and Mac.</p>
+                <p>Welcome to the documentation for <strong>Health Data Export & AI Analyzer</strong> — the privacy-first toolkit for exporting, syncing, importing, converting, and analyzing your Apple Health data across iPhone and Mac.</p>
 
                 <blockquote>
-                    <p>All data processing happens locally on your devices. Your health data is never uploaded to any server.</p>
+                    <p>All data processing happens locally on your devices. Your health data is never uploaded to any server we operate.</p>
                 </blockquote>
 
                 <h2>What Can You Do?</h2>
@@ -236,7 +242,7 @@
                             <i data-lucide="rocket" class="w-5 h-5 text-rose-400"></i>
                             <h3 class="text-white font-bold m-0">Getting Started</h3>
                         </div>
-                        <p class="text-slate-400 text-sm m-0">Install the app, export your data, and run your first analysis in under 5 minutes.</p>
+                        <p class="text-slate-400 text-sm m-0">Set up the iPhone app, choose a sync path, import on Mac, and run your first analysis.</p>
                     </a>
 
                     <a href="/docs/wifi-sync.html" class="doc-card block no-underline">
@@ -244,7 +250,7 @@
                             <i data-lucide="wifi" class="w-5 h-5 text-blue-400"></i>
                             <h3 class="text-white font-bold m-0">iPhone-to-Mac Sync</h3>
                         </div>
-                        <p class="text-slate-400 text-sm m-0">Sync Apple Health data directly over your local network — no export files needed.</p>
+                        <p class="text-slate-400 text-sm m-0">Use iCloud, Google Drive, Dropbox, Direct to Mac, REST API, Home Assistant, or Nextcloud / WebDAV.</p>
                     </a>
 
                     <a href="/docs/convert-tool.html" class="doc-card block no-underline">
@@ -260,7 +266,7 @@
                             <i data-lucide="message-circle" class="w-5 h-5 text-amber-400"></i>
                             <h3 class="text-white font-bold m-0">OpenClaw Integration</h3>
                         </div>
-                        <p class="text-slate-400 text-sm m-0">Talk to your health data with AI. Get daily briefs and suggestions from OpenClaw.</p>
+                        <p class="text-slate-400 text-sm m-0">Use the Mac app’s local API with OpenClaw for daily briefs and natural-language health questions.</p>
                     </a>
 
                     <a href="/docs/api-reference.html" class="doc-card block no-underline">
@@ -276,8 +282,31 @@
                             <i data-lucide="brain" class="w-5 h-5 text-purple-400"></i>
                             <h3 class="text-white font-bold m-0">AI Analysis</h3>
                         </div>
-                        <p class="text-slate-400 text-sm m-0">Use ChatGPT, Claude, Gemini, or local LLMs to analyze your health data.</p>
+                        <p class="text-slate-400 text-sm m-0">Use OpenAI, Anthropic, OpenRouter, Ollama, or LM Studio to analyze your health data.</p>
                     </a>
+                </div>
+
+                <h2>How the Product Works Today</h2>
+                <ul>
+                    <li><strong>iPhone app:</strong> export Apple Health data manually, sync it to a provider, and configure the Home Screen widget.</li>
+                    <li><strong>Mac app:</strong> import Apple Health XML, download synced exports from the Mac <strong>Sync</strong> tab, run analysis, and expose a local API for integrations.</li>
+                    <li><strong>Widget:</strong> choose whether it starts Quick Sync, Quick Export, or opens the Sync screen. The widget action is configured in iPhone <strong>Settings</strong>, while the displayed provider comes from the iPhone <strong>Sync</strong> tab.</li>
+                </ul>
+
+                <h2>Recommended Paths</h2>
+                <div class="grid md:grid-cols-3 gap-4 mt-4">
+                    <div class="doc-card">
+                        <h3 class="text-white font-bold m-0 mb-2">Fastest manual path</h3>
+                        <p class="text-slate-400 text-sm m-0">Export XML on iPhone, AirDrop it to Mac, then import and analyze.</p>
+                    </div>
+                    <div class="doc-card">
+                        <h3 class="text-white font-bold m-0 mb-2">Best ongoing setup</h3>
+                        <p class="text-slate-400 text-sm m-0">Configure sync on iPhone, use the widget for quick refreshes, then pull the latest export from the Mac Sync tab.</p>
+                    </div>
+                    <div class="doc-card">
+                        <h3 class="text-white font-bold m-0 mb-2">Best for integrations</h3>
+                        <p class="text-slate-400 text-sm m-0">Import on Mac, select a dataset for integrations, enable the local API, then use OpenClaw or scripts.</p>
+                    </div>
                 </div>
 
                 <h2>Quick Links</h2>
