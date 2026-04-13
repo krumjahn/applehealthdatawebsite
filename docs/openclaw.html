@@ -228,15 +228,15 @@
         <div class="max-w-3xl mx-auto px-6 py-16">
             <div class="doc-content">
                 <h1>OpenClaw Integration</h1>
-                <p>Connect <strong>OpenClaw</strong> to your Apple Health data and get AI-powered daily health briefs, trend analysis, and actionable suggestions -- all processed locally on your Mac.</p>
+                <p>Connect <strong>OpenClaw</strong> to the Mac app’s local API and get daily health briefs, trend analysis, and actionable suggestions from your selected Apple Health dataset.</p>
 
                 <blockquote>
-                    <p>Your health data never leaves your Mac. The Mac app serves a read-only localhost API that OpenClaw reads through its ClawHub skill. No cloud uploads, no token files, no remote data transfers.</p>
+                    <p>Your health data stays on your Mac. OpenClaw reads a local, read-only API exposed by the Mac app.</p>
                 </blockquote>
 
                 <h2>What is OpenClaw + Apple Health?</h2>
                 <p>Your iPhone collects an incredible amount of health data every day -- steps, sleep duration, heart rate, HRV, workouts, and more. But Apple Health is better at <em>collecting</em> data than <em>explaining</em> it. You get raw numbers without the context that makes them useful.</p>
-                <p>The OpenClaw Apple Health integration changes that. The <a href="https://apps.apple.com/us/app/health-data-export-ai-analyzer/id6749297170">Health Data AI Analyzer</a> Mac app exposes a local read-only API that OpenClaw can query through the <a href="https://clawhub.ai/krumjahn/apple-health-export-analyzer">apple-health-export-analyzer</a> ClawHub skill. You can ask AI about your health in natural language and get an instant daily brief with status, trends, suggestions, and missing data alerts.</p>
+                <p>The OpenClaw Apple Health integration changes that. The <a href="https://apps.apple.com/us/app/health-data-export-ai-analyzer/id6749297170">Health Data AI Analyzer</a> Mac app exposes a local read-only API that OpenClaw can query through the <a href="https://clawhub.ai/krumjahn/apple-health-export-analyzer">apple-health-export-analyzer</a> ClawHub skill. You can ask AI about your health in natural language and get a daily brief with status, trends, suggestions, and missing-data alerts.</p>
                 <p>Think of it as a personal health analyst that lives on your Mac. You ask a question; OpenClaw reads your local health data and delivers a structured summary with actionable insights.</p>
 
                 <h2>How It Works</h2>
@@ -246,21 +246,24 @@
                     <li><strong>ClawHub skill</strong> -- teaches OpenClaw how to call the Mac app's localhost API endpoints.</li>
                     <li><strong>OpenClaw</strong> -- sends natural-language requests, receives structured JSON, and returns a human-readable daily brief.</li>
                 </ol>
-                <p>No cloud accounts, no data sharing, no complex configuration.</p>
+                <p>No remote service is required beyond the OpenClaw client and the local Mac app workflow.</p>
 
                 <h2>Setup Steps</h2>
 
                 <h3>Step 1: Install the Mac App</h3>
                 <p>Download <a href="https://apps.apple.com/us/app/health-data-export-ai-analyzer/id6749297170">Health Data AI Analyzer</a> from the Mac App Store. It runs natively on macOS and processes everything locally.</p>
 
-                <h3>Step 2: Import Your Apple Health Data</h3>
-                <p>Export your health data from iPhone (Settings &rarr; Health &rarr; Export All Health Data), then import the ZIP file into the Mac app. For a detailed walkthrough, see the <a href="/docs/export-health-data.html">export guide</a>.</p>
+                <h3>Step 2: Get a Dataset into the Mac App</h3>
+                <p>Import an Apple Health XML file into the Mac app, or use the iPhone sync workflow and pull the latest XML export from the Mac <strong>Sync</strong> tab. For a step-by-step walkthrough, see <a href="/docs/getting-started.html">Getting Started</a>.</p>
 
                 <h3>Step 3: Install the ClawHub Skill</h3>
                 <p>Add the <a href="https://clawhub.ai/krumjahn/apple-health-export-analyzer">apple-health-export-analyzer</a> skill from ClawHub. This teaches OpenClaw how to read from your local health API. The current skill version is <code>apple-health-export-analyzer@1.0.6</code>.</p>
 
-                <h3>Step 4: Open OpenClaw and Ask for a Daily Brief</h3>
-                <p>Open OpenClaw and ask for your daily health brief. The AI reads from the Mac app's localhost API and returns a structured summary with suggestions. Try this prompt to get started:</p>
+                <h3>Step 4: Enable the Local API and Choose an Integration Dataset</h3>
+                <p>In the Mac app, open <strong>Settings</strong> and turn on <strong>Enable Local API for OpenClaw and scripts</strong>. If needed, select the dataset you want to use for integrations.</p>
+
+                <h3>Step 5: Open OpenClaw and Ask for a Daily Brief</h3>
+                <p>Open OpenClaw and ask for your daily health brief. The AI reads from the Mac app’s localhost API and returns a structured summary with suggestions. Try this prompt to get started:</p>
                 <pre><code>Use the "health-analyzer-mac-local" skill for this request.
 Give me my daily health brief for today and 3 suggestions.</code></pre>
 
@@ -388,11 +391,11 @@ Pull my daily brief for the last 7 days and summarize trends in my steps, sleep,
                 </ul>
 
                 <h2>Privacy</h2>
-                <p>This integration is built with a single principle: your health data stays on your Mac.</p>
+                <p>This integration is built around a simple rule: your health data stays on your Mac.</p>
                 <ul>
                     <li><strong>Local processing</strong> -- the Mac app processes your imported Apple Health data entirely on your machine. Nothing is sent to external servers.</li>
                     <li><strong>Read-only API</strong> -- the localhost API is read-only. OpenClaw can query your data but cannot modify, delete, or write to your health records.</li>
-                    <li><strong>No cloud uploads</strong> -- the ClawHub skill reads from localhost only. There are no cloud endpoints, no token files, no remote data transfers.</li>
+                    <li><strong>No app-operated cloud uploads</strong> -- the ClawHub skill reads from localhost only.</li>
                 </ul>
                 <p>For full API documentation, see the <a href="/docs/api-reference.html">API Reference</a>.</p>
 

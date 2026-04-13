@@ -228,7 +228,7 @@
         <div class="max-w-3xl mx-auto px-6 py-16">
             <div class="doc-content">
                 <h1>Mac App Overview</h1>
-                <p>The Mac app is your central hub for working with Apple Health data. Import exports from your iPhone, run AI-powered analysis with your choice of provider, serve data through the local API, and connect to OpenClaw for natural language health queries.</p>
+                <p>The Mac app is your central hub for importing Apple Health XML, reviewing charts, running AI analysis, and exposing a local API for OpenClaw and your own tools.</p>
 
                 <blockquote>
                     <p>All processing happens locally on your Mac. Your health data stays on your device unless you explicitly choose to send it to an AI provider.</p>
@@ -242,7 +242,7 @@
                             <i data-lucide="file-input" class="w-5 h-5 text-green-400"></i>
                             <h3 class="text-white font-bold m-0">Multi-Format Import</h3>
                         </div>
-                        <p class="text-slate-400 text-sm m-0">Import Apple Health exports in XML, CSV, and JSON formats.</p>
+                        <p class="text-slate-400 text-sm m-0">Import Apple Health XML and open synced exports from the Mac Sync tab.</p>
                     </div>
 
                     <div class="doc-card">
@@ -272,9 +272,9 @@
                     <div class="doc-card">
                         <div class="flex items-center gap-3 mb-2">
                             <i data-lucide="cloud" class="w-5 h-5 text-blue-400"></i>
-                            <h3 class="text-white font-bold m-0">Cloud Backup</h3>
+                            <h3 class="text-white font-bold m-0">Sync Import</h3>
                         </div>
-                        <p class="text-slate-400 text-sm m-0">Sync backups to iCloud or Google Drive for safekeeping.</p>
+                        <p class="text-slate-400 text-sm m-0">Download the latest synced export from the dedicated Mac Sync tab.</p>
                     </div>
 
                     <div class="doc-card">
@@ -290,7 +290,7 @@
                 <ul>
                     <li><strong>macOS 13 Ventura</strong> or later</li>
                     <li>Apple silicon (M1 or later) or Intel Mac</li>
-                    <li>An Apple Health export file, or the iPhone app for <a href="/docs/wifi-sync.html">WiFi Sync</a></li>
+                    <li>An Apple Health XML export, or the iPhone app configured for sync</li>
                 </ul>
 
                 <h2>Installation</h2>
@@ -298,23 +298,23 @@
 
                 <h2>App Sections</h2>
 
-                <h3>Dashboard</h3>
-                <p>Your at-a-glance overview of imported health metrics. See trends for steps, heart rate, sleep, workouts, and more. The dashboard updates automatically when new data is imported or synced.</p>
+                <h3>New</h3>
+                <p>Import a fresh Apple Health XML file and start a new analysis.</p>
 
-                <h3>Analysis</h3>
-                <p>Run AI-powered analysis on your health data. Choose your preferred AI provider, select the metrics and date range you want to analyze, and get insights in plain language. Supports OpenAI (GPT-4o, o1, o3), Anthropic (Claude), OpenRouter, and local models via Ollama or LM Studio.</p>
+                <h3>Sync</h3>
+                <p>The Mac sync workflow lives in the dedicated <strong>Sync</strong> tab. Use it to review available exports, refresh the list, and download the latest XML export into analysis.</p>
 
-                <h3>Export</h3>
-                <p>Convert your imported health data into different formats. Export to <strong>CSV</strong> for spreadsheets, <strong>JSON</strong> for developers, or <strong>XLSX</strong> for Excel. Filter by date range and health category before exporting.</p>
+                <h3>Previous</h3>
+                <p>Reopen saved analyses and reuse one as the active dataset for integrations when needed.</p>
 
-                <h3>API / OpenClaw</h3>
-                <p>Configure the local API server and OpenClaw integration. The API runs on <code>localhost:8765</code> and provides read-only access to your health data for scripts, shortcuts, and third-party tools. OpenClaw connects your health data to a conversational AI interface for natural language queries.</p>
+                <h3>Results and AI Analysis</h3>
+                <p>Once a dataset is open, review charts and summaries, then run AI analysis using OpenAI, Anthropic, OpenRouter, Ollama, or LM Studio.</p>
 
                 <h3>Settings</h3>
-                <p>Manage your API keys for AI providers, configure sync preferences, set up cloud backup destinations (iCloud, Google Drive), and customize which health categories to track.</p>
+                <p>Manage AI providers, local API settings, display preferences, and other Mac-side app options. The Mac app does not use Settings as the main sync-management surface.</p>
 
                 <h2>Getting Data into the Mac App</h2>
-                <p>There are three ways to get your Apple Health data into the Mac app:</p>
+                <p>Use one of these Mac-side paths:</p>
 
                 <table>
                     <thead>
@@ -326,9 +326,9 @@
                     </thead>
                     <tbody>
                         <tr>
-                            <td><strong>WiFi Sync</strong></td>
-                            <td>Direct transfer from iPhone over your local network</td>
-                            <td>Regular syncs, selective data, fastest setup</td>
+                            <td><strong>Mac Sync tab</strong></td>
+                            <td>Pull the latest XML export from your configured iPhone sync workflow</td>
+                            <td>Regular ongoing updates</td>
                         </tr>
                         <tr>
                             <td><strong>AirDrop</strong></td>
@@ -337,17 +337,17 @@
                         </tr>
                         <tr>
                             <td><strong>File Import</strong></td>
-                            <td>Drag and drop an export file (XML, CSV, or JSON) into the Mac app</td>
+                            <td>Drag and drop an Apple Health XML export into the Mac app</td>
                             <td>Files from email, cloud storage, or other sources</td>
                         </tr>
                     </tbody>
                 </table>
 
-                <p>For the smoothest experience, <a href="/docs/wifi-sync.html">WiFi Sync</a> is recommended. It handles everything automatically and lets you choose exactly which health categories to transfer.</p>
+                <p>For the smoothest ongoing experience, set up sync on iPhone and use the Mac <strong>Sync</strong> tab to pull the latest export when you want to analyze it.</p>
 
                 <h2>Related Pages</h2>
                 <ul>
-                    <li><a href="/docs/wifi-sync.html">iPhone-to-Mac WiFi Sync</a></li>
+                    <li><a href="/docs/wifi-sync.html">iPhone-to-Mac Sync</a></li>
                     <li><a href="/docs/ai-analysis.html">AI Analysis</a></li>
                     <li><a href="/docs/api-reference.html">API Reference</a></li>
                     <li><a href="/docs/openclaw.html">OpenClaw Integration</a></li>

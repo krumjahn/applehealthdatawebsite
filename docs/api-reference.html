@@ -274,12 +274,13 @@
                 </table>
 
                 <h2>Authentication</h2>
-                <p>Two routes are public on loopback and do not require a token:</p>
+                <p>These routes are public on loopback and do not require a token:</p>
                 <ul>
                     <li><code>GET /openclaw/status</code></li>
                     <li><code>GET /openclaw/daily-brief</code></li>
+                    <li><code>GET /status</code></li>
                 </ul>
-                <p>All other routes require the <code>X-Health-Analyzer-Token</code> header. The token is configurable in the Mac app and its file path is returned by <code>GET /status</code>.</p>
+                <p>All other routes require the <code>X-Health-Analyzer-Token</code> header. The token file path is returned by <code>GET /status</code>.</p>
                 <pre><code>curl -H "X-Health-Analyzer-Token: YOUR_TOKEN" http://127.0.0.1:8765/summary</code></pre>
 
                 <h2>Endpoints</h2>
@@ -332,8 +333,8 @@
 
                 <!-- /status -->
                 <h3><span class="method-badge method-get">GET</span> /status</h3>
-                <p>General local API status endpoint for host tools and debugging. Returns app and server version, dataset state, import/sync timestamps, and the token path for protected endpoints. Requires <code>X-Health-Analyzer-Token</code>.</p>
-                <pre><code>curl -H "X-Health-Analyzer-Token: YOUR_TOKEN" http://127.0.0.1:8765/status</code></pre>
+                <p>General local API status endpoint for host tools and debugging. Returns app and server version, dataset state, import/sync timestamps, and the token path for protected endpoints. No authentication required on loopback.</p>
+                <pre><code>curl http://127.0.0.1:8765/status</code></pre>
                 <p>Example response:</p>
                 <pre><code>{
   "ok": true,
@@ -473,7 +474,7 @@
                     <li><strong>Read-only</strong> -- there are no POST, PUT, PATCH, or DELETE endpoints. The API cannot modify your health data.</li>
                     <li><strong>Localhost only</strong> -- the API binds to <code>127.0.0.1</code> and is not accessible from other devices on your network.</li>
                     <li><strong>Mac app must be running</strong> -- the API is served by the Mac app process. If the app is closed, requests will fail with a connection refused error.</li>
-                    <li><strong>Data freshness</strong> -- the API reads from the app's imported dataset. To get updated data, re-import or re-sync from your iPhone.</li>
+                    <li><strong>Data freshness</strong> -- the API reads from the app's selected integration dataset. To get updated data, import or sync newer data and select the right dataset for integrations when needed.</li>
                 </ul>
 
                 <h2>Use Cases</h2>

@@ -228,10 +228,10 @@
         <div class="max-w-3xl mx-auto px-6 py-16">
             <div class="doc-content">
                 <h1>Home Screen Widget</h1>
-                <p>Add a <strong>Health Data Sync widget</strong> to your iPhone Home Screen for one-tap syncing. The widget shows live sync status, progress, and your last sync time -- no need to open the app.</p>
+                <p>Add the iPhone widget to your Home Screen for one-tap access to your sync workflow. The widget shows sync status, last-sync context, and an action button that you control from the app’s <strong>Settings</strong> screen.</p>
 
                 <blockquote>
-                    <p>The widget requires iOS 16 or later and works with both small and medium widget sizes.</p>
+                    <p>The widget requires iOS 16 or later and supports small and medium sizes.</p>
                 </blockquote>
 
                 <!-- Widget Demo Video -->
@@ -272,7 +272,7 @@
                 </ul>
 
                 <h2>Widget Actions</h2>
-                <p>You can configure what happens when you tap the widget. Open the main app, go to <strong>Settings &gt; Widget</strong>, and choose one of these actions:</p>
+                <p>Open the iPhone app and go to <strong>Settings &gt; Widget</strong> to choose what the widget does when tapped.</p>
 
                 <table>
                     <thead>
@@ -284,11 +284,11 @@
                     <tbody>
                         <tr>
                             <td><strong>Quick Sync</strong> (default)</td>
-                            <td>Immediately starts a sync to your Mac. The fastest way to keep your data up to date.</td>
+                            <td>Opens the app and starts the sync flow using your current sync provider.</td>
                         </tr>
                         <tr>
                             <td><strong>Quick Export</strong></td>
-                            <td>Exports your health data as XML and opens AirDrop or the Share Sheet, depending on your preference.</td>
+                            <td>Exports Apple Health data as XML and then opens AirDrop-first or the Share Sheet, depending on your preference.</td>
                         </tr>
                         <tr>
                             <td><strong>Open Sync Screen</strong></td>
@@ -297,8 +297,15 @@
                     </tbody>
                 </table>
 
+                <h2>What the Widget Reads</h2>
+                <ul>
+                    <li><strong>Widget action</strong> comes from the iPhone app’s <strong>Settings &gt; Widget</strong> section.</li>
+                    <li><strong>Displayed sync provider</strong> comes from the provider selected in the iPhone app’s <strong>Sync</strong> tab.</li>
+                    <li><strong>Status text</strong> comes from the app’s shared sync state, including whether you have completed a first sync.</li>
+                </ul>
+
                 <h2>Sync Status Indicators</h2>
-                <p>The widget updates in real time to reflect what's happening:</p>
+                <p>The widget updates to reflect what the sync flow is doing:</p>
 
                 <table>
                     <thead>
@@ -310,7 +317,7 @@
                     <tbody>
                         <tr>
                             <td><strong>Idle</strong></td>
-                            <td>"Ready to sync" with last sync time. Tap to start.</td>
+                            <td>"Ready to sync" with last sync time. Tap to start the configured action.</td>
                         </tr>
                         <tr>
                             <td><strong>Preparing</strong></td>
@@ -326,7 +333,7 @@
                         </tr>
                         <tr>
                             <td><strong>Complete</strong></td>
-                            <td>"Sync complete" -- your data is ready on your Mac.</td>
+                            <td>"Sync complete" -- your latest export has finished sending.</td>
                         </tr>
                         <tr>
                             <td><strong>Failed</strong></td>
@@ -336,13 +343,20 @@
                 </table>
 
                 <h2>First-Time Setup</h2>
-                <p>If you add the widget before completing your first sync, it shows a <strong>"First Sync"</strong> prompt encouraging you to start your initial sync. After your first successful sync, the widget automatically switches to showing your sync status and last sync time.</p>
+                <p>If you add the widget before completing your first sync, it shows a <strong>First Sync</strong> prompt. After the first successful sync, it switches to showing your current status and last sync context automatically.</p>
 
                 <h2>Export Settings</h2>
                 <p>When using the <strong>Quick Export</strong> action, you can configure two additional preferences in the app:</p>
                 <ul>
                     <li><strong>Export range:</strong> Choose between the last 90 days or all-time data.</li>
                     <li><strong>Delivery method:</strong> Choose AirDrop (sends directly to a nearby device) or Share Sheet (lets you choose any sharing destination).</li>
+                </ul>
+
+                <h2>When to Use Each Action</h2>
+                <ul>
+                    <li><strong>Quick Sync:</strong> best when sync is already configured and you want one-tap refresh.</li>
+                    <li><strong>Quick Export:</strong> best when you mostly move XML files manually.</li>
+                    <li><strong>Open Sync Screen:</strong> best when you want the widget as a shortcut but still want to review status before acting.</li>
                 </ul>
 
                 <h2>How Often Does the Widget Update?</h2>
@@ -355,6 +369,12 @@
                     <li>Make sure you completed a full sync (not just opened the sync screen).</li>
                     <li>Wait up to 15 minutes for the widget timeline to refresh.</li>
                     <li>Remove and re-add the widget if it remains stuck.</li>
+                </ul>
+
+                <h3>Widget shows the wrong provider</h3>
+                <ul>
+                    <li>Open the iPhone app’s <strong>Sync</strong> tab and confirm the currently selected provider there.</li>
+                    <li>The provider name shown in the widget does not come from the widget action picker.</li>
                 </ul>
 
                 <h3>Widget not updating during sync</h3>
@@ -372,7 +392,7 @@
 
                 <h2>Related Pages</h2>
                 <ul>
-                    <li><a href="/docs/wifi-sync.html">iPhone-to-Mac WiFi Sync</a></li>
+                    <li><a href="/docs/wifi-sync.html">iPhone-to-Mac Sync</a></li>
                     <li><a href="/docs/export-health-data.html">Export Apple Health Data</a></li>
                     <li><a href="/docs/getting-started.html">Getting Started</a></li>
                 </ul>

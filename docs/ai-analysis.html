@@ -228,14 +228,14 @@
         <div class="max-w-3xl mx-auto px-6 py-16">
             <div class="doc-content">
                 <h1>AI Analysis</h1>
-                <p>Use AI to find patterns, trends, and anomalies in your Apple Health data. The Mac app supports multiple AI providers -- both cloud-based and fully local -- so you can choose the balance of capability and privacy that works for you.</p>
+                <p>Use AI to find patterns, trends, and anomalies in your Apple Health data. The Mac app supports both cloud and local providers, so you can choose the balance of quality, speed, and privacy that works for you.</p>
 
                 <blockquote>
-                    <p>AI analysis is free when you use your own API key. The app never uploads your health data to our servers. Data goes directly from your Mac to the AI provider you choose.</p>
+                    <p>The app never uploads your health data to our servers. Data goes directly from your Mac to the AI provider you choose, or stays fully local when you use Ollama or LM Studio.</p>
                 </blockquote>
 
                 <h2>Supported AI Providers</h2>
-                <p>The Mac app connects to these providers out of the box. You can switch between them at any time.</p>
+                <p>The current Mac app supports these providers out of the box.</p>
 
                 <table>
                     <thead>
@@ -248,13 +248,13 @@
                     </thead>
                     <tbody>
                         <tr>
-                            <td><strong>OpenAI (ChatGPT)</strong></td>
+                            <td><strong>OpenAI</strong></td>
                             <td>Cloud</td>
                             <td>Pay-per-use</td>
                             <td>Strong general analysis, large context windows</td>
                         </tr>
                         <tr>
-                            <td><strong>Anthropic (Claude)</strong></td>
+                            <td><strong>Anthropic</strong></td>
                             <td>Cloud</td>
                             <td>Pay-per-use</td>
                             <td>Nuanced health reasoning, detailed explanations</td>
@@ -282,12 +282,12 @@
 
                 <h2>Setting Up Each Provider</h2>
 
-                <h3>OpenAI (ChatGPT)</h3>
+                <h3>OpenAI</h3>
                 <ol>
                     <li>Go to <a href="https://platform.openai.com/api-keys">platform.openai.com/api-keys</a> and create an API key.</li>
-                    <li>In the Mac app, open <strong>Settings</strong> and select <strong>OpenAI</strong> as your provider.</li>
+                    <li>In the Mac app, open <strong>Settings</strong> and select <strong>OpenAI</strong> as your default provider.</li>
                     <li>Paste your API key into the field provided.</li>
-                    <li>Choose a model (e.g., <code>gpt-4o</code> for the best analysis quality, or <code>gpt-4o-mini</code> for faster, cheaper responses).</li>
+                    <li>Choose a model available in the app.</li>
                 </ol>
 
                 <h3>Anthropic (Claude)</h3>
@@ -295,7 +295,7 @@
                     <li>Go to <a href="https://console.anthropic.com/settings/keys">console.anthropic.com/settings/keys</a> and create an API key.</li>
                     <li>In the Mac app, open <strong>Settings</strong> and select <strong>Anthropic</strong> as your provider.</li>
                     <li>Paste your API key.</li>
-                    <li>Choose a model (e.g., <code>claude-sonnet-4-20250514</code> for detailed analysis).</li>
+                    <li>Choose a model available in the app.</li>
                 </ol>
 
                 <h3>OpenRouter</h3>
@@ -303,13 +303,13 @@
                     <li>Go to <a href="https://openrouter.ai/keys">openrouter.ai/keys</a> and create an API key.</li>
                     <li>In the Mac app, open <strong>Settings</strong> and select <strong>OpenRouter</strong> as your provider.</li>
                     <li>Paste your API key.</li>
-                    <li>Choose from any available model. OpenRouter gives you access to models from many providers (Llama, Mistral, Gemini, and more) through a single key.</li>
+                    <li>Choose from any model you have access to through OpenRouter.</li>
                 </ol>
 
                 <h3>Ollama (Local, Free)</h3>
                 <ol>
                     <li>Install Ollama from <a href="https://ollama.com">ollama.com</a>.</li>
-                    <li>Pull a model: <code>ollama pull llama3</code></li>
+                    <li>Pull a model such as <code>ollama pull llama3</code>.</li>
                     <li>Make sure Ollama is running on your Mac.</li>
                     <li>In the Mac app, open <strong>Settings</strong> and select <strong>Ollama</strong> as your provider. The app auto-detects the local Ollama server at <code>http://localhost:11434</code>.</li>
                     <li>No API key is needed. All processing stays on your machine.</li>
@@ -364,7 +364,7 @@
                     </tbody>
                 </table>
 
-                <p>If privacy is your top priority, use <strong>Ollama</strong> or <strong>LM Studio</strong>. Your health data stays entirely on your machine, and no API key or internet connection is required for analysis.</p>
+                <p>If privacy is your top priority, use <strong>Ollama</strong> or <strong>LM Studio</strong>. Your health data stays entirely on your machine and no cloud API is involved.</p>
 
                 <h2>Example Analysis Output</h2>
                 <p>Here is what a typical AI analysis response looks like when you ask for a health summary:</p>
