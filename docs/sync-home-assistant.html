@@ -350,20 +350,10 @@
 
         function highlight(text, q) {
           if (!q) return text;
-          var escaped = q.replace(/[-.*+?^${}()|[\]\\]/g, '\\
-        function filterNav(query) {
-            const links = document.querySelectorAll('#docs-nav a');
-            const q = query.toLowerCase();
-            links.forEach(link => {
-                const text = link.textContent.toLowerCase();
-                link.style.display = text.includes(q) || q === '' ? 'block' : 'none';
-            });
-        }
-        ');
+          var escaped = q.replace(/[-.*+?^${}()|[\]\\]/g, '\\$&');
           var re = new RegExp('(' + escaped + ')', 'gi');
           return text.replace(re, '<mark style="background:rgba(244,63,94,0.25);color:#fda4af;border-radius:2px">$1</mark>');
         }
-
         const searchInput = document.getElementById('docs-search');
         const resultsBox = document.getElementById('search-results');
 
