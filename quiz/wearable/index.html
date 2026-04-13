@@ -54,7 +54,7 @@
       <div id="options" class="mt-6 grid gap-3"></div>
 
       <div class="mt-6 flex items-center justify-between">
-        <button id="backBtn" class="px-4 py-2 rounded-lg border border-white/10 bg-white/5 hover:border-rose-400 disabled:opacity-40" disabled>Back</button>
+        <button id="backBtn" class="px-4 py-2 rounded-lg border border-white/10 bg-white/5 hover:border-rose-400 disabled:opacity-40 text-slate-200" disabled>Back</button>
         <button id="nextBtn" class="px-4 py-2 rounded-lg bg-rose-600 hover:bg-rose-500 font-semibold disabled:opacity-40" disabled>Next</button>
       </div>
     </div>
@@ -231,10 +231,10 @@
 
       q.options.forEach(opt => {
         const btn = document.createElement('button');
-        btn.className = 'text-left p-4 rounded-xl border border-white/10 bg-white/5 hover:border-rose-400 transition';
+        btn.className = 'text-left p-4 rounded-xl border border-white/10 bg-white/5 hover:border-rose-400 transition text-slate-200';
         btn.innerHTML = `<div class="font-semibold">${opt.label}</div>`;
         if (selected === opt.key) {
-          btn.className = 'text-left p-4 rounded-xl border border-rose-400/70 bg-rose-500/10 transition';
+          btn.className = 'text-left p-4 rounded-xl border border-rose-400/70 bg-rose-500/10 transition text-slate-200';
         }
         btn.addEventListener('click', () => {
           state.answers[q.id] = opt.key;
