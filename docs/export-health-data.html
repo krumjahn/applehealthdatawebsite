@@ -158,6 +158,14 @@
         }
         .docs-search::placeholder { color: #475569; }
         .docs-search:focus { border-color: #f43f5e; }
+        .search-results { position:absolute; left:8px; right:8px; top:100%; margin-top:4px; background:#0f172a; border:1px solid rgba(255,255,255,0.12); border-radius:8px; overflow:hidden; z-index:100; max-height:360px; overflow-y:auto; }
+        .search-results a { display:block; padding:10px 14px; text-decoration:none; border-bottom:1px solid rgba(255,255,255,0.06); }
+        .search-results a:last-child { border-bottom:none; }
+        .search-results a:hover { background:rgba(255,255,255,0.06); }
+        .search-result-title { color:#e2e8f0; font-size:0.875rem; font-weight:600; }
+        .search-result-section { color:#94a3b8; font-size:0.75rem; margin-top:1px; }
+        .search-result-snippet { color:#64748b; font-size:0.75rem; margin-top:2px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+        .search-no-results { padding:12px 14px; color:#64748b; font-size:0.875rem; }
     </style>
 
     <!-- Analytics -->
@@ -180,7 +188,10 @@
                 </div>
                 <span class="font-bold text-sm">Health Data Docs</span>
             </a>
-            <input type="text" class="docs-search" placeholder="Search docs..." id="docs-search" oninput="filterNav(this.value)">
+            <div style="position:relative">
+            <input type="text" class="docs-search" placeholder="Search docs..." id="docs-search" autocomplete="off">
+            <div class="search-results" id="search-results" style="display:none"></div>
+          </div>
         </div>
 
         <nav class="py-3" id="docs-nav">
@@ -410,6 +421,18 @@
     </main>
 
     <script>
+        let searchIndex = null;
+
+        async function loadIndex() {
+          if (searchIndex) return searchIndex;
+          const r = await fetch('/docs/search-index.json');
+          searchIndex = await r.json();
+          return searchIndex;
+        }
+
+        function highlight(text, q) {
+          if (!q) return text;
+          var escaped = q.replace(/[-.*+?^${}()|[\]\\]/g, '\\
         function filterNav(query) {
             const links = document.querySelectorAll('#docs-nav a');
             const q = query.toLowerCase();
@@ -418,6 +441,74 @@
                 link.style.display = text.includes(q) || q === '' ? 'block' : 'none';
             });
         }
+        ');
+          var re = new RegExp('(' + escaped + ')', 'gi');
+          return text.replace(re, '<mark style="background:rgba(244,63,94,0.25);color:#fda4af;border-radius:2px">$1</mark>');
+        }
+
+        const searchInput = document.getElementById('docs-search');
+        const resultsBox = document.getElementById('search-results');
+
+        searchInput.addEventListener('input', async function() {
+          const q = this.value.trim().toLowerCase();
+          const nav = document.getElementById('docs-nav');
+
+          if (!q) {
+            resultsBox.style.display = 'none';
+            nav.style.display = '';
+            return;
+          }
+
+          nav.style.display = 'none';
+          resultsBox.style.display = 'block';
+
+          const index = await loadIndex();
+          const results = [];
+
+          for (const page of index) {
+            if (page.title.toLowerCase().includes(q)) {
+              results.push({ url: page.url, title: page.title, section: '', snippet: page.intro });
+              continue;
+            }
+            for (const s of page.sections) {
+              const inHeading = s.heading.toLowerCase().includes(q);
+              const inSnippet = s.snippet.toLowerCase().includes(q);
+              if (inHeading || inSnippet) {
+                results.push({ url: page.url, title: page.title, section: s.heading, snippet: s.snippet });
+                break;
+              }
+            }
+          }
+
+          if (results.length === 0) {
+            resultsBox.innerHTML = '<div class="search-no-results">No results for &quot;' + this.value + '&quot;</div>';
+            return;
+          }
+
+          resultsBox.innerHTML = results.slice(0, 8).map(r => {
+            const sectionHtml = r.section ? '<div class="search-result-section">' + highlight(r.section, this.value.trim()) + '</div>' : '';
+            const snippetHtml = r.snippet ? '<div class="search-result-snippet">' + highlight(r.snippet.slice(0, 120), this.value.trim()) + '</div>' : '';
+            return '<a href="' + r.url + '"><div class="search-result-title">' + highlight(r.title, this.value.trim()) + '</div>' + sectionHtml + snippetHtml + '</a>';
+          }).join('');
+        }.bind(searchInput));
+
+        document.addEventListener('click', function(e) {
+          if (!e.target.closest('#search-results') && !e.target.closest('#docs-search')) {
+            resultsBox.style.display = 'none';
+            if (!searchInput.value.trim()) {
+              document.getElementById('docs-nav').style.display = '';
+            }
+          }
+        });
+
+        searchInput.addEventListener('keydown', function(e) {
+          if (e.key === 'Escape') {
+            this.value = '';
+            resultsBox.style.display = 'none';
+            document.getElementById('docs-nav').style.display = '';
+          }
+        });
+
         lucide.createIcons();
     </script>
 </body>
