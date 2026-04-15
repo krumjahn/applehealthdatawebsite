@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sync Apple Health to Mac Over WiFi — No Cloud, 100% Private</title>
+  <meta name="description" content="Transfer Apple Health data directly from iPhone to Mac over your local WiFi or ethernet network. No cloud accounts, no export files, no AirDrop. Fast, private, one-tap sync.">
+  <meta name="keywords" content="sync apple health to mac, apple health wifi sync, transfer apple health data, iphone to mac health data, apple health direct sync, apple health no cloud, private health data transfer, apple health local sync">
+  <link rel="canonical" href="https://applehealthdata.com/sync-apple-health-to-mac/">
+  <meta name="apple-itunes-app" content="app-id=6749297170">
+  <meta name="robots" content="index,follow">
+
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Health Data Export & Analyze">
+  <meta property="og:url" content="https://applehealthdata.com/sync-apple-health-to-mac/">
+  <meta property="og:title" content="Sync Apple Health to Mac Over WiFi — No Cloud, 100% Private">
+  <meta property="og:description" content="Transfer Apple Health data directly from iPhone to Mac over your local network. No cloud, no export files needed.">
+  <meta property="og:image" content="https://applehealthdata.com/images/mac-app-screenshot-1.png">
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Sync Apple Health to Mac Over WiFi — No Cloud, 100% Private">
+  <meta name="twitter:description" content="Transfer Apple Health data directly from iPhone to Mac over your local network. No cloud, no export files needed.">
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <!-- Matomo -->
+  <script>
+    var _paq = window._paq = window._paq || [];
+    _paq.push(['trackPageView']);
+    _paq.push(['enableLinkTracking']);
+    (function() {
+      var u="//shrewd-lyrebird.pikapod.net/";
+      _paq.push(['setTrackerUrl', u+'matomo.php']);
+      _paq.push(['setSiteId', '9']);
+      var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
+      g.async=true; g.src=u+'matomo.js'; s.parentNode.insertBefore(g,s);
+    })();
+  </script>
+
+  <!-- Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-8SMQRLT4VS"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-8SMQRLT4VS');
+  </script>
+
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;700&display=swap');
+    :root { --glass-border: rgba(255, 255, 255, 0.08); --glass-bg: rgba(255, 255, 255, 0.03); }
+    body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: #020617; color: #f8fafc; overflow-x: hidden; }
+    .mesh-gradient { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: -1; background: radial-gradient(at 0% 0%, rgba(45, 212, 191, 0.15) 0px, transparent 50%), radial-gradient(at 100% 0%, rgba(56, 189, 248, 0.12) 0px, transparent 50%), radial-gradient(at 50% 100%, rgba(168, 85, 247, 0.1) 0px, transparent 50%); filter: blur(60px); }
+    .content-section h2 { border-top: 1px solid var(--glass-border); padding-top: 2rem; margin-top: 3rem; color: #f8fafc; font-size: 1.875rem; font-weight: 700; margin-bottom: 1.25rem; }
+    .content-section h3 { color: #e2e8f0; font-size: 1.5rem; font-weight: 600; margin-top: 2rem; margin-bottom: 0.75rem; }
+    .content-section p { color: #94a3b8; font-size: 1.125rem; line-height: 1.75; margin-bottom: 1.25rem; }
+    .content-section a { color: #2dd4bf; text-decoration: none; border-bottom: 1px solid transparent; transition: all 0.2s; }
+    .content-section a:hover { border-bottom-color: #2dd4bf; }
+    .content-section ul, .content-section ol { padding-left: 1.5rem; margin-bottom: 1.25rem; color: #94a3b8; }
+    .content-section li { margin-bottom: 0.5rem; list-style-type: disc; }
+    .glass { background: rgba(255, 255, 255, 0.03); border: 1px solid var(--glass-border); border-radius: 1rem; }
+  </style>
+
+  <!-- FAQ Schema -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "How do I sync Apple Health data to my Mac without iCloud?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Install the Health Data Export app on iPhone and the Health Data AI Analyzer on Mac. Open the Mac app's Sync tab to get a pairing code, enter your Mac's IP and the code on the iPhone app, and tap Connect. Data transfers directly over your local WiFi or ethernet network with no cloud involved."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Is my Apple Health data private when using WiFi sync?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Yes. Data transfers directly between your iPhone and Mac on your local network using a secure pairing code. No data is uploaded to any server, cloud service, or third party. The sync works without an internet connection."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What Apple Health data can I sync to my Mac?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "All Apple Health record types including steps, heart rate, sleep stages, workouts, weight, HRV, blood pressure, nutrition, blood oxygen, respiratory rate, and mindfulness data. You can sync everything or select specific categories."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Do I need to export Apple Health data first?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "No. Direct WiFi sync reads your health data directly from HealthKit on your iPhone and transfers it to the Mac app. No export.xml file is needed, unlike AirDrop or cloud-based methods."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "How fast is the WiFi sync compared to AirDrop?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "WiFi sync is typically faster because it transfers only the data categories you select, not the entire export. On a 5GHz WiFi or ethernet connection, syncs complete in seconds to a few minutes depending on the amount of data."
+        }
+      }
+    ]
+  }
+  </script>
+
+  <!-- HowTo Schema -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "HowTo",
+    "name": "How to Sync Apple Health Data to Mac Over WiFi",
+    "description": "Transfer Apple Health data directly from iPhone to Mac over your local network without using iCloud or AirDrop.",
+    "step": [
+      {
+        "@type": "HowToStep",
+        "name": "Open the Mac app",
+        "text": "Open Health Data AI Analyzer on your Mac and go to the Sync tab. Your Mac's IP address and a 6-digit pairing code will be displayed."
+      },
+      {
+        "@type": "HowToStep",
+        "name": "Open the iPhone app",
+        "text": "Open Health Data Export on your iPhone and tap the Sync tab. Select 'Direct to Mac' as the sync provider."
+      },
+      {
+        "@type": "HowToStep",
+        "name": "Enter your Mac's IP address",
+        "text": "Type your Mac's local IP address shown in the Mac app (e.g. 192.168.1.100). Both devices must be on the same WiFi network."
+      },
+      {
+        "@type": "HowToStep",
+        "name": "Enter the pairing code",
+        "text": "Type the 6-digit pairing code displayed on your Mac to verify you're connecting to the right device."
+      },
+      {
+        "@type": "HowToStep",
+        "name": "Connect and sync",
+        "text": "Tap 'Connect to This Mac' to pair. Once connected, tap 'Sync Now' to transfer your health data directly over the local network."
+      }
+    ]
+  }
+  </script>
+</head>
+<body>
+  <div class="mesh-gradient"></div>
+
+  <nav class="fixed w-full z-50 border-b border-white/10 bg-slate-950/80 backdrop-blur-xl">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex justify-between items-center h-20">
+        <a href="/" class="flex items-center gap-3 group">
+          <div class="w-10 h-10 bg-gradient-to-tr from-teal-600 to-cyan-500 rounded-xl flex items-center justify-center shadow-lg shadow-teal-500/20 group-hover:scale-105 transition-transform">
+            <i data-lucide="wifi" class="w-6 h-6 text-white"></i>
+          </div>
+          <div>
+            <span class="font-bold text-lg tracking-tight text-white block leading-none">Health Data</span>
+            <span class="text-xs text-slate-400 tracking-wider uppercase font-semibold">Export & Analyze</span>
+          </div>
+        </a>
+        <div class="hidden md:flex gap-6">
+          <a href="/docs/wifi-sync.html" class="text-sm font-medium text-slate-300 hover:text-white transition-colors">Sync Docs</a>
+          <a href="/export-apple-health-data/" class="text-sm font-medium text-slate-300 hover:text-white transition-colors">Export Guide</a>
+          <a href="https://apps.apple.com/app/id6749297170" class="text-sm font-bold text-teal-400 hover:text-teal-300 transition-colors">Download App</a>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <main class="pt-32 pb-20 lg:pt-48 lg:pb-32">
+    <div class="max-w-3xl mx-auto px-4 content-section">
+
+      <!-- Hero -->
+      <div class="text-center mb-16">
+        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-teal-500/10 border border-teal-500/20 text-teal-400 text-sm font-medium mb-6">
+          <span class="relative flex h-2 w-2">
+            <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-teal-400 opacity-75"></span>
+            <span class="relative inline-flex rounded-full h-2 w-2 bg-teal-500"></span>
+          </span>
+          New: Direct Sync
+        </div>
+        <h1 class="text-4xl lg:text-6xl font-bold text-white mb-6 tracking-tight">Sync Apple Health to Mac Over WiFi</h1>
+        <p class="text-xl text-slate-400 leading-relaxed">Transfer your Apple Health data directly from iPhone to Mac over your local network. No cloud accounts, no export files, no AirDrop. Just a fast, private, device-to-device sync.</p>
+      </div>
+
+      <!-- Video -->
+      <div class="glass overflow-hidden mb-12" style="border-radius: 1rem;">
+        <video autoplay muted loop playsinline style="width: 100%; display: block;">
+          <source src="/images/sync-feature-video.mp4" type="video/mp4">
+        </video>
+      </div>
+
+      <!-- CTA -->
+      <div class="glass p-6 mb-8">
+        <p class="text-slate-300 mb-4"><strong>Requirements:</strong> the <strong>iPhone app</strong> (Health Data Export) and the <strong>Mac app</strong> (Health Data AI Analyzer) installed on the same local network.</p>
+        <div class="flex flex-col sm:flex-row gap-3 items-stretch sm:items-center">
+          <a href="https://apps.apple.com/us/app/health-data-export-ai-analyzer/id6749297170" class="inline-flex justify-center items-center gap-2 bg-teal-600 text-white font-bold py-3 px-6 rounded-xl hover:bg-teal-700 transition-all shadow-lg shadow-teal-600/20">
+            <i data-lucide="download" class="w-5 h-5"></i> Download on the App Store
+          </a>
+          <a href="/docs/wifi-sync.html" class="inline-flex justify-center items-center gap-2 bg-slate-800 text-white font-bold py-3 px-6 rounded-xl hover:bg-slate-700 transition-all border border-slate-700">
+            <i data-lucide="book-open" class="w-5 h-5"></i> Full setup guide
+          </a>
+        </div>
+      </div>
+
+      <!-- Why -->
+      <h2>Why direct sync?</h2>
+      <p>Apple Health exports are powerful, but the traditional workflow is cumbersome: export a massive XML file, AirDrop it to your Mac, wait for it to transfer, then import it. Direct WiFi sync eliminates all of that.</p>
+
+      <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-8">
+        <div class="glass p-5 text-center">
+          <div class="text-3xl mb-3">🔒</div>
+          <h3 class="text-white font-bold text-base mb-1" style="margin-top: 0;">100% Private</h3>
+          <p class="text-slate-400 text-sm mb-0">Data stays on your local network. Never touches the internet.</p>
+        </div>
+        <div class="glass p-5 text-center">
+          <div class="text-3xl mb-3">📡</div>
+          <h3 class="text-white font-bold text-base mb-1" style="margin-top: 0;">WiFi or Ethernet</h3>
+          <p class="text-slate-400 text-sm mb-0">Works on any local network. No Bluetooth or AirDrop needed.</p>
+        </div>
+        <div class="glass p-5 text-center">
+          <div class="text-3xl mb-3">⚡</div>
+          <h3 class="text-white font-bold text-base mb-1" style="margin-top: 0;">Fast Transfer</h3>
+          <p class="text-slate-400 text-sm mb-0">Sync only what you need. No 1GB export file to move around.</p>
+        </div>
+      </div>
+
+      <!-- How it works -->
+      <h2>How to sync Apple Health to Mac (5 steps)</h2>
+
+      <div class="space-y-6 mb-8">
+        <div class="glass p-5 flex gap-4">
+          <div class="flex-shrink-0 w-10 h-10 bg-teal-500/20 rounded-full flex items-center justify-center text-teal-400 font-bold">1</div>
+          <div>
+            <h3 class="text-white font-bold text-base" style="margin-top: 0;">Open the Mac app</h3>
+            <p class="text-slate-400 text-sm mb-0">Navigate to the <strong>Sync</strong> tab. Your Mac's local IP address and a 6-digit pairing code are displayed.</p>
+          </div>
+        </div>
+        <div class="glass p-5 flex gap-4">
+          <div class="flex-shrink-0 w-10 h-10 bg-teal-500/20 rounded-full flex items-center justify-center text-teal-400 font-bold">2</div>
+          <div>
+            <h3 class="text-white font-bold text-base" style="margin-top: 0;">Select "Direct to Mac" on iPhone</h3>
+            <p class="text-slate-400 text-sm mb-0">Open the iPhone app, go to <strong>Sync</strong>, and switch the provider from iCloud to <strong>Direct to Mac</strong>.</p>
+          </div>
+        </div>
+        <div class="glass p-5 flex gap-4">
+          <div class="flex-shrink-0 w-10 h-10 bg-teal-500/20 rounded-full flex items-center justify-center text-teal-400 font-bold">3</div>
+          <div>
+            <h3 class="text-white font-bold text-base" style="margin-top: 0;">Enter your Mac's IP address</h3>
+            <p class="text-slate-400 text-sm mb-0">Type the IP address shown on the Mac app (e.g. <code style="color: #5eead4;">192.168.68.63</code>). Both devices must be on the same network.</p>
+          </div>
+        </div>
+        <div class="glass p-5 flex gap-4">
+          <div class="flex-shrink-0 w-10 h-10 bg-teal-500/20 rounded-full flex items-center justify-center text-teal-400 font-bold">4</div>
+          <div>
+            <h3 class="text-white font-bold text-base" style="margin-top: 0;">Enter the 6-digit pairing code</h3>
+            <p class="text-slate-400 text-sm mb-0">The pairing code confirms you're connecting to the right Mac. This prevents accidental connections on shared networks.</p>
+          </div>
+        </div>
+        <div class="glass p-5 flex gap-4">
+          <div class="flex-shrink-0 w-10 h-10 bg-teal-500/20 rounded-full flex items-center justify-center text-teal-400 font-bold">5</div>
+          <div>
+            <h3 class="text-white font-bold text-base" style="margin-top: 0;">Tap "Sync Now"</h3>
+            <p class="text-slate-400 text-sm mb-0">Once paired, tap Sync Now to transfer your health data. The progress bar shows real-time transfer status. Your data goes directly from iPhone to Mac.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- What syncs -->
+      <h2>What health data can you sync?</h2>
+      <p>Direct sync transfers all Apple Health record types, including:</p>
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-8">
+        <div class="glass p-4 flex items-center gap-3">
+          <i data-lucide="footprints" class="w-5 h-5 text-teal-400 flex-shrink-0"></i>
+          <span class="text-slate-300"><strong>Activity</strong> &mdash; steps, distance, flights, active energy</span>
+        </div>
+        <div class="glass p-4 flex items-center gap-3">
+          <i data-lucide="heart-pulse" class="w-5 h-5 text-rose-400 flex-shrink-0"></i>
+          <span class="text-slate-300"><strong>Heart</strong> &mdash; heart rate, resting HR, HRV, blood pressure</span>
+        </div>
+        <div class="glass p-4 flex items-center gap-3">
+          <i data-lucide="moon" class="w-5 h-5 text-indigo-400 flex-shrink-0"></i>
+          <span class="text-slate-300"><strong>Sleep</strong> &mdash; stages, time in bed, duration</span>
+        </div>
+        <div class="glass p-4 flex items-center gap-3">
+          <i data-lucide="dumbbell" class="w-5 h-5 text-amber-400 flex-shrink-0"></i>
+          <span class="text-slate-300"><strong>Workouts</strong> &mdash; type, duration, calories, routes</span>
+        </div>
+        <div class="glass p-4 flex items-center gap-3">
+          <i data-lucide="scale" class="w-5 h-5 text-green-400 flex-shrink-0"></i>
+          <span class="text-slate-300"><strong>Body</strong> &mdash; weight, BMI, body fat percentage</span>
+        </div>
+        <div class="glass p-4 flex items-center gap-3">
+          <i data-lucide="apple" class="w-5 h-5 text-red-400 flex-shrink-0"></i>
+          <span class="text-slate-300"><strong>Nutrition</strong> &mdash; calories, macros, water intake</span>
+        </div>
+        <div class="glass p-4 flex items-center gap-3">
+          <i data-lucide="wind" class="w-5 h-5 text-cyan-400 flex-shrink-0"></i>
+          <span class="text-slate-300"><strong>Vitals</strong> &mdash; blood oxygen, respiratory rate, temperature</span>
+        </div>
+        <div class="glass p-4 flex items-center gap-3">
+          <i data-lucide="brain" class="w-5 h-5 text-purple-400 flex-shrink-0"></i>
+          <span class="text-slate-300"><strong>Mindfulness</strong> &mdash; mindful minutes, state of mind</span>
+        </div>
+      </div>
+
+      <!-- Comparison -->
+      <h2>Direct sync vs. other transfer methods</h2>
+      <div class="glass overflow-hidden mb-8">
+        <table class="w-full text-sm">
+          <thead>
+            <tr class="border-b border-white/10">
+              <th class="text-left p-4 text-slate-300 font-semibold">Feature</th>
+              <th class="text-center p-4 text-teal-400 font-semibold">Direct Sync</th>
+              <th class="text-center p-4 text-slate-400 font-semibold">AirDrop</th>
+              <th class="text-center p-4 text-slate-400 font-semibold">iCloud</th>
+            </tr>
+          </thead>
+          <tbody class="text-slate-400">
+            <tr class="border-b border-white/5">
+              <td class="p-4">Export file needed</td>
+              <td class="p-4 text-center text-teal-400 font-bold">No</td>
+              <td class="p-4 text-center">Yes</td>
+              <td class="p-4 text-center">Yes</td>
+            </tr>
+            <tr class="border-b border-white/5">
+              <td class="p-4">Data leaves your network</td>
+              <td class="p-4 text-center text-teal-400 font-bold">No</td>
+              <td class="p-4 text-center">No</td>
+              <td class="p-4 text-center text-rose-400">Yes</td>
+            </tr>
+            <tr class="border-b border-white/5">
+              <td class="p-4">Cloud account required</td>
+              <td class="p-4 text-center text-teal-400 font-bold">No</td>
+              <td class="p-4 text-center">No</td>
+              <td class="p-4 text-center">Yes</td>
+            </tr>
+            <tr class="border-b border-white/5">
+              <td class="p-4">Selective sync</td>
+              <td class="p-4 text-center text-teal-400 font-bold">Yes</td>
+              <td class="p-4 text-center">No (full export)</td>
+              <td class="p-4 text-center">Depends</td>
+            </tr>
+            <tr class="border-b border-white/5">
+              <td class="p-4">Repeat syncs</td>
+              <td class="p-4 text-center text-teal-400 font-bold">One tap</td>
+              <td class="p-4 text-center">Re-export each time</td>
+              <td class="p-4 text-center">Manual upload</td>
+            </tr>
+            <tr>
+              <td class="p-4">Internet required</td>
+              <td class="p-4 text-center text-teal-400 font-bold">No</td>
+              <td class="p-4 text-center">No</td>
+              <td class="p-4 text-center text-rose-400">Yes</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Privacy -->
+      <h2>Privacy and security</h2>
+      <p>Direct sync was designed with a single principle: <strong>your health data should never leave your devices</strong>.</p>
+      <ul>
+        <li>Data transfers <strong>directly between your iPhone and Mac</strong> on your local network.</li>
+        <li>The 6-digit pairing code ensures only your devices can connect.</li>
+        <li><strong>No internet connection is required</strong> during the sync. You can disconnect from the internet entirely.</li>
+        <li>No data is sent to any server, cloud service, or third party at any point.</li>
+        <li>Once paired, future syncs are one-tap &mdash; no code re-entry needed.</li>
+      </ul>
+
+      <!-- FAQ -->
+      <h2>Frequently asked questions</h2>
+
+      <div class="space-y-4 mb-8">
+        <details class="glass p-5 group">
+          <summary class="text-white font-semibold cursor-pointer list-none flex justify-between items-center">
+            How do I sync Apple Health data to my Mac without iCloud?
+            <i data-lucide="chevron-down" class="w-5 h-5 text-slate-400 group-open:rotate-180 transition-transform"></i>
+          </summary>
+          <p class="mt-3 text-slate-400 mb-0">Install the Health Data Export app on iPhone and the Health Data AI Analyzer on Mac. Open the Mac app's Sync tab, enter the IP and pairing code on the iPhone app, and tap Connect. Data transfers directly over your local network.</p>
+        </details>
+
+        <details class="glass p-5 group">
+          <summary class="text-white font-semibold cursor-pointer list-none flex justify-between items-center">
+            Is my Apple Health data private when using WiFi sync?
+            <i data-lucide="chevron-down" class="w-5 h-5 text-slate-400 group-open:rotate-180 transition-transform"></i>
+          </summary>
+          <p class="mt-3 text-slate-400 mb-0">Yes. Data transfers directly between your devices using a secure pairing code. Nothing is uploaded to any server or cloud service. The sync works without an internet connection.</p>
+        </details>
+
+        <details class="glass p-5 group">
+          <summary class="text-white font-semibold cursor-pointer list-none flex justify-between items-center">
+            Do I need to export Apple Health data first?
+            <i data-lucide="chevron-down" class="w-5 h-5 text-slate-400 group-open:rotate-180 transition-transform"></i>
+          </summary>
+          <p class="mt-3 text-slate-400 mb-0">No. Direct sync reads from HealthKit on your iPhone and transfers to the Mac app. No export.xml needed, unlike AirDrop or cloud methods.</p>
+        </details>
+
+        <details class="glass p-5 group">
+          <summary class="text-white font-semibold cursor-pointer list-none flex justify-between items-center">
+            What if my Mac doesn't appear on my iPhone?
+            <i data-lucide="chevron-down" class="w-5 h-5 text-slate-400 group-open:rotate-180 transition-transform"></i>
+          </summary>
+          <p class="mt-3 text-slate-400 mb-0">Ensure both devices are on the same WiFi network. Check your Mac's firewall settings to allow incoming connections. You can also enter the IP address and pairing code manually instead of using automatic discovery.</p>
+        </details>
+
+        <details class="glass p-5 group">
+          <summary class="text-white font-semibold cursor-pointer list-none flex justify-between items-center">
+            How fast is WiFi sync compared to AirDrop?
+            <i data-lucide="chevron-down" class="w-5 h-5 text-slate-400 group-open:rotate-180 transition-transform"></i>
+          </summary>
+          <p class="mt-3 text-slate-400 mb-0">Usually faster, because you only transfer the data categories you select rather than a full 1GB+ export. On 5GHz WiFi or ethernet, syncs typically complete in seconds to a few minutes.</p>
+        </details>
+      </div>
+
+      <!-- Related -->
+      <h2>Next steps</h2>
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        <a class="glass p-5 hover:border-teal-500/40 transition-colors" href="/docs/wifi-sync.html">
+          <div class="flex items-center gap-3">
+            <i data-lucide="book-open" class="w-5 h-5 text-teal-400"></i>
+            <span class="text-white font-semibold">Full sync documentation</span>
+          </div>
+          <p class="text-slate-400 mt-2 mb-0 text-sm">Detailed setup, troubleshooting, and menu bar status.</p>
+        </a>
+        <a class="glass p-5 hover:border-teal-500/40 transition-colors" href="/apple-health-ai/">
+          <div class="flex items-center gap-3">
+            <i data-lucide="brain" class="w-5 h-5 text-purple-400"></i>
+            <span class="text-white font-semibold">AI Analysis</span>
+          </div>
+          <p class="text-slate-400 mt-2 mb-0 text-sm">Analyze your synced data with Claude, ChatGPT, or local LLMs.</p>
+        </a>
+        <a class="glass p-5 hover:border-teal-500/40 transition-colors" href="/export-apple-health-data/">
+          <div class="flex items-center gap-3">
+            <i data-lucide="download" class="w-5 h-5 text-blue-400"></i>
+            <span class="text-white font-semibold">Export guide</span>
+          </div>
+          <p class="text-slate-400 mt-2 mb-0 text-sm">Still prefer the traditional export? Step-by-step guide.</p>
+        </a>
+        <a class="glass p-5 hover:border-teal-500/40 transition-colors" href="/convert-tool/">
+          <div class="flex items-center gap-3">
+            <i data-lucide="file-code-2" class="w-5 h-5 text-green-400"></i>
+            <span class="text-white font-semibold">Convert tool</span>
+          </div>
+          <p class="text-slate-400 mt-2 mb-0 text-sm">Convert health data to CSV, JSON, or Excel.</p>
+        </a>
+      </div>
+
+    </div>
+  </main>
+
+  <!-- Footer CTA -->
+  <div class="border-t border-white/10 py-16">
+    <div class="max-w-2xl mx-auto text-center px-4">
+      <h2 class="text-2xl font-bold text-white mb-4">Ready to sync your health data?</h2>
+      <p class="text-slate-400 mb-8">Download the app and start syncing in under 2 minutes.</p>
+      <a href="https://apps.apple.com/us/app/health-data-export-ai-analyzer/id6749297170" class="inline-flex items-center gap-2 bg-teal-600 text-white font-bold py-4 px-8 rounded-xl hover:bg-teal-700 transition-all shadow-lg shadow-teal-600/20 text-lg">
+        <i data-lucide="download" class="w-6 h-6"></i> Download on the App Store
+      </a>
+    </div>
+  </div>
+
+  <script>lucide.createIcons();</script>
+</body>
+</html>

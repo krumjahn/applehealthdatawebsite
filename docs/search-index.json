@@ -1,0 +1,983 @@
+[
+  {
+    "title": "AI Analysis",
+    "url": "/docs/ai-analysis.html",
+    "intro": "Use AI to find patterns, trends, and anomalies in your Apple Health data. The Mac app supports both cloud and local providers, so you can choose the balance of quality, speed, and privacy that works f",
+    "sections": [
+      {
+        "heading": "Supported AI Providers",
+        "snippet": "The current Mac app supports these providers out of the box. Provider Type Cost Best For OpenAI Cloud Pay-per-use Strong general analysis, large context windows Anthropic Cloud Pay-per-use Nuanced hea"
+      },
+      {
+        "heading": "Setting Up Each Provider",
+        "snippet": ""
+      },
+      {
+        "heading": "OpenAI",
+        "snippet": "Go to platform.openai.com/api-keys and create an API key. In the Mac app, open Settings and select OpenAI as your default provider. Paste your API key into the field provided. Choose a model available"
+      },
+      {
+        "heading": "Anthropic (Claude)",
+        "snippet": "Go to console.anthropic.com/settings/keys and create an API key. In the Mac app, open Settings and select Anthropic as your provider. Paste your API key. Choose a model available in the app."
+      },
+      {
+        "heading": "OpenRouter",
+        "snippet": "Go to openrouter.ai/keys and create an API key. In the Mac app, open Settings and select OpenRouter as your provider. Paste your API key. Choose from any model you have access to through OpenRouter."
+      },
+      {
+        "heading": "Ollama (Local, Free)",
+        "snippet": "Install Ollama from ollama.com . Pull a model such as ollama pull llama3 . Make sure Ollama is running on your Mac. In the Mac app, open Settings and select Ollama as your provider. The app auto-detec"
+      },
+      {
+        "heading": "LM Studio (Local, Free)",
+        "snippet": "Download LM Studio from lmstudio.ai . Open LM Studio and download a model (e.g., Llama 3, Mistral, Phi-3). Start the local server in LM Studio (it runs on http://localhost:1234 by default). In the Mac"
+      },
+      {
+        "heading": "What AI Analysis Can Find",
+        "snippet": "Once you have a provider configured, you can run analysis on your imported Apple Health data. The AI examines your metrics and produces insights that go far beyond what the Health app shows you."
+      },
+      {
+        "heading": "Trends",
+        "snippet": "The AI identifies upward and downward trends in your metrics over time. For example, it might notice that your resting heart rate has been gradually declining over the past three months, or that your "
+      },
+      {
+        "heading": "Anomalies",
+        "snippet": "Unusual data points get flagged automatically. A sudden spike in resting heart rate, an unusually short sleep night, or a gap in workout data can all indicate something worth investigating."
+      },
+      {
+        "heading": "Correlations",
+        "snippet": "The AI looks for relationships between different metrics. Does your sleep quality improve on days you walk more than 8,000 steps? Does your HRV drop after late-night workouts? These cross-metric patte"
+      },
+      {
+        "heading": "Suggestions",
+        "snippet": "Based on the patterns it finds, the AI generates actionable recommendations. These might include adjusting your bedtime, modifying your workout schedule, or investigating a metric that has changed une"
+      },
+      {
+        "heading": "Privacy Considerations",
+        "snippet": "Your choice of provider directly affects where your health data is processed. Provider Type Data Location Privacy Level Cloud (OpenAI, Anthropic, OpenRouter) Data is sent to the provider's servers for"
+      },
+      {
+        "heading": "Example Analysis Output",
+        "snippet": "Here is what a typical AI analysis response looks like when you ask for a health summary: Health Summary — Last 7 Days ============================ Steps Average: 8,432/day (up 12% from prior week) Be"
+      },
+      {
+        "heading": "Next Steps",
+        "snippet": "Browse the Prompt Library for ready-to-use prompts that produce structured analysis. Set up Workflows & Automation to get daily and weekly analysis without manual effort. Learn about the OpenClaw Inte"
+      }
+    ]
+  },
+  {
+    "title": "API Reference",
+    "url": "/docs/api-reference.html",
+    "intro": "The Health Data AI Analyzer Mac app exposes a read-only localhost API on http://127.0.0.1:8765 . Use it to build OpenClaw integrations, Claude Code workflows, Mac Shortcuts, and custom scripts that re",
+    "sections": [
+      {
+        "heading": "Overview",
+        "snippet": "The Mac app reads your imported Apple Health dataset and serves compact summaries over 127.0.0.1 . The API uses the app's selected integration dataset. Once you import data or choose Use for Integrati"
+      },
+      {
+        "heading": "Authentication",
+        "snippet": "These routes are public on loopback and do not require a token: GET /openclaw/status GET /openclaw/daily-brief GET /status All other routes require the X-Health-Analyzer-Token header. The token file p"
+      },
+      {
+        "heading": "Endpoints",
+        "snippet": ""
+      },
+      {
+        "heading": "GET /openclaw/status",
+        "snippet": "Readiness endpoint for OpenClaw and local AI integrations. Returns app version, whether a dataset is loaded, last import and sync timestamps, and available metrics. No authentication required. curl ht"
+      },
+      {
+        "heading": "GET /openclaw/daily-brief?date=YYYY-MM-DD",
+        "snippet": "Compact Apple Health daily summary for AI assistants and scripts. Returns steps, sleep, workouts, heart rate, HRV, signals, sync metadata, and a human-readable context summary. No authentication requi"
+      },
+      {
+        "heading": "GET /status",
+        "snippet": "General local API status endpoint for host tools and debugging. Returns app and server version, dataset state, import/sync timestamps, and the token path for protected endpoints. No authentication req"
+      },
+      {
+        "heading": "GET /summary",
+        "snippet": "Compact human-readable summary of the selected integration dataset. Requires X-Health-Analyzer-Token . curl -H \"X-Health-Analyzer-Token: YOUR_TOKEN\" http://127.0.0.1:8765/summary"
+      },
+      {
+        "heading": "GET /steps/daily?start=YYYY-MM-DD&end=YYYY-MM-DD",
+        "snippet": "Normalized daily step counts for a date range. Requires X-Health-Analyzer-Token . curl -H \"X-Health-Analyzer-Token: YOUR_TOKEN\" \\ \"http://127.0.0.1:8765/steps/daily?start=2026-03-13&end=2026-03-19\" Ex"
+      },
+      {
+        "heading": "GET /sleep/summary?start=YYYY-MM-DD&end=YYYY-MM-DD",
+        "snippet": "Normalized daily sleep summaries for a date range. Requires X-Health-Analyzer-Token . curl -H \"X-Health-Analyzer-Token: YOUR_TOKEN\" \\ \"http://127.0.0.1:8765/sleep/summary?start=2026-03-13&end=2026-03-"
+      },
+      {
+        "heading": "GET /workouts/summary?start=YYYY-MM-DD&end=YYYY-MM-DD",
+        "snippet": "Workout totals, minutes, and per-session summaries for a date range. Requires X-Health-Analyzer-Token . curl -H \"X-Health-Analyzer-Token: YOUR_TOKEN\" \\ \"http://127.0.0.1:8765/workouts/summary?start=20"
+      },
+      {
+        "heading": "GET /heart-rate/trends?start=YYYY-MM-DD&end=YYYY-MM-DD",
+        "snippet": "Average heart rate, resting heart rate, and HRV day series for a date range. Requires X-Health-Analyzer-Token . curl -H \"X-Health-Analyzer-Token: YOUR_TOKEN\" \\ \"http://127.0.0.1:8765/heart-rate/trends"
+      },
+      {
+        "heading": "Error Handling",
+        "snippet": "All endpoints return a consistent error format when something goes wrong: { \"ok\": false, \"error\": \"No dataset loaded. Import Apple Health data first.\", \"code\": \"NO_DATASET\" } Common error scenarios: H"
+      },
+      {
+        "heading": "Rate Limits and Limitations",
+        "snippet": "No formal rate limit -- the API runs on localhost, so there is no external throttling. However, the Mac app processes requests on its main thread, so extremely rapid polling (e.g., multiple requests p"
+      },
+      {
+        "heading": "Use Cases",
+        "snippet": ""
+      },
+      {
+        "heading": "OpenClaw",
+        "snippet": "Install the apple-health-export-analyzer ClawHub skill to give OpenClaw access to /openclaw/status and /openclaw/daily-brief . See the OpenClaw Integration guide for setup steps and example prompts."
+      },
+      {
+        "heading": "Claude Code",
+        "snippet": "Use curl from Claude Code to read health data directly into your development workflow: curl -s -H \"X-Health-Analyzer-Token: $(cat ~/.health-analyzer/token)\" \\ \"http://127.0.0.1:8765/steps/daily?start="
+      },
+      {
+        "heading": "Mac Shortcuts",
+        "snippet": "Use the Get Contents of URL action in Shortcuts to call any endpoint. Pass the token in the X-Health-Analyzer-Token header and parse the JSON response to build notifications, widgets, or automations."
+      },
+      {
+        "heading": "Custom Scripts",
+        "snippet": "Any language that can make HTTP requests works with this API. Python, Node.js, shell scripts, and Swift are all supported. Example in Python: import requests token = open(\"~/.health-analyzer/token\").r"
+      }
+    ]
+  },
+  {
+    "title": "Apple Health Backup",
+    "url": "/docs/backup.html",
+    "intro": "Your Apple Health data represents years of health, fitness, and wellness history. Losing it is preventable. This guide explains why you need an independent backup strategy and how to set one up.",
+    "sections": [
+      {
+        "heading": "Why Backup Your Apple Health Data?",
+        "snippet": "Apple Health stores an enormous amount of data: step counts, heart rate, sleep, workouts, lab results, medications, and more. Much of this data is collected passively over years and cannot be recreate"
+      },
+      {
+        "heading": "The Problem with iCloud Alone",
+        "snippet": "An iCloud backup of your Health data is not the same as a true backup. Here is why: Locked-in ecosystem. Your Health data is tied to your Apple ID. You cannot access it outside of an iPhone restore. T"
+      },
+      {
+        "heading": "iCloud Backup vs. Manual Export Backup",
+        "snippet": "Feature iCloud Backup Manual Export Backup Control Controlled by Apple You own the file Accessibility Only accessible via iPhone restore Open on any computer Format Proprietary, unreadable Universal ("
+      },
+      {
+        "heading": "How to Create a Backup",
+        "snippet": "Creating an independent backup of your Apple Health data is straightforward. Follow these steps: Export from your iPhone. Open the Health app, tap your profile picture in the top right, scroll down, a"
+      },
+      {
+        "heading": "Who Needs Dedicated Backups?",
+        "snippet": "Everyone with an iPhone benefits from an independent backup, but some groups have an especially strong need: Device switchers. If you are moving from iPhone to Android, or upgrading to a new device, a"
+      },
+      {
+        "heading": "Backup Best Practices",
+        "snippet": ""
+      },
+      {
+        "heading": "Set a regular schedule",
+        "snippet": "Export your Health data on a recurring basis. Once a month is a good starting point. Quarterly works for less active trackers. Set a calendar reminder so you do not forget."
+      },
+      {
+        "heading": "Store in multiple locations",
+        "snippet": "Follow the 3-2-1 rule: keep at least three copies, on two different types of storage, with one stored off-site. For example, keep one copy on your Mac, one on an external drive, and one in cloud stora"
+      },
+      {
+        "heading": "Verify your exports",
+        "snippet": "After exporting, open the zip file and confirm it contains a valid export.xml . You can use the online converter to quickly verify the file is readable and contains your expected data."
+      },
+      {
+        "heading": "Use meaningful file names",
+        "snippet": "Name your exports with the date so you can easily identify versions later. For example: health-export-2026-04-01.zip ."
+      },
+      {
+        "heading": "Do not rely on a single method",
+        "snippet": "iCloud backup and manual export serve different purposes. Use both. iCloud provides convenience for device restores. Manual exports provide independence and long-term safety."
+      },
+      {
+        "heading": "Get Started",
+        "snippet": "The easiest way to create your first backup is with the Health Data Export app. It handles the export process and gives you files in universal formats. Download on the App Store"
+      }
+    ]
+  },
+  {
+    "title": "Changelog",
+    "url": "/docs/changelog.html",
+    "intro": "A plain-language timeline of updates to the iOS and Mac app. Most recent first.",
+    "sections": []
+  },
+  {
+    "title": "Convert Apple Health XML",
+    "url": "/docs/convert-tool.html",
+    "intro": "A free, browser-based tool that converts your Apple Health export.xml file into CSV, JSON, or Excel (XLSX) format. No sign-up required, no file size limits, and completely private.",
+    "sections": [
+      {
+        "heading": "How to Use the Converter",
+        "snippet": "Converting your Apple Health data takes less than a minute. Follow these steps: Export your Apple Health data from your iPhone. Open the Health app, tap your profile picture, then tap \"Export All Heal"
+      },
+      {
+        "heading": "Output Formats Explained",
+        "snippet": "The converter supports three output formats. Choose the one that best fits your workflow."
+      },
+      {
+        "heading": "CSV (Comma-Separated Values)",
+        "snippet": "Best for spreadsheets and tabular analysis. Opens directly in Microsoft Excel, Google Sheets, Apple Numbers, or any data tool. The output is a flat table with one row per health record and the followi"
+      },
+      {
+        "heading": "JSON (JavaScript Object Notation)",
+        "snippet": "Best for programming, APIs, and AI tools. The output is a structured array of objects, where each object represents a single health record. JSON is the standard input format for Python scripts, JavaSc"
+      },
+      {
+        "heading": "Excel (XLSX)",
+        "snippet": "A real Excel spreadsheet file with proper column headers, formatting, and filter-ready structure. Works with Microsoft Excel, Google Sheets, and Apple Numbers. Ideal for sorting, charting, and sharing"
+      },
+      {
+        "heading": "Data Fields Extracted",
+        "snippet": "All three output formats extract the same set of fields from each Record element in your Apple Health XML: Field Description type The health metric identifier (e.g., HKQuantityTypeIdentifierStepCount "
+      },
+      {
+        "heading": "Tips for Large Files",
+        "snippet": "Apple Health export files can be very large, sometimes exceeding 1 GB for users with years of data. Here are a few things to keep in mind: Processing time depends on your device. A modern Mac will han"
+      },
+      {
+        "heading": "Dashboard Integration",
+        "snippet": "When you use the converter on the website, the converted data is also made available to the local dashboard at /dashboard/ . This lets you visualize your health trends immediately after conversion wit"
+      },
+      {
+        "heading": "Try It Now",
+        "snippet": "Ready to convert your data? Head to the live converter tool. Open the Converter"
+      }
+    ]
+  },
+  {
+    "title": "Export Apple Health Data",
+    "url": "/docs/export-health-data.html",
+    "intro": "Your Apple Health data is immensely valuable, but it is locked inside Apple's ecosystem. This guide covers every method to export it so you can analyze trends, create backups, share data with professi",
+    "sections": [
+      {
+        "heading": "Why Export Your Apple Health Data?",
+        "snippet": "Having a portable copy of your health data lets you: Perform custom analysis — Go beyond the Health app's built-in charts. Use spreadsheets, scripts, or AI tools to find correlations and trends unique"
+      },
+      {
+        "heading": "Method 1: Using the Health Data Export App (Recommended)",
+        "snippet": "The dedicated iOS app provides the fastest path to clean, analysis-ready data. It reads directly from HealthKit and exports in your choice of format without any post-processing required."
+      },
+      {
+        "heading": "How to export",
+        "snippet": "Open Health Data Export on your iPhone. Select the data categories you want (steps, heart rate, sleep, workouts, etc.) or tap Select All . Choose your date range (last 30 days, last year, or all time)"
+      },
+      {
+        "heading": "Method 2: Apple's Built-In Export",
+        "snippet": "Apple provides a native export function that produces a complete dump of all your Health data. The output is comprehensive but not user-friendly."
+      },
+      {
+        "heading": "How to export using the Health app",
+        "snippet": "Open the Health app on your iPhone. Tap your profile icon in the top-right corner. Scroll to the bottom and tap Export All Health Data . Confirm by tapping Export and wait for the process to complete."
+      },
+      {
+        "heading": "What you get",
+        "snippet": "Inside the ZIP file is export.xml , a large and complex XML file containing every health record on your device. This file is typically hundreds of megabytes and is difficult to open in standard tools."
+      },
+      {
+        "heading": "Comparison of Export Methods",
+        "snippet": "Feature Health Data Export App Apple's Built-In Export Output format Clean CSV, JSON, or XML Raw XML only Ease of use One-tap export with format selection Multi-step, no format options Time to usable "
+      },
+      {
+        "heading": "Transfer Options",
+        "snippet": "Once your data is exported, you need to get it to your Mac (or another device) for analysis. Here are the available methods:"
+      },
+      {
+        "heading": "AirDrop (fastest)",
+        "snippet": "Tap the Share button after export and select your Mac from the AirDrop targets. The file arrives in your Downloads folder within seconds. Both devices must have Bluetooth and Wi-Fi enabled."
+      },
+      {
+        "heading": "Wi-Fi Sync (most seamless)",
+        "snippet": "If both your iPhone and Mac are on the same network, the Health Data Export app can send data directly to the Mac app without creating any intermediate files. See the Wi-Fi Sync guide for setup instru"
+      },
+      {
+        "heading": "iCloud Drive",
+        "snippet": "Save the exported file to iCloud Drive from the Share Sheet. It will appear in the iCloud Drive folder on your Mac within moments. This method works well when your devices are not physically nearby."
+      },
+      {
+        "heading": "Google Drive, Dropbox, or other cloud storage",
+        "snippet": "If you prefer third-party cloud storage, save the file to your chosen service from the Share Sheet. Open it on your Mac from the corresponding app or folder."
+      },
+      {
+        "heading": "Supported Export Formats",
+        "snippet": "The Health Data Export app supports three output formats. Choose the one that best fits your workflow: Format Best For Details CSV Spreadsheets and BI tools Opens directly in Excel, Google Sheets, Num"
+      },
+      {
+        "heading": "Next Steps",
+        "snippet": "With your data exported and transferred, you are ready to put it to work:"
+      },
+      {
+        "heading": "Convert Tool",
+        "snippet": ""
+      },
+      {
+        "heading": "AI Analysis",
+        "snippet": ""
+      },
+      {
+        "heading": "Wi-Fi Sync",
+        "snippet": ""
+      },
+      {
+        "heading": "Getting Started",
+        "snippet": ""
+      }
+    ]
+  },
+  {
+    "title": "Getting Started",
+    "url": "/docs/getting-started.html",
+    "intro": "This guide walks you through the current setup: install the iPhone app, choose a sync or export path, import your data on Mac, and run your first analysis.",
+    "sections": [
+      {
+        "heading": "Overview",
+        "snippet": "The product now has two apps that work together: iPhone app — reads Apple Health data, exports XML or JSON when needed, syncs to your chosen destination, and powers the Home Screen widget. Mac app — i"
+      },
+      {
+        "heading": "Prerequisites",
+        "snippet": "Requirement Details iPhone iOS 16 or later Mac macOS 13 or later Apple Health data At least a few days of data such as steps, sleep, heart rate, or workouts Optional shared network Only required if yo"
+      },
+      {
+        "heading": "Step 1: Install the iPhone App",
+        "snippet": "1 Download Health Data Export & AI Analyzer from the App Store on your iPhone. Download from the App Store Grant Health access when prompted so the app can read your Apple Health data locally."
+      },
+      {
+        "heading": "Step 2: Choose Your iPhone Path",
+        "snippet": "2 Path Best For Manual export One-off XML export to AirDrop, Files, or another share destination Sync Ongoing updates through iCloud, Google Drive, Dropbox, Direct to Mac, REST API, Home Assistant, or"
+      },
+      {
+        "heading": "Step 3: Export or Sync from iPhone",
+        "snippet": "3 Manual export: Open the Export tab. Choose your options. Export an XML file for the Mac app. Send it with AirDrop, Files, or another share target. Sync: Open the Sync tab. Pick your provider and com"
+      },
+      {
+        "heading": "Step 4: Get the Data onto Your Mac",
+        "snippet": "4 AirDrop or Files: import the XML file directly on Mac. Direct to Mac: the iPhone app sends the export directly to the Mac sync workflow. Cloud or file providers: open the Mac app’s Sync tab and pull"
+      },
+      {
+        "heading": "Step 5: Import into the Mac App",
+        "snippet": "5 If you already have an XML file, drag and drop it into the Mac app. If you used sync, open the Mac Sync tab and download the latest XML export. Let the Mac app validate and open the dataset."
+      },
+      {
+        "heading": "Step 6: Run Your First Analysis",
+        "snippet": "6 Review the built-in charts and summaries. Optionally open AI Analysis and choose a provider. Run an AI summary or ask a more specific question. The current Mac app supports OpenAI, Anthropic, OpenRo"
+      },
+      {
+        "heading": "Step 7: Optional Next Steps",
+        "snippet": "Add the widget on iPhone for Quick Sync, Quick Export, or an Open Sync shortcut. Enable the local API on Mac if you want OpenClaw, Claude Code, scripts, or Shortcuts to read your selected dataset. Sav"
+      },
+      {
+        "heading": "What’s Next",
+        "snippet": ""
+      },
+      {
+        "heading": "Sync Setup",
+        "snippet": ""
+      },
+      {
+        "heading": "Home Screen Widget",
+        "snippet": ""
+      },
+      {
+        "heading": "OpenClaw Integration",
+        "snippet": ""
+      },
+      {
+        "heading": "API Reference",
+        "snippet": ""
+      }
+    ]
+  },
+  {
+    "title": "Documentation",
+    "url": "/docs/",
+    "intro": "Welcome to the documentation for Health Data Export & AI Analyzer — the privacy-first toolkit for exporting, syncing, importing, converting, and analyzing your Apple Health data across iPhone and Mac.",
+    "sections": [
+      {
+        "heading": "What Can You Do?",
+        "snippet": ""
+      },
+      {
+        "heading": "Getting Started",
+        "snippet": ""
+      },
+      {
+        "heading": "iPhone-to-Mac Sync",
+        "snippet": ""
+      },
+      {
+        "heading": "Convert Tool",
+        "snippet": ""
+      },
+      {
+        "heading": "OpenClaw Integration",
+        "snippet": ""
+      },
+      {
+        "heading": "API Reference",
+        "snippet": ""
+      },
+      {
+        "heading": "AI Analysis",
+        "snippet": ""
+      },
+      {
+        "heading": "How the Product Works Today",
+        "snippet": "iPhone app: export Apple Health data manually, sync it to a provider, and configure the Home Screen widget. Mac app: import Apple Health XML, download synced exports from the Mac Sync tab, run analysi"
+      },
+      {
+        "heading": "Recommended Paths",
+        "snippet": ""
+      },
+      {
+        "heading": "Fastest manual path",
+        "snippet": "Export XML on iPhone, AirDrop it to Mac, then import and analyze."
+      },
+      {
+        "heading": "Best ongoing setup",
+        "snippet": "Configure sync on iPhone, use the widget for quick refreshes, then pull the latest export from the Mac Sync tab."
+      },
+      {
+        "heading": "Best for integrations",
+        "snippet": "Import on Mac, select a dataset for integrations, enable the local API, then use OpenClaw or scripts."
+      },
+      {
+        "heading": "Quick Links",
+        "snippet": "Download from the App Store Open-source tools on GitHub Latest updates and changelog ClawHub Skill"
+      }
+    ]
+  },
+  {
+    "title": "Mac App Overview",
+    "url": "/docs/mac-app.html",
+    "intro": "The Mac app is your central hub for importing Apple Health XML, reviewing charts, running AI analysis, and exposing a local API for OpenClaw and your own tools.",
+    "sections": [
+      {
+        "heading": "Key Features",
+        "snippet": ""
+      },
+      {
+        "heading": "Multi-Format Import",
+        "snippet": ""
+      },
+      {
+        "heading": "AI Analysis",
+        "snippet": ""
+      },
+      {
+        "heading": "Local API",
+        "snippet": ""
+      },
+      {
+        "heading": "OpenClaw",
+        "snippet": ""
+      },
+      {
+        "heading": "Sync Import",
+        "snippet": ""
+      },
+      {
+        "heading": "Menu Bar Status",
+        "snippet": ""
+      },
+      {
+        "heading": "System Requirements",
+        "snippet": "macOS 13 Ventura or later Apple silicon (M1 or later) or Intel Mac An Apple Health XML export, or the iPhone app configured for sync"
+      },
+      {
+        "heading": "Installation",
+        "snippet": "Download the Mac app from the App Store . Open it and you are ready to import your first health data export."
+      },
+      {
+        "heading": "App Sections",
+        "snippet": ""
+      },
+      {
+        "heading": "New",
+        "snippet": "Import a fresh Apple Health XML file and start a new analysis."
+      },
+      {
+        "heading": "Sync",
+        "snippet": "The Mac sync workflow lives in the dedicated Sync tab. Use it to review available exports, refresh the list, and download the latest XML export into analysis."
+      },
+      {
+        "heading": "Previous",
+        "snippet": "Reopen saved analyses and reuse one as the active dataset for integrations when needed."
+      },
+      {
+        "heading": "Results and AI Analysis",
+        "snippet": "Once a dataset is open, review charts and summaries, then run AI analysis using OpenAI, Anthropic, OpenRouter, Ollama, or LM Studio."
+      },
+      {
+        "heading": "Settings",
+        "snippet": "Manage AI providers, local API settings, display preferences, and other Mac-side app options. The Mac app does not use Settings as the main sync-management surface."
+      },
+      {
+        "heading": "Getting Data into the Mac App",
+        "snippet": "Use one of these Mac-side paths: Method How It Works Best For Mac Sync tab Pull the latest XML export from your configured iPhone sync workflow Regular ongoing updates AirDrop Export from the iPhone a"
+      },
+      {
+        "heading": "Related Pages",
+        "snippet": "iPhone-to-Mac Sync AI Analysis API Reference OpenClaw Integration Convert XML to CSV/JSON/XLSX Getting Started"
+      }
+    ]
+  },
+  {
+    "title": "OpenClaw Integration",
+    "url": "/docs/openclaw.html",
+    "intro": "Connect OpenClaw to the Mac app’s local API and get daily health briefs, trend analysis, and actionable suggestions from your selected Apple Health dataset.",
+    "sections": [
+      {
+        "heading": "What is OpenClaw + Apple Health?",
+        "snippet": "Your iPhone collects an incredible amount of health data every day -- steps, sleep duration, heart rate, HRV, workouts, and more. But Apple Health is better at collecting data than explaining it. You "
+      },
+      {
+        "heading": "How It Works",
+        "snippet": "The integration has three components that connect locally on your Mac: Health Data AI Analyzer (Mac app) -- imports your Apple Health export and runs a read-only API on http://127.0.0.1:8765 . ClawHub"
+      },
+      {
+        "heading": "Setup Steps",
+        "snippet": ""
+      },
+      {
+        "heading": "Step 1: Install the Mac App",
+        "snippet": "Download Health Data AI Analyzer from the Mac App Store. It runs natively on macOS and processes everything locally."
+      },
+      {
+        "heading": "Step 2: Get a Dataset into the Mac App",
+        "snippet": "Import an Apple Health XML file into the Mac app, or use the iPhone sync workflow and pull the latest XML export from the Mac Sync tab. For a step-by-step walkthrough, see Getting Started ."
+      },
+      {
+        "heading": "Step 3: Install the ClawHub Skill",
+        "snippet": "Add the apple-health-export-analyzer skill from ClawHub. This teaches OpenClaw how to read from your local health API. The current skill version is apple-health-export-analyzer@1.0.6 ."
+      },
+      {
+        "heading": "Step 4: Enable the Local API and Choose an Integration Dataset",
+        "snippet": "In the Mac app, open Settings and turn on Enable Local API for OpenClaw and scripts . If needed, select the dataset you want to use for integrations."
+      },
+      {
+        "heading": "Step 5: Open OpenClaw and Ask for a Daily Brief",
+        "snippet": "Open OpenClaw and ask for your daily health brief. The AI reads from the Mac app’s localhost API and returns a structured summary with suggestions. Try this prompt to get started: Use the \"health-anal"
+      },
+      {
+        "heading": "What You Get: The Daily Brief",
+        "snippet": "Each daily brief is structured around four sections that give you a complete picture of your day: Section Description Status Current numbers for steps, sleep, workouts, heart rate, and HRV. What Chang"
+      },
+      {
+        "heading": "Daily Brief Data Fields",
+        "snippet": "The daily brief JSON response includes these fields: Field Type Description steps object Current step count, 7-day baseline, and delta vs. baseline. sleep object Sleep hours (or null if missing) and 7"
+      },
+      {
+        "heading": "Example Response",
+        "snippet": "{ \"ok\": true, \"success\": true, \"summary\": \"Daily Apple Health brief from Health Data AI Analyzer.\", \"data\": { \"date\": \"2026-03-19\", \"steps\": { \"value\": 2444, \"baseline_7d\": 10004.57, \"delta_vs_baselin"
+      },
+      {
+        "heading": "Example Prompts",
+        "snippet": "Copy any of these prompts and paste them directly into OpenClaw. For a full collection, see the prompt library ."
+      },
+      {
+        "heading": "Daily Brief",
+        "snippet": "Use the \"health-analyzer-mac-local\" skill for this request. Give me my daily health brief for today and 3 suggestions."
+      },
+      {
+        "heading": "Specific Date",
+        "snippet": "Use the \"health-analyzer-mac-local\" skill for this request. Give me my daily health brief for 2026-03-19 and 3 suggestions for that day."
+      },
+      {
+        "heading": "Week in Review",
+        "snippet": "Use the \"health-analyzer-mac-local\" skill for this request. Pull my daily brief for the last 7 days and summarize trends in my steps, sleep, and activity."
+      },
+      {
+        "heading": "Follow-Up Questions",
+        "snippet": "Once OpenClaw has your health data in context, you can ask natural follow-up questions: \"Why were my steps so low on Wednesday?\" \"Compare this week to last week.\" \"Which days did I miss workouts?\" \"Wh"
+      },
+      {
+        "heading": "Privacy",
+        "snippet": "This integration is built around a simple rule: your health data stays on your Mac. Local processing -- the Mac app processes your imported Apple Health data entirely on your machine. Nothing is sent "
+      },
+      {
+        "heading": "Current Skill Version",
+        "snippet": "The current ClawHub skill version is apple-health-export-analyzer@1.0.6 . You can view the skill definition and install it from ClawHub ."
+      }
+    ]
+  },
+  {
+    "title": "Prompt Library",
+    "url": "/docs/prompts.html",
+    "intro": "Copy-paste prompts designed for OpenClaw and other AI tools. Each prompt is built to produce consistent, actionable outputs from your local Apple Health dataset. These assume your health export is alr",
+    "sections": [
+      {
+        "heading": "Prompt Prefix",
+        "snippet": "Start every OpenClaw prompt with this prefix. It tells OpenClaw to route the request through the local analyzer API on your Mac: Use the \"health-analyzer-mac-local\" skill for this request. You can omi"
+      },
+      {
+        "heading": "Daily Brief",
+        "snippet": "A short morning check-in that covers your key metrics and gives you actionable suggestions for the day. Use the \"health-analyzer-mac-local\" skill for this request. Give me my daily health brief for to"
+      },
+      {
+        "heading": "Detailed daily brief",
+        "snippet": "If you want more granular output with specific metric breakdowns: Use the \"health-analyzer-mac-local\" skill for this request. Give me a detailed daily health brief for today. Include: - Steps vs. my 3"
+      },
+      {
+        "heading": "Weekly Review",
+        "snippet": "A weekly summary that compares the past seven days against the prior week and produces a scorecard. Use the \"health-analyzer-mac-local\" skill for this request. Pull my daily brief for the last 7 days "
+      },
+      {
+        "heading": "Monthly review",
+        "snippet": "Expand the window to 30 days for a broader trend analysis: Use the \"health-analyzer-mac-local\" skill for this request. Summarize the last 30 days of health data. Compare weeks 1-2 vs. weeks 3-4. Highl"
+      },
+      {
+        "heading": "Sleep Analysis",
+        "snippet": "Prompts focused on sleep consistency, bedtime patterns, and optimization. Use the \"health-analyzer-mac-local\" skill for this request. For the last 14 days, summarize my sleep consistency. Flag nights "
+      },
+      {
+        "heading": "Sleep and workout correlation",
+        "snippet": "Use the \"health-analyzer-mac-local\" skill for this request. Compare my sleep data with my workout data for the last 14 days. Does late-evening exercise (after 7 PM) correlate with lower sleep duration"
+      },
+      {
+        "heading": "Recovery (HRV / Resting HR)",
+        "snippet": "Track your recovery trend using heart rate variability and resting heart rate data. Use the \"health-analyzer-mac-local\" skill for this request. For the last 14 days, summarize my recovery trend using "
+      },
+      {
+        "heading": "Recovery readiness check",
+        "snippet": "Use the \"health-analyzer-mac-local\" skill for this request. Based on my HRV and resting heart rate over the last 3 days, am I recovered enough for a hard workout today? Compare to my 30-day baseline a"
+      },
+      {
+        "heading": "Training Load",
+        "snippet": "Monitor your workout volume and intensity to avoid overtraining. Use the \"health-analyzer-mac-local\" skill for this request. Summarize my workouts for the last 7 days and compare to my baseline. If I'"
+      },
+      {
+        "heading": "Workout consistency report",
+        "snippet": "Use the \"health-analyzer-mac-local\" skill for this request. For the last 30 days, how many days did I work out? What types of workouts? Calculate my average weekly workout frequency and total active c"
+      },
+      {
+        "heading": "Trend Comparison",
+        "snippet": "Compare different time periods to understand long-term changes in your health. Use the \"health-analyzer-mac-local\" skill for this request. Compare my health metrics from the last 30 days to the 30 day"
+      },
+      {
+        "heading": "Year-over-year comparison",
+        "snippet": "Use the \"health-analyzer-mac-local\" skill for this request. Compare my average daily metrics for this month vs. the same month last year. Include steps, sleep, resting heart rate, and active energy bu"
+      },
+      {
+        "heading": "Tips for Writing Custom Prompts",
+        "snippet": "You can write your own prompts beyond what is listed here. Follow these guidelines for the best results: Always include the skill prefix when using OpenClaw so the request is routed to your local data"
+      }
+    ]
+  },
+  {
+    "title": "Dropbox Sync",
+    "url": "/docs/sync-dropbox.html",
+    "intro": "Automatically upload your Apple Health export to a Dropbox folder on every sync. Supports timestamped files (builds a history) or stable naming (always overwrites the same file).",
+    "sections": [
+      {
+        "heading": "Prerequisites",
+        "snippet": "Health Data Export app (iPhone) A Dropbox account A Dropbox access token (generated at dropbox.com/developers/apps )"
+      },
+      {
+        "heading": "Setup",
+        "snippet": "Open the app → Settings → Sync Tap the provider selector and choose Dropbox Enter your folder path (e.g. /HealthData/ ) — the folder must already exist in Dropbox Paste your access token — the app sto"
+      },
+      {
+        "heading": "File Naming Modes",
+        "snippet": "Mode Behaviour Best for Timestamped Creates a new file on each sync, e.g. health-export-2026-04-13.json Building a historical archive Stable Overwrites the same file every time, e.g. health-export.jso"
+      },
+      {
+        "heading": "What Gets Uploaded",
+        "snippet": "Steps (daily totals) Sleep (duration + stages) Heart Rate HRV (SDNN) Workouts Weight VO2 Max"
+      },
+      {
+        "heading": "Troubleshooting",
+        "snippet": "\"Upload failed: 401\" — Token is expired or invalid. Regenerate it at dropbox.com/developers/apps . \"Invalid folder path\" — The folder must exist in Dropbox before syncing. Create it first. Token not s"
+      }
+    ]
+  },
+  {
+    "title": "Home Assistant Sync",
+    "url": "/docs/sync-home-assistant.html",
+    "intro": "Push Apple Health metrics directly to Home Assistant as sensor states. Each metric becomes a sensor.<prefix>_<metric> entity you can use in dashboards, automations, and Lovelace cards.",
+    "sections": [
+      {
+        "heading": "Prerequisites",
+        "snippet": "Health Data Export app (iPhone) Home Assistant instance accessible from your iPhone (local network or Nabu Casa) A long-lived access token from Home Assistant"
+      },
+      {
+        "heading": "Setup",
+        "snippet": "Open the app → Settings → Sync Tap the provider selector and choose Home Assistant Enter your Home Assistant URL (e.g. http://homeassistant.local:8123 or your Nabu Casa URL) Generate a long-lived acce"
+      },
+      {
+        "heading": "Sensor Reference",
+        "snippet": "Entity ID State Unit Attributes sensor.<prefix>_steps daily step count steps friendly_name, source sensor.<prefix>_sleep sleep duration hours friendly_name, unit_of_measurement sensor.<prefix>_resting"
+      },
+      {
+        "heading": "Example Automation",
+        "snippet": "automation: - alias: \"Recovery Mode when Sleep < 6h\" trigger: platform: state entity_id: sensor.health_sleep condition: condition: numeric_state entity_id: sensor.health_sleep below: 6 action: service"
+      },
+      {
+        "heading": "Troubleshooting",
+        "snippet": "\"Connection refused\" — Check your HA URL. Must be reachable from the iPhone (same network, or use Nabu Casa remote access). \"401 Unauthorized\" — Token is invalid or expired. Generate a new long-lived "
+      }
+    ]
+  },
+  {
+    "title": "Nextcloud / WebDAV Sync",
+    "url": "/docs/sync-nextcloud.html",
+    "intro": "Upload your Apple Health exports to your own Nextcloud server or any WebDAV-compatible storage. Your data never touches a third-party cloud — it goes directly to your infrastructure.",
+    "sections": [
+      {
+        "heading": "Compatible Servers",
+        "snippet": "Nextcloud ownCloud Synology DSM (WebDAV enabled) Any server running Caddy or nginx with WebDAV Any standard WebDAV endpoint"
+      },
+      {
+        "heading": "Prerequisites",
+        "snippet": "Health Data Export app (iPhone) A Nextcloud/WebDAV server with a folder already created Your Nextcloud username and an app password (not your login password)"
+      },
+      {
+        "heading": "Setup",
+        "snippet": "Open the app → Settings → Sync Tap the provider selector and choose Nextcloud / WebDAV Enter your folder URL — for Nextcloud this looks like https://cloud.example.com/remote.php/dav/files/username/Hea"
+      },
+      {
+        "heading": "Finding Your WebDAV URL",
+        "snippet": "For Nextcloud, the WebDAV base URL follows this pattern. Replace the placeholders with your own host, username, and target folder name: https://<your-nextcloud-host>/remote.php/dav/files/<username>/<f"
+      },
+      {
+        "heading": "File Naming Modes",
+        "snippet": "Mode Behaviour Best for Timestamped New file each sync, e.g. health-export-2026-04-13.json Building a historical archive Stable Overwrites same file each sync, e.g. health-export.json n8n automations,"
+      },
+      {
+        "heading": "Troubleshooting",
+        "snippet": "\"Upload failed: 401\" — Check username and app password. Do not use your login password. \"Invalid URL\" — Make sure the URL ends with a / and points to a folder, not a file. \"Upload failed: 404\" — The f"
+      }
+    ]
+  },
+  {
+    "title": "REST API / Webhook Sync",
+    "url": "/docs/sync-rest-api.html",
+    "intro": "POST your Apple Health data as a structured JSON payload to any HTTP endpoint. Works with custom backends, n8n, Make, Zapier, or any service that accepts a webhook.",
+    "sections": [
+      {
+        "heading": "Prerequisites",
+        "snippet": "Health Data Export app (iPhone) An HTTP endpoint that accepts POST/PUT/PATCH requests (your own server, n8n webhook, Make webhook, etc.)"
+      },
+      {
+        "heading": "Setup",
+        "snippet": "Open the app → Settings → Sync Tap the provider selector and choose REST API Enter your endpoint URL (e.g. https://your-server.com/api/health or an n8n webhook URL) Choose HTTP method : POST, PUT, or "
+      },
+      {
+        "heading": "Payload Format",
+        "snippet": "The app sends a application/json body using the ai-preset-v1 compact format. Here is a representative payload structure: { \"formatVersion\": \"ai-preset-v1\", \"preset\": { \"id\": \"webhook_compact\" }, \"sect"
+      },
+      {
+        "heading": "Auth Modes",
+        "snippet": "Mode When to use None Local n8n, internal endpoints with no auth Bearer Token Most APIs — sends Authorization: Bearer <token> header Basic Auth Servers using HTTP basic auth (username + password)"
+      },
+      {
+        "heading": "n8n / Make Integration",
+        "snippet": "For n8n, create a Webhook node and copy its URL as the endpoint. Set auth to None for local n8n instances. The payload arrives as the request body — use a Set node or Function node to extract fields a"
+      },
+      {
+        "heading": "Troubleshooting",
+        "snippet": "No response / timeout — Check the endpoint is reachable from your iPhone. Local URLs only work on the same network. 401 / 403 — Check your Bearer token or Basic Auth credentials. Payload not received "
+      }
+    ]
+  },
+  {
+    "title": "Home Screen Widget",
+    "url": "/docs/widgets.html",
+    "intro": "Add the iPhone widget to your Home Screen for one-tap access to your sync workflow. The widget shows sync status, last-sync context, and an action button that you control from the app’s Settings scree",
+    "sections": [
+      {
+        "heading": "Adding the Widget",
+        "snippet": "Long-press on an empty area of your iPhone Home Screen until the apps start to jiggle. Tap the + button in the top-left corner to open the widget gallery. Search for \"Health Data Export\" or scroll to "
+      },
+      {
+        "heading": "Widget Sizes",
+        "snippet": ""
+      },
+      {
+        "heading": "Small Widget",
+        "snippet": "A compact widget that shows: Current sync status (syncing, idle, or first sync prompt) Last sync time (e.g., \"1 hr ago\", \"2d ago\") Sync progress percentage when actively syncing One-tap action button"
+      },
+      {
+        "heading": "Medium Widget",
+        "snippet": "A wider widget with more detail: Everything in the small widget, plus expanded status messages Sync phase details (preparing, exporting, uploading) Provider information (e.g., \"Direct to Mac\", \"iCloud"
+      },
+      {
+        "heading": "Widget Actions",
+        "snippet": "Open the iPhone app and go to Settings > Widget to choose what the widget does when tapped. Action What It Does Quick Sync (default) Opens the app and starts the sync flow using your current sync prov"
+      },
+      {
+        "heading": "What the Widget Reads",
+        "snippet": "Widget action comes from the iPhone app’s Settings > Widget section. Displayed sync provider comes from the provider selected in the iPhone app’s Sync tab. Status text comes from the app’s shared sync"
+      },
+      {
+        "heading": "Sync Status Indicators",
+        "snippet": "The widget updates to reflect what the sync flow is doing: Status Widget Shows Idle \"Ready to sync\" with last sync time. Tap to start the configured action. Preparing \"Getting ready\" -- checking permi"
+      },
+      {
+        "heading": "First-Time Setup",
+        "snippet": "If you add the widget before completing your first sync, it shows a First Sync prompt. After the first successful sync, it switches to showing your current status and last sync context automatically."
+      },
+      {
+        "heading": "Export Settings",
+        "snippet": "When using the Quick Export action, you can configure two additional preferences in the app: Export range: Choose between the last 90 days or all-time data. Delivery method: Choose AirDrop (sends dire"
+      },
+      {
+        "heading": "When to Use Each Action",
+        "snippet": "Quick Sync: best when sync is already configured and you want one-tap refresh. Quick Export: best when you mostly move XML files manually. Open Sync Screen: best when you want the widget as a shortcut"
+      },
+      {
+        "heading": "How Often Does the Widget Update?",
+        "snippet": "The widget refreshes approximately every 15 minutes when idle. During an active sync, it updates more frequently to show real-time progress. The widget uses shared app storage to display the most curr"
+      },
+      {
+        "heading": "Troubleshooting",
+        "snippet": ""
+      },
+      {
+        "heading": "Widget shows \"First Sync\" even after syncing",
+        "snippet": "Make sure you completed a full sync (not just opened the sync screen). Wait up to 15 minutes for the widget timeline to refresh. Remove and re-add the widget if it remains stuck."
+      },
+      {
+        "heading": "Widget shows the wrong provider",
+        "snippet": "Open the iPhone app’s Sync tab and confirm the currently selected provider there. The provider name shown in the widget does not come from the widget action picker."
+      },
+      {
+        "heading": "Widget not updating during sync",
+        "snippet": "Widget updates rely on iOS timeline refresh. The progress may lag slightly behind the actual sync. Open the main app to see real-time sync progress."
+      },
+      {
+        "heading": "Widget not appearing in the widget gallery",
+        "snippet": "Make sure the app is installed and has been opened at least once. Restart your iPhone if the widget doesn't appear after installation. Check that you're running iOS 16 or later."
+      },
+      {
+        "heading": "Related Pages",
+        "snippet": "iPhone-to-Mac Sync Export Apple Health Data Getting Started"
+      }
+    ]
+  },
+  {
+    "title": "iPhone-to-Mac Sync",
+    "url": "/docs/wifi-sync.html",
+    "intro": "The iPhone app now supports multiple sync destinations, not just local-network transfer. Use the Sync tab on iPhone to choose where your Apple Health export goes, then use the Mac app’s Sync tab to pu",
+    "sections": [
+      {
+        "heading": "Available Sync Providers",
+        "snippet": "Provider Best For iCloud Apple-managed sync between your own devices Google Drive Visible file workflow in Drive Dropbox File-based sync with Dropbox storage Direct to Mac Device-to-device transfer on"
+      },
+      {
+        "heading": "Requirements",
+        "snippet": "iPhone app installed on your iPhone (iOS 16 or later) Mac app installed on your Mac (macOS 13 Ventura or later) A provider configured in the iPhone app’s Sync tab Both devices on the same local networ"
+      },
+      {
+        "heading": "How Sync Works Today",
+        "snippet": "On iPhone: choose a provider in the Sync tab. First sync: the app exports an initial date range and sends it to the selected destination. Later syncs: the app sends only newer data incrementally. On M"
+      },
+      {
+        "heading": "Direct to Mac",
+        "snippet": "If you want the local-network workflow, use Direct to Mac . This is still available, but it is now one provider among several."
+      },
+      {
+        "heading": "What Gets Synced",
+        "snippet": "The iPhone app exports Apple Health data and sends it through the provider you selected. Depending on your provider, that export may be XML or a compact JSON payload. Common categories include: Activi"
+      },
+      {
+        "heading": "Privacy and Security",
+        "snippet": "The privacy model depends on the provider: Direct to Mac stays on your local network. File and cloud providers send the export to the destination you selected, such as iCloud, Google Drive, Dropbox, o"
+      },
+      {
+        "heading": "Using the Mac Side",
+        "snippet": "The Mac app’s sync workflow lives in the dedicated Sync tab, not in macOS Settings. Use it to: review available exports refresh the export list download the latest XML export into analysis manage Mac-"
+      },
+      {
+        "heading": "Troubleshooting",
+        "snippet": ""
+      },
+      {
+        "heading": "Direct to Mac is not finding the Mac",
+        "snippet": "Confirm both devices are on the same local network . Check your Mac firewall settings and allow incoming connections for the app if needed. Restart both apps and try again."
+      },
+      {
+        "heading": "Cloud sync completed on iPhone but nothing shows on Mac",
+        "snippet": "Open the Mac Sync tab and refresh the list. The Mac app does not automatically analyze a remote export just because it exists."
+      },
+      {
+        "heading": "Widget shows the wrong provider",
+        "snippet": "The widget display reads the provider from the iPhone app’s Sync tab. The widget action itself is configured separately in the iPhone app’s Settings screen."
+      },
+      {
+        "heading": "Related Pages",
+        "snippet": "Mac App Overview Export Apple Health Data AI Analysis Getting Started"
+      }
+    ]
+  },
+  {
+    "title": "Workflows & Automation",
+    "url": "/docs/workflows.html",
+    "intro": "Automate your health check-ins with OpenClaw workflows . Instead of manually asking for insights each day, you can set up repeatable routines that pull your latest Apple Health data and deliver summar",
+    "sections": [
+      {
+        "heading": "Daily Brief Workflow",
+        "snippet": "The Daily Brief gives you a quick morning snapshot of your health status. It covers steps vs. your baseline, sleep duration and quality, any workouts logged, and missing-data alerts."
+      },
+      {
+        "heading": "What you get",
+        "snippet": "Steps compared to your 30-day average Sleep duration and bedtime consistency Workout summary (type, duration, calories) Resting heart rate trend Three actionable suggestions for the day"
+      },
+      {
+        "heading": "How to run it",
+        "snippet": "Open OpenClaw and paste this prompt: Use the \"health-analyzer-mac-local\" skill for this request. Give me my daily health brief for today and 3 suggestions."
+      },
+      {
+        "heading": "Weekly Report Workflow",
+        "snippet": "The Weekly Report compares the past seven days against your previous week to surface trends. It produces a scorecard across three dimensions: Consistency, Recovery, and Activity."
+      },
+      {
+        "heading": "What you get",
+        "snippet": "Week-over-week comparison of steps, sleep, and workouts A scorecard rating Consistency, Recovery, and Activity Highlighted positive and negative trends Three experiments to try the following week"
+      },
+      {
+        "heading": "How to run it",
+        "snippet": "Use the \"health-analyzer-mac-local\" skill for this request. Pull my daily brief for the last 7 days and summarize trends in steps, sleep, and workouts. Then give me a weekly scorecard (Consistency, Re"
+      },
+      {
+        "heading": "Setting Up a Scheduled Workflow",
+        "snippet": "You can schedule these prompts to run automatically so you never forget a check-in. Install the Mac app and import your Apple Health export. Make sure the local API is running (check the menu bar icon"
+      },
+      {
+        "heading": "Integration with Mac Shortcuts",
+        "snippet": "You can trigger health analysis from Mac Shortcuts by calling the local API endpoints directly. This lets you build custom automations that combine health data with other apps."
+      },
+      {
+        "heading": "Example: Daily Brief via Shortcuts",
+        "snippet": "Open the Shortcuts app on your Mac. Create a new shortcut and add a \"Get Contents of URL\" action. Set the URL to http://localhost:19876/api/v1/summary (the default local API endpoint). Add a \"Show Res"
+      },
+      {
+        "heading": "Custom Script Examples",
+        "snippet": "If you prefer the command line, you can use curl to query the local API and build your own scripts."
+      },
+      {
+        "heading": "Fetch today's summary",
+        "snippet": "curl -s http://localhost:19876/api/v1/summary | python3 -m json.tool"
+      },
+      {
+        "heading": "Get the last 7 days of metrics",
+        "snippet": "curl -s \"http://localhost:19876/api/v1/metrics?days=7\" | python3 -m json.tool"
+      },
+      {
+        "heading": "Pipe data into an AI prompt",
+        "snippet": "# Fetch health data and send it to a local Ollama model DATA=$(curl -s http://localhost:19876/api/v1/summary) curl -s http://localhost:11434/api/generate \\ -d \"{ \\\"model\\\": \\\"llama3\\\", \\\"prompt\\\": \\\"A"
+      },
+      {
+        "heading": "Save a weekly report to a file",
+        "snippet": "# Run every Monday via cron curl -s \"http://localhost:19876/api/v1/metrics?days=7\" \\ | python3 -m json.tool \\ > ~/Desktop/health-report-$(date +%Y-%m-%d).json See the API Reference for a complete list"
+      },
+      {
+        "heading": "Next Steps",
+        "snippet": "Browse the Prompt Library for more ready-to-use prompts. Learn about AI Analysis providers and privacy considerations. Read the API Reference for full endpoint documentation."
+      }
+    ]
+  }
+]

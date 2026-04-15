@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>iPhone-to-Mac Sync — Health Data Export & AI Analyzer</title>
+    <meta name="description" content="Set up Apple Health sync from iPhone to Mac using iCloud, Google Drive, Dropbox, Direct to Mac, REST API, Home Assistant, or Nextcloud / WebDAV.">
+    <link rel="canonical" href="https://applehealthdata.com/docs/wifi-sync.html">
+    <meta name="apple-itunes-app" content="app-id=6749297170">
+    <meta name="robots" content="index,follow">
+
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Health Data Export & Analyze">
+    <meta property="og:url" content="https://applehealthdata.com/docs/wifi-sync.html">
+    <meta property="og:title" content="iPhone-to-Mac Sync — Health Data Export & AI Analyzer">
+    <meta property="og:description" content="Set up Apple Health sync from iPhone to Mac using the current provider-based sync workflow.">
+    <meta property="og:image" content="https://applehealthdata.com/images/mac-app-screenshot-1.png">
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;700&display=swap');
+
+        :root { --glass-border: rgba(255, 255, 255, 0.08); --glass-bg: rgba(255, 255, 255, 0.03); }
+
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: #020617;
+            color: #f8fafc;
+        }
+
+        .font-mono { font-family: 'JetBrains Mono', monospace; }
+
+        /* Sidebar */
+        .docs-sidebar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 280px;
+            height: 100vh;
+            background: #0f172a;
+            border-right: 1px solid var(--glass-border);
+            overflow-y: auto;
+            z-index: 40;
+            transition: transform 0.3s ease;
+        }
+
+        .docs-sidebar a {
+            display: block;
+            padding: 8px 16px 8px 24px;
+            color: #94a3b8;
+            font-size: 0.875rem;
+            border-radius: 6px;
+            margin: 1px 8px;
+            transition: all 0.15s ease;
+            text-decoration: none;
+        }
+
+        .docs-sidebar a:hover {
+            color: #e2e8f0;
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .docs-sidebar a.active {
+            color: #fff;
+            background: rgba(244, 63, 94, 0.15);
+            border-left: 2px solid #f43f5e;
+            padding-left: 22px;
+        }
+
+        .docs-sidebar .section-label {
+            font-size: 0.7rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            color: #64748b;
+            padding: 20px 24px 6px;
+        }
+
+        /* Main content */
+        .docs-main {
+            margin-left: 280px;
+            min-height: 100vh;
+        }
+
+        /* Mobile sidebar toggle */
+        .sidebar-toggle {
+            display: none;
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 50;
+            background: #f43f5e;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 48px;
+            height: 48px;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(244, 63, 94, 0.4);
+        }
+
+        @media (max-width: 768px) {
+            .docs-sidebar {
+                transform: translateX(-100%);
+            }
+            .docs-sidebar.open {
+                transform: translateX(0);
+            }
+            .docs-main {
+                margin-left: 0;
+            }
+            .sidebar-toggle {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+        }
+
+        /* Content styles */
+        .doc-content h1 { font-size: 2rem; font-weight: 800; margin-bottom: 1rem; color: #fff; }
+        .doc-content h2 { font-size: 1.5rem; font-weight: 700; margin-top: 2.5rem; margin-bottom: 0.75rem; color: #fff; padding-bottom: 0.5rem; border-bottom: 1px solid var(--glass-border); }
+        .doc-content h3 { font-size: 1.125rem; font-weight: 600; margin-top: 1.5rem; margin-bottom: 0.5rem; color: #e2e8f0; }
+        .doc-content p { color: #94a3b8; line-height: 1.75; margin-bottom: 1rem; }
+        .doc-content ul, .doc-content ol { color: #94a3b8; margin-bottom: 1rem; padding-left: 1.5rem; }
+        .doc-content li { margin-bottom: 0.5rem; line-height: 1.6; }
+        .doc-content strong { color: #e2e8f0; }
+        .doc-content code { font-family: 'JetBrains Mono', monospace; background: rgba(255,255,255,0.06); padding: 2px 6px; border-radius: 4px; font-size: 0.85em; color: #f0abfc; }
+        .doc-content pre { background: #0c0a09; border: 1px solid var(--glass-border); border-radius: 8px; padding: 16px; overflow-x: auto; margin-bottom: 1rem; }
+        .doc-content pre code { background: none; padding: 0; color: #a5f3fc; }
+        .doc-content a { color: #f43f5e; text-decoration: underline; text-underline-offset: 2px; }
+        .doc-content a:hover { color: #fb7185; }
+        .doc-content table { width: 100%; border-collapse: collapse; margin-bottom: 1rem; }
+        .doc-content th { text-align: left; padding: 10px 12px; border-bottom: 2px solid #1e293b; color: #e2e8f0; font-size: 0.85rem; font-weight: 600; }
+        .doc-content td { padding: 10px 12px; border-bottom: 1px solid #1e293b; color: #94a3b8; font-size: 0.875rem; }
+        .doc-content blockquote { border-left: 3px solid #f43f5e; padding: 12px 16px; margin: 1rem 0; background: rgba(244, 63, 94, 0.05); border-radius: 0 8px 8px 0; }
+        .doc-content blockquote p { color: #cbd5e1; margin-bottom: 0; }
+
+        .doc-card {
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 12px;
+            padding: 24px;
+            transition: border-color 0.2s;
+        }
+        .doc-card:hover { border-color: rgba(244, 63, 94, 0.3); }
+
+        /* Search */
+        .docs-search {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--glass-border);
+            border-radius: 8px;
+            padding: 8px 12px;
+            color: #e2e8f0;
+            width: 100%;
+            font-size: 0.875rem;
+            outline: none;
+        }
+        .docs-search::placeholder { color: #475569; }
+        .docs-search:focus { border-color: #f43f5e; }
+        .search-results { position:absolute; left:8px; right:8px; top:100%; margin-top:4px; background:#0f172a; border:1px solid rgba(255,255,255,0.12); border-radius:8px; overflow:hidden; z-index:100; max-height:360px; overflow-y:auto; }
+        .search-results a { display:block; padding:10px 14px; text-decoration:none; border-bottom:1px solid rgba(255,255,255,0.06); }
+        .search-results a:last-child { border-bottom:none; }
+        .search-results a:hover { background:rgba(255,255,255,0.06); }
+        .search-result-title { color:#e2e8f0; font-size:0.875rem; font-weight:600; }
+        .search-result-section { color:#94a3b8; font-size:0.75rem; margin-top:1px; }
+        .search-result-snippet { color:#64748b; font-size:0.75rem; margin-top:2px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+        .search-no-results { padding:12px 14px; color:#64748b; font-size:0.875rem; }
+    </style>
+
+    <!-- Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-8SMQRLT4VS"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-8SMQRLT4VS');
+    </script>
+</head>
+<body>
+
+    <!-- Sidebar -->
+    <aside class="docs-sidebar" id="sidebar">
+        <div class="p-4 border-b border-white/5">
+            <a href="/" class="flex items-center gap-2 text-white no-underline mb-3">
+                <div class="w-8 h-8 bg-gradient-to-tr from-rose-600 to-orange-500 rounded-lg flex items-center justify-center">
+                    <i data-lucide="activity" class="w-4 h-4 text-white"></i>
+                </div>
+                <span class="font-bold text-sm">Health Data Docs</span>
+            </a>
+            <div style="position:relative">
+            <input type="text" class="docs-search" placeholder="Search docs..." id="docs-search" autocomplete="off">
+            <div class="search-results" id="search-results" style="display:none"></div>
+          </div>
+        </div>
+
+        <nav class="py-3" id="docs-nav">
+            <div class="section-label">Overview</div>
+            <a href="/docs/">Welcome</a>
+            <a href="/docs/getting-started.html">Getting Started</a>
+
+            <div class="section-label">iPhone App</div>
+            <a href="/docs/export-health-data.html">Export Apple Health Data</a>
+            <a href="/docs/wifi-sync.html" class="active">iPhone-to-Mac Sync</a>
+            <a href="/docs/widgets.html">Home Screen Widget</a>
+
+            <div class="section-label">Mac App</div>
+            <a href="/docs/mac-app.html">Mac App Overview</a>
+            <a href="/docs/convert-tool.html">Convert XML to CSV/JSON/XLSX</a>
+            <a href="/docs/ai-analysis.html">AI Analysis</a>
+            <a href="/docs/backup.html">Apple Health Backup</a>
+
+            <div class="section-label">Sync Destinations</div>
+            <a href="/docs/sync-dropbox.html">Dropbox</a>
+            <a href="/docs/sync-nextcloud.html">Nextcloud / WebDAV</a>
+            <a href="/docs/sync-home-assistant.html">Home Assistant</a>
+            <a href="/docs/sync-rest-api.html">REST API / Webhook</a>
+
+            <div class="section-label">Integrations</div>
+            <a href="/docs/openclaw.html">OpenClaw Integration</a>
+            <a href="/docs/api-reference.html">API Reference</a>
+            <a href="/docs/workflows.html">Workflows & Automation</a>
+            <a href="/docs/prompts.html">Prompt Library</a>
+
+            <div class="section-label">Resources</div>
+            <a href="/docs/changelog.html">Changelog</a>
+            <a href="https://apps.apple.com/us/app/health-data-export-ai-analyzer/id6749297170" target="_blank">Download App</a>
+            <a href="https://github.com/krumjahn/applehealth" target="_blank">GitHub (Open Source)</a>
+        </nav>
+    </aside>
+
+    <!-- Mobile toggle -->
+    <button class="sidebar-toggle" onclick="document.getElementById('sidebar').classList.toggle('open')">
+        <i data-lucide="menu" class="w-5 h-5"></i>
+    </button>
+
+    <!-- Main Content -->
+    <main class="docs-main">
+        <div class="max-w-3xl mx-auto px-6 py-16">
+            <div class="doc-content">
+                <h1>iPhone-to-Mac Sync</h1>
+                <p>The iPhone app now supports multiple sync destinations, not just local-network transfer. Use the <strong>Sync</strong> tab on iPhone to choose where your Apple Health export goes, then use the Mac app’s <strong>Sync</strong> tab to pull the latest export into analysis.</p>
+
+                <blockquote>
+                    <p>Direct to Mac keeps data on your local network. File and cloud providers follow the behavior of the destination you choose. The app itself does not upload your data to any service you did not explicitly configure.</p>
+                </blockquote>
+
+                <!-- Demo Video -->
+                <div style="margin: 2rem 0; border-radius: 12px; overflow: hidden; border: 1px solid var(--glass-border);">
+                    <video autoplay muted loop playsinline style="width: 100%; display: block;">
+                        <source src="/images/sync-feature-video.mp4" type="video/mp4">
+                    </video>
+                </div>
+
+                <h2>Available Sync Providers</h2>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Provider</th>
+                            <th>Best For</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>iCloud</strong></td>
+                            <td>Apple-managed sync between your own devices</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Google Drive</strong></td>
+                            <td>Visible file workflow in Drive</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Dropbox</strong></td>
+                            <td>File-based sync with Dropbox storage</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Direct to Mac</strong></td>
+                            <td>Device-to-device transfer on the same local network</td>
+                        </tr>
+                        <tr>
+                            <td><strong>REST API</strong></td>
+                            <td>Sending compact data to your own endpoint</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Home Assistant</strong></td>
+                            <td>Home Assistant dashboards and automations</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Nextcloud / WebDAV</strong></td>
+                            <td>Self-hosted file sync</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h2>Requirements</h2>
+                <ul>
+                    <li><strong>iPhone app</strong> installed on your iPhone (iOS 16 or later)</li>
+                    <li><strong>Mac app</strong> installed on your Mac (macOS 13 Ventura or later)</li>
+                    <li>A provider configured in the iPhone app’s <strong>Sync</strong> tab</li>
+                    <li>Both devices on the <strong>same local network</strong> only if you want <strong>Direct to Mac</strong></li>
+                </ul>
+
+                <h2>How Sync Works Today</h2>
+                <ol>
+                    <li><strong>On iPhone:</strong> choose a provider in the <strong>Sync</strong> tab.</li>
+                    <li><strong>First sync:</strong> the app exports an initial date range and sends it to the selected destination.</li>
+                    <li><strong>Later syncs:</strong> the app sends only newer data incrementally.</li>
+                    <li><strong>On Mac:</strong> open the <strong>Sync</strong> tab and download the latest XML export when you want to analyze it.</li>
+                </ol>
+
+                <h2>Direct to Mac</h2>
+                <p>If you want the local-network workflow, use <strong>Direct to Mac</strong>. This is still available, but it is now one provider among several.</p>
+
+                <div class="my-6 rounded-xl overflow-hidden border border-white/10">
+                    <img src="/images/mac-nearby-sync.png" alt="Mac app Nearby Mac sync settings showing pairing, toggle options, and paired iPhone" class="w-full" loading="lazy">
+                </div>
+
+                <ol>
+                    <li><strong>Open the Mac app</strong> and navigate to the <strong>Sync</strong> tab.</li>
+                    <li>Use the pairing and discovery controls shown there.</li>
+                    <li>On your iPhone, select <strong>Direct to Mac</strong> as the provider in the <strong>Sync</strong> tab.</li>
+                    <li>Run the sync. The export is sent directly to your Mac on the same local network.</li>
+                </ol>
+
+                <h2>What Gets Synced</h2>
+                <p>The iPhone app exports Apple Health data and sends it through the provider you selected. Depending on your provider, that export may be XML or a compact JSON payload. Common categories include:</p>
+                <ul>
+                    <li><strong>Activity</strong> -- steps, distance, flights climbed, active energy</li>
+                    <li><strong>Heart</strong> -- heart rate, resting heart rate, HRV, blood pressure</li>
+                    <li><strong>Sleep</strong> -- sleep stages, time in bed, sleep duration</li>
+                    <li><strong>Workouts</strong> -- type, duration, calories, route data</li>
+                    <li><strong>Body</strong> -- weight, BMI, body fat percentage</li>
+                    <li><strong>Nutrition</strong> -- dietary energy, macronutrients, water intake</li>
+                    <li><strong>Vitals</strong> -- blood oxygen, respiratory rate, body temperature</li>
+                    <li><strong>Mindfulness</strong> -- mindful minutes, state of mind</li>
+                </ul>
+                <p>The first sync establishes your baseline. Later syncs send only newer data.</p>
+
+                <h2>Privacy and Security</h2>
+                <p>The privacy model depends on the provider:</p>
+                <ul>
+                    <li><strong>Direct to Mac</strong> stays on your local network.</li>
+                    <li><strong>File and cloud providers</strong> send the export to the destination you selected, such as iCloud, Google Drive, Dropbox, or Nextcloud.</li>
+                    <li><strong>REST API and Home Assistant</strong> send a compact structured payload to the configured endpoint.</li>
+                </ul>
+
+                <h2>Using the Mac Side</h2>
+                <p>The Mac app’s sync workflow lives in the dedicated <strong>Sync</strong> tab, not in macOS Settings. Use it to:</p>
+                <ul>
+                    <li>review available exports</li>
+                    <li>refresh the export list</li>
+                    <li>download the latest XML export into analysis</li>
+                    <li>manage Mac-side sync and import flow</li>
+                </ul>
+
+                <h2>Troubleshooting</h2>
+
+                <h3>Direct to Mac is not finding the Mac</h3>
+                <ul>
+                    <li>Confirm both devices are on the <strong>same local network</strong>.</li>
+                    <li>Check your Mac firewall settings and allow incoming connections for the app if needed.</li>
+                    <li>Restart both apps and try again.</li>
+                </ul>
+
+                <h3>Cloud sync completed on iPhone but nothing shows on Mac</h3>
+                <ul>
+                    <li>Open the Mac <strong>Sync</strong> tab and refresh the list.</li>
+                    <li>The Mac app does not automatically analyze a remote export just because it exists.</li>
+                </ul>
+
+                <h3>Widget shows the wrong provider</h3>
+                <ul>
+                    <li>The widget display reads the provider from the iPhone app’s <strong>Sync</strong> tab.</li>
+                    <li>The widget action itself is configured separately in the iPhone app’s <strong>Settings</strong> screen.</li>
+                </ul>
+
+                <h2>Related Pages</h2>
+                <ul>
+                    <li><a href="/docs/mac-app.html">Mac App Overview</a></li>
+                    <li><a href="/docs/export-health-data.html">Export Apple Health Data</a></li>
+                    <li><a href="/docs/ai-analysis.html">AI Analysis</a></li>
+                    <li><a href="/docs/getting-started.html">Getting Started</a></li>
+                </ul>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        let searchIndex = null;
+
+        async function loadIndex() {
+          if (searchIndex) return searchIndex;
+          const r = await fetch('/docs/search-index.json');
+          searchIndex = await r.json();
+          return searchIndex;
+        }
+
+        function highlight(text, q) {
+          if (!q) return text;
+          var escaped = q.replace(/[-.*+?^${}()|[\]\\]/g, '\\$&');
+          var re = new RegExp('(' + escaped + ')', 'gi');
+          return text.replace(re, '<mark style="background:rgba(244,63,94,0.25);color:#fda4af;border-radius:2px">$1</mark>');
+        }
+        const searchInput = document.getElementById('docs-search');
+        const resultsBox = document.getElementById('search-results');
+
+        searchInput.addEventListener('input', async function() {
+          const q = this.value.trim().toLowerCase();
+          const nav = document.getElementById('docs-nav');
+
+          if (!q) {
+            resultsBox.style.display = 'none';
+            nav.style.display = '';
+            return;
+          }
+
+          nav.style.display = 'none';
+          resultsBox.style.display = 'block';
+
+          const index = await loadIndex();
+          const results = [];
+
+          for (const page of index) {
+            if (page.title.toLowerCase().includes(q)) {
+              results.push({ url: page.url, title: page.title, section: '', snippet: page.intro });
+              continue;
+            }
+            for (const s of page.sections) {
+              const inHeading = s.heading.toLowerCase().includes(q);
+              const inSnippet = s.snippet.toLowerCase().includes(q);
+              if (inHeading || inSnippet) {
+                results.push({ url: page.url, title: page.title, section: s.heading, snippet: s.snippet });
+                break;
+              }
+            }
+          }
+
+          if (results.length === 0) {
+            resultsBox.innerHTML = '<div class="search-no-results">No results for &quot;' + this.value + '&quot;</div>';
+            return;
+          }
+
+          resultsBox.innerHTML = results.slice(0, 8).map(r => {
+            const sectionHtml = r.section ? '<div class="search-result-section">' + highlight(r.section, this.value.trim()) + '</div>' : '';
+            const snippetHtml = r.snippet ? '<div class="search-result-snippet">' + highlight(r.snippet.slice(0, 120), this.value.trim()) + '</div>' : '';
+            return '<a href="' + r.url + '"><div class="search-result-title">' + highlight(r.title, this.value.trim()) + '</div>' + sectionHtml + snippetHtml + '</a>';
+          }).join('');
+        }.bind(searchInput));
+
+        document.addEventListener('click', function(e) {
+          if (!e.target.closest('#search-results') && !e.target.closest('#docs-search')) {
+            resultsBox.style.display = 'none';
+            if (!searchInput.value.trim()) {
+              document.getElementById('docs-nav').style.display = '';
+            }
+          }
+        });
+
+        searchInput.addEventListener('keydown', function(e) {
+          if (e.key === 'Escape') {
+            this.value = '';
+            resultsBox.style.display = 'none';
+            document.getElementById('docs-nav').style.display = '';
+          }
+        });
+
+        lucide.createIcons();
+    </script>
+</body>
+</html>

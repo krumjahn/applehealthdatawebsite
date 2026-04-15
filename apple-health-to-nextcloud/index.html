@@ -1,0 +1,174 @@
+<!doctype html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>How to Sync Apple Health Data to Nextcloud or WebDAV</title>
+  <meta name="description" content="Self-host your Apple Health exports on Nextcloud or any WebDAV server. Automatic sync using Health Data Export app — your data stays on your own server." />
+  <link rel="canonical" href="https://applehealthdata.com/apple-health-to-nextcloud/" />
+  <meta name="keywords" content="apple health nextcloud, apple health webdav, export apple health to nextcloud, self-host apple health data" />
+  <meta name="apple-itunes-app" content="app-id=6749297170">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script defer src="https://umami.rumjahn.synology.me/script.js" data-website-id="5d7b4fa8-90b2-4191-8daf-8ea487a8d961"></script>
+  <script>
+    var _paq = window._paq = window._paq || [];
+    _paq.push(['trackPageView']);
+    _paq.push(['enableLinkTracking']);
+    (function() {
+      var u="//shrewd-lyrebird.pikapod.net/";
+      _paq.push(['setTrackerUrl', u+'matomo.php']);
+      _paq.push(['setSiteId', '9']);
+      var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
+      g.async=true; g.src=u+'matomo.js'; s.parentNode.insertBefore(g,s);
+    })();
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "HowTo",
+    "name": "How to Sync Apple Health Data to Nextcloud or WebDAV",
+    "description": "Self-host your Apple Health exports on Nextcloud or any WebDAV server using the Health Data Export app.",
+    "step": [
+      {"@type":"HowToStep","name":"Download the app","text":"Download Health Data Export from the App Store on your iPhone or Mac."},
+      {"@type":"HowToStep","name":"Open Sync settings","text":"Open the app, go to Settings → Sync, then choose Nextcloud / WebDAV as your sync destination."},
+      {"@type":"HowToStep","name":"Enter your Nextcloud folder URL","text":"Paste your Nextcloud WebDAV folder URL, for example https://cloud.example.com/remote.php/dav/files/username/HealthData/"},
+      {"@type":"HowToStep","name":"Enter your Nextcloud username","text":"Type in the Nextcloud account username you want to use for authentication."},
+      {"@type":"HowToStep","name":"Generate an app password","text":"In Nextcloud, go to Settings → Security → App passwords, generate a new password, and paste it into the app."},
+      {"@type":"HowToStep","name":"Choose file naming mode","text":"Select Stable mode to overwrite the same file on each sync, or Timestamped mode to build a version history of your exports."},
+      {"@type":"HowToStep","name":"Enable Auto-Sync","text":"Toggle Auto-Sync on. Your Apple Health data will now upload to your Nextcloud server on schedule automatically."}
+    ]
+  }
+  </script>
+  <style>
+    body{font-family:Plus Jakarta Sans,system-ui,-apple-system,sans-serif;background:#020617;color:#f8fafc}
+    .mesh{position:fixed;inset:0;z-index:-1;background:radial-gradient(at 0% 0%,rgba(225,29,72,.16),transparent 50%),radial-gradient(at 100% 0%,rgba(56,189,248,.16),transparent 50%),radial-gradient(at 100% 100%,rgba(168,85,247,.16),transparent 50%);filter:blur(60px)}
+    .card{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.1);border-radius:1rem}
+    code{background:rgba(255,255,255,.08);padding:.1rem .35rem;border-radius:.35rem}
+    table{width:100%;border-collapse:collapse}
+    th,td{padding:.75rem 1rem;border-bottom:1px solid rgba(255,255,255,.08);text-align:left}
+    th{color:#f9fafb;font-weight:600}
+  </style>
+</head>
+<body>
+  <div class="mesh"></div>
+  <main class="max-w-4xl mx-auto px-4 py-10">
+    <a href="/" class="text-slate-300 hover:text-white text-sm">← Back to home</a>
+
+    <section class="card p-8 mt-3 text-center">
+      <p class="text-emerald-400 text-sm font-semibold uppercase tracking-widest mb-3">Apple Health → Nextcloud / WebDAV</p>
+      <h1 class="text-4xl font-extrabold text-white mb-4">Sync Apple Health Data to Nextcloud or WebDAV</h1>
+      <p class="text-slate-300 text-lg max-w-2xl mx-auto">Keep full control of your health data by syncing it directly to your own Nextcloud server or any WebDAV-compatible storage — no third-party cloud required.</p>
+    </section>
+
+    <section class="card p-6 mt-5">
+      <h2 class="text-2xl font-bold text-white mb-4">Why self-host your health data?</h2>
+      <p class="text-slate-300 mb-4">Your Apple Health data contains some of the most personal information imaginable — sleep patterns, heart rate, menstrual cycles, medications. Sending it to a third-party cloud means trusting that company's privacy policy, data-breach response, and business model indefinitely.</p>
+      <p class="text-slate-300 mb-4">Self-hosting on Nextcloud or a WebDAV server means your exports land on infrastructure you own and control. That matters for:</p>
+      <ul class="list-disc pl-6 space-y-2 text-slate-200">
+        <li><strong class="text-white">Privacy by default</strong> — data never transits or rests on servers you don't own.</li>
+        <li><strong class="text-white">GDPR compliance</strong> — if you're in the EU, keeping personal health data within your own infrastructure eliminates a major compliance headache.</li>
+        <li><strong class="text-white">No subscription lock-in</strong> — your data is yours, in a folder, forever.</li>
+        <li><strong class="text-white">Works with any WebDAV host</strong> — Nextcloud, ownCloud, Synology DSM WebDAV service, or a self-hosted Caddy / nginx WebDAV endpoint.</li>
+      </ul>
+    </section>
+
+    <section class="card p-6 mt-5">
+      <h2 class="text-2xl font-bold text-white mb-4">Step-by-step setup</h2>
+      <ol class="list-decimal pl-6 space-y-4 text-slate-200">
+        <li>
+          <strong class="text-white">Download Health Data Export</strong> from the App Store on your iPhone or Mac.
+        </li>
+        <li>
+          <strong class="text-white">Open Settings → Sync</strong> inside the app, then choose <strong>Nextcloud / WebDAV</strong> as your sync destination.
+        </li>
+        <li>
+          <strong class="text-white">Enter your Nextcloud folder URL.</strong> This is the full WebDAV path to the folder you want exports saved in, for example:<br>
+          <code class="block mt-2 text-emerald-300 text-sm break-all">https://cloud.example.com/remote.php/dav/files/username/HealthData/</code>
+        </li>
+        <li>
+          <strong class="text-white">Enter your Nextcloud username</strong> — the account you log in to Nextcloud with.
+        </li>
+        <li>
+          <strong class="text-white">Generate an app password.</strong> In Nextcloud go to <strong>Settings → Security → App passwords</strong>, create a new password, copy it, and paste it into the app. Using an app password keeps your main account password safe and lets you revoke access at any time.
+        </li>
+        <li>
+          <strong class="text-white">Choose file naming mode:</strong>
+          <ul class="list-disc pl-5 mt-2 space-y-1 text-slate-300">
+            <li><strong>Stable</strong> — each sync overwrites the same filename. Good for dashboards that always read a fixed path.</li>
+            <li><strong>Timestamped</strong> — each sync writes a new file with a date stamp. Builds a full version history over time.</li>
+          </ul>
+        </li>
+        <li>
+          <strong class="text-white">Enable Auto-Sync.</strong> Your Apple Health data will now upload to your Nextcloud server automatically on schedule.
+        </li>
+      </ol>
+    </section>
+
+    <section class="card p-6 mt-5">
+      <h2 class="text-2xl font-bold text-white mb-4">What data syncs to Nextcloud?</h2>
+      <p class="text-slate-300 mb-4">The app exports all major Apple Health categories to CSV. Here's what lands in your Nextcloud folder:</p>
+      <div class="overflow-x-auto">
+        <table>
+          <thead>
+            <tr>
+              <th>Data Type</th>
+              <th>Syncs to Nextcloud</th>
+            </tr>
+          </thead>
+          <tbody class="text-slate-300">
+            <tr><td><strong>Steps</strong></td><td class="text-emerald-400">✅</td></tr>
+            <tr><td><strong>Sleep</strong></td><td class="text-emerald-400">✅</td></tr>
+            <tr><td><strong>Heart Rate</strong></td><td class="text-emerald-400">✅</td></tr>
+            <tr><td><strong>HRV</strong></td><td class="text-emerald-400">✅</td></tr>
+            <tr><td><strong>Workouts</strong></td><td class="text-emerald-400">✅</td></tr>
+            <tr><td><strong>Weight</strong></td><td class="text-emerald-400">✅</td></tr>
+            <tr><td><strong>VO2 Max</strong></td><td class="text-emerald-400">✅</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="card p-6 mt-5">
+      <div class="p-4 rounded-xl bg-emerald-900/30 border border-emerald-500/20">
+        <h2 class="text-xl font-bold text-white mb-2">WebDAV compatibility</h2>
+        <p class="text-slate-300">The app works with <strong class="text-white">any WebDAV server</strong> — not just Nextcloud. If your server speaks WebDAV and you can provide a folder URL plus credentials, it will work. Confirmed compatible platforms include:</p>
+        <ul class="mt-3 list-disc pl-5 space-y-1 text-slate-300">
+          <li>Nextcloud (self-hosted or managed)</li>
+          <li>ownCloud</li>
+          <li>Synology DSM (WebDAV service)</li>
+          <li>Caddy with WebDAV middleware</li>
+          <li>nginx with <code>ngx_http_dav_module</code></li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="card p-6 mt-5">
+      <h2 class="text-2xl font-bold text-white mb-4">What to do with your data once it's on Nextcloud</h2>
+      <p class="text-slate-300 mb-4">Having your health CSVs on Nextcloud opens up a range of local-first workflows:</p>
+      <ul class="list-disc pl-6 space-y-3 text-slate-200">
+        <li><strong class="text-white">Nextcloud Tables / Collabora Calc</strong> — open your CSV directly in Nextcloud's built-in spreadsheet or office suite for instant visualisation.</li>
+        <li><strong class="text-white">Share with a doctor or coach</strong> — create a Nextcloud share link pointing to your HealthData folder so your care team always has the latest export.</li>
+        <li><strong class="text-white">Connect to n8n or Home Assistant</strong> — trigger automations based on health trends. For example: send a notification when your resting heart rate is elevated, or log entries to a home dashboard.</li>
+        <li><strong class="text-white">Load into AI tools</strong> — mount your Nextcloud folder locally and feed the CSV files to Claude, ChatGPT, or a local LLM for deeper analysis without uploading data to any external service.</li>
+      </ul>
+    </section>
+
+    <section class="card p-8 mt-5 text-center bg-gradient-to-br from-emerald-900/40 to-slate-900">
+      <h2 class="text-2xl font-bold text-white mb-3">Sync Apple Health to Your Own Server</h2>
+      <p class="text-slate-300 mb-6 max-w-xl mx-auto">Set up Nextcloud or WebDAV sync in minutes. 100% private — your data never leaves your infrastructure.</p>
+      <a href="https://apps.apple.com/us/app/health-data-export-ai-analyzer/id6749297170" class="inline-block bg-emerald-600 text-white font-bold py-4 px-8 rounded-full text-lg hover:bg-emerald-700 transition-all">Download on the App Store</a>
+      <p class="mt-3 text-xs text-slate-500">100% Local & Private · Mac & iOS</p>
+    </section>
+
+    <section class="card p-6 mt-5">
+      <h2 class="text-xl font-bold mb-3">Related guides</h2>
+      <div class="flex flex-wrap gap-3 text-sm">
+        <a href="/export-apple-health-data/" class="px-3 py-2 rounded-lg bg-white/10 hover:bg-white/20 text-slate-200">Full Apple Health export guide</a>
+        <a href="/apple-health-to-dropbox/" class="px-3 py-2 rounded-lg bg-white/10 hover:bg-white/20 text-slate-200">Sync to Dropbox</a>
+        <a href="/apple-health-to-home-assistant/" class="px-3 py-2 rounded-lg bg-white/10 hover:bg-white/20 text-slate-200">Apple Health to Home Assistant</a>
+        <a href="/apple-health-to-rest-api/" class="px-3 py-2 rounded-lg bg-white/10 hover:bg-white/20 text-slate-200">Apple Health REST API</a>
+      </div>
+    </section>
+  </main>
+</body>
+</html>

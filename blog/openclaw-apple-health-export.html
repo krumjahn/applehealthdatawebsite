@@ -1,0 +1,637 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>How to Export Apple Health Data to OpenClaw (2026 Guide)</title>
+    <meta name="description" content="Step-by-step guide to exporting Apple Health data to OpenClaw for AI health insights. Works with Health Data Export &amp; AI Analyzer app.">
+    <meta name="keywords" content="export apple health to openclaw, openclaw apple health sync, apple health openclaw setup, health data openclaw workflow">
+    <meta name="apple-itunes-app" content="app-id=6749297170">
+    <link rel="canonical" href="https://applehealthdata.com/blog/openclaw-apple-health-export.html">
+
+    <!-- Open Graph -->
+    <meta property="og:title" content="How to Export Apple Health Data to OpenClaw (2026 Guide)">
+    <meta property="og:description" content="Get your Apple Health data into OpenClaw for AI-powered daily health insights. Complete workflow guide.">
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://applehealthdata.com/blog/openclaw-apple-health-export.html">
+    <meta property="og:image" content="https://applehealthdata.com/images/mac-app-screenshot-1.png">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="How to Export Apple Health Data to OpenClaw (2026 Guide)">
+    <meta name="twitter:description" content="Get your Apple Health data into OpenClaw for AI-powered daily health insights. Complete workflow guide.">
+    <meta name="twitter:image" content="https://applehealthdata.com/images/mac-app-screenshot-1.png">
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;700&display=swap');
+
+        :root {
+            --glass-border: rgba(255, 255, 255, 0.08);
+            --glass-bg: rgba(255, 255, 255, 0.03);
+        }
+
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: #020617;
+            color: #f8fafc;
+            overflow-x: hidden;
+        }
+
+        .mesh-gradient {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: -1;
+            background:
+                radial-gradient(at 0% 0%, rgba(225, 29, 72, 0.15) 0px, transparent 50%),
+                radial-gradient(at 100% 0%, rgba(56, 189, 248, 0.15) 0px, transparent 50%),
+                radial-gradient(at 100% 100%, rgba(168, 85, 247, 0.15) 0px, transparent 50%);
+            filter: blur(60px);
+        }
+
+        .bento-card {
+            background: var(--glass-bg);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid var(--glass-border);
+            border-radius: 1rem;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .bento-card:hover {
+            border-color: rgba(255, 255, 255, 0.2);
+            background: rgba(255, 255, 255, 0.05);
+            transform: translateY(-2px);
+        }
+
+        .gradient-text {
+            background: linear-gradient(to right, #f43f5e, #a855f7, #38bdf8);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #020617;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #334155;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #475569;
+        }
+
+        .content-section h2 {
+            border-top: 1px solid var(--glass-border);
+            padding-top: 2rem;
+            margin-top: 3rem;
+            color: #f8fafc;
+            font-size: 1.875rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+        }
+
+        .content-section h3 {
+            color: #e2e8f0;
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-top: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        .content-section p {
+            color: #94a3b8;
+            font-size: 1.125rem;
+            line-height: 1.75;
+            margin-bottom: 1.5rem;
+        }
+
+        .content-section a {
+            color: #f43f5e;
+            text-decoration: none;
+            border-bottom: 1px solid transparent;
+            transition: all 0.2s;
+        }
+
+        .content-section a:hover {
+            border-bottom-color: #f43f5e;
+        }
+
+        .content-section ul, .content-section ol {
+            padding-left: 1.5rem;
+            margin-bottom: 1.5rem;
+            color: #94a3b8;
+        }
+
+        .content-section li {
+            margin-bottom: 0.75rem;
+            list-style-type: disc;
+        }
+
+        .content-section ol li {
+            list-style-type: decimal;
+        }
+
+        .content-section pre {
+            background: #0f172a;
+            border: 1px solid var(--glass-border);
+            border-radius: 0.75rem;
+            padding: 1.5rem;
+            overflow-x: auto;
+            margin-bottom: 1.5rem;
+        }
+
+        .content-section code {
+            font-family: 'JetBrains Mono', monospace;
+            color: #38bdf8;
+            font-size: 0.875rem;
+        }
+
+        .content-section blockquote {
+            border-left: 4px solid #f43f5e;
+            padding-left: 1.5rem;
+            color: #cbd5e1;
+            font-style: italic;
+            margin: 2rem 0;
+            background: rgba(244, 63, 94, 0.05);
+            padding: 1.5rem;
+            border-radius: 0 0.75rem 0.75rem 0;
+        }
+
+        .step-number {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 2.5rem;
+            height: 2.5rem;
+            background: linear-gradient(135deg, #f43f5e, #a855f7);
+            border-radius: 0.75rem;
+            font-weight: 700;
+            font-size: 1.125rem;
+            color: white;
+            flex-shrink: 0;
+        }
+    </style>
+
+    <!-- Article Structured Data -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Article",
+      "headline": "How to Export Apple Health Data to OpenClaw (2026 Guide)",
+      "description": "Step-by-step guide to exporting Apple Health data to OpenClaw for AI health insights.",
+      "author": { "@type": "Person", "name": "Keith Rumjahn" },
+      "datePublished": "2026-04-12",
+      "dateModified": "2026-04-12"
+    }
+    </script>
+
+    <!-- HowTo Structured Data -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "HowTo",
+      "name": "How to Export Apple Health Data to OpenClaw",
+      "description": "Connect your Apple Health data to OpenClaw for AI-powered health insights",
+      "step": [
+        { "@type": "HowToStep", "name": "Download Health Data Export & AI Analyzer", "text": "Download the app from the App Store. It's free to try." },
+        { "@type": "HowToStep", "name": "Download Health Sync for OpenClaw", "text": "Download Health Sync for OpenClaw from the App Store." },
+        { "@type": "HowToStep", "name": "Export your health data", "text": "Open Health Data Export, select your metrics and date range, and export." },
+        { "@type": "HowToStep", "name": "Set up OpenClaw sync", "text": "Open Health Sync for OpenClaw, scan the QR code, and connect your OpenClaw agent." },
+        { "@type": "HowToStep", "name": "Get AI health insights", "text": "OpenClaw will now deliver daily AI-powered health summaries from your Apple Health data." }
+      ]
+    }
+    </script>
+
+    <!-- FAQPage Structured Data -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "Do I need both apps?",
+          "acceptedAnswer": { "@type": "Answer", "text": "Yes — Health Data Export & AI Analyzer gets your data out of Apple Health in a clean format, and Health Sync for OpenClaw sends that data to your OpenClaw agent. Each app does one job well." }
+        },
+        {
+          "@type": "Question",
+          "name": "Is my health data private?",
+          "acceptedAnswer": { "@type": "Answer", "text": "Yes. Health Data Export & AI Analyzer processes everything locally on your device — nothing is sent to our servers. Health Sync for OpenClaw encrypts your data on-device before any upload." }
+        },
+        {
+          "@type": "Question",
+          "name": "How often does it sync?",
+          "acceptedAnswer": { "@type": "Answer", "text": "You can sync manually whenever you want, or enable scheduled sync in Health Sync for OpenClaw for automatic daily updates. The Pro subscription ($1.99/mo) unlocks scheduled sync." }
+        },
+        {
+          "@type": "Question",
+          "name": "What health metrics does it support?",
+          "acceptedAnswer": { "@type": "Answer", "text": "Health Data Export & AI Analyzer exports steps, heart rate, sleep, workouts, weight, blood pressure, glucose, and more. Health Sync for OpenClaw supports body metrics, nutrition, activity, heart/vitals, sleep, workouts, and mindfulness." }
+        }
+      ]
+    }
+    </script>
+
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-8SMQRLT4VS"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-8SMQRLT4VS');
+    </script>
+    <script defer src="https://umami.rumjahn.synology.me/script.js" data-website-id="5d7b4fa8-90b2-4191-8daf-8ea487a8d961"></script>
+    <script>
+      var _paq = window._paq = window._paq || [];
+      _paq.push(['trackPageView']);
+      _paq.push(['enableLinkTracking']);
+      (function() {
+        var u="//shrewd-lyrebird.pikapod.net/";
+        _paq.push(['setTrackerUrl', u+'matomo.php']);
+        _paq.push(['setSiteId', '9']);
+        var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
+        g.async=true; g.src=u+'matomo.js'; s.parentNode.insertBefore(g,s);
+      })();
+    </script>
+</head>
+<body>
+    <div class="mesh-gradient"></div>
+
+    <!-- Navigation -->
+    <nav class="fixed w-full z-50 border-b border-white/10 bg-slate-950/80 backdrop-blur-xl">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-20">
+                <a href="/" class="flex items-center gap-3 group">
+                    <div class="w-10 h-10 bg-gradient-to-tr from-rose-600 to-orange-500 rounded-xl flex items-center justify-center shadow-lg shadow-rose-500/20 group-hover:scale-105 transition-transform">
+                        <i data-lucide="activity" class="w-6 h-6 text-white"></i>
+                    </div>
+                    <div>
+                        <span class="font-bold text-lg tracking-tight text-white block leading-none">Health Data</span>
+                        <span class="text-xs text-slate-400 tracking-wider uppercase font-semibold">Export &amp; Analyze</span>
+                    </div>
+                </a>
+                <div class="hidden md:flex gap-6">
+                    <a href="/export-apple-health-data/" class="text-sm font-medium text-slate-300 hover:text-white transition-colors">Export Guide</a>
+                    <a href="https://apps.apple.com/app/id6749297170" class="text-sm font-bold text-rose-500 hover:text-rose-400 transition-colors">Download App</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="pt-32 pb-20">
+        <div class="container mx-auto px-6 max-w-4xl">
+            <div class="text-center mb-12">
+                <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/5 border border-white/10 text-rose-400 text-sm font-medium mb-6">
+                    <span class="relative flex h-2 w-2">
+                        <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-rose-400 opacity-75"></span>
+                        <span class="relative inline-flex rounded-full h-2 w-2 bg-rose-500"></span>
+                    </span>
+                    Updated April 2026
+                </div>
+                <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold mb-6">
+                    <span class="gradient-text">How to Export Apple Health Data</span><br>
+                    to OpenClaw
+                </h1>
+                <p class="text-xl text-slate-300 max-w-3xl mx-auto leading-relaxed">
+                    OpenClaw can turn your Apple Health metrics into daily AI health insights &mdash; but first, you need to get your data out cleanly. Here's the complete workflow.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Main Content -->
+    <section class="pb-20">
+        <div class="container mx-auto px-6 max-w-4xl content-section">
+
+            <div class="my-10 rounded-2xl overflow-hidden border border-white/10 shadow-xl shadow-black/40">
+                <video autoplay muted loop playsinline class="w-full block">
+                    <source src="../images/OpenClawWorkflow.mp4" type="video/mp4">
+                </video>
+                <p class="text-center text-sm text-slate-500 py-3 bg-slate-900/60">Automate daily health briefs on your Mac — no cloud required.</p>
+            </div>
+
+            <!-- What is OpenClaw -->
+            <div class="grid md:grid-cols-2 gap-6 mb-12">
+                <div class="bento-card p-8">
+                    <h2 class="text-2xl font-bold mb-4" style="border-top: none; margin-top: 0; padding-top: 0;">What is OpenClaw?</h2>
+                    <p class="text-slate-300 mb-4">
+                        OpenClaw is an AI agent platform that delivers personalized daily health briefs from your Apple Health data. Think of it as a personal health analyst that checks your metrics every morning and tells you what matters.
+                    </p>
+                    <a href="#workflow" class="text-rose-400 hover:text-rose-300 text-sm font-medium">
+                        Already set up OpenClaw? Skip to the workflow steps below &rarr;
+                    </a>
+                </div>
+                <div class="bento-card p-8">
+                    <h2 class="text-2xl font-bold mb-4" style="border-top: none; margin-top: 0; padding-top: 0;">What OpenClaw delivers</h2>
+                    <ul class="space-y-3 text-slate-300" style="padding-left: 0; margin-bottom: 0;">
+                        <li class="flex items-start gap-3" style="list-style-type: none;">
+                            <i data-lucide="bar-chart-2" class="w-5 h-5 text-rose-400 mt-0.5 flex-shrink-0"></i>
+                            Daily AI health summaries
+                        </li>
+                        <li class="flex items-start gap-3" style="list-style-type: none;">
+                            <i data-lucide="trending-up" class="w-5 h-5 text-rose-400 mt-0.5 flex-shrink-0"></i>
+                            Trend detection across sleep, activity, heart rate
+                        </li>
+                        <li class="flex items-start gap-3" style="list-style-type: none;">
+                            <i data-lucide="message-circle" class="w-5 h-5 text-rose-400 mt-0.5 flex-shrink-0"></i>
+                            Natural language Q&amp;A about your health data
+                        </li>
+                        <li class="flex items-start gap-3" style="list-style-type: none;">
+                            <i data-lucide="lock" class="w-5 h-5 text-rose-400 mt-0.5 flex-shrink-0"></i>
+                            Private &mdash; data encrypted before upload
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- The Problem -->
+            <div class="grid md:grid-cols-2 gap-4 mb-12">
+                <div class="bento-card p-6 bg-gradient-to-br from-red-900/20 to-transparent border-red-500/20">
+                    <div class="flex items-center gap-2 mb-3">
+                        <i data-lucide="alert-triangle" class="w-5 h-5 text-red-400"></i>
+                        <span class="text-sm font-semibold text-red-400 uppercase tracking-wider">The Problem</span>
+                    </div>
+                    <p class="text-slate-300 text-base" style="margin-bottom: 0;">
+                        Apple's built-in export creates an 800MB XML file &mdash; OpenClaw can't process it directly.
+                    </p>
+                </div>
+                <div class="bento-card p-6 bg-gradient-to-br from-emerald-900/20 to-transparent border-emerald-500/20">
+                    <div class="flex items-center gap-2 mb-3">
+                        <i data-lucide="check-circle-2" class="w-5 h-5 text-emerald-400"></i>
+                        <span class="text-sm font-semibold text-emerald-400 uppercase tracking-wider">The Solution</span>
+                    </div>
+                    <p class="text-slate-300 text-base" style="margin-bottom: 0;">
+                        Health Data Export &amp; AI Analyzer converts your data to clean CSV/JSON and sends it where you need it.
+                    </p>
+                </div>
+            </div>
+
+            <!-- What You'll Need -->
+            <h2 style="border-top: 1px solid var(--glass-border);">What You'll Need</h2>
+            <div class="grid md:grid-cols-2 gap-6 mb-12">
+                <!-- Our app card -->
+                <div class="bento-card p-8 border-rose-500/30 bg-gradient-to-br from-rose-900/10 to-transparent">
+                    <div class="w-12 h-12 bg-gradient-to-br from-rose-500 to-purple-600 rounded-xl flex items-center justify-center mb-4">
+                        <i data-lucide="download" class="w-6 h-6 text-white"></i>
+                    </div>
+                    <h3 class="text-white font-bold text-lg mb-2" style="margin-top: 0;">Health Data Export &amp; AI Analyzer</h3>
+                    <p class="text-slate-400 text-sm mb-4" style="margin-bottom: 1rem;">
+                        Exports your Apple Health data in clean CSV, JSON, and XML formats.
+                    </p>
+                    <div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-rose-500/10 border border-rose-500/20 text-rose-400 text-xs font-semibold mb-5">
+                        $4.99 one-time
+                    </div>
+                    <div>
+                        <a href="https://apps.apple.com/us/app/health-data-export/id6749297170" target="_blank" rel="noopener noreferrer"
+                           class="inline-flex items-center gap-2 w-full justify-center px-5 py-3 bg-white text-slate-900 rounded-xl font-bold text-sm hover:bg-slate-100 transition-all"
+                           style="border-bottom: none; color: #0f172a;">
+                            <i data-lucide="download" class="w-4 h-4"></i>
+                            Download on App Store
+                        </a>
+                    </div>
+                </div>
+                <!-- Health Sync card -->
+                <div class="bento-card p-8">
+                    <div class="w-12 h-12 bg-gradient-to-br from-sky-500 to-indigo-600 rounded-xl flex items-center justify-center mb-4">
+                        <i data-lucide="refresh-cw" class="w-6 h-6 text-white"></i>
+                    </div>
+                    <h3 class="text-white font-bold text-lg mb-2" style="margin-top: 0;">Health Sync for OpenClaw</h3>
+                    <p class="text-slate-400 text-sm mb-4" style="margin-bottom: 1rem;">
+                        Syncs your health data to your OpenClaw agent via QR code setup.
+                    </p>
+                    <div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-sky-500/10 border border-sky-500/20 text-sky-400 text-xs font-semibold mb-5">
+                        Free + optional subscription
+                    </div>
+                    <div>
+                        <a href="https://apps.apple.com/us/app/health-sync-for-openclaw/id6759522298" target="_blank" rel="noopener noreferrer"
+                           class="inline-flex items-center gap-2 w-full justify-center px-5 py-3 bg-white/5 border border-white/10 rounded-xl font-bold text-sm hover:bg-white/10 transition-all text-white"
+                           style="border-bottom: none; color: white;">
+                            <i data-lucide="download" class="w-4 h-4"></i>
+                            Download on App Store
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Step-by-Step Workflow -->
+            <h2 id="workflow" style="border-top: 1px solid var(--glass-border);">The Complete Workflow</h2>
+
+            <!-- Step 1 -->
+            <div class="bento-card p-8 mb-6">
+                <div class="flex items-start gap-5">
+                    <span class="step-number">1</span>
+                    <div>
+                        <h3 class="text-white font-bold text-xl mb-2" style="margin-top: 0;">Download Health Data Export &amp; AI Analyzer</h3>
+                        <p class="text-slate-400" style="margin-bottom: 1rem;">
+                            Download the app from the App Store. The free tier lets you explore &mdash; you'll need the $4.99 one-time purchase to export your full data history.
+                        </p>
+                        <a href="https://apps.apple.com/us/app/health-data-export/id6749297170" target="_blank" rel="noopener noreferrer"
+                           class="inline-flex items-center gap-1.5 text-rose-400 hover:text-rose-300 font-semibold text-sm">
+                            Download &rarr;
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Step 2 -->
+            <div class="bento-card p-8 mb-6">
+                <div class="flex items-start gap-5">
+                    <span class="step-number">2</span>
+                    <div>
+                        <h3 class="text-white font-bold text-xl mb-2" style="margin-top: 0;">Download Health Sync for OpenClaw</h3>
+                        <p class="text-slate-400" style="margin-bottom: 1rem;">
+                            This is the bridge app that connects your data to your OpenClaw agent. Free to download, with an optional subscription ($1.99/mo or $18.99/yr) for scheduled automatic sync.
+                        </p>
+                        <a href="https://apps.apple.com/us/app/health-sync-for-openclaw/id6759522298" target="_blank" rel="noopener noreferrer"
+                           class="inline-flex items-center gap-1.5 text-rose-400 hover:text-rose-300 font-semibold text-sm">
+                            Download &rarr;
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Step 3 -->
+            <div class="bento-card p-8 mb-6">
+                <div class="flex items-start gap-5">
+                    <span class="step-number">3</span>
+                    <div>
+                        <h3 class="text-white font-bold text-xl mb-2" style="margin-top: 0;">Export your Apple Health data</h3>
+                        <p class="text-slate-400" style="margin-bottom: 0;">
+                            Open Health Data Export &amp; AI Analyzer. Select the metrics you want &mdash; steps, sleep, heart rate, workouts, and more &mdash; and your date range. Tap Export and choose CSV or JSON format.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Step 4 -->
+            <div class="bento-card p-8 mb-6">
+                <div class="flex items-start gap-5">
+                    <span class="step-number">4</span>
+                    <div>
+                        <h3 class="text-white font-bold text-xl mb-2" style="margin-top: 0;">Connect to OpenClaw via QR code</h3>
+                        <p class="text-slate-400" style="margin-bottom: 0;">
+                            Open Health Sync for OpenClaw. Scan the QR code from your OpenClaw agent dashboard. Your data is encrypted on-device before it ever leaves your phone.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Step 5 -->
+            <div class="bento-card p-8 mb-6">
+                <div class="flex items-start gap-5">
+                    <span class="step-number">5</span>
+                    <div>
+                        <h3 class="text-white font-bold text-xl mb-2" style="margin-top: 0;">Set your sync schedule (optional)</h3>
+                        <p class="text-slate-400" style="margin-bottom: 0;">
+                            Enable scheduled sync to automatically send fresh health data to OpenClaw each day. With daily sync active, your OpenClaw agent always has up-to-date metrics for your morning brief.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Step 6 -->
+            <div class="bento-card p-8 mb-12">
+                <div class="flex items-start gap-5">
+                    <span class="step-number">6</span>
+                    <div>
+                        <h3 class="text-white font-bold text-xl mb-2" style="margin-top: 0;">Get your AI health insights</h3>
+                        <p class="text-slate-400" style="margin-bottom: 0;">
+                            OpenClaw analyzes your data and delivers daily summaries, trend alerts, and answers to your health questions. Your personal health analyst, powered by your own data.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- What OpenClaw Can Do -->
+            <h2 style="border-top: 1px solid var(--glass-border);">What OpenClaw Can Do With Your Data</h2>
+            <div class="grid md:grid-cols-3 gap-6 mb-12">
+                <div class="bento-card p-6">
+                    <div class="w-10 h-10 bg-gradient-to-br from-rose-500 to-purple-600 rounded-xl flex items-center justify-center mb-4">
+                        <i data-lucide="sun" class="w-5 h-5 text-white"></i>
+                    </div>
+                    <h3 class="text-white font-bold text-base mb-2" style="margin-top: 0;">Daily Health Briefs</h3>
+                    <p class="text-slate-400 text-sm" style="margin-bottom: 0;">
+                        Every morning, OpenClaw summarizes your previous day: sleep quality, activity levels, heart rate trends, and anything worth noting.
+                    </p>
+                </div>
+                <div class="bento-card p-6">
+                    <div class="w-10 h-10 bg-gradient-to-br from-sky-500 to-indigo-600 rounded-xl flex items-center justify-center mb-4">
+                        <i data-lucide="trending-up" class="w-5 h-5 text-white"></i>
+                    </div>
+                    <h3 class="text-white font-bold text-base mb-2" style="margin-top: 0;">Trend Detection</h3>
+                    <p class="text-slate-400 text-sm" style="margin-bottom: 0;">
+                        OpenClaw spots patterns across weeks and months &mdash; like "your resting heart rate has been elevated this week" or "sleep quality drops after late workouts."
+                    </p>
+                </div>
+                <div class="bento-card p-6">
+                    <div class="w-10 h-10 bg-gradient-to-br from-emerald-500 to-teal-600 rounded-xl flex items-center justify-center mb-4">
+                        <i data-lucide="message-circle" class="w-5 h-5 text-white"></i>
+                    </div>
+                    <h3 class="text-white font-bold text-base mb-2" style="margin-top: 0;">Q&amp;A About Your Health</h3>
+                    <p class="text-slate-400 text-sm" style="margin-bottom: 0;">
+                        Ask OpenClaw natural language questions: "How was my sleep last month?" or "Am I hitting my step goals?" It answers from your actual data.
+                    </p>
+                </div>
+            </div>
+
+            <!-- FAQ -->
+            <h2 style="border-top: 1px solid var(--glass-border);">Frequently Asked Questions</h2>
+            <div class="space-y-4 mb-12">
+                <div class="bento-card p-6">
+                    <h3 class="text-white font-bold text-lg mb-2" style="margin-top: 0;">Do I need both apps?</h3>
+                    <p class="text-slate-400" style="margin-bottom: 0;">
+                        Yes &mdash; Health Data Export &amp; AI Analyzer gets your data out of Apple Health in a clean format, and Health Sync for OpenClaw sends that data to your OpenClaw agent. Each app does one job well.
+                    </p>
+                </div>
+                <div class="bento-card p-6">
+                    <h3 class="text-white font-bold text-lg mb-2" style="margin-top: 0;">Is my health data private?</h3>
+                    <p class="text-slate-400" style="margin-bottom: 0;">
+                        Yes. Health Data Export &amp; AI Analyzer processes everything locally on your device &mdash; nothing is sent to our servers. Health Sync for OpenClaw encrypts your data on-device before any upload.
+                    </p>
+                </div>
+                <div class="bento-card p-6">
+                    <h3 class="text-white font-bold text-lg mb-2" style="margin-top: 0;">How often does it sync?</h3>
+                    <p class="text-slate-400" style="margin-bottom: 0;">
+                        You can sync manually anytime, or enable scheduled sync in Health Sync for OpenClaw for automatic daily updates. The Pro subscription ($1.99/mo) unlocks scheduled sync.
+                    </p>
+                </div>
+                <div class="bento-card p-6">
+                    <h3 class="text-white font-bold text-lg mb-2" style="margin-top: 0;">What health metrics does it support?</h3>
+                    <p class="text-slate-400" style="margin-bottom: 0;">
+                        Health Data Export &amp; AI Analyzer exports steps, heart rate, sleep, workouts, weight, blood pressure, glucose, and more. Health Sync for OpenClaw supports body metrics, nutrition, activity, heart/vitals, sleep, workouts, and mindfulness.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Related Posts -->
+            <div class="bento-card p-8 mb-12 bg-gradient-to-br from-slate-800/30 to-transparent">
+                <h2 class="text-xl font-bold mb-5" style="border-top: none; margin-top: 0; padding-top: 0; font-size: 1.25rem;">Related Guides</h2>
+                <div class="space-y-4">
+                    <a href="openclaw-apple-health-guide.html"
+                       class="flex items-start gap-4 p-4 rounded-xl bg-white/5 hover:bg-white/10 transition-all group"
+                       style="border-bottom: none;">
+                        <div class="w-9 h-9 bg-gradient-to-br from-rose-500 to-purple-600 rounded-lg flex items-center justify-center flex-shrink-0">
+                            <i data-lucide="book-open" class="w-4 h-4 text-white"></i>
+                        </div>
+                        <div>
+                            <p class="text-white font-semibold text-sm mb-0.5" style="margin-bottom: 0.125rem;">New to OpenClaw? Start here</p>
+                            <p class="text-slate-400 text-sm" style="margin-bottom: 0;">How to Use OpenClaw with Apple Health: Setup Guide &rarr;</p>
+                        </div>
+                    </a>
+                    <a href="best-apple-health-export-apps.html"
+                       class="flex items-start gap-4 p-4 rounded-xl bg-white/5 hover:bg-white/10 transition-all group"
+                       style="border-bottom: none;">
+                        <div class="w-9 h-9 bg-gradient-to-br from-sky-500 to-indigo-600 rounded-lg flex items-center justify-center flex-shrink-0">
+                            <i data-lucide="list" class="w-4 h-4 text-white"></i>
+                        </div>
+                        <div>
+                            <p class="text-white font-semibold text-sm mb-0.5" style="margin-bottom: 0.125rem;">Comparing export apps?</p>
+                            <p class="text-slate-400 text-sm" style="margin-bottom: 0;">Best Apps to Export Apple Health Data (2026) &rarr;</p>
+                        </div>
+                    </a>
+                </div>
+            </div>
+
+            <!-- CTA Section -->
+            <div class="bento-card p-10 bg-gradient-to-br from-rose-900/30 to-purple-900/30 border-rose-500/20 text-center">
+                <h2 class="text-3xl font-bold mb-4" style="border-top: none; margin-top: 0; padding-top: 0;">
+                    Start Exporting Your Health Data Today
+                </h2>
+                <p class="text-slate-300 text-lg mb-8 max-w-2xl mx-auto">
+                    Health Data Export &amp; AI Analyzer is the fastest way to get your Apple Health data working with OpenClaw.
+                </p>
+                <a href="https://apps.apple.com/us/app/health-data-export/id6749297170" target="_blank" rel="noopener noreferrer"
+                   class="inline-flex items-center gap-2 px-8 py-4 bg-white text-slate-900 rounded-xl font-bold hover:bg-slate-100 transition-all"
+                   style="border-bottom: none; color: #0f172a;">
+                    <i data-lucide="download" class="w-5 h-5"></i>
+                    Download on the App Store
+                </a>
+                <p class="text-slate-500 text-sm mt-5">
+                    $4.99 one-time &middot; Privacy first &middot; Works with OpenClaw
+                </p>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="border-t border-white/5 bg-slate-950 py-12">
+        <div class="max-w-7xl mx-auto px-4 text-center">
+            <p class="text-slate-500 text-sm">&copy; 2026 Health Data Export. Not affiliated with Apple Inc.</p>
+        </div>
+    </footer>
+
+    <script>
+        lucide.createIcons();
+    </script>
+</body>
+</html>

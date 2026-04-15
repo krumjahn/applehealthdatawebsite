@@ -1,321 +1,814 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="scroll-smooth">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Health Dashboard | Apple Health Data</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://unpkg.com/lucide@latest"></script>
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Charter:wght@400;700&display=swap');
-        
-        :root {
-            --cream: #FDFCF8;
-            --ink: #1A1A1A;
-            --clinical-blue: #2C3E50;
-            --clinical-red: #A93226;
-        }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Personal Health Dashboard — Keith Rumjahn</title>
+  <meta name="description" content="A public personal health dashboard built on Apple Health data exported via Health Data Export & AI Analyzer.">
+  <link rel="canonical" href="https://applehealthdata.com/dashboard/">
+  <meta name="robots" content="index,follow">
 
-        body {
-            font-family: 'Charter', 'Georgia', serif;
-            background-color: var(--cream);
-            color: var(--ink);
-            line-height: 1.6;
-        }
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Health Data Export & Analyze">
+  <meta property="og:url" content="https://applehealthdata.com/dashboard/">
+  <meta property="og:title" content="Personal Health Dashboard — Keith Rumjahn">
+  <meta property="og:description" content="A public personal health dashboard built on Apple Health data.">
+  <meta name="apple-itunes-app" content="app-id=6749297170">
 
-        .bento-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 1.5rem;
-            padding: 1.5rem;
-        }
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 
-        .bento-item {
-            background: white;
-            border: 1px solid #E5E1D8;
-            border-radius: 8px;
-            padding: 1.5rem;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.02);
-            transition: transform 0.2s ease;
-        }
+  <style>
+    :root {
+      --glass-border: rgba(255, 255, 255, 0.08);
+      --glass-bg: rgba(255, 255, 255, 0.03);
+    }
 
-        .bento-item:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
-        }
+    body {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      background-color: #020617;
+      color: #f8fafc;
+      overflow-x: hidden;
+    }
 
-        .badge {
-            font-family: sans-serif;
-            font-size: 0.75rem;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-            padding: 0.25rem 0.75rem;
-            border-radius: 9999px;
-            border: 1px solid currentColor;
-        }
+    /* Mesh background */
+    .mesh-gradient {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100vw; height: 100vh;
+      z-index: -1;
+      background:
+        radial-gradient(at 0% 0%, rgba(244, 63, 94, 0.12) 0px, transparent 50%),
+        radial-gradient(at 100% 0%, rgba(56, 189, 248, 0.10) 0px, transparent 50%),
+        radial-gradient(at 50% 100%, rgba(167, 139, 250, 0.10) 0px, transparent 50%);
+      filter: blur(60px);
+    }
 
-        .delta-positive { color: #1E8449; }
-        .delta-negative { color: #A93226; }
-        
-        h1, h2, h3 {
-            font-weight: 700;
-            letter-spacing: -0.02em;
-        }
+    /* Glass card */
+    .glass-card {
+      background: var(--glass-bg);
+      border: 1px solid var(--glass-border);
+      border-radius: 12px;
+      padding: 20px;
+      transition: border-color 0.2s, transform 0.2s;
+    }
+    .glass-card:hover {
+      border-color: rgba(255, 255, 255, 0.15);
+    }
 
-        .metric-value {
-            font-size: 2.5rem;
-            font-weight: 700;
-            line-height: 1;
-            margin: 0.5rem 0;
-        }
+    /* Navbar */
+    .navbar {
+      background: rgba(2, 6, 23, 0.85);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--glass-border);
+      position: sticky; top: 0; z-index: 50;
+    }
 
-        .metric-unit {
-            font-size: 1rem;
-            color: #666;
-            font-weight: 400;
-        }
+    /* Metric tile accent */
+    .accent-rose   { color: #f43f5e; }
+    .accent-amber  { color: #fbbf24; }
+    .accent-blue   { color: #38bdf8; }
+    .accent-green  { color: #34d399; }
+    .accent-purple { color: #a78bfa; }
+    .accent-teal   { color: #2dd4bf; }
+    .accent-orange { color: #fb923c; }
+    .accent-indigo { color: #818cf8; }
 
-        header {
-            border-bottom: 2px solid var(--ink);
-            margin-bottom: 2rem;
-        }
-    </style>
+    .dot-rose   { background: #f43f5e; }
+    .dot-amber  { background: #fbbf24; }
+    .dot-blue   { background: #38bdf8; }
+    .dot-green  { background: #34d399; }
+    .dot-purple { background: #a78bfa; }
+    .dot-teal   { background: #2dd4bf; }
+    .dot-orange { background: #fb923c; }
+    .dot-indigo { background: #818cf8; }
+
+    /* Progress bar */
+    .progress-track {
+      background: rgba(255, 255, 255, 0.06);
+      border-radius: 99px;
+      height: 6px;
+      overflow: hidden;
+    }
+    .progress-fill {
+      height: 100%;
+      border-radius: 99px;
+      transition: width 0.6s ease;
+    }
+
+    /* Badge */
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 4px 12px;
+      border-radius: 99px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      border: 1px solid;
+    }
+
+    /* Sparkline container */
+    .sparkline-wrap {
+      position: relative;
+      height: 80px;
+    }
+
+    /* Record card */
+    .record-card {
+      background: linear-gradient(135deg, rgba(255,255,255,0.04) 0%, rgba(255,255,255,0.01) 100%);
+      border: 1px solid var(--glass-border);
+      border-radius: 12px;
+      padding: 24px;
+    }
+
+    /* Stat tile */
+    .stat-tile {
+      background: rgba(255,255,255,0.03);
+      border: 1px solid var(--glass-border);
+      border-radius: 10px;
+      padding: 16px;
+    }
+
+    /* Loading state */
+    #loading {
+      min-height: 60vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.1rem;
+      color: #64748b;
+    }
+
+    #dashboard { display: none; }
+  </style>
+
+  <!-- Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-8SMQRLT4VS"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-8SMQRLT4VS');
+  </script>
 </head>
-<body class="max-w-6xl mx-auto px-4 py-8">
-    <header class="flex flex-col md:flex-row justify-between items-baseline pb-4 mb-8">
+<body>
+
+<div class="mesh-gradient"></div>
+
+<!-- ============================================================ NAV ============================================================ -->
+<nav class="navbar">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
+    <!-- Logo -->
+    <a href="/" class="flex items-center gap-2.5 no-underline group">
+      <div class="w-8 h-8 bg-gradient-to-tr from-rose-600 to-orange-500 rounded-lg flex items-center justify-center flex-shrink-0">
+        <i data-lucide="activity" class="w-4 h-4 text-white"></i>
+      </div>
+      <span class="font-bold text-white text-sm leading-tight">
+        Health Data <span class="text-slate-400 font-normal">/ Export &amp; Analyze</span>
+      </span>
+    </a>
+
+    <!-- Desktop nav links -->
+    <div class="hidden md:flex items-center gap-6 text-sm font-medium">
+      <a href="/" class="text-slate-400 hover:text-white transition-colors">Home</a>
+      <a href="/docs/" class="text-slate-400 hover:text-white transition-colors">Docs</a>
+      <a href="/openclaw-apple-health/" class="text-slate-400 hover:text-white transition-colors">OpenClaw</a>
+      <a href="https://apps.apple.com/us/app/health-data-export-ai-analyzer/id6749297170" target="_blank" class="flex items-center gap-1.5 bg-rose-600 hover:bg-rose-500 text-white px-4 py-1.5 rounded-lg transition-colors">
+        <i data-lucide="download" class="w-3.5 h-3.5"></i> Download App
+      </a>
+    </div>
+
+    <!-- Mobile menu button -->
+    <button id="mobile-menu-btn" class="md:hidden text-slate-400 hover:text-white">
+      <i data-lucide="menu" class="w-5 h-5"></i>
+    </button>
+  </div>
+
+  <!-- Mobile menu -->
+  <div id="mobile-menu" class="hidden md:hidden border-t border-white/5 px-4 py-3 space-y-2">
+    <a href="/" class="block text-slate-400 hover:text-white py-2 text-sm">Home</a>
+    <a href="/docs/" class="block text-slate-400 hover:text-white py-2 text-sm">Docs</a>
+    <a href="/openclaw-apple-health/" class="block text-slate-400 hover:text-white py-2 text-sm">OpenClaw</a>
+    <a href="https://apps.apple.com/us/app/health-data-export-ai-analyzer/id6749297170" target="_blank" class="block text-rose-400 py-2 text-sm">Download App</a>
+  </div>
+</nav>
+
+<!-- ============================================================ LOADING STATE ============================================================ -->
+<div id="loading">
+  <div class="text-center">
+    <div class="w-10 h-10 border-2 border-rose-600 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
+    <p id="loading-text">Loading health data…</p>
+  </div>
+</div>
+
+<!-- ============================================================ DASHBOARD ============================================================ -->
+<div id="dashboard" class="max-w-7xl mx-auto px-4 sm:px-6 py-10 space-y-12">
+
+  <!-- ---- HERO ---- -->
+  <section id="hero" class="text-center py-6">
+    <p class="text-xs font-semibold uppercase tracking-widest text-rose-400 mb-3">Real data · Updated April 11, 2026</p>
+    <h1 id="hero-name" class="text-4xl sm:text-5xl font-extrabold text-white mb-2"></h1>
+    <p id="hero-location" class="text-slate-400 text-lg mb-3 flex items-center justify-center gap-1.5">
+      <i data-lucide="map-pin" class="w-4 h-4 text-rose-500"></i>
+      <span></span>
+    </p>
+    <p class="text-slate-500 text-sm max-w-md mx-auto mb-5">Developer of this app. This is my actual Apple Health data, exported and published as a live showcase of what the dashboard can show.</p>
+    <div class="flex flex-wrap items-center justify-center gap-3">
+      <span id="badge-exported" class="badge text-rose-400 border-rose-500/30 bg-rose-500/10">
+        <i data-lucide="refresh-cw" class="w-3 h-3"></i>
+        <span></span>
+      </span>
+      <span id="badge-since" class="badge text-blue-400 border-blue-500/30 bg-blue-500/10">
+        <i data-lucide="calendar" class="w-3 h-3"></i>
+        <span></span>
+      </span>
+    </div>
+  </section>
+
+  <!-- ---- TODAY'S METRICS GRID ---- -->
+  <section>
+    <h2 class="text-lg font-semibold text-slate-300 mb-4 flex items-center gap-2">
+      <i data-lucide="sun" class="w-4 h-4 text-amber-400"></i>
+      Today's Metrics
+    </h2>
+    <div id="metrics-grid" class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
+
+      <!-- Steps -->
+      <div class="glass-card">
+        <div class="flex items-center gap-2 mb-3">
+          <span class="w-2 h-2 rounded-full dot-rose flex-shrink-0"></span>
+          <span class="text-xs font-semibold uppercase tracking-widest text-slate-500">Steps</span>
+        </div>
+        <div class="flex items-end gap-1">
+          <span id="t-steps" class="text-3xl font-extrabold accent-rose">—</span>
+          <span class="text-sm text-slate-500 mb-1">steps</span>
+        </div>
+        <i data-lucide="footprints" class="w-5 h-5 accent-rose mt-2 opacity-60"></i>
+      </div>
+
+      <!-- Active Energy -->
+      <div class="glass-card">
+        <div class="flex items-center gap-2 mb-3">
+          <span class="w-2 h-2 rounded-full dot-amber flex-shrink-0"></span>
+          <span class="text-xs font-semibold uppercase tracking-widest text-slate-500">Active Energy</span>
+        </div>
+        <div class="flex items-end gap-1">
+          <span id="t-energy" class="text-3xl font-extrabold accent-amber">—</span>
+          <span class="text-sm text-slate-500 mb-1">kcal</span>
+        </div>
+        <i data-lucide="zap" class="w-5 h-5 accent-amber mt-2 opacity-60"></i>
+      </div>
+
+      <!-- Exercise -->
+      <div class="glass-card">
+        <div class="flex items-center gap-2 mb-3">
+          <span class="w-2 h-2 rounded-full dot-green flex-shrink-0"></span>
+          <span class="text-xs font-semibold uppercase tracking-widest text-slate-500">Exercise</span>
+        </div>
+        <div class="flex items-end gap-1">
+          <span id="t-exercise" class="text-3xl font-extrabold accent-green">—</span>
+          <span class="text-sm text-slate-500 mb-1">min</span>
+        </div>
+        <i data-lucide="timer" class="w-5 h-5 accent-green mt-2 opacity-60"></i>
+      </div>
+
+      <!-- Stand Hours -->
+      <div class="glass-card">
+        <div class="flex items-center gap-2 mb-3">
+          <span class="w-2 h-2 rounded-full dot-teal flex-shrink-0"></span>
+          <span class="text-xs font-semibold uppercase tracking-widest text-slate-500">Stand Hours</span>
+        </div>
+        <div class="flex items-end gap-1">
+          <span id="t-stand" class="text-3xl font-extrabold accent-teal">—</span>
+          <span class="text-sm text-slate-500 mb-1">hrs</span>
+        </div>
+        <i data-lucide="person-standing" class="w-5 h-5 accent-teal mt-2 opacity-60"></i>
+      </div>
+
+      <!-- Sleep -->
+      <div class="glass-card">
+        <div class="flex items-center gap-2 mb-3">
+          <span class="w-2 h-2 rounded-full dot-blue flex-shrink-0"></span>
+          <span class="text-xs font-semibold uppercase tracking-widest text-slate-500">Sleep</span>
+        </div>
+        <div class="flex items-end gap-1">
+          <span id="t-sleep" class="text-3xl font-extrabold accent-blue">—</span>
+          <span class="text-sm text-slate-500 mb-1">hrs</span>
+        </div>
+        <i data-lucide="moon" class="w-5 h-5 accent-blue mt-2 opacity-60"></i>
+      </div>
+
+      <!-- Resting HR -->
+      <div class="glass-card">
+        <div class="flex items-center gap-2 mb-3">
+          <span class="w-2 h-2 rounded-full dot-rose flex-shrink-0"></span>
+          <span class="text-xs font-semibold uppercase tracking-widest text-slate-500">Resting HR</span>
+        </div>
+        <div class="flex items-end gap-1">
+          <span id="t-rhr" class="text-3xl font-extrabold accent-rose">—</span>
+          <span class="text-sm text-slate-500 mb-1">bpm</span>
+        </div>
+        <i data-lucide="heart-pulse" class="w-5 h-5 accent-rose mt-2 opacity-60"></i>
+      </div>
+
+      <!-- HRV -->
+      <div class="glass-card">
+        <div class="flex items-center gap-2 mb-3">
+          <span class="w-2 h-2 rounded-full dot-purple flex-shrink-0"></span>
+          <span class="text-xs font-semibold uppercase tracking-widest text-slate-500">HRV</span>
+        </div>
+        <div class="flex items-end gap-1">
+          <span id="t-hrv" class="text-3xl font-extrabold accent-purple">—</span>
+          <span class="text-sm text-slate-500 mb-1">ms</span>
+        </div>
+        <i data-lucide="activity" class="w-5 h-5 accent-purple mt-2 opacity-60"></i>
+      </div>
+
+      <!-- Weight -->
+      <div class="glass-card">
+        <div class="flex items-center gap-2 mb-3">
+          <span class="w-2 h-2 rounded-full dot-amber flex-shrink-0"></span>
+          <span class="text-xs font-semibold uppercase tracking-widest text-slate-500">Weight</span>
+        </div>
+        <div class="flex items-end gap-1">
+          <span id="t-weight" class="text-3xl font-extrabold accent-amber">—</span>
+          <span class="text-sm text-slate-500 mb-1">kg</span>
+        </div>
+        <i data-lucide="scale" class="w-5 h-5 accent-amber mt-2 opacity-60"></i>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ---- STREAKS & TOTALS ---- -->
+  <section>
+    <h2 class="text-lg font-semibold text-slate-300 mb-4 flex items-center gap-2">
+      <i data-lucide="trophy" class="w-4 h-4 text-amber-400"></i>
+      Streaks &amp; Totals
+    </h2>
+    <div class="grid grid-cols-2 sm:grid-cols-4 gap-4">
+
+      <div class="glass-card text-center">
+        <div class="text-3xl mb-1">🔥</div>
+        <div id="s-current" class="text-4xl font-extrabold text-white mb-1">—</div>
+        <div class="text-xs font-semibold uppercase tracking-widest text-slate-500">Current Streak</div>
+        <div class="text-xs text-slate-600 mt-1">days</div>
+      </div>
+
+      <div class="glass-card text-center">
+        <div class="text-3xl mb-1">⚡</div>
+        <div id="s-longest" class="text-4xl font-extrabold text-white mb-1">—</div>
+        <div class="text-xs font-semibold uppercase tracking-widest text-slate-500">Longest Streak</div>
+        <div class="text-xs text-slate-600 mt-1">days</div>
+      </div>
+
+      <div class="glass-card text-center">
+        <div class="text-3xl mb-1">🏋️</div>
+        <div id="s-workouts" class="text-4xl font-extrabold text-white mb-1">—</div>
+        <div class="text-xs font-semibold uppercase tracking-widest text-slate-500">Total Workouts</div>
+        <div class="text-xs text-slate-600 mt-1">all-time</div>
+      </div>
+
+      <div class="glass-card text-center">
+        <div class="text-3xl mb-1">📅</div>
+        <div id="s-active" class="text-4xl font-extrabold text-white mb-1">—</div>
+        <div class="text-xs font-semibold uppercase tracking-widest text-slate-500">Active Days</div>
+        <div class="text-xs text-slate-600 mt-1">of <span id="s-total-days">—</span> total</div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ---- 30-DAY SPARKLINES ---- -->
+  <section>
+    <h2 class="text-lg font-semibold text-slate-300 mb-4 flex items-center gap-2">
+      <i data-lucide="trending-up" class="w-4 h-4 text-rose-400"></i>
+      Last 30 Days
+    </h2>
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+
+      <!-- Steps sparkline -->
+      <div class="glass-card">
+        <div class="flex items-center justify-between mb-2">
+          <span class="text-xs font-semibold uppercase tracking-widest text-slate-500">Steps</span>
+          <span class="w-2 h-2 rounded-full dot-rose"></span>
+        </div>
+        <div class="sparkline-wrap">
+          <canvas id="chart-steps" role="img" aria-label="Steps over last 30 days, line chart"></canvas>
+        </div>
+        <div class="mt-3">
+          <span class="text-xs text-slate-500">30-day avg</span>
+          <div id="avg-steps" class="text-lg font-bold accent-rose">—</div>
+        </div>
+      </div>
+
+      <!-- Sleep sparkline -->
+      <div class="glass-card">
+        <div class="flex items-center justify-between mb-2">
+          <span class="text-xs font-semibold uppercase tracking-widest text-slate-500">Sleep</span>
+          <span class="w-2 h-2 rounded-full dot-blue"></span>
+        </div>
+        <div class="sparkline-wrap">
+          <canvas id="chart-sleep" role="img" aria-label="Sleep hours over last 30 days, line chart"></canvas>
+        </div>
+        <div class="mt-3">
+          <span class="text-xs text-slate-500">30-day avg</span>
+          <div id="avg-sleep" class="text-lg font-bold accent-blue">—</div>
+        </div>
+      </div>
+
+      <!-- HRV sparkline -->
+      <div class="glass-card">
+        <div class="flex items-center justify-between mb-2">
+          <span class="text-xs font-semibold uppercase tracking-widest text-slate-500">HRV</span>
+          <span class="w-2 h-2 rounded-full dot-purple"></span>
+        </div>
+        <div class="sparkline-wrap">
+          <canvas id="chart-hrv" role="img" aria-label="HRV over last 30 days, line chart"></canvas>
+        </div>
+        <div class="mt-3">
+          <span class="text-xs text-slate-500">30-day avg</span>
+          <div id="avg-hrv" class="text-lg font-bold accent-purple">—</div>
+        </div>
+      </div>
+
+      <!-- Weight sparkline -->
+      <div class="glass-card">
+        <div class="flex items-center justify-between mb-2">
+          <span class="text-xs font-semibold uppercase tracking-widest text-slate-500">Weight</span>
+          <span class="w-2 h-2 rounded-full dot-amber"></span>
+        </div>
+        <div class="sparkline-wrap">
+          <canvas id="chart-weight" role="img" aria-label="Weight over last 30 days, line chart"></canvas>
+        </div>
+        <div class="mt-3">
+          <span class="text-xs text-slate-500">30-day avg</span>
+          <div id="avg-weight" class="text-lg font-bold accent-amber">—</div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ---- WORKOUT BREAKDOWN ---- -->
+  <section>
+    <h2 class="text-lg font-semibold text-slate-300 mb-4 flex items-center gap-2">
+      <i data-lucide="dumbbell" class="w-4 h-4 text-green-400"></i>
+      Workout Breakdown
+    </h2>
+    <div class="glass-card">
+      <div id="workout-breakdown" class="space-y-5"></div>
+    </div>
+  </section>
+
+  <!-- ---- ALL-TIME RECORDS ---- -->
+  <section>
+    <h2 class="text-lg font-semibold text-slate-300 mb-4 flex items-center gap-2">
+      <i data-lucide="award" class="w-4 h-4 text-amber-400"></i>
+      All-Time Records
+    </h2>
+    <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+
+      <div class="record-card">
+        <div class="flex items-center gap-2 mb-3">
+          <div class="w-8 h-8 rounded-lg bg-rose-500/15 flex items-center justify-center">
+            <i data-lucide="footprints" class="w-4 h-4 text-rose-400"></i>
+          </div>
+          <span class="text-sm font-semibold text-slate-300">Peak Steps Day</span>
+        </div>
+        <div id="rec-steps-val" class="text-3xl font-extrabold accent-rose mb-1">—</div>
+        <div id="rec-steps-date" class="text-xs text-slate-500">—</div>
+      </div>
+
+      <div class="record-card">
+        <div class="flex items-center gap-2 mb-3">
+          <div class="w-8 h-8 rounded-lg bg-green-500/15 flex items-center justify-center">
+            <i data-lucide="heart-pulse" class="w-4 h-4 text-green-400"></i>
+          </div>
+          <span class="text-sm font-semibold text-slate-300">Lowest Resting HR</span>
+        </div>
+        <div id="rec-hr-val" class="text-3xl font-extrabold accent-green mb-1">—</div>
+        <div id="rec-hr-date" class="text-xs text-slate-500">—</div>
+      </div>
+
+      <div class="record-card">
+        <div class="flex items-center gap-2 mb-3">
+          <div class="w-8 h-8 rounded-lg bg-purple-500/15 flex items-center justify-center">
+            <i data-lucide="activity" class="w-4 h-4 text-purple-400"></i>
+          </div>
+          <span class="text-sm font-semibold text-slate-300">Highest HRV</span>
+        </div>
+        <div id="rec-hrv-val" class="text-3xl font-extrabold accent-purple mb-1">—</div>
+        <div id="rec-hrv-date" class="text-xs text-slate-500">—</div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ---- NUTRITION & VITALS ---- -->
+  <section>
+    <h2 class="text-lg font-semibold text-slate-300 mb-4 flex items-center gap-2">
+      <i data-lucide="leaf" class="w-4 h-4 text-green-400"></i>
+      Nutrition &amp; Vitals
+    </h2>
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+
+      <!-- Nutrition -->
+      <div id="nutrition-card" class="glass-card">
+        <h3 class="text-sm font-semibold text-slate-300 mb-4 flex items-center gap-2">
+          <i data-lucide="utensils" class="w-4 h-4 accent-amber"></i>
+          Daily Nutrition (avg)
+        </h3>
+        <div class="grid grid-cols-2 sm:grid-cols-3 gap-3">
+          <div class="stat-tile">
+            <div class="text-xs text-slate-500 mb-1">Calories</div>
+            <div id="n-calories" class="text-xl font-bold accent-amber">—</div>
+            <div class="text-xs text-slate-600">kcal</div>
+          </div>
+          <div class="stat-tile">
+            <div class="text-xs text-slate-500 mb-1">Protein</div>
+            <div id="n-protein" class="text-xl font-bold accent-rose">—</div>
+            <div class="text-xs text-slate-600">g</div>
+          </div>
+          <div class="stat-tile">
+            <div class="text-xs text-slate-500 mb-1">Carbs</div>
+            <div id="n-carbs" class="text-xl font-bold accent-blue">—</div>
+            <div class="text-xs text-slate-600">g</div>
+          </div>
+          <div class="stat-tile">
+            <div class="text-xs text-slate-500 mb-1">Fat</div>
+            <div id="n-fat" class="text-xl font-bold accent-orange">—</div>
+            <div class="text-xs text-slate-600">g</div>
+          </div>
+          <div class="stat-tile">
+            <div class="text-xs text-slate-500 mb-1">Water</div>
+            <div id="n-water" class="text-xl font-bold accent-teal">—</div>
+            <div class="text-xs text-slate-600">L</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Vitals -->
+      <div class="glass-card">
+        <h3 class="text-sm font-semibold text-slate-300 mb-4 flex items-center gap-2">
+          <i data-lucide="heart" class="w-4 h-4 accent-rose"></i>
+          Vitals (avg)
+        </h3>
+        <div class="grid grid-cols-2 sm:grid-cols-3 gap-3">
+          <div class="stat-tile">
+            <div class="text-xs text-slate-500 mb-1">Blood Oxygen</div>
+            <div id="v-spo2" class="text-xl font-bold accent-blue">—</div>
+            <div class="text-xs text-slate-600">%</div>
+          </div>
+          <div class="stat-tile">
+            <div class="text-xs text-slate-500 mb-1">Blood Pressure</div>
+            <div id="v-bp" class="text-xl font-bold accent-rose">—</div>
+            <div class="text-xs text-slate-600">mmHg</div>
+          </div>
+          <div class="stat-tile">
+            <div class="text-xs text-slate-500 mb-1">Blood Glucose</div>
+            <div id="v-glucose" class="text-xl font-bold accent-amber">—</div>
+            <div class="text-xs text-slate-600">mg/dL</div>
+          </div>
+          <div id="v-resp-tile" class="stat-tile">
+            <div class="text-xs text-slate-500 mb-1">Resp. Rate</div>
+            <div id="v-resp" class="text-xl font-bold accent-teal">—</div>
+            <div class="text-xs text-slate-600">br/min</div>
+          </div>
+          <div id="v-temp-tile" class="stat-tile">
+            <div class="text-xs text-slate-500 mb-1">Body Temp</div>
+            <div id="v-temp" class="text-xl font-bold accent-amber">—</div>
+            <div class="text-xs text-slate-600">°C</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ---- CTA ---- -->
+  <section>
+    <div class="glass-card text-center py-10 px-6" style="background: linear-gradient(135deg, rgba(244,63,94,0.06) 0%, rgba(56,189,248,0.04) 100%); border-color: rgba(244,63,94,0.2);">
+      <div class="w-12 h-12 bg-gradient-to-tr from-emerald-500 to-teal-400 rounded-xl flex items-center justify-center mx-auto mb-4">
+        <i data-lucide="bar-chart-2" class="w-6 h-6 text-white"></i>
+      </div>
+      <h2 class="text-2xl font-extrabold text-white mb-2">Build your own dashboard</h2>
+      <p class="text-slate-400 max-w-md mx-auto mb-6">The template is open source. Fork it on GitHub, export your data from the app, and host your own public health dashboard in minutes.</p>
+      <div class="flex flex-wrap items-center justify-center gap-3">
+        <a href="https://github.com/krumjahn/health-dashboard" target="_blank"
+           class="flex items-center gap-2 bg-white/10 hover:bg-white/15 border border-white/15 text-white font-semibold px-5 py-2.5 rounded-lg transition-all">
+          <i data-lucide="github" class="w-4 h-4"></i>
+          GitHub Template →
+        </a>
+        <a href="https://apps.apple.com/us/app/health-data-export-ai-analyzer/id6749297170" target="_blank"
+           class="flex items-center gap-2 bg-rose-600 hover:bg-rose-500 text-white font-semibold px-5 py-2.5 rounded-lg transition-all">
+          <i data-lucide="download" class="w-4 h-4"></i>
+          Get the App →
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ---- PAGE FOOTER ---- -->
+  <footer class="text-center text-xs text-slate-600 py-6 border-t border-white/5">
+    Health Data Export &amp; AI Analyzer &bull; <a href="https://applehealthdata.com" class="hover:text-slate-400 transition-colors">applehealthdata.com</a> &bull; Data updated on demand
+  </footer>
+
+</div><!-- /dashboard -->
+
+<!-- ============================================================ SCRIPTS ============================================================ -->
+<script>
+  // ── Mobile menu toggle
+  document.getElementById('mobile-menu-btn').addEventListener('click', () => {
+    document.getElementById('mobile-menu').classList.toggle('hidden');
+  });
+
+  // ── Helpers
+  function formatDate(iso) {
+    return new Date(iso).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
+  }
+
+  function formatShortDate(iso) {
+    return new Date(iso).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+  }
+
+  function num(v) { return v != null ? v.toLocaleString() : '—'; }
+
+  // ── Sparkline factory
+  function createSparkline(canvasId, labels, values, color, fillColor) {
+    const canvas = document.getElementById(canvasId);
+    const existing = Chart.getChart(canvas);
+    if (existing) existing.destroy();
+    new Chart(canvas, {
+      type: 'line',
+      data: {
+        labels,
+        datasets: [{
+          data: values,
+          borderColor: color,
+          backgroundColor: fillColor,
+          tension: 0.4,
+          pointRadius: 0,
+          fill: true,
+          borderWidth: 2
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: { legend: { display: false }, tooltip: { enabled: false } },
+        scales: { x: { display: false }, y: { display: false } },
+        animation: false
+      }
+    });
+  }
+
+  // ── Main render
+  function renderDashboard(data) {
+    const { meta, summary, today, last30Days, allTime, workoutBreakdown, nutrition, vitals } = data;
+
+    // Hero
+    document.getElementById('hero-name').textContent = meta.owner;
+    document.querySelector('#hero-location span').textContent = meta.location;
+    document.querySelector('#badge-exported span').textContent = 'Last updated: ' + formatDate(meta.exportedAt);
+    document.querySelector('#badge-since span').textContent = 'Data since ' + formatShortDate(summary.dataStartDate);
+
+    // Today's metrics
+    document.getElementById('t-steps').textContent   = num(today.steps);
+    document.getElementById('t-energy').textContent  = num(today.activeEnergy);
+    document.getElementById('t-exercise').textContent= num(today.exerciseMinutes);
+    document.getElementById('t-stand').textContent   = today.standHours;
+    document.getElementById('t-sleep').textContent   = today.sleepHours;
+    document.getElementById('t-rhr').textContent     = today.restingHeartRate;
+    document.getElementById('t-hrv').textContent     = today.hrv;
+    document.getElementById('t-weight').textContent  = today.weight;
+
+    // Streaks & totals
+    document.getElementById('s-current').textContent  = allTime.currentStreak;
+    document.getElementById('s-longest').textContent  = allTime.longestStreak;
+    document.getElementById('s-workouts').textContent = num(allTime.totalWorkouts);
+    document.getElementById('s-active').textContent   = num(summary.activeDays);
+    document.getElementById('s-total-days').textContent = num(summary.totalDays);
+
+    // 30-day sparklines
+    const stepsLabels  = last30Days.stepsHistory.map(d => d.date);
+    const stepsVals    = last30Days.stepsHistory.map(d => d.value);
+    const sleepLabels  = last30Days.sleepHistory.map(d => d.date);
+    const sleepVals    = last30Days.sleepHistory.map(d => d.value);
+    const hrvLabels    = last30Days.hrvHistory.map(d => d.date);
+    const hrvVals      = last30Days.hrvHistory.map(d => d.value);
+    const wgtLabels    = last30Days.weightHistory.map(d => d.date);
+    const wgtVals      = last30Days.weightHistory.map(d => d.value);
+
+    createSparkline('chart-steps',  stepsLabels, stepsVals, '#f43f5e', 'rgba(244,63,94,0.12)');
+    createSparkline('chart-sleep',  sleepLabels, sleepVals, '#38bdf8', 'rgba(56,189,248,0.12)');
+    createSparkline('chart-hrv',    hrvLabels,   hrvVals,   '#a78bfa', 'rgba(167,139,250,0.12)');
+    createSparkline('chart-weight', wgtLabels,   wgtVals,   '#fbbf24', 'rgba(251,191,36,0.12)');
+
+    document.getElementById('avg-steps').textContent  = num(last30Days.avgSteps) + ' steps';
+    document.getElementById('avg-sleep').textContent  = last30Days.avgSleepHours + ' hrs';
+    document.getElementById('avg-hrv').textContent    = last30Days.avgHRV + ' ms';
+    document.getElementById('avg-weight').textContent = last30Days.avgWeight + ' kg';
+
+    // Workout breakdown
+    const breakdown = Array.isArray(workoutBreakdown) ? workoutBreakdown : [];
+    const totalMins = breakdown.reduce((a, w) => a + (w.totalMinutes ?? 0), 0);
+    const barColors = ['#f43f5e','#38bdf8','#a78bfa','#34d399','#fbbf24','#fb923c'];
+    const wrapEl = document.getElementById('workout-breakdown');
+    wrapEl.innerHTML = breakdown.map((w, i) => {
+      const pct = totalMins > 0 ? Math.round((w.totalMinutes / totalMins) * 100) : 0;
+      const hrs = (w.totalMinutes / 60).toFixed(1);
+      const color = barColors[i % barColors.length];
+      return `
         <div>
-            <h1 class="text-3xl md:text-4xl mb-2">Health Metrics Journal</h1>
-            <p class="text-sm italic text-gray-600">Established 2025 • Local-First Persistence</p>
-        </div>
-        <div class="mt-4 md:mt-0 flex items-center gap-4">
-            <a href="/pro" class="text-sm font-sans font-bold text-blue-600 hover:text-blue-800 flex items-center gap-2">
-                <i data-lucide="shield-check" class="w-4 h-4"></i> Biohacker Pro
-            </a>
-            <div class="badge text-clinical-blue border-clinical-blue flex items-center gap-2">
-                <i data-lucide="shield-check" class="w-3 h-3"></i>
-                <span id="storage-usage">0 KB</span> Sent to Cloud
+          <div class="flex items-center justify-between mb-1.5">
+            <div class="flex items-center gap-2">
+              <span class="w-2.5 h-2.5 rounded-full flex-shrink-0" style="background:${color}"></span>
+              <span class="text-sm font-medium text-slate-200">${w.type}</span>
             </div>
-            <button id="clear-btn" class="text-sm font-sans text-clinical-red underline hover:text-red-800">Clear Data</button>
-            <button id="refresh-btn" class="text-sm font-sans underline hover:text-gray-600">Refresh Data</button>
-        </div>
-    </header>
-
-    <main>
-        <div class="bento-grid">
-            <!-- Steps Card -->
-            <div class="bento-item md:col-span-2">
-                <div class="flex justify-between items-start mb-4">
-                    <div class="flex items-center gap-2 text-clinical-blue">
-                        <i data-lucide="footprints" class="w-5 h-5"></i>
-                        <h3 class="font-sans uppercase text-xs font-bold tracking-widest">Daily Steps</h3>
-                    </div>
-                </div>
-                <div id="steps-metric" class="metric-value">0 <span class="metric-unit">steps</span></div>
-                <div id="steps-delta" class="text-sm font-sans flex items-center gap-1">
-                    <span class="delta-label">Weekly Average:</span>
-                    <span class="delta-value">--</span>
-                </div>
+            <div class="flex items-center gap-4 text-xs text-slate-500">
+              <span>${w.count} sessions</span>
+              <span>${hrs} hrs</span>
+              <span class="w-8 text-right font-semibold" style="color:${color}">${pct}%</span>
             </div>
+          </div>
+          <div class="progress-track">
+            <div class="progress-fill" style="width:${pct}%; background:${color}"></div>
+          </div>
+        </div>`;
+    }).join('');
 
-            <!-- Heart Rate Card -->
-            <div class="bento-item">
-                <div class="flex justify-between items-start mb-4">
-                    <div class="flex items-center gap-2 text-clinical-red">
-                        <i data-lucide="heart" class="w-5 h-5"></i>
-                        <h3 class="font-sans uppercase text-xs font-bold tracking-widest">Avg Heart Rate</h3>
-                    </div>
-                </div>
-                <div id="hr-metric" class="metric-value">0 <span class="metric-unit">bpm</span></div>
-                <div id="hr-delta" class="text-sm font-sans flex items-center gap-1">
-                    <span class="delta-label">vs Prev Week:</span>
-                    <span class="delta-value">--</span>
-                </div>
-            </div>
+    // All-time records
+    document.getElementById('rec-steps-val').textContent  = (allTime.peakStepsDay?.value ?? '—') + ' steps';
+    document.getElementById('rec-steps-date').textContent = allTime.peakStepsDay?.date ? formatShortDate(allTime.peakStepsDay.date) : '—';
+    document.getElementById('rec-hr-val').textContent     = (allTime.lowestRestingHR?.value ?? '—') + ' bpm';
+    document.getElementById('rec-hr-date').textContent    = allTime.lowestRestingHR?.date ? formatShortDate(allTime.lowestRestingHR.date) : '—';
+    document.getElementById('rec-hrv-val').textContent    = (allTime.highestHRV?.value ?? '—') + ' ms';
+    document.getElementById('rec-hrv-date').textContent   = allTime.highestHRV?.date ? formatShortDate(allTime.highestHRV.date) : '—';
 
-            <!-- Sleep Card -->
-            <div class="bento-item">
-                <div class="flex justify-between items-start mb-4">
-                    <div class="flex items-center gap-2 text-indigo-900">
-                        <i data-lucide="moon" class="w-5 h-5"></i>
-                        <h3 class="font-sans uppercase text-xs font-bold tracking-widest">Sleep Duration</h3>
-                    </div>
-                </div>
-                <div id="sleep-metric" class="metric-value">0 <span class="metric-unit">hrs</span></div>
-                <div id="sleep-delta" class="text-sm font-sans flex items-center gap-1">
-                    <span class="delta-label">Weekly Delta:</span>
-                    <span class="delta-value">--</span>
-                </div>
-            </div>
+    // Nutrition (optional — hide card entirely if null)
+    if (nutrition) {
+      document.getElementById('n-calories').textContent = nutrition.avgDailyCalories != null ? num(nutrition.avgDailyCalories) : '—';
+      document.getElementById('n-protein').textContent  = nutrition.avgProtein  != null ? nutrition.avgProtein  : '—';
+      document.getElementById('n-carbs').textContent    = nutrition.avgCarbs    != null ? nutrition.avgCarbs    : '—';
+      document.getElementById('n-fat').textContent      = nutrition.avgFat      != null ? nutrition.avgFat      : '—';
+      document.getElementById('n-water').textContent    = nutrition.avgWater    != null ? nutrition.avgWater    : '—';
+    } else {
+      document.getElementById('nutrition-card').style.display = 'none';
+    }
 
-            <!-- Empty State / Data Info -->
-            <div id="empty-state" class="bento-item md:col-span-2 bg-gray-50 border-dashed text-center py-12 hidden">
-                <i data-lucide="database-zap" class="w-12 h-12 text-gray-300 mx-auto mb-4"></i>
-                <h3 class="text-xl mb-2">No Local Data Found</h3>
-                <p class="text-sm text-gray-500 max-w-sm mx-auto mb-6">Import your <code>export.xml</code> using the Convert Tool to populate this dashboard.</p>
-                <a href="../convert-tool/" class="font-sans font-bold text-clinical-blue underline">Go to Convert Tool</a>
-            </div>
-        </div>
+    // Vitals (optional — hide individual tiles if null)
+    if (vitals) {
+      document.getElementById('v-spo2').textContent = vitals.avgBloodOxygen != null ? vitals.avgBloodOxygen : '—';
+      const bpEl = document.getElementById('v-bp');
+      if (bpEl) bpEl.textContent = (vitals.avgBloodPressureSystolic != null && vitals.avgBloodPressureDiastolic != null)
+        ? `${Math.round(vitals.avgBloodPressureSystolic)}/${Math.round(vitals.avgBloodPressureDiastolic)}`
+        : '—';
+      const glucoseEl = document.getElementById('v-glucose');
+      if (glucoseEl) glucoseEl.textContent = vitals.avgBloodGlucose != null ? Math.round(vitals.avgBloodGlucose) : '—';
+      if (vitals.avgRespiratoryRate != null) {
+        document.getElementById('v-resp').textContent = vitals.avgRespiratoryRate;
+      } else {
+        document.getElementById('v-resp-tile').style.display = 'none';
+      }
+      if (vitals.avgBodyTemp != null) {
+        document.getElementById('v-temp').textContent = vitals.avgBodyTemp;
+      } else {
+        document.getElementById('v-temp-tile').style.display = 'none';
+      }
+    }
 
-        <section class="mt-12 px-6">
-            <h2 class="text-2xl border-b border-gray-200 pb-2 mb-6">Technical Ledger</h2>
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 text-sm italic text-gray-600">
-                <div>
-                    <h4 class="font-bold not-italic text-black mb-2 uppercase text-xs font-sans tracking-widest">Storage Protocol</h4>
-                    <p>Metrics are committed to IndexedDB (Client-Side). No telemetry, no cookies, no external API calls.</p>
-                </div>
-                <div>
-                    <h4 class="font-bold not-italic text-black mb-2 uppercase text-xs font-sans tracking-widest">Analysis Engine</h4>
-                    <p>Delta calculations performed on-the-fly using temporal windowing of 7-day increments.</p>
-                </div>
-                <div>
-                    <h4 class="font-bold not-italic text-black mb-2 uppercase text-xs font-sans tracking-widest">Data Integrity</h4>
-                    <p>Records are derived from the official HealthKit XML specification via standard parser hooks.</p>
-                </div>
-            </div>
-        </section>
-    </main>
+    // Show dashboard, hide loading
+    document.getElementById('loading').style.display = 'none';
+    document.getElementById('dashboard').style.display = 'block';
 
-    <script>
-        // IndexedDB Logic
-        const DB_NAME = 'HealthDashboardDB';
-        const DB_VERSION = 1;
-        const STORE_NAME = 'metrics';
+    // Re-init lucide icons (rendered after JS)
+    lucide.createIcons();
+  }
 
-        function initDB() {
-            return new Promise((resolve, reject) => {
-                const request = indexedDB.open(DB_NAME, DB_VERSION);
-                request.onerror = event => reject("Database error: " + event.target.errorCode);
-                request.onupgradeneeded = event => {
-                    const db = event.target.result;
-                    if (!db.objectStoreNames.contains(STORE_NAME)) {
-                        const store = db.createObjectStore(STORE_NAME, { keyPath: 'id', autoIncrement: true });
-                        store.createIndex('type', 'type', { unique: false });
-                        store.createIndex('date', 'date', { unique: false });
-                    }
-                };
-                request.onsuccess = event => resolve(event.target.result);
-            });
-        }
+  // ── Data loading
+  async function loadData() {
+    try {
+      const res = await fetch('./health-data.json');
+      if (!res.ok) throw new Error('HTTP ' + res.status);
+      const data = await res.json();
+      renderDashboard(data);
+    } catch (e) {
+      const el = document.getElementById('loading-text') || document.getElementById('loading');
+      if (el) el.textContent = 'Could not load health data. (' + e.message + ')';
+      console.error(e);
+    }
+  }
 
-        async function getMetrics() {
-            const db = await initDB();
-            return new Promise((resolve, reject) => {
-                const transaction = db.transaction([STORE_NAME], 'readonly');
-                const store = transaction.objectStore(STORE_NAME);
-                const request = store.getAll();
-                request.onsuccess = () => resolve(request.result);
-                request.onerror = () => reject(request.error);
-            });
-        }
+  document.addEventListener('DOMContentLoaded', () => {
+    loadData();
+  });
+</script>
 
-        // Dashboard Logic
-        async function updateDashboard() {
-            const data = await getMetrics();
-            
-            // Calculate Storage Usage
-            const dataSize = JSON.stringify(data).length;
-            const sizeFormatted = (dataSize / 1024).toFixed(1) + " KB";
-            document.getElementById('storage-usage').textContent = sizeFormatted;
-
-            if (!data || data.length === 0) {
-                document.getElementById('empty-state').classList.remove('hidden');
-                // Reset metrics
-                document.getElementById('steps-metric').innerHTML = `0 <span class="metric-unit">steps</span>`;
-                document.getElementById('hr-metric').innerHTML = `0 <span class="metric-unit">bpm</span>`;
-                document.getElementById('sleep-metric').innerHTML = `0 <span class="metric-unit">hrs</span>`;
-                return;
-            } else {
-                document.getElementById('empty-state').classList.add('hidden');
-            }
-
-            const now = new Date();
-            // Ensure consistent timezone handling for comparison
-            const todayStart = new Date(now.getFullYear(), now.getMonth(), now.getDate());
-            const sevenDaysAgo = new Date(todayStart.getTime() - (7 * 24 * 60 * 60 * 1000));
-            const fourteenDaysAgo = new Date(todayStart.getTime() - (14 * 24 * 60 * 60 * 1000));
-
-            const filterByTypeAndDate = (type, start, end) => {
-                return data.filter(d => {
-                    const dDate = new Date(d.date);
-                    return d.type.includes(type) && dDate >= start && dDate < end;
-                });
-            };
-
-            const calculateAvg = (records) => {
-                if (records.length === 0) return 0;
-                const sum = records.reduce((acc, r) => acc + parseFloat(r.value || 0), 0);
-                return sum / records.length;
-            };
-
-            const calculateSum = (records) => {
-                return records.reduce((acc, r) => acc + parseFloat(r.value || 0), 0);
-            };
-
-            // Steps (Sum for current day, Avg for weeks)
-            const currentSteps = filterByTypeAndDate('StepCount', todayStart, now);
-            const stepsVal = calculateSum(currentSteps);
-            document.getElementById('steps-metric').innerHTML = `${Math.round(stepsVal).toLocaleString()} <span class="metric-unit">steps</span>`;
-            
-            const stepsThisWeek = filterByTypeAndDate('StepCount', sevenDaysAgo, now);
-            const stepsPrevWeek = filterByTypeAndDate('StepCount', fourteenDaysAgo, sevenDaysAgo);
-            const stepsThisWeekAvg = calculateSum(stepsThisWeek) / 7;
-            const stepsPrevWeekAvg = calculateSum(stepsPrevWeek) / 7;
-            updateDelta('steps-delta', stepsThisWeekAvg, stepsPrevWeekAvg, 'steps/day');
-
-            // Heart Rate
-            const hrThisWeek = filterByTypeAndDate('HeartRate', sevenDaysAgo, now);
-            const hrPrevWeek = filterByTypeAndDate('HeartRate', fourteenDaysAgo, sevenDaysAgo);
-            const hrThisWeekAvg = calculateAvg(hrThisWeek);
-            const hrPrevWeekAvg = calculateAvg(hrPrevWeek);
-            document.getElementById('hr-metric').innerHTML = `${Math.round(hrThisWeekAvg)} <span class="metric-unit">bpm</span>`;
-            updateDelta('hr-delta', hrThisWeekAvg, hrPrevWeekAvg, 'bpm', true);
-
-            // Sleep
-            const sleepThisWeek = filterByTypeAndDate('SleepAnalysis', sevenDaysAgo, now);
-            const sleepPrevWeek = filterByTypeAndDate('SleepAnalysis', fourteenDaysAgo, sevenDaysAgo);
-            const sleepThisWeekAvg = calculateSum(sleepThisWeek) / 7;
-            const sleepPrevWeekAvg = calculateSum(sleepPrevWeek) / 7;
-            document.getElementById('sleep-metric').innerHTML = `${(sleepThisWeekAvg).toFixed(1)} <span class="metric-unit">hrs</span>`;
-            updateDelta('sleep-delta', sleepThisWeekAvg, sleepPrevWeekAvg, 'hrs');
-        }
-
-        async function clearData() {
-            if (!confirm("Are you sure you want to clear all locally stored health data?")) return;
-            const db = await initDB();
-            const transaction = db.transaction([STORE_NAME], 'readwrite');
-            const store = transaction.objectStore(STORE_NAME);
-            const request = store.clear();
-            request.onsuccess = () => {
-                console.log("Database cleared.");
-                updateDashboard();
-            };
-        }
-
-        function updateDelta(elementId, current, prev, unit, inverse = false) {
-            const el = document.getElementById(elementId);
-            const deltaVal = el.querySelector('.delta-value');
-            if (prev === 0) {
-                deltaVal.textContent = `Avg: ${Math.round(current)} ${unit}`;
-                return;
-            }
-            const diff = current - prev;
-            const percent = (diff / prev) * 100;
-            const sign = diff >= 0 ? '+' : '';
-            
-            let colorClass = diff >= 0 ? 'delta-positive' : 'delta-negative';
-            if (inverse) {
-                colorClass = diff <= 0 ? 'delta-positive' : 'delta-negative';
-            }
-
-            deltaVal.innerHTML = `<span class="${colorClass}">${sign}${Math.round(percent)}%</span> vs prev week`;
-        }
-
-        document.getElementById('refresh-btn').addEventListener('click', updateDashboard);
-        document.getElementById('clear-btn').addEventListener('click', clearData);
-
-        initDB().then(updateDashboard);
-        lucide.createIcons();
-    </script>
 </body>
 </html>

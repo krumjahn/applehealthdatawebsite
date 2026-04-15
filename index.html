@@ -341,10 +341,9 @@
                         <span class="text-xs text-slate-400 tracking-wider uppercase font-semibold">Export & Analyze</span>
                     </div>
                 </div>
+                <!-- Desktop nav -->
                 <div class="hidden md:flex items-center space-x-1">
-                    <a href="/dashboard" class="px-4 py-2 text-sm font-medium text-rose-400 hover:text-rose-300 transition-colors rounded-lg hover:bg-white/5 flex items-center gap-2">
-                        <i data-lucide="layout-dashboard" class="w-4 h-4"></i> Dashboard
-                    </a>
+                    <a href="/dashboard/" class="px-4 py-2 text-sm font-medium text-slate-300 hover:text-white transition-colors rounded-lg hover:bg-white/5">Dashboard</a>
                     <a href="#features" class="px-4 py-2 text-sm font-medium text-slate-300 hover:text-white transition-colors rounded-lg hover:bg-white/5">Features</a>
                     <a href="#specs" class="px-4 py-2 text-sm font-medium text-slate-300 hover:text-white transition-colors rounded-lg hover:bg-white/5">Specs</a>
                     <a href="/openclaw-apple-health/" class="px-4 py-2 text-sm font-medium text-slate-300 hover:text-white transition-colors rounded-lg hover:bg-white/5 flex items-center gap-2">
@@ -354,12 +353,67 @@
                     <a href="/workflows/" class="px-4 py-2 text-sm font-medium text-slate-300 hover:text-white transition-colors rounded-lg hover:bg-white/5 flex items-center gap-2"><i data-lucide="workflow" class="w-4 h-4"></i> Workflows</a>
                     <a href="/changelog.html" class="px-4 py-2 text-sm font-medium text-slate-300 hover:text-white transition-colors rounded-lg hover:bg-white/5 flex items-center gap-2"><i data-lucide="history" class="w-4 h-4"></i> Updates</a>
                     <a href="/go/website.html" target="_blank" rel="noopener" data-cta-location="nav" id="cta-nav-appstore" class="ml-4 bg-white text-black px-5 py-2.5 rounded-full text-sm font-bold hover:bg-slate-200 transition-all shadow-[0_0_20px_rgba(255,255,255,0.3)]">
+                    <a href="/docs/" class="px-4 py-2 text-sm font-medium text-slate-300 hover:text-white transition-colors rounded-lg hover:bg-white/5 flex items-center gap-2"><i data-lucide="book-open" class="w-4 h-4"></i> Docs</a>
+                    <a href="/docs/changelog.html" class="px-4 py-2 text-sm font-medium text-slate-300 hover:text-white transition-colors rounded-lg hover:bg-white/5 flex items-center gap-2"><i data-lucide="history" class="w-4 h-4"></i> Updates</a>
+                    <a href="/go/website.html" target="_blank" rel="noopener" data-cta-location="nav" id="cta-nav-appstore" class="ml-4 bg-white text-black px-5 py-2.5 rounded-full text-sm font-bold hover:bg-slate-200 transition-all shadow-[0_0_20px_rgba(255,255,255,0.3)]">
                         Get App
                     </a>
                 </div>
+                <!-- Mobile: Get App + Hamburger -->
+                <div class="flex md:hidden items-center gap-3">
+                    <a href="/go/website.html" target="_blank" rel="noopener" class="bg-white text-black px-4 py-2 rounded-full text-sm font-bold">Get App</a>
+                    <button id="mobile-menu-btn" aria-label="Toggle menu" aria-expanded="false" class="p-2 rounded-lg text-slate-300 hover:text-white hover:bg-white/10 transition-colors">
+                        <svg id="mobile-icon-open" xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+                        <svg id="mobile-icon-close" xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <!-- Mobile dropdown -->
+        <div id="mobile-menu" class="hidden md:hidden border-t border-white/10 bg-slate-950/95 backdrop-blur-xl">
+            <div class="px-4 py-4 flex flex-col gap-1">
+                <a href="/dashboard/" class="px-4 py-3 text-sm font-medium text-slate-300 hover:text-white hover:bg-white/5 rounded-lg transition-colors">Dashboard</a>
+                <a href="#features" class="px-4 py-3 text-sm font-medium text-slate-300 hover:text-white hover:bg-white/5 rounded-lg transition-colors mobile-menu-close">Features</a>
+                <a href="#specs" class="px-4 py-3 text-sm font-medium text-slate-300 hover:text-white hover:bg-white/5 rounded-lg transition-colors mobile-menu-close">Specs</a>
+                <a href="/openclaw-apple-health/" class="px-4 py-3 text-sm font-medium text-slate-300 hover:text-white hover:bg-white/5 rounded-lg transition-colors flex items-center gap-2">
+                    <span role="img" aria-label="Lobster">🦞</span> OpenClaw
+                </a>
+                <a href="/workflows/" class="px-4 py-3 text-sm font-medium text-slate-300 hover:text-white hover:bg-white/5 rounded-lg transition-colors flex items-center gap-2"><i data-lucide="workflow" class="w-4 h-4"></i> Workflows</a>
+                <a href="/docs/" class="px-4 py-3 text-sm font-medium text-slate-300 hover:text-white hover:bg-white/5 rounded-lg transition-colors flex items-center gap-2"><i data-lucide="book-open" class="w-4 h-4"></i> Docs</a>
+                <a href="/docs/changelog.html" class="px-4 py-3 text-sm font-medium text-slate-300 hover:text-white hover:bg-white/5 rounded-lg transition-colors flex items-center gap-2"><i data-lucide="history" class="w-4 h-4"></i> Updates</a>
             </div>
         </div>
     </nav>
+    <script>
+        (function() {
+            var btn = document.getElementById('mobile-menu-btn');
+            var menu = document.getElementById('mobile-menu');
+            var iconOpen = document.getElementById('mobile-icon-open');
+            var iconClose = document.getElementById('mobile-icon-close');
+            function close() {
+                menu.classList.add('hidden');
+                iconOpen.classList.remove('hidden');
+                iconClose.classList.add('hidden');
+                btn.setAttribute('aria-expanded', 'false');
+            }
+            if (btn && menu) {
+                btn.addEventListener('click', function() {
+                    var isOpen = !menu.classList.contains('hidden');
+                    if (isOpen) {
+                        close();
+                    } else {
+                        menu.classList.remove('hidden');
+                        iconOpen.classList.add('hidden');
+                        iconClose.classList.remove('hidden');
+                        btn.setAttribute('aria-expanded', 'true');
+                    }
+                });
+                menu.querySelectorAll('a').forEach(function(a) {
+                    a.addEventListener('click', close);
+                });
+            }
+        })();
+    </script>
 
     <!-- Hero Section -->
     <section class="relative pt-32 pb-20 lg:pt-48 lg:pb-32 overflow-hidden">
@@ -739,9 +793,11 @@
             </div>
 
             <div class="flex flex-col md:flex-row items-center justify-center gap-8 md:gap-16">
-                <!-- iPhone Image -->
+                <!-- iPhone Video Preview -->
                 <div class="w-1/2 md:w-1/3">
-                    <img src="images/iphone-app-screenshot.png" alt="iPhone App showing Health Data Export" class="rounded-3xl shadow-2xl">
+                    <video autoplay muted loop playsinline class="rounded-3xl shadow-2xl w-full" poster="images/iphone-app-screenshot.png">
+                        <source src="images/app-preview-video.mp4" type="video/mp4">
+                    </video>
                 </div>
 
                 <!-- Sync Animation (now representing export) -->
@@ -931,6 +987,17 @@
                     <p class="text-slate-400 text-sm">A read-only localhost API for AI tools and developer workflows. Query your Apple Health data from <strong class="text-white">OpenClaw, scripts, or custom integrations</strong>.</p>
                 </a>
 
+                <!-- Live Health Dashboard Card -->
+                <a href="/dashboard/" class="bento-card md:col-span-4 p-8 border-emerald-500/30 relative overflow-hidden hover:border-emerald-400/50 block group">
+                  <div class="flex items-center gap-3 mb-3">
+                    <div class="w-10 h-10 bg-gradient-to-tr from-emerald-500 to-teal-400 rounded-xl flex items-center justify-center">
+                      <i data-lucide="bar-chart-2" class="w-5 h-5 text-white"></i>
+                    </div>
+                    <span class="font-bold text-white">Live Health Dashboard</span>
+                  </div>
+                  <p class="text-sm text-slate-400">My personal health data, publicly shared. Fork the template to build your own.</p>
+                </a>
+
             </div>
         </div>
     </section>
@@ -1080,6 +1147,24 @@
                     </div>
                     <h3 class="text-xl font-bold text-white mb-2 group-hover:text-blue-400 transition-colors">AI-Native Health Guide</h3>
                     <p class="text-slate-400 text-sm">Advanced guide on using LLMs (ChatGPT, Claude, local) to find bio-insights in your health data.</p>
+                </a>
+
+                <!-- Comparison Post -->
+                <a href="/blog/best-apple-health-export-apps.html" class="bento-card p-8 block group">
+                    <div class="w-12 h-12 rounded-xl bg-indigo-500/20 flex items-center justify-center mb-4 border border-indigo-500/30 group-hover:bg-indigo-500/30 transition-all">
+                        <i data-lucide="list-checks" class="w-6 h-6 text-indigo-400"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-white mb-2 group-hover:text-indigo-400 transition-colors">Best Apps to Export Apple Health Data (2026)</h3>
+                    <p class="text-slate-400 text-sm">We compared 21 Apple Health export apps across formats, pricing, AI support, and privacy. Here's what we found.</p>
+                </a>
+
+                <!-- OpenClaw Workflow Post -->
+                <a href="/blog/openclaw-apple-health-export.html" class="bento-card p-8 block group">
+                    <div class="w-12 h-12 rounded-xl bg-purple-500/20 flex items-center justify-center mb-4 border border-purple-500/30 group-hover:bg-purple-500/30 transition-all">
+                        <i data-lucide="zap" class="w-6 h-6 text-purple-400"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-white mb-2 group-hover:text-purple-400 transition-colors">How to Export Apple Health Data to OpenClaw</h3>
+                    <p class="text-slate-400 text-sm">Get your Apple Health data into OpenClaw for AI-powered daily health insights. Complete step-by-step workflow.</p>
                 </a>
 
                 <!-- Why It Matters -->
@@ -1261,10 +1346,10 @@
             </div>
             
             <div class="flex justify-center gap-8 mb-8">
-                <a href="#" class="text-slate-500 hover:text-white transition-colors">Support</a>
-                <a href="https://rumjahn.com/privacy-policy-for-healthkit-analyzer/" class="text-slate-500 hover:text-white transition-colors">Privacy Policy</a>
+                <a href="/support/" class="text-slate-500 hover:text-white transition-colors">Support</a>
+                <a href="/privacy/" class="text-slate-500 hover:text-white transition-colors">Privacy Policy</a>
                 <a href="https://www.apple.com/legal/internet-services/itunes/dev/stdeula/" class="text-slate-500 hover:text-white transition-colors">Terms</a>
-                <a href="/changelog.html" class="text-slate-500 hover:text-white transition-colors flex items-center gap-1"><i data-lucide="history" class="w-4 h-4"></i> Updates</a>
+                <a href="/docs/changelog.html" class="text-slate-500 hover:text-white transition-colors flex items-center gap-1"><i data-lucide="history" class="w-4 h-4"></i> Updates</a>
                 <a href="https://github.com/krumjahn/applehealth" class="text-slate-500 hover:text-white transition-colors flex items-center gap-1"><i data-lucide="github" class="w-4 h-4"></i> GitHub</a>
             </div>
 

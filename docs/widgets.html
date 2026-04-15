@@ -1,0 +1,496 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home Screen Widget — Health Data Export & AI Analyzer</title>
+    <meta name="description" content="Add a sync widget to your iPhone Home Screen for one-tap Apple Health data sync. Available in small and medium sizes with live sync status.">
+    <link rel="canonical" href="https://applehealthdata.com/docs/widgets.html">
+    <meta name="apple-itunes-app" content="app-id=6749297170">
+    <meta name="robots" content="index,follow">
+
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Health Data Export & Analyze">
+    <meta property="og:url" content="https://applehealthdata.com/docs/widgets.html">
+    <meta property="og:title" content="Home Screen Widget — Health Data Export & AI Analyzer">
+    <meta property="og:description" content="Add a sync widget to your iPhone Home Screen for one-tap Apple Health data sync.">
+    <meta property="og:image" content="https://applehealthdata.com/images/mac-app-screenshot-1.png">
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;700&display=swap');
+
+        :root { --glass-border: rgba(255, 255, 255, 0.08); --glass-bg: rgba(255, 255, 255, 0.03); }
+
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: #020617;
+            color: #f8fafc;
+        }
+
+        .font-mono { font-family: 'JetBrains Mono', monospace; }
+
+        /* Sidebar */
+        .docs-sidebar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 280px;
+            height: 100vh;
+            background: #0f172a;
+            border-right: 1px solid var(--glass-border);
+            overflow-y: auto;
+            z-index: 40;
+            transition: transform 0.3s ease;
+        }
+
+        .docs-sidebar a {
+            display: block;
+            padding: 8px 16px 8px 24px;
+            color: #94a3b8;
+            font-size: 0.875rem;
+            border-radius: 6px;
+            margin: 1px 8px;
+            transition: all 0.15s ease;
+            text-decoration: none;
+        }
+
+        .docs-sidebar a:hover {
+            color: #e2e8f0;
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .docs-sidebar a.active {
+            color: #fff;
+            background: rgba(244, 63, 94, 0.15);
+            border-left: 2px solid #f43f5e;
+            padding-left: 22px;
+        }
+
+        .docs-sidebar .section-label {
+            font-size: 0.7rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            color: #64748b;
+            padding: 20px 24px 6px;
+        }
+
+        /* Main content */
+        .docs-main {
+            margin-left: 280px;
+            min-height: 100vh;
+        }
+
+        /* Mobile sidebar toggle */
+        .sidebar-toggle {
+            display: none;
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 50;
+            background: #f43f5e;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 48px;
+            height: 48px;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(244, 63, 94, 0.4);
+        }
+
+        @media (max-width: 768px) {
+            .docs-sidebar {
+                transform: translateX(-100%);
+            }
+            .docs-sidebar.open {
+                transform: translateX(0);
+            }
+            .docs-main {
+                margin-left: 0;
+            }
+            .sidebar-toggle {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+        }
+
+        /* Content styles */
+        .doc-content h1 { font-size: 2rem; font-weight: 800; margin-bottom: 1rem; color: #fff; }
+        .doc-content h2 { font-size: 1.5rem; font-weight: 700; margin-top: 2.5rem; margin-bottom: 0.75rem; color: #fff; padding-bottom: 0.5rem; border-bottom: 1px solid var(--glass-border); }
+        .doc-content h3 { font-size: 1.125rem; font-weight: 600; margin-top: 1.5rem; margin-bottom: 0.5rem; color: #e2e8f0; }
+        .doc-content p { color: #94a3b8; line-height: 1.75; margin-bottom: 1rem; }
+        .doc-content ul, .doc-content ol { color: #94a3b8; margin-bottom: 1rem; padding-left: 1.5rem; }
+        .doc-content li { margin-bottom: 0.5rem; line-height: 1.6; }
+        .doc-content strong { color: #e2e8f0; }
+        .doc-content code { font-family: 'JetBrains Mono', monospace; background: rgba(255,255,255,0.06); padding: 2px 6px; border-radius: 4px; font-size: 0.85em; color: #f0abfc; }
+        .doc-content pre { background: #0c0a09; border: 1px solid var(--glass-border); border-radius: 8px; padding: 16px; overflow-x: auto; margin-bottom: 1rem; }
+        .doc-content pre code { background: none; padding: 0; color: #a5f3fc; }
+        .doc-content a { color: #f43f5e; text-decoration: underline; text-underline-offset: 2px; }
+        .doc-content a:hover { color: #fb7185; }
+        .doc-content table { width: 100%; border-collapse: collapse; margin-bottom: 1rem; }
+        .doc-content th { text-align: left; padding: 10px 12px; border-bottom: 2px solid #1e293b; color: #e2e8f0; font-size: 0.85rem; font-weight: 600; }
+        .doc-content td { padding: 10px 12px; border-bottom: 1px solid #1e293b; color: #94a3b8; font-size: 0.875rem; }
+        .doc-content blockquote { border-left: 3px solid #f43f5e; padding: 12px 16px; margin: 1rem 0; background: rgba(244, 63, 94, 0.05); border-radius: 0 8px 8px 0; }
+        .doc-content blockquote p { color: #cbd5e1; margin-bottom: 0; }
+
+        .doc-card {
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 12px;
+            padding: 24px;
+            transition: border-color 0.2s;
+        }
+        .doc-card:hover { border-color: rgba(244, 63, 94, 0.3); }
+
+        /* Search */
+        .docs-search {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--glass-border);
+            border-radius: 8px;
+            padding: 8px 12px;
+            color: #e2e8f0;
+            width: 100%;
+            font-size: 0.875rem;
+            outline: none;
+        }
+        .docs-search::placeholder { color: #475569; }
+        .docs-search:focus { border-color: #f43f5e; }
+        .search-results { position:absolute; left:8px; right:8px; top:100%; margin-top:4px; background:#0f172a; border:1px solid rgba(255,255,255,0.12); border-radius:8px; overflow:hidden; z-index:100; max-height:360px; overflow-y:auto; }
+        .search-results a { display:block; padding:10px 14px; text-decoration:none; border-bottom:1px solid rgba(255,255,255,0.06); }
+        .search-results a:last-child { border-bottom:none; }
+        .search-results a:hover { background:rgba(255,255,255,0.06); }
+        .search-result-title { color:#e2e8f0; font-size:0.875rem; font-weight:600; }
+        .search-result-section { color:#94a3b8; font-size:0.75rem; margin-top:1px; }
+        .search-result-snippet { color:#64748b; font-size:0.75rem; margin-top:2px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+        .search-no-results { padding:12px 14px; color:#64748b; font-size:0.875rem; }
+    </style>
+
+    <!-- Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-8SMQRLT4VS"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-8SMQRLT4VS');
+    </script>
+</head>
+<body>
+
+    <!-- Sidebar -->
+    <aside class="docs-sidebar" id="sidebar">
+        <div class="p-4 border-b border-white/5">
+            <a href="/" class="flex items-center gap-2 text-white no-underline mb-3">
+                <div class="w-8 h-8 bg-gradient-to-tr from-rose-600 to-orange-500 rounded-lg flex items-center justify-center">
+                    <i data-lucide="activity" class="w-4 h-4 text-white"></i>
+                </div>
+                <span class="font-bold text-sm">Health Data Docs</span>
+            </a>
+            <div style="position:relative">
+            <input type="text" class="docs-search" placeholder="Search docs..." id="docs-search" autocomplete="off">
+            <div class="search-results" id="search-results" style="display:none"></div>
+          </div>
+        </div>
+
+        <nav class="py-3" id="docs-nav">
+            <div class="section-label">Overview</div>
+            <a href="/docs/">Welcome</a>
+            <a href="/docs/getting-started.html">Getting Started</a>
+
+            <div class="section-label">iPhone App</div>
+            <a href="/docs/export-health-data.html">Export Apple Health Data</a>
+            <a href="/docs/wifi-sync.html">iPhone-to-Mac Sync</a>
+            <a href="/docs/widgets.html" class="active">Home Screen Widget</a>
+
+            <div class="section-label">Mac App</div>
+            <a href="/docs/mac-app.html">Mac App Overview</a>
+            <a href="/docs/convert-tool.html">Convert XML to CSV/JSON/XLSX</a>
+            <a href="/docs/ai-analysis.html">AI Analysis</a>
+            <a href="/docs/backup.html">Apple Health Backup</a>
+
+            <div class="section-label">Sync Destinations</div>
+            <a href="/docs/sync-dropbox.html">Dropbox</a>
+            <a href="/docs/sync-nextcloud.html">Nextcloud / WebDAV</a>
+            <a href="/docs/sync-home-assistant.html">Home Assistant</a>
+            <a href="/docs/sync-rest-api.html">REST API / Webhook</a>
+
+            <div class="section-label">Integrations</div>
+            <a href="/docs/openclaw.html">OpenClaw Integration</a>
+            <a href="/docs/api-reference.html">API Reference</a>
+            <a href="/docs/workflows.html">Workflows & Automation</a>
+            <a href="/docs/prompts.html">Prompt Library</a>
+
+            <div class="section-label">Resources</div>
+            <a href="/docs/changelog.html">Changelog</a>
+            <a href="https://apps.apple.com/us/app/health-data-export-ai-analyzer/id6749297170" target="_blank">Download App</a>
+            <a href="https://github.com/krumjahn/applehealth" target="_blank">GitHub (Open Source)</a>
+        </nav>
+    </aside>
+
+    <!-- Mobile toggle -->
+    <button class="sidebar-toggle" onclick="document.getElementById('sidebar').classList.toggle('open')">
+        <i data-lucide="menu" class="w-5 h-5"></i>
+    </button>
+
+    <!-- Main Content -->
+    <main class="docs-main">
+        <div class="max-w-3xl mx-auto px-6 py-16">
+            <div class="doc-content">
+                <h1>Home Screen Widget</h1>
+                <p>Add the iPhone widget to your Home Screen for one-tap access to your sync workflow. The widget shows sync status, last-sync context, and an action button that you control from the app’s <strong>Settings</strong> screen.</p>
+
+                <blockquote>
+                    <p>The widget requires iOS 16 or later and supports small and medium sizes.</p>
+                </blockquote>
+
+                <!-- Widget Demo Video -->
+                <div style="margin: 2rem 0; border-radius: 12px; overflow: hidden; border: 1px solid var(--glass-border);">
+                    <video autoplay muted loop playsinline style="width: 100%; display: block;">
+                        <source src="/images/WidgetDemo.mp4" type="video/mp4">
+                    </video>
+                </div>
+
+                <h2>Adding the Widget</h2>
+                <ol>
+                    <li><strong>Long-press</strong> on an empty area of your iPhone Home Screen until the apps start to jiggle.</li>
+                    <li>Tap the <strong>+</strong> button in the top-left corner to open the widget gallery.</li>
+                    <li>Search for <strong>"Health Data Export"</strong> or scroll to find it in the list.</li>
+                    <li>Choose your preferred size -- <strong>Small</strong> or <strong>Medium</strong>.</li>
+                    <li>Tap <strong>"Add Widget"</strong>, then position it on your Home Screen.</li>
+                    <li>Tap <strong>Done</strong> to save.</li>
+                </ol>
+
+                <h2>Widget Sizes</h2>
+
+                <h3>Small Widget</h3>
+                <p>A compact widget that shows:</p>
+                <ul>
+                    <li>Current sync status (syncing, idle, or first sync prompt)</li>
+                    <li>Last sync time (e.g., "1 hr ago", "2d ago")</li>
+                    <li>Sync progress percentage when actively syncing</li>
+                    <li>One-tap action button</li>
+                </ul>
+
+                <h3>Medium Widget</h3>
+                <p>A wider widget with more detail:</p>
+                <ul>
+                    <li>Everything in the small widget, plus expanded status messages</li>
+                    <li>Sync phase details (preparing, exporting, uploading)</li>
+                    <li>Provider information (e.g., "Direct to Mac", "iCloud")</li>
+                    <li>More descriptive status text with full context</li>
+                </ul>
+
+                <h2>Widget Actions</h2>
+                <p>Open the iPhone app and go to <strong>Settings &gt; Widget</strong> to choose what the widget does when tapped.</p>
+
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Action</th>
+                            <th>What It Does</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Quick Sync</strong> (default)</td>
+                            <td>Opens the app and starts the sync flow using your current sync provider.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Quick Export</strong></td>
+                            <td>Exports Apple Health data as XML and then opens AirDrop-first or the Share Sheet, depending on your preference.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Open Sync Screen</strong></td>
+                            <td>Opens the Sync tab in the app so you can review settings before starting.</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h2>What the Widget Reads</h2>
+                <ul>
+                    <li><strong>Widget action</strong> comes from the iPhone app’s <strong>Settings &gt; Widget</strong> section.</li>
+                    <li><strong>Displayed sync provider</strong> comes from the provider selected in the iPhone app’s <strong>Sync</strong> tab.</li>
+                    <li><strong>Status text</strong> comes from the app’s shared sync state, including whether you have completed a first sync.</li>
+                </ul>
+
+                <h2>Sync Status Indicators</h2>
+                <p>The widget updates to reflect what the sync flow is doing:</p>
+
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Status</th>
+                            <th>Widget Shows</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Idle</strong></td>
+                            <td>"Ready to sync" with last sync time. Tap to start the configured action.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Preparing</strong></td>
+                            <td>"Getting ready" -- checking permissions and settings.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Exporting</strong></td>
+                            <td>"Exporting data" with a progress percentage (e.g., "30% done").</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Uploading</strong></td>
+                            <td>"Uploading export" with transfer progress.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Complete</strong></td>
+                            <td>"Sync complete" -- your latest export has finished sending.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Failed</strong></td>
+                            <td>"Sync failed" -- tap to open the app and retry.</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h2>First-Time Setup</h2>
+                <p>If you add the widget before completing your first sync, it shows a <strong>First Sync</strong> prompt. After the first successful sync, it switches to showing your current status and last sync context automatically.</p>
+
+                <h2>Export Settings</h2>
+                <p>When using the <strong>Quick Export</strong> action, you can configure two additional preferences in the app:</p>
+                <ul>
+                    <li><strong>Export range:</strong> Choose between the last 90 days or all-time data.</li>
+                    <li><strong>Delivery method:</strong> Choose AirDrop (sends directly to a nearby device) or Share Sheet (lets you choose any sharing destination).</li>
+                </ul>
+
+                <h2>When to Use Each Action</h2>
+                <ul>
+                    <li><strong>Quick Sync:</strong> best when sync is already configured and you want one-tap refresh.</li>
+                    <li><strong>Quick Export:</strong> best when you mostly move XML files manually.</li>
+                    <li><strong>Open Sync Screen:</strong> best when you want the widget as a shortcut but still want to review status before acting.</li>
+                </ul>
+
+                <h2>How Often Does the Widget Update?</h2>
+                <p>The widget refreshes approximately every <strong>15 minutes</strong> when idle. During an active sync, it updates more frequently to show real-time progress. The widget uses shared app storage to display the most current sync state without consuming significant battery.</p>
+
+                <h2>Troubleshooting</h2>
+
+                <h3>Widget shows "First Sync" even after syncing</h3>
+                <ul>
+                    <li>Make sure you completed a full sync (not just opened the sync screen).</li>
+                    <li>Wait up to 15 minutes for the widget timeline to refresh.</li>
+                    <li>Remove and re-add the widget if it remains stuck.</li>
+                </ul>
+
+                <h3>Widget shows the wrong provider</h3>
+                <ul>
+                    <li>Open the iPhone app’s <strong>Sync</strong> tab and confirm the currently selected provider there.</li>
+                    <li>The provider name shown in the widget does not come from the widget action picker.</li>
+                </ul>
+
+                <h3>Widget not updating during sync</h3>
+                <ul>
+                    <li>Widget updates rely on iOS timeline refresh. The progress may lag slightly behind the actual sync.</li>
+                    <li>Open the main app to see real-time sync progress.</li>
+                </ul>
+
+                <h3>Widget not appearing in the widget gallery</h3>
+                <ul>
+                    <li>Make sure the app is installed and has been opened at least once.</li>
+                    <li>Restart your iPhone if the widget doesn't appear after installation.</li>
+                    <li>Check that you're running iOS 16 or later.</li>
+                </ul>
+
+                <h2>Related Pages</h2>
+                <ul>
+                    <li><a href="/docs/wifi-sync.html">iPhone-to-Mac Sync</a></li>
+                    <li><a href="/docs/export-health-data.html">Export Apple Health Data</a></li>
+                    <li><a href="/docs/getting-started.html">Getting Started</a></li>
+                </ul>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        let searchIndex = null;
+
+        async function loadIndex() {
+          if (searchIndex) return searchIndex;
+          const r = await fetch('/docs/search-index.json');
+          searchIndex = await r.json();
+          return searchIndex;
+        }
+
+        function highlight(text, q) {
+          if (!q) return text;
+          var escaped = q.replace(/[-.*+?^${}()|[\]\\]/g, '\\$&');
+          var re = new RegExp('(' + escaped + ')', 'gi');
+          return text.replace(re, '<mark style="background:rgba(244,63,94,0.25);color:#fda4af;border-radius:2px">$1</mark>');
+        }
+        const searchInput = document.getElementById('docs-search');
+        const resultsBox = document.getElementById('search-results');
+
+        searchInput.addEventListener('input', async function() {
+          const q = this.value.trim().toLowerCase();
+          const nav = document.getElementById('docs-nav');
+
+          if (!q) {
+            resultsBox.style.display = 'none';
+            nav.style.display = '';
+            return;
+          }
+
+          nav.style.display = 'none';
+          resultsBox.style.display = 'block';
+
+          const index = await loadIndex();
+          const results = [];
+
+          for (const page of index) {
+            if (page.title.toLowerCase().includes(q)) {
+              results.push({ url: page.url, title: page.title, section: '', snippet: page.intro });
+              continue;
+            }
+            for (const s of page.sections) {
+              const inHeading = s.heading.toLowerCase().includes(q);
+              const inSnippet = s.snippet.toLowerCase().includes(q);
+              if (inHeading || inSnippet) {
+                results.push({ url: page.url, title: page.title, section: s.heading, snippet: s.snippet });
+                break;
+              }
+            }
+          }
+
+          if (results.length === 0) {
+            resultsBox.innerHTML = '<div class="search-no-results">No results for &quot;' + this.value + '&quot;</div>';
+            return;
+          }
+
+          resultsBox.innerHTML = results.slice(0, 8).map(r => {
+            const sectionHtml = r.section ? '<div class="search-result-section">' + highlight(r.section, this.value.trim()) + '</div>' : '';
+            const snippetHtml = r.snippet ? '<div class="search-result-snippet">' + highlight(r.snippet.slice(0, 120), this.value.trim()) + '</div>' : '';
+            return '<a href="' + r.url + '"><div class="search-result-title">' + highlight(r.title, this.value.trim()) + '</div>' + sectionHtml + snippetHtml + '</a>';
+          }).join('');
+        }.bind(searchInput));
+
+        document.addEventListener('click', function(e) {
+          if (!e.target.closest('#search-results') && !e.target.closest('#docs-search')) {
+            resultsBox.style.display = 'none';
+            if (!searchInput.value.trim()) {
+              document.getElementById('docs-nav').style.display = '';
+            }
+          }
+        });
+
+        searchInput.addEventListener('keydown', function(e) {
+          if (e.key === 'Escape') {
+            this.value = '';
+            resultsBox.style.display = 'none';
+            document.getElementById('docs-nav').style.display = '';
+          }
+        });
+
+        lucide.createIcons();
+    </script>
+</body>
+</html>

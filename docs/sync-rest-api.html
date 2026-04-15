@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>REST API / Webhook Sync — Health Data Export Docs</title>
+    <meta name="description" content="POST your Apple Health data as a structured JSON payload to any HTTP endpoint. Works with custom backends, n8n, Make, Zapier, or any service that accepts a webhook.">
+    <link rel="canonical" href="https://applehealthdata.com/docs/sync-rest-api.html">
+    <meta name="apple-itunes-app" content="app-id=6749297170">
+    <meta name="robots" content="index,follow">
+
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Health Data Export & Analyze">
+    <meta property="og:url" content="https://applehealthdata.com/docs/sync-rest-api.html">
+    <meta property="og:title" content="REST API / Webhook Sync — Health Data Export Docs">
+    <meta property="og:description" content="POST your Apple Health data as a structured JSON payload to any HTTP endpoint. Works with custom backends, n8n, Make, Zapier, or any service that accepts a webhook.">
+    <meta property="og:image" content="https://applehealthdata.com/images/mac-app-screenshot-1.png">
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;700&display=swap');
+
+        :root { --glass-border: rgba(255, 255, 255, 0.08); --glass-bg: rgba(255, 255, 255, 0.03); }
+
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: #020617;
+            color: #f8fafc;
+        }
+
+        .font-mono { font-family: 'JetBrains Mono', monospace; }
+
+        /* Sidebar */
+        .docs-sidebar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 280px;
+            height: 100vh;
+            background: #0f172a;
+            border-right: 1px solid var(--glass-border);
+            overflow-y: auto;
+            z-index: 40;
+            transition: transform 0.3s ease;
+        }
+
+        .docs-sidebar a {
+            display: block;
+            padding: 8px 16px 8px 24px;
+            color: #94a3b8;
+            font-size: 0.875rem;
+            border-radius: 6px;
+            margin: 1px 8px;
+            transition: all 0.15s ease;
+            text-decoration: none;
+        }
+
+        .docs-sidebar a:hover {
+            color: #e2e8f0;
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .docs-sidebar a.active {
+            color: #fff;
+            background: rgba(244, 63, 94, 0.15);
+            border-left: 2px solid #f43f5e;
+            padding-left: 22px;
+        }
+
+        .docs-sidebar .section-label {
+            font-size: 0.7rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            color: #64748b;
+            padding: 20px 24px 6px;
+        }
+
+        /* Main content */
+        .docs-main {
+            margin-left: 280px;
+            min-height: 100vh;
+        }
+
+        /* Mobile sidebar toggle */
+        .sidebar-toggle {
+            display: none;
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 50;
+            background: #f43f5e;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 48px;
+            height: 48px;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(244, 63, 94, 0.4);
+        }
+
+        @media (max-width: 768px) {
+            .docs-sidebar {
+                transform: translateX(-100%);
+            }
+            .docs-sidebar.open {
+                transform: translateX(0);
+            }
+            .docs-main {
+                margin-left: 0;
+            }
+            .sidebar-toggle {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+        }
+
+        /* Content styles */
+        .doc-content h1 { font-size: 2rem; font-weight: 800; margin-bottom: 1rem; color: #fff; }
+        .doc-content h2 { font-size: 1.5rem; font-weight: 700; margin-top: 2.5rem; margin-bottom: 0.75rem; color: #fff; padding-bottom: 0.5rem; border-bottom: 1px solid var(--glass-border); }
+        .doc-content h3 { font-size: 1.125rem; font-weight: 600; margin-top: 1.5rem; margin-bottom: 0.5rem; color: #e2e8f0; }
+        .doc-content p { color: #94a3b8; line-height: 1.75; margin-bottom: 1rem; }
+        .doc-content ul, .doc-content ol { color: #94a3b8; margin-bottom: 1rem; padding-left: 1.5rem; }
+        .doc-content li { margin-bottom: 0.5rem; line-height: 1.6; }
+        .doc-content strong { color: #e2e8f0; }
+        .doc-content code { font-family: 'JetBrains Mono', monospace; background: rgba(255,255,255,0.06); padding: 2px 6px; border-radius: 4px; font-size: 0.85em; color: #f0abfc; }
+        .doc-content pre { background: #0c0a09; border: 1px solid var(--glass-border); border-radius: 8px; padding: 16px; overflow-x: auto; margin-bottom: 1rem; }
+        .doc-content pre code { background: none; padding: 0; color: #a5f3fc; }
+        .doc-content a { color: #f43f5e; text-decoration: underline; text-underline-offset: 2px; }
+        .doc-content a:hover { color: #fb7185; }
+        .doc-content table { width: 100%; border-collapse: collapse; margin-bottom: 1rem; }
+        .doc-content th { text-align: left; padding: 10px 12px; border-bottom: 2px solid #1e293b; color: #e2e8f0; font-size: 0.85rem; font-weight: 600; }
+        .doc-content td { padding: 10px 12px; border-bottom: 1px solid #1e293b; color: #94a3b8; font-size: 0.875rem; }
+        .doc-content blockquote { border-left: 3px solid #f43f5e; padding: 12px 16px; margin: 1rem 0; background: rgba(244, 63, 94, 0.05); border-radius: 0 8px 8px 0; }
+        .doc-content blockquote p { color: #cbd5e1; margin-bottom: 0; }
+
+        .doc-card {
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 12px;
+            padding: 24px;
+            transition: border-color 0.2s;
+        }
+        .doc-card:hover { border-color: rgba(244, 63, 94, 0.3); }
+
+        /* Search */
+        .docs-search {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--glass-border);
+            border-radius: 8px;
+            padding: 8px 12px;
+            color: #e2e8f0;
+            width: 100%;
+            font-size: 0.875rem;
+            outline: none;
+        }
+        .docs-search::placeholder { color: #475569; }
+        .docs-search:focus { border-color: #f43f5e; }
+        .search-results { position:absolute; left:8px; right:8px; top:100%; margin-top:4px; background:#0f172a; border:1px solid rgba(255,255,255,0.12); border-radius:8px; overflow:hidden; z-index:100; max-height:360px; overflow-y:auto; }
+        .search-results a { display:block; padding:10px 14px; text-decoration:none; border-bottom:1px solid rgba(255,255,255,0.06); }
+        .search-results a:last-child { border-bottom:none; }
+        .search-results a:hover { background:rgba(255,255,255,0.06); }
+        .search-result-title { color:#e2e8f0; font-size:0.875rem; font-weight:600; }
+        .search-result-section { color:#94a3b8; font-size:0.75rem; margin-top:1px; }
+        .search-result-snippet { color:#64748b; font-size:0.75rem; margin-top:2px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+        .search-no-results { padding:12px 14px; color:#64748b; font-size:0.875rem; }
+    </style>
+
+    <!-- Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-8SMQRLT4VS"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-8SMQRLT4VS');
+    </script>
+</head>
+<body>
+
+    <!-- Sidebar -->
+    <aside class="docs-sidebar" id="sidebar">
+        <div class="p-4 border-b border-white/5">
+            <a href="/" class="flex items-center gap-2 text-white no-underline mb-3">
+                <div class="w-8 h-8 bg-gradient-to-tr from-rose-600 to-orange-500 rounded-lg flex items-center justify-center">
+                    <i data-lucide="activity" class="w-4 h-4 text-white"></i>
+                </div>
+                <span class="font-bold text-sm">Health Data Docs</span>
+            </a>
+            <div style="position:relative">
+            <input type="text" class="docs-search" placeholder="Search docs..." id="docs-search" autocomplete="off">
+            <div class="search-results" id="search-results" style="display:none"></div>
+          </div>
+        </div>
+
+        <nav class="py-3" id="docs-nav">
+            <div class="section-label">Overview</div>
+            <a href="/docs/">Welcome</a>
+            <a href="/docs/getting-started.html">Getting Started</a>
+
+            <div class="section-label">iPhone App</div>
+            <a href="/docs/export-health-data.html">Export Apple Health Data</a>
+            <a href="/docs/wifi-sync.html">iPhone-to-Mac Sync</a>
+            <a href="/docs/widgets.html">Home Screen Widget</a>
+
+            <div class="section-label">Mac App</div>
+            <a href="/docs/mac-app.html">Mac App Overview</a>
+            <a href="/docs/convert-tool.html">Convert XML to CSV/JSON/XLSX</a>
+            <a href="/docs/ai-analysis.html">AI Analysis</a>
+            <a href="/docs/backup.html">Apple Health Backup</a>
+
+            <div class="section-label">Sync Destinations</div>
+            <a href="/docs/sync-dropbox.html">Dropbox</a>
+            <a href="/docs/sync-nextcloud.html">Nextcloud / WebDAV</a>
+            <a href="/docs/sync-home-assistant.html">Home Assistant</a>
+            <a href="/docs/sync-rest-api.html" class="active">REST API / Webhook</a>
+
+            <div class="section-label">Integrations</div>
+            <a href="/docs/openclaw.html">OpenClaw Integration</a>
+            <a href="/docs/api-reference.html">API Reference</a>
+            <a href="/docs/workflows.html">Workflows & Automation</a>
+            <a href="/docs/prompts.html">Prompt Library</a>
+
+            <div class="section-label">Resources</div>
+            <a href="/docs/changelog.html">Changelog</a>
+            <a href="https://apps.apple.com/us/app/health-data-export-ai-analyzer/id6749297170" target="_blank">Download App</a>
+            <a href="https://github.com/krumjahn/applehealth" target="_blank">GitHub (Open Source)</a>
+        </nav>
+    </aside>
+
+    <!-- Mobile toggle -->
+    <button class="sidebar-toggle" onclick="document.getElementById('sidebar').classList.toggle('open')">
+        <i data-lucide="menu" class="w-5 h-5"></i>
+    </button>
+
+    <!-- Main Content -->
+    <main class="docs-main">
+        <div class="max-w-3xl mx-auto px-6 py-16">
+            <div class="doc-content">
+                <h1>Sync via REST API / Webhook</h1>
+                <p>POST your Apple Health data as a structured JSON payload to any HTTP endpoint. Works with custom backends, n8n, Make, Zapier, or any service that accepts a webhook.</p>
+
+                <h2>Prerequisites</h2>
+                <ul>
+                    <li>Health Data Export app (iPhone)</li>
+                    <li>An HTTP endpoint that accepts POST/PUT/PATCH requests (your own server, n8n webhook, Make webhook, etc.)</li>
+                </ul>
+
+                <h2>Setup</h2>
+                <ol>
+                    <li>Open the app &rarr; Settings &rarr; Sync</li>
+                    <li>Tap the provider selector and choose <strong>REST API</strong></li>
+                    <li>Enter your <strong>endpoint URL</strong> (e.g. <code>https://your-server.com/api/health</code> or an n8n webhook URL)</li>
+                    <li>Choose <strong>HTTP method</strong>: POST, PUT, or PATCH</li>
+                    <li>Choose <strong>auth mode</strong>: None, Bearer Token, or Basic Auth &mdash; fill in credentials if needed</li>
+                    <li>Add any <strong>custom headers</strong> (e.g. <code>X-Api-Key: your-key</code>)</li>
+                    <li>Enable <strong>Auto-Sync</strong> and choose your interval</li>
+                </ol>
+
+                <h2>Payload Format</h2>
+                <p>The app sends a <code>application/json</code> body using the <code>ai-preset-v1</code> compact format. Here is a representative payload structure:</p>
+                <pre><code>{
+  "formatVersion": "ai-preset-v1",
+  "preset": { "id": "webhook_compact" },
+  "sections": {
+    "steps": {
+      "summary": "Avg 8,432 steps/day over 30 days",
+      "days": [{ "date": "2026-04-12", "value": 9201 }, "..."]
+    },
+    "sleep": {
+      "summary": "Avg 7.2h/night, 22% deep sleep",
+      "diagnostics": ["Consistent bedtime variance < 30 min"],
+      "days": [{ "date": "2026-04-12", "duration_h": 7.4 }, "..."]
+    },
+    "workouts": {
+      "summary": "14 workouts in 30 days",
+      "days": ["..."]
+    },
+    "resting_heart_rate": {
+      "summary": "Avg 58 bpm, trending down",
+      "days": ["..."]
+    },
+    "hrv": {
+      "summary": "Avg 42ms SDNN",
+      "days": ["..."]
+    }
+  }
+}</code></pre>
+
+                <h2>Auth Modes</h2>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Mode</th>
+                            <th>When to use</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>None</td>
+                            <td>Local n8n, internal endpoints with no auth</td>
+                        </tr>
+                        <tr>
+                            <td>Bearer Token</td>
+                            <td>Most APIs &mdash; sends <code>Authorization: Bearer &lt;token&gt;</code> header</td>
+                        </tr>
+                        <tr>
+                            <td>Basic Auth</td>
+                            <td>Servers using HTTP basic auth (username + password)</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h2>n8n / Make Integration</h2>
+                <p>For n8n, create a Webhook node and copy its URL as the endpoint. Set auth to None for local n8n instances. The payload arrives as the request body &mdash; use a Set node or Function node to extract fields and route to a database, Slack, or anywhere else.</p>
+
+                <h2>Troubleshooting</h2>
+                <ul>
+                    <li><strong>No response / timeout</strong> &mdash; Check the endpoint is reachable from your iPhone. Local URLs only work on the same network.</li>
+                    <li><strong>401 / 403</strong> &mdash; Check your Bearer token or Basic Auth credentials.</li>
+                    <li><strong>Payload not received</strong> &mdash; Make sure the endpoint accepts <code>Content-Type: application/json</code> and the method matches (POST vs PUT).</li>
+                    <li><strong>SSL error</strong> &mdash; iOS requires HTTPS. Self-signed certs are rejected; use a trusted certificate.</li>
+                </ul>
+
+                <p>See also: <a href="/apple-health-to-rest-api/">REST API setup guide</a>, <a href="/docs/api-reference.html">Local API Reference</a>, and <a href="/docs/workflows.html">Workflows &amp; Automation</a>.</p>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        let searchIndex = null;
+
+        async function loadIndex() {
+          if (searchIndex) return searchIndex;
+          const r = await fetch('/docs/search-index.json');
+          searchIndex = await r.json();
+          return searchIndex;
+        }
+
+        function highlight(text, q) {
+          if (!q) return text;
+          var escaped = q.replace(/[-.*+?^${}()|[\]\\]/g, '\\$&');
+          var re = new RegExp('(' + escaped + ')', 'gi');
+          return text.replace(re, '<mark style="background:rgba(244,63,94,0.25);color:#fda4af;border-radius:2px">$1</mark>');
+        }
+        const searchInput = document.getElementById('docs-search');
+        const resultsBox = document.getElementById('search-results');
+
+        searchInput.addEventListener('input', async function() {
+          const q = this.value.trim().toLowerCase();
+          const nav = document.getElementById('docs-nav');
+
+          if (!q) {
+            resultsBox.style.display = 'none';
+            nav.style.display = '';
+            return;
+          }
+
+          nav.style.display = 'none';
+          resultsBox.style.display = 'block';
+
+          const index = await loadIndex();
+          const results = [];
+
+          for (const page of index) {
+            if (page.title.toLowerCase().includes(q)) {
+              results.push({ url: page.url, title: page.title, section: '', snippet: page.intro });
+              continue;
+            }
+            for (const s of page.sections) {
+              const inHeading = s.heading.toLowerCase().includes(q);
+              const inSnippet = s.snippet.toLowerCase().includes(q);
+              if (inHeading || inSnippet) {
+                results.push({ url: page.url, title: page.title, section: s.heading, snippet: s.snippet });
+                break;
+              }
+            }
+          }
+
+          if (results.length === 0) {
+            resultsBox.innerHTML = '<div class="search-no-results">No results for &quot;' + this.value + '&quot;</div>';
+            return;
+          }
+
+          resultsBox.innerHTML = results.slice(0, 8).map(r => {
+            const sectionHtml = r.section ? '<div class="search-result-section">' + highlight(r.section, this.value.trim()) + '</div>' : '';
+            const snippetHtml = r.snippet ? '<div class="search-result-snippet">' + highlight(r.snippet.slice(0, 120), this.value.trim()) + '</div>' : '';
+            return '<a href="' + r.url + '"><div class="search-result-title">' + highlight(r.title, this.value.trim()) + '</div>' + sectionHtml + snippetHtml + '</a>';
+          }).join('');
+        }.bind(searchInput));
+
+        document.addEventListener('click', function(e) {
+          if (!e.target.closest('#search-results') && !e.target.closest('#docs-search')) {
+            resultsBox.style.display = 'none';
+            if (!searchInput.value.trim()) {
+              document.getElementById('docs-nav').style.display = '';
+            }
+          }
+        });
+
+        searchInput.addEventListener('keydown', function(e) {
+          if (e.key === 'Escape') {
+            this.value = '';
+            resultsBox.style.display = 'none';
+            document.getElementById('docs-nav').style.display = '';
+          }
+        });
+
+        lucide.createIcons();
+    </script>
+</body>
+</html>

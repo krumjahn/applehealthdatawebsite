@@ -1,0 +1,148 @@
+<!doctype html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>How to Export WHOOP Data to CSV (+ Apple Health Sync Guide)</title>
+  <meta name="description" content="Step-by-step guide to export WHOOP strain, recovery, and sleep data as CSV, sync to Apple Health, and analyse with AI on Mac." />
+  <link rel="canonical" href="https://applehealthdata.com/export-whoop-data/" />
+  <meta name="keywords" content="export whoop data, whoop csv export, whoop apple health sync, whoop data analysis, whoop strain recovery export" />
+  <meta name="apple-itunes-app" content="app-id=6749297170">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script defer src="https://umami.rumjahn.synology.me/script.js" data-website-id="5d7b4fa8-90b2-4191-8daf-8ea487a8d961"></script>
+  <script>
+    var _paq = window._paq = window._paq || [];
+    _paq.push(['trackPageView']);
+    _paq.push(['enableLinkTracking']);
+    (function() {
+      var u="//shrewd-lyrebird.pikapod.net/";
+      _paq.push(['setTrackerUrl', u+'matomo.php']);
+      _paq.push(['setSiteId', '9']);
+      var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
+      g.async=true; g.src=u+'matomo.js'; s.parentNode.insertBefore(g,s);
+    })();
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "HowTo",
+    "name": "How to Export WHOOP Data to CSV",
+    "description": "Export your WHOOP strain, recovery, and sleep data to CSV and sync to Apple Health for unified AI analysis.",
+    "step": [
+      {"@type":"HowToStep","name":"Open WHOOP app","text":"Go to the WHOOP app and navigate to your profile settings."},
+      {"@type":"HowToStep","name":"Request data export","text":"Go to Account → Privacy → Download My Data to receive a CSV export via email."},
+      {"@type":"HowToStep","name":"Enable Apple Health sync","text":"In WHOOP app go to Settings → Device → Apple Health and enable the metrics you want synced."},
+      {"@type":"HowToStep","name":"Analyse with AI","text":"Use Health Data Export app to pull the unified Apple Health data into CSV for AI analysis on Mac."}
+    ]
+  }
+  </script>
+  <style>
+    body{font-family:Plus Jakarta Sans,system-ui,-apple-system,sans-serif;background:#020617;color:#f8fafc}
+    .mesh{position:fixed;inset:0;z-index:-1;background:radial-gradient(at 0% 0%,rgba(225,29,72,.16),transparent 50%),radial-gradient(at 100% 0%,rgba(56,189,248,.16),transparent 50%),radial-gradient(at 100% 100%,rgba(168,85,247,.16),transparent 50%);filter:blur(60px)}
+    .card{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.1);border-radius:1rem}
+    code{background:rgba(255,255,255,.08);padding:.1rem .35rem;border-radius:.35rem}
+    table{width:100%;border-collapse:collapse}
+    th,td{padding:.75rem 1rem;border-bottom:1px solid rgba(255,255,255,.08);text-align:left}
+    th{color:#f9fafb;font-weight:600}
+  </style>
+</head>
+<body>
+  <div class="mesh"></div>
+  <main class="max-w-4xl mx-auto px-4 py-10">
+    <a href="/" class="text-slate-300 hover:text-white text-sm">← Back to home</a>
+
+    <section class="card p-8 mt-3 text-center">
+      <p class="text-rose-400 text-sm font-semibold uppercase tracking-widest mb-3">WHOOP Data Export</p>
+      <h1 class="text-4xl font-extrabold text-white mb-4">How to Export WHOOP Data to CSV</h1>
+      <p class="text-slate-300 text-lg max-w-2xl mx-auto">Get your WHOOP strain, recovery, and sleep data out of the app and into analysis-ready CSV — then unify with Apple Health for the full picture.</p>
+    </section>
+
+    <div class="my-10 rounded-2xl overflow-hidden border border-white/10 shadow-xl shadow-black/40">
+      <video autoplay muted loop playsinline class="w-full block">
+        <source src="../images/ExportToCSV.mp4" type="video/mp4">
+      </video>
+      <p class="text-center text-sm text-slate-500 py-3 bg-slate-900/60">Export WHOOP data → sync to Apple Health → analyse everything together.</p>
+    </div>
+
+    <section class="card p-6 mt-5">
+      <h2 class="text-2xl font-bold text-white mb-4">Method 1: Export Directly from WHOOP</h2>
+      <p class="text-slate-300 mb-4">WHOOP lets you download a full export of your data through their privacy portal — you'll receive CSVs covering strain, recovery, sleep, and heart rate.</p>
+      <ol class="list-decimal pl-6 space-y-3 text-slate-200">
+        <li>Open the <strong>WHOOP app</strong> on your iPhone.</li>
+        <li>Tap your <strong>profile icon</strong> → <strong>Account</strong>.</li>
+        <li>Scroll to <strong>Privacy</strong> → tap <strong>Download My Data</strong>.</li>
+        <li>WHOOP emails you a download link — typically within 24 hours.</li>
+        <li>Unzip to find CSVs for: cycles (strain), recoveries, sleeps, and heart rate.</li>
+      </ol>
+      <div class="mt-5 p-4 rounded-xl bg-slate-900/60 border border-white/5 text-slate-400 text-sm">
+        <strong class="text-slate-200">What you get:</strong> Date-stamped rows for every WHOOP day cycle — strain score, recovery %, HRV (rMSSD), RHR, sleep performance, and more.
+      </div>
+    </section>
+
+    <section class="card p-6 mt-5">
+      <h2 class="text-2xl font-bold text-white mb-4">Method 2: Sync WHOOP to Apple Health (Recommended)</h2>
+      <p class="text-slate-300 mb-4">WHOOP syncs key metrics to Apple Health, letting you combine your strain and recovery data with Apple Watch activity, iPhone step counts, and other health data in one unified export.</p>
+      <ol class="list-decimal pl-6 space-y-3 text-slate-200">
+        <li>Open the <strong>WHOOP app</strong> → <strong>Settings</strong> → <strong>Device</strong> → <strong>Apple Health</strong>.</li>
+        <li>Enable sync for: <strong>Heart Rate, Heart Rate Variability, Resting Heart Rate, Sleep Analysis, Active Energy, Workouts</strong>.</li>
+        <li>Confirm in <strong>Apple Health → Sources → WHOOP</strong> that data is flowing in.</li>
+        <li>Use our <strong>Health Data Export app</strong> to export everything as a single clean CSV for AI analysis.</li>
+      </ol>
+      <div class="mt-5 p-4 rounded-xl bg-amber-900/20 border border-amber-500/30 text-amber-200 text-sm">
+        <strong>Note:</strong> WHOOP's proprietary Strain and Recovery scores do <em>not</em> sync to Apple Health — only raw biometric data (HR, HRV, sleep) does. Use the native WHOOP CSV export to retain those scores.
+      </div>
+    </section>
+
+    <section class="card p-6 mt-5">
+      <h2 class="text-2xl font-bold text-white mb-4">WHOOP vs Apple Health: What Data Overlaps?</h2>
+      <div class="overflow-x-auto">
+        <table>
+          <thead>
+            <tr>
+              <th>Metric</th>
+              <th>WHOOP</th>
+              <th>Apple Health</th>
+              <th>Notes</th>
+            </tr>
+          </thead>
+          <tbody class="text-slate-300">
+            <tr><td><strong>HRV</strong></td><td>rMSSD (overnight avg)</td><td>SDNN (spot checks)</td><td>Different measurement windows</td></tr>
+            <tr><td><strong>Sleep stages</strong></td><td>REM, slow-wave, light, awake</td><td>REM, core, deep, awake</td><td>WHOOP uses wrist HR, Apple uses accel+HR</td></tr>
+            <tr><td><strong>Strain score</strong></td><td>✅ WHOOP-only (0–21)</td><td>❌ Not available</td><td>Proprietary exertion algorithm</td></tr>
+            <tr><td><strong>Recovery %</strong></td><td>✅ WHOOP-only</td><td>❌ Not available</td><td>Based on HRV, RHR, sleep, respiratory rate</td></tr>
+            <tr><td><strong>Resting HR</strong></td><td>Overnight avg</td><td>Daily lowest reading</td><td>Usually within 2–4 bpm</td></tr>
+            <tr><td><strong>Respiratory rate</strong></td><td>✅ Every night</td><td>Requires Apple Watch Ultra / Series 9+</td><td>WHOOP has better coverage</td></tr>
+            <tr><td><strong>Workouts</strong></td><td>Syncs to Apple Health</td><td>Apple Watch auto-detects</td><td>Both capture, Apple Watch more granular GPS</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="card p-6 mt-5">
+      <h2 class="text-2xl font-bold text-white mb-4">AI-Ready Prompts for Your WHOOP + Apple Health Data</h2>
+      <div class="space-y-3">
+        <div class="p-4 rounded-xl bg-slate-900/70 border border-white/5 text-slate-300 font-mono text-sm">"I have 6 months of WHOOP recovery CSVs. Find the top 5 factors (sleep, strain, HRV) that predict a recovery score below 50% the next day."</div>
+        <div class="p-4 rounded-xl bg-slate-900/70 border border-white/5 text-slate-300 font-mono text-sm">"Compare my WHOOP HRV trend with my Apple Health resting heart rate over the same 90 days. Identify any divergence periods and suggest causes."</div>
+        <div class="p-4 rounded-xl bg-slate-900/70 border border-white/5 text-slate-300 font-mono text-sm">"Using this WHOOP + Apple Health export, build a weekly load management report: strain vs recovery balance, sleep debt, and one training recommendation."</div>
+      </div>
+    </section>
+
+    <section class="card p-8 mt-5 text-center bg-gradient-to-br from-rose-900/40 to-slate-900">
+      <h2 class="text-2xl font-bold text-white mb-3">Analyse WHOOP + Apple Health Together</h2>
+      <p class="text-slate-300 mb-6 max-w-xl mx-auto">Export your unified health data in one tap. 100% private, runs on your Mac — no cloud required.</p>
+      <a href="https://apps.apple.com/us/app/health-data-export-ai-analyzer/id6749297170" class="inline-block bg-rose-600 text-white font-bold py-4 px-8 rounded-full text-lg hover:bg-rose-700 transition-all">Download on the App Store</a>
+      <p class="mt-3 text-xs text-slate-500">100% Local & Private · Mac & iOS</p>
+    </section>
+
+    <section class="card p-6 mt-5">
+      <h2 class="text-xl font-bold mb-3">Related guides</h2>
+      <div class="flex flex-wrap gap-3 text-sm">
+        <a href="/export-apple-health-data/" class="px-3 py-2 rounded-lg bg-white/10 hover:bg-white/20 text-slate-200">Full Apple Health export guide</a>
+        <a href="/export-oura-data/" class="px-3 py-2 rounded-lg bg-white/10 hover:bg-white/20 text-slate-200">Export Oura Ring data</a>
+        <a href="/export-apple-health-hrv-data/" class="px-3 py-2 rounded-lg bg-white/10 hover:bg-white/20 text-slate-200">Export HRV data</a>
+        <a href="/convert-tool/" class="px-3 py-2 rounded-lg bg-white/10 hover:bg-white/20 text-slate-200">XML → CSV converter</a>
+      </div>
+    </section>
+  </main>
+</body>
+</html>

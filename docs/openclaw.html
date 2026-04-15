@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OpenClaw Integration — Health Data Export & AI Analyzer</title>
+    <meta name="description" content="Connect OpenClaw to your Apple Health data through the Health Data AI Analyzer Mac app. Get AI-powered daily briefs, trend analysis, and actionable suggestions — all processed locally.">
+    <link rel="canonical" href="https://applehealthdata.com/docs/openclaw.html">
+    <meta name="apple-itunes-app" content="app-id=6749297170">
+    <meta name="robots" content="index,follow">
+
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Health Data Export & Analyze">
+    <meta property="og:url" content="https://applehealthdata.com/docs/openclaw.html">
+    <meta property="og:title" content="OpenClaw Integration — Health Data Export & AI Analyzer">
+    <meta property="og:description" content="Talk to your Apple Health data with OpenClaw. Get AI-powered daily health briefs and suggestions — processed locally on your Mac.">
+    <meta property="og:image" content="https://applehealthdata.com/images/mac-app-screenshot-1.png">
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;700&display=swap');
+
+        :root { --glass-border: rgba(255, 255, 255, 0.08); --glass-bg: rgba(255, 255, 255, 0.03); }
+
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: #020617;
+            color: #f8fafc;
+        }
+
+        .font-mono { font-family: 'JetBrains Mono', monospace; }
+
+        /* Sidebar */
+        .docs-sidebar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 280px;
+            height: 100vh;
+            background: #0f172a;
+            border-right: 1px solid var(--glass-border);
+            overflow-y: auto;
+            z-index: 40;
+            transition: transform 0.3s ease;
+        }
+
+        .docs-sidebar a {
+            display: block;
+            padding: 8px 16px 8px 24px;
+            color: #94a3b8;
+            font-size: 0.875rem;
+            border-radius: 6px;
+            margin: 1px 8px;
+            transition: all 0.15s ease;
+            text-decoration: none;
+        }
+
+        .docs-sidebar a:hover {
+            color: #e2e8f0;
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .docs-sidebar a.active {
+            color: #fff;
+            background: rgba(244, 63, 94, 0.15);
+            border-left: 2px solid #f43f5e;
+            padding-left: 22px;
+        }
+
+        .docs-sidebar .section-label {
+            font-size: 0.7rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            color: #64748b;
+            padding: 20px 24px 6px;
+        }
+
+        /* Main content */
+        .docs-main {
+            margin-left: 280px;
+            min-height: 100vh;
+        }
+
+        /* Mobile sidebar toggle */
+        .sidebar-toggle {
+            display: none;
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 50;
+            background: #f43f5e;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 48px;
+            height: 48px;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(244, 63, 94, 0.4);
+        }
+
+        @media (max-width: 768px) {
+            .docs-sidebar {
+                transform: translateX(-100%);
+            }
+            .docs-sidebar.open {
+                transform: translateX(0);
+            }
+            .docs-main {
+                margin-left: 0;
+            }
+            .sidebar-toggle {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+        }
+
+        /* Content styles */
+        .doc-content h1 { font-size: 2rem; font-weight: 800; margin-bottom: 1rem; color: #fff; }
+        .doc-content h2 { font-size: 1.5rem; font-weight: 700; margin-top: 2.5rem; margin-bottom: 0.75rem; color: #fff; padding-bottom: 0.5rem; border-bottom: 1px solid var(--glass-border); }
+        .doc-content h3 { font-size: 1.125rem; font-weight: 600; margin-top: 1.5rem; margin-bottom: 0.5rem; color: #e2e8f0; }
+        .doc-content p { color: #94a3b8; line-height: 1.75; margin-bottom: 1rem; }
+        .doc-content ul, .doc-content ol { color: #94a3b8; margin-bottom: 1rem; padding-left: 1.5rem; }
+        .doc-content li { margin-bottom: 0.5rem; line-height: 1.6; }
+        .doc-content strong { color: #e2e8f0; }
+        .doc-content code { font-family: 'JetBrains Mono', monospace; background: rgba(255,255,255,0.06); padding: 2px 6px; border-radius: 4px; font-size: 0.85em; color: #f0abfc; }
+        .doc-content pre { background: #0c0a09; border: 1px solid var(--glass-border); border-radius: 8px; padding: 16px; overflow-x: auto; margin-bottom: 1rem; }
+        .doc-content pre code { background: none; padding: 0; color: #a5f3fc; }
+        .doc-content a { color: #f43f5e; text-decoration: underline; text-underline-offset: 2px; }
+        .doc-content a:hover { color: #fb7185; }
+        .doc-content table { width: 100%; border-collapse: collapse; margin-bottom: 1rem; }
+        .doc-content th { text-align: left; padding: 10px 12px; border-bottom: 2px solid #1e293b; color: #e2e8f0; font-size: 0.85rem; font-weight: 600; }
+        .doc-content td { padding: 10px 12px; border-bottom: 1px solid #1e293b; color: #94a3b8; font-size: 0.875rem; }
+        .doc-content blockquote { border-left: 3px solid #f43f5e; padding: 12px 16px; margin: 1rem 0; background: rgba(244, 63, 94, 0.05); border-radius: 0 8px 8px 0; }
+        .doc-content blockquote p { color: #cbd5e1; margin-bottom: 0; }
+
+        .doc-card {
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 12px;
+            padding: 24px;
+            transition: border-color 0.2s;
+        }
+        .doc-card:hover { border-color: rgba(244, 63, 94, 0.3); }
+
+        /* Search */
+        .docs-search {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--glass-border);
+            border-radius: 8px;
+            padding: 8px 12px;
+            color: #e2e8f0;
+            width: 100%;
+            font-size: 0.875rem;
+            outline: none;
+        }
+        .docs-search::placeholder { color: #475569; }
+        .docs-search:focus { border-color: #f43f5e; }
+        .search-results { position:absolute; left:8px; right:8px; top:100%; margin-top:4px; background:#0f172a; border:1px solid rgba(255,255,255,0.12); border-radius:8px; overflow:hidden; z-index:100; max-height:360px; overflow-y:auto; }
+        .search-results a { display:block; padding:10px 14px; text-decoration:none; border-bottom:1px solid rgba(255,255,255,0.06); }
+        .search-results a:last-child { border-bottom:none; }
+        .search-results a:hover { background:rgba(255,255,255,0.06); }
+        .search-result-title { color:#e2e8f0; font-size:0.875rem; font-weight:600; }
+        .search-result-section { color:#94a3b8; font-size:0.75rem; margin-top:1px; }
+        .search-result-snippet { color:#64748b; font-size:0.75rem; margin-top:2px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+        .search-no-results { padding:12px 14px; color:#64748b; font-size:0.875rem; }
+    </style>
+
+    <!-- Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-8SMQRLT4VS"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-8SMQRLT4VS');
+    </script>
+</head>
+<body>
+
+    <!-- Sidebar -->
+    <aside class="docs-sidebar" id="sidebar">
+        <div class="p-4 border-b border-white/5">
+            <a href="/" class="flex items-center gap-2 text-white no-underline mb-3">
+                <div class="w-8 h-8 bg-gradient-to-tr from-rose-600 to-orange-500 rounded-lg flex items-center justify-center">
+                    <i data-lucide="activity" class="w-4 h-4 text-white"></i>
+                </div>
+                <span class="font-bold text-sm">Health Data Docs</span>
+            </a>
+            <div style="position:relative">
+            <input type="text" class="docs-search" placeholder="Search docs..." id="docs-search" autocomplete="off">
+            <div class="search-results" id="search-results" style="display:none"></div>
+          </div>
+        </div>
+
+        <nav class="py-3" id="docs-nav">
+            <div class="section-label">Overview</div>
+            <a href="/docs/">Welcome</a>
+            <a href="/docs/getting-started.html">Getting Started</a>
+
+            <div class="section-label">iPhone App</div>
+            <a href="/docs/export-health-data.html">Export Apple Health Data</a>
+            <a href="/docs/wifi-sync.html">iPhone-to-Mac Sync</a>
+            <a href="/docs/widgets.html">Home Screen Widget</a>
+
+            <div class="section-label">Mac App</div>
+            <a href="/docs/mac-app.html">Mac App Overview</a>
+            <a href="/docs/convert-tool.html">Convert XML to CSV/JSON/XLSX</a>
+            <a href="/docs/ai-analysis.html">AI Analysis</a>
+            <a href="/docs/backup.html">Apple Health Backup</a>
+
+            <div class="section-label">Sync Destinations</div>
+            <a href="/docs/sync-dropbox.html">Dropbox</a>
+            <a href="/docs/sync-nextcloud.html">Nextcloud / WebDAV</a>
+            <a href="/docs/sync-home-assistant.html">Home Assistant</a>
+            <a href="/docs/sync-rest-api.html">REST API / Webhook</a>
+
+            <div class="section-label">Integrations</div>
+            <a href="/docs/openclaw.html" class="active">OpenClaw Integration</a>
+            <a href="/docs/api-reference.html">API Reference</a>
+            <a href="/docs/workflows.html">Workflows & Automation</a>
+            <a href="/docs/prompts.html">Prompt Library</a>
+
+            <div class="section-label">Resources</div>
+            <a href="/docs/changelog.html">Changelog</a>
+            <a href="https://apps.apple.com/us/app/health-data-export-ai-analyzer/id6749297170" target="_blank">Download App</a>
+            <a href="https://github.com/krumjahn/applehealth" target="_blank">GitHub (Open Source)</a>
+        </nav>
+    </aside>
+
+    <!-- Mobile toggle -->
+    <button class="sidebar-toggle" onclick="document.getElementById('sidebar').classList.toggle('open')">
+        <i data-lucide="menu" class="w-5 h-5"></i>
+    </button>
+
+    <!-- Main Content -->
+    <main class="docs-main">
+        <div class="max-w-3xl mx-auto px-6 py-16">
+            <div class="doc-content">
+                <h1>OpenClaw Integration</h1>
+                <p>Connect <strong>OpenClaw</strong> to the Mac app’s local API and get daily health briefs, trend analysis, and actionable suggestions from your selected Apple Health dataset.</p>
+
+                <blockquote>
+                    <p>Your health data stays on your Mac. OpenClaw reads a local, read-only API exposed by the Mac app.</p>
+                </blockquote>
+
+                <h2>What is OpenClaw + Apple Health?</h2>
+                <p>Your iPhone collects an incredible amount of health data every day -- steps, sleep duration, heart rate, HRV, workouts, and more. But Apple Health is better at <em>collecting</em> data than <em>explaining</em> it. You get raw numbers without the context that makes them useful.</p>
+                <p>The OpenClaw Apple Health integration changes that. The <a href="https://apps.apple.com/us/app/health-data-export-ai-analyzer/id6749297170">Health Data AI Analyzer</a> Mac app exposes a local read-only API that OpenClaw can query through the <a href="https://clawhub.ai/krumjahn/apple-health-export-analyzer">apple-health-export-analyzer</a> ClawHub skill. You can ask AI about your health in natural language and get a daily brief with status, trends, suggestions, and missing-data alerts.</p>
+                <p>Think of it as a personal health analyst that lives on your Mac. You ask a question; OpenClaw reads your local health data and delivers a structured summary with actionable insights.</p>
+
+                <h2>How It Works</h2>
+                <p>The integration has three components that connect locally on your Mac:</p>
+                <ol>
+                    <li><strong>Health Data AI Analyzer (Mac app)</strong> -- imports your Apple Health export and runs a read-only API on <code>http://127.0.0.1:8765</code>.</li>
+                    <li><strong>ClawHub skill</strong> -- teaches OpenClaw how to call the Mac app's localhost API endpoints.</li>
+                    <li><strong>OpenClaw</strong> -- sends natural-language requests, receives structured JSON, and returns a human-readable daily brief.</li>
+                </ol>
+                <p>No remote service is required beyond the OpenClaw client and the local Mac app workflow.</p>
+
+                <h2>Setup Steps</h2>
+
+                <h3>Step 1: Install the Mac App</h3>
+                <p>Download <a href="https://apps.apple.com/us/app/health-data-export-ai-analyzer/id6749297170">Health Data AI Analyzer</a> from the Mac App Store. It runs natively on macOS and processes everything locally.</p>
+
+                <h3>Step 2: Get a Dataset into the Mac App</h3>
+                <p>Import an Apple Health XML file into the Mac app, or use the iPhone sync workflow and pull the latest XML export from the Mac <strong>Sync</strong> tab. For a step-by-step walkthrough, see <a href="/docs/getting-started.html">Getting Started</a>.</p>
+
+                <h3>Step 3: Install the ClawHub Skill</h3>
+                <p>Add the <a href="https://clawhub.ai/krumjahn/apple-health-export-analyzer">apple-health-export-analyzer</a> skill from ClawHub. This teaches OpenClaw how to read from your local health API. The current skill version is <code>apple-health-export-analyzer@1.0.6</code>.</p>
+
+                <h3>Step 4: Enable the Local API and Choose an Integration Dataset</h3>
+                <p>In the Mac app, open <strong>Settings</strong> and turn on <strong>Enable Local API for OpenClaw and scripts</strong>. If needed, select the dataset you want to use for integrations.</p>
+
+                <h3>Step 5: Open OpenClaw and Ask for a Daily Brief</h3>
+                <p>Open OpenClaw and ask for your daily health brief. The AI reads from the Mac app’s localhost API and returns a structured summary with suggestions. Try this prompt to get started:</p>
+                <pre><code>Use the "health-analyzer-mac-local" skill for this request.
+Give me my daily health brief for today and 3 suggestions.</code></pre>
+
+                <h2>What You Get: The Daily Brief</h2>
+                <p>Each daily brief is structured around four sections that give you a complete picture of your day:</p>
+
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Section</th>
+                            <th>Description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Status</strong></td>
+                            <td>Current numbers for steps, sleep, workouts, heart rate, and HRV.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>What Changed</strong></td>
+                            <td>How today compares to your 7-day baselines. Surfaces signal flags like <code>activity_below_baseline</code>.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Suggestions</strong></td>
+                            <td>Actionable recommendations based on your data (e.g., "Take a 20-minute walk to close the gap with your step baseline").</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Missing Data</strong></td>
+                            <td>Alerts for any metrics that were not recorded for the requested date.</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h3>Daily Brief Data Fields</h3>
+                <p>The daily brief JSON response includes these fields:</p>
+
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Field</th>
+                            <th>Type</th>
+                            <th>Description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><code>steps</code></td>
+                            <td>object</td>
+                            <td>Current step count, 7-day baseline, and delta vs. baseline.</td>
+                        </tr>
+                        <tr>
+                            <td><code>sleep</code></td>
+                            <td>object</td>
+                            <td>Sleep hours (or null if missing) and 7-day baseline.</td>
+                        </tr>
+                        <tr>
+                            <td><code>workouts</code></td>
+                            <td>object</td>
+                            <td>Workout count and total minutes for the day.</td>
+                        </tr>
+                        <tr>
+                            <td><code>heart_rate</code></td>
+                            <td>object</td>
+                            <td>Average and resting heart rate for the day.</td>
+                        </tr>
+                        <tr>
+                            <td><code>hrv</code></td>
+                            <td>object</td>
+                            <td>Heart rate variability measurement.</td>
+                        </tr>
+                        <tr>
+                            <td><code>signals</code></td>
+                            <td>array</td>
+                            <td>Machine-readable flags like <code>activity_below_baseline</code> used to surface suggestions.</td>
+                        </tr>
+                        <tr>
+                            <td><code>context_summary</code></td>
+                            <td>string</td>
+                            <td>Human-readable one-line summary of the day's data.</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h3>Example Response</h3>
+                <pre><code>{
+  "ok": true,
+  "success": true,
+  "summary": "Daily Apple Health brief from Health Data AI Analyzer.",
+  "data": {
+    "date": "2026-03-19",
+    "steps": {
+      "value": 2444,
+      "baseline_7d": 10004.57,
+      "delta_vs_baseline": -7560.57
+    },
+    "sleep": { "hours": null, "baseline_7d": 6.47 },
+    "workouts": { "count": 0, "total_minutes": 0 },
+    "signals": ["activity_below_baseline"],
+    "context_summary": "Daily brief for 2026-03-19, steps 2444"
+  }
+}</code></pre>
+
+                <h2>Example Prompts</h2>
+                <p>Copy any of these prompts and paste them directly into OpenClaw. For a full collection, see the <a href="/docs/prompts.html">prompt library</a>.</p>
+
+                <h3>Daily Brief</h3>
+                <pre><code>Use the "health-analyzer-mac-local" skill for this request.
+Give me my daily health brief for today and 3 suggestions.</code></pre>
+
+                <h3>Specific Date</h3>
+                <pre><code>Use the "health-analyzer-mac-local" skill for this request.
+Give me my daily health brief for 2026-03-19 and 3 suggestions for that day.</code></pre>
+
+                <h3>Week in Review</h3>
+                <pre><code>Use the "health-analyzer-mac-local" skill for this request.
+Pull my daily brief for the last 7 days and summarize trends in my steps, sleep, and activity.</code></pre>
+
+                <h3>Follow-Up Questions</h3>
+                <p>Once OpenClaw has your health data in context, you can ask natural follow-up questions:</p>
+                <ul>
+                    <li>"Why were my steps so low on Wednesday?"</li>
+                    <li>"Compare this week to last week."</li>
+                    <li>"Which days did I miss workouts?"</li>
+                    <li>"What is my average sleep this month?"</li>
+                </ul>
+
+                <h2>Privacy</h2>
+                <p>This integration is built around a simple rule: your health data stays on your Mac.</p>
+                <ul>
+                    <li><strong>Local processing</strong> -- the Mac app processes your imported Apple Health data entirely on your machine. Nothing is sent to external servers.</li>
+                    <li><strong>Read-only API</strong> -- the localhost API is read-only. OpenClaw can query your data but cannot modify, delete, or write to your health records.</li>
+                    <li><strong>No app-operated cloud uploads</strong> -- the ClawHub skill reads from localhost only.</li>
+                </ul>
+                <p>For full API documentation, see the <a href="/docs/api-reference.html">API Reference</a>.</p>
+
+                <h2>Current Skill Version</h2>
+                <p>The current ClawHub skill version is <code>apple-health-export-analyzer@1.0.6</code>. You can view the skill definition and install it from <a href="https://clawhub.ai/krumjahn/apple-health-export-analyzer">ClawHub</a>.</p>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        let searchIndex = null;
+
+        async function loadIndex() {
+          if (searchIndex) return searchIndex;
+          const r = await fetch('/docs/search-index.json');
+          searchIndex = await r.json();
+          return searchIndex;
+        }
+
+        function highlight(text, q) {
+          if (!q) return text;
+          var escaped = q.replace(/[-.*+?^${}()|[\]\\]/g, '\\$&');
+          var re = new RegExp('(' + escaped + ')', 'gi');
+          return text.replace(re, '<mark style="background:rgba(244,63,94,0.25);color:#fda4af;border-radius:2px">$1</mark>');
+        }
+        const searchInput = document.getElementById('docs-search');
+        const resultsBox = document.getElementById('search-results');
+
+        searchInput.addEventListener('input', async function() {
+          const q = this.value.trim().toLowerCase();
+          const nav = document.getElementById('docs-nav');
+
+          if (!q) {
+            resultsBox.style.display = 'none';
+            nav.style.display = '';
+            return;
+          }
+
+          nav.style.display = 'none';
+          resultsBox.style.display = 'block';
+
+          const index = await loadIndex();
+          const results = [];
+
+          for (const page of index) {
+            if (page.title.toLowerCase().includes(q)) {
+              results.push({ url: page.url, title: page.title, section: '', snippet: page.intro });
+              continue;
+            }
+            for (const s of page.sections) {
+              const inHeading = s.heading.toLowerCase().includes(q);
+              const inSnippet = s.snippet.toLowerCase().includes(q);
+              if (inHeading || inSnippet) {
+                results.push({ url: page.url, title: page.title, section: s.heading, snippet: s.snippet });
+                break;
+              }
+            }
+          }
+
+          if (results.length === 0) {
+            resultsBox.innerHTML = '<div class="search-no-results">No results for &quot;' + this.value + '&quot;</div>';
+            return;
+          }
+
+          resultsBox.innerHTML = results.slice(0, 8).map(r => {
+            const sectionHtml = r.section ? '<div class="search-result-section">' + highlight(r.section, this.value.trim()) + '</div>' : '';
+            const snippetHtml = r.snippet ? '<div class="search-result-snippet">' + highlight(r.snippet.slice(0, 120), this.value.trim()) + '</div>' : '';
+            return '<a href="' + r.url + '"><div class="search-result-title">' + highlight(r.title, this.value.trim()) + '</div>' + sectionHtml + snippetHtml + '</a>';
+          }).join('');
+        }.bind(searchInput));
+
+        document.addEventListener('click', function(e) {
+          if (!e.target.closest('#search-results') && !e.target.closest('#docs-search')) {
+            resultsBox.style.display = 'none';
+            if (!searchInput.value.trim()) {
+              document.getElementById('docs-nav').style.display = '';
+            }
+          }
+        });
+
+        searchInput.addEventListener('keydown', function(e) {
+          if (e.key === 'Escape') {
+            this.value = '';
+            resultsBox.style.display = 'none';
+            document.getElementById('docs-nav').style.display = '';
+          }
+        });
+
+        lucide.createIcons();
+    </script>
+</body>
+</html>

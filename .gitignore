@@ -1,2 +1,8 @@
 .DS_Store
 images/Screenshot 2025-12-01 at 5.13.31 PM.png
+
+# Remotion project
+video-preview/node_modules/
+video-preview/public/recording.mp4
+video-preview/out/
+video-preview/.remotion/

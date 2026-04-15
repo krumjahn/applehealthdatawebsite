@@ -209,4 +209,71 @@
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
+  <!-- Direct Sync -->
+  <url>
+    <loc>https://applehealthdata.com/sync-apple-health-to-mac/</loc>
+    <lastmod>2026-04-02</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://applehealthdata.com/blog/best-apple-health-export-apps.html</loc>
+    <lastmod>2026-04-12</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://applehealthdata.com/blog/openclaw-apple-health-export.html</loc>
+    <lastmod>2026-04-12</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://applehealthdata.com/export-oura-data/</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://applehealthdata.com/export-whoop-data/</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://applehealthdata.com/apple-health-to-dropbox/</loc>
+    <lastmod>2026-04-13</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://applehealthdata.com/apple-health-to-nextcloud/</loc>
+    <lastmod>2026-04-13</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://applehealthdata.com/apple-health-to-home-assistant/</loc>
+    <lastmod>2026-04-13</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://applehealthdata.com/apple-health-to-rest-api/</loc>
+    <lastmod>2026-04-13</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+<url>
+  <loc>https://applehealthdata.com/privacy/</loc>
+  <lastmod>2026-04-13</lastmod>
+  <changefreq>yearly</changefreq>
+  <priority>0.3</priority>
+</url>
+
+<url>
+  <loc>https://applehealthdata.com/support/</loc>
+  <lastmod>2026-04-13</lastmod>
+  <changefreq>yearly</changefreq>
+  <priority>0.3</priority>
+</url>
 </urlset>
