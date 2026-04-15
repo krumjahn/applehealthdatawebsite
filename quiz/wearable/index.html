@@ -35,7 +35,7 @@
   <header class="max-w-3xl mx-auto px-4 pt-10 pb-6">
     <div class="flex items-center justify-between gap-4">
       <a href="/" class="text-sm text-slate-300 hover:text-white">← AppleHealthData.com</a>
-      <a href="https://apps.apple.com/us/app/health-data-export-ai-analyzer/id6749297170" target="_blank" rel="noopener" class="text-sm px-3 py-2 rounded-lg bg-rose-600 hover:bg-rose-500 font-semibold">Get the app</a>
+      <a href="/go/website.html" target="_blank" rel="noopener" class="text-sm px-3 py-2 rounded-lg bg-rose-600 hover:bg-rose-500 font-semibold">Get the app</a>
     </div>
     <h1 class="mt-6 text-3xl sm:text-4xl font-extrabold tracking-tight">Which wearable should you buy?</h1>
     <p class="mt-2 text-slate-300">2 minutes. Clear recommendation. Built for people who want actionable insights from their health data.</p>
@@ -88,7 +88,7 @@
       <div id="iosCTA" class="mt-6 p-4 rounded-xl border border-rose-500/30 bg-rose-500/10">
         <div class="font-bold">On iPhone?</div>
         <p class="text-slate-200 mt-1">Download the app, import Apple Health, and get your baseline + trends in minutes.</p>
-        <a href="https://apps.apple.com/us/app/health-data-export-ai-analyzer/id6749297170" target="_blank" rel="noopener" data-cta-location="quiz_wearable_result" class="inline-block mt-3 px-4 py-2 rounded-lg bg-rose-600 hover:bg-rose-500 font-semibold">Download on the App Store</a>
+        <a href="/go/website.html" target="_blank" rel="noopener" data-cta-location="quiz_wearable_result" class="inline-block mt-3 px-4 py-2 rounded-lg bg-rose-600 hover:bg-rose-500 font-semibold">Download on the App Store</a>
         <div class="mt-2 text-xs text-slate-300">Tip: even if you choose Garmin/Oura/Whoop, you can still centralize many metrics via Apple Health.</div>
       </div>
 
@@ -121,7 +121,7 @@
   </main>
 
   <script>
-    const APP_STORE_URL = 'https://apps.apple.com/us/app/health-data-export-ai-analyzer/id6749297170';
+    const APP_STORE_URL = '/go/website.html';
 
     const QUESTIONS = [
       {
@@ -391,7 +391,7 @@
 
     // Track App Store outbound clicks (GA4)
     (function () {
-      var APP_STORE_URL = "https://apps.apple.com/us/app/health-data-export-ai-analyzer/id6749297170";
+      var APP_STORE_URL = "/go/website.html";
       var links = document.querySelectorAll('a[href^="' + APP_STORE_URL + '"]');
       links.forEach(function (a) {
         a.addEventListener('click', function () {
