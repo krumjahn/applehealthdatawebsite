@@ -2,6 +2,14 @@ name = "applehealthdata-changelog"
 main = "src/index.js"
 compatibility_date = "2026-01-19"
 
+# Route all site traffic through the worker so we can inject Link headers
+# on HTML responses. Requires applehealthdata.com to be on Cloudflare DNS
+# with the A/CNAME record proxied (orange cloud).
+routes = [
+  { pattern = "applehealthdata.com/*", zone_name = "applehealthdata.com" },
+  { pattern = "www.applehealthdata.com/*", zone_name = "applehealthdata.com" }
+]
+
 [vars]
 GITHUB_OWNER = "krumjahn"
 GITHUB_REPO = "MacHealthAnalyzer"
