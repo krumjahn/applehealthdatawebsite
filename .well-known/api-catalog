@@ -1,0 +1,13 @@
+{
+  "linkset": [
+    {
+      "anchor": "https://applehealthdata.com/docs/api-reference.html",
+      "service-doc": [
+        {
+          "href": "https://applehealthdata.com/docs/api-reference.html",
+          "type": "text/html"
+        }
+      ]
+    }
+  ]
+}

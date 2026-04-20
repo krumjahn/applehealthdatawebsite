@@ -1,0 +1,12 @@
+{
+  "$schema": "https://schemas.agentskills.io/discovery/0.2.0/schema.json",
+  "skills": [
+    {
+      "name": "api-reference",
+      "type": "skill-md",
+      "description": "How to query the Apple Health Data commits API endpoint",
+      "url": "https://applehealthdata.com/.well-known/agent-skills/api-reference/SKILL.md",
+      "digest": "sha256:7f8eea8a068d434efe2d1a3a02a96b444a56d59aea47d81fe0dc757b8f103e76"
+    }
+  ]
+}
