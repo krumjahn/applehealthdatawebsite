@@ -29,13 +29,17 @@ export default {
 };
 
 async function handleProxy(request, url) {
-  const originUrl = new URL(url.pathname + url.search, GITHUB_PAGES_ORIGIN);
+  // Fetch from the same public URL but resolve DNS to GitHub Pages directly,
+  // bypassing Cloudflare's proxy. This sends Host: applehealthdata.com (which
+  // GitHub Pages requires) while routing to krumjahn.github.io's IP.
+  const originUrl = new URL(url.pathname + url.search, 'https://applehealthdata.com');
 
   const originReq = new Request(originUrl.toString(), {
     method: request.method,
     headers: stripHopByHop(request.headers),
     body: request.method === 'GET' || request.method === 'HEAD' ? undefined : request.body,
-    redirect: 'manual'
+    redirect: 'manual',
+    cf: { resolveOverride: 'krumjahn.github.io' }
   });
 
   const originRes = await fetch(originReq);
@@ -121,7 +125,6 @@ function stripHopByHop(headers) {
   const hopByHop = ['connection', 'keep-alive', 'proxy-authenticate', 'proxy-authorization',
     'te', 'trailers', 'transfer-encoding', 'upgrade', 'host'];
   for (const h of hopByHop) out.delete(h);
-  out.set('Host', new URL(GITHUB_PAGES_ORIGIN).host);
   return out;
 }
 
