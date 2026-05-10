@@ -547,6 +547,14 @@ curl "http://127.0.0.1:8765/openclaw/daily-brief?date=2026-03-27"</code></pre>
                 <div class="success-box">
                     <p class="mb-0"><strong>The OpenClaw + Mac app approach solves this.</strong> Your health data stays on your machine. The ClawHub skill uses a read-only localhost API — no cloud uploads, no bundled scripts, no token-file behavior.</p>
                 </div>
+
+                <div class="info-box mt-4">
+                    <p class="mb-2"><strong>Prefer the terminal?</strong> There's also a <a href="../apple-health-cli/">command-line version</a> — same privacy model, no Mac app required.</p>
+                    <pre class="my-2"><code>pipx install healthai
+healthai
+# drag-and-drop export.xml, ask anything</code></pre>
+                    <p class="mb-0">Open source on <a href="https://github.com/krumjahn/applehealth" target="_blank" rel="noopener">GitHub</a>. Useful if you want to script daily reports with <code>cron</code> or pipe slash-command output into your own dashboard.</p>
+                </div>
             </section>
 
             <!-- Comparison -->
