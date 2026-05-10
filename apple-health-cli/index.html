@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Apple Health CLI — Analyze Your Health Data From The Terminal</title>
+  <meta name="description" content="Open-source CLI to analyze Apple Health export.xml with AI — locally on your Mac. Slash commands for sleep, steps, HRV, workouts. pipx install healthai.">
+  <meta name="keywords" content="apple health cli, apple health command line, apple health terminal, healthai cli, apple health python cli, analyze apple health data cli, apple health export cli, apple health python">
+  <link rel="canonical" href="https://applehealthdata.com/apple-health-cli/">
+
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="AppleHealthData.com">
+  <meta property="og:url" content="https://applehealthdata.com/apple-health-cli/">
+  <meta property="og:title" content="Apple Health CLI — Analyze Your Health Data From The Terminal">
+  <meta property="og:description" content="Open-source CLI to analyze Apple Health export.xml with AI — locally on your Mac. Slash commands for sleep, steps, HRV, workouts.">
+  <meta property="og:image" content="https://applehealthdata.com/images/healthai-cli-welcome.png">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Apple Health CLI — Analyze Your Health Data From The Terminal">
+  <meta name="twitter:description" content="Open-source CLI to analyze Apple Health export.xml with AI — locally on your Mac.">
+  <meta name="twitter:image" content="https://applehealthdata.com/images/healthai-cli-welcome.png">
+  <meta name="robots" content="index,follow,max-image-preview:large">
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <!-- Matomo -->
+  <script>
+    var _paq = window._paq = window._paq || [];
+    _paq.push(['trackPageView']);
+    _paq.push(['enableLinkTracking']);
+    (function() {
+      var u="//shrewd-lyrebird.pikapod.net/";
+      _paq.push(['setTrackerUrl', u+'matomo.php']);
+      _paq.push(['setSiteId', '9']);
+      var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
+      g.async=true; g.src=u+'matomo.js'; s.parentNode.insertBefore(g,s);
+    })();
+  </script>
+  <!-- End Matomo Code -->
+
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;700&display=swap');
+    :root { --glass-border: rgba(255, 255, 255, 0.08); --glass-bg: rgba(255, 255, 255, 0.03); }
+    body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: #020617; color: #f8fafc; overflow-x: hidden; }
+    .font-mono { font-family: 'JetBrains Mono', monospace; }
+    .mesh-gradient { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: -1; background: radial-gradient(at 0% 0%, rgba(56, 189, 248, 0.15) 0px, transparent 50%), radial-gradient(at 100% 0%, rgba(168, 85, 247, 0.15) 0px, transparent 50%), radial-gradient(at 100% 100%, rgba(225, 29, 72, 0.15) 0px, transparent 50%); filter: blur(60px); }
+    .content-section h2 { border-top: 1px solid var(--glass-border); padding-top: 2rem; margin-top: 3rem; color: #f8fafc; font-size: 1.875rem; font-weight: 700; margin-bottom: 1.25rem; }
+    .content-section h3 { color: #e2e8f0; font-size: 1.5rem; font-weight: 600; margin-top: 2rem; margin-bottom: 0.75rem; }
+    .content-section p { color: #94a3b8; font-size: 1.125rem; line-height: 1.75; margin-bottom: 1.25rem; }
+    .content-section a { color: #38bdf8; text-decoration: none; border-bottom: 1px solid transparent; transition: all 0.2s; }
+    .content-section a:hover { border-bottom-color: #38bdf8; }
+    .content-section ul, .content-section ol { padding-left: 1.5rem; margin-bottom: 1.25rem; color: #94a3b8; }
+    .content-section li { margin-bottom: 0.5rem; list-style-type: disc; }
+    .content-section pre { background: #0f172a; border: 1px solid var(--glass-border); border-radius: 0.75rem; padding: 1.25rem; overflow-x: auto; margin-bottom: 1.25rem; }
+    .content-section code { font-family: 'JetBrains Mono', monospace; color: #38bdf8; font-size: 0.875rem; }
+    .glass { background: rgba(255, 255, 255, 0.03); border: 1px solid var(--glass-border); border-radius: 1rem; }
+    .cmd-row { display: grid; grid-template-columns: 8.5rem 1fr; gap: 1rem; padding: 0.75rem 1rem; border-bottom: 1px solid var(--glass-border); align-items: baseline; }
+    .cmd-row:last-child { border-bottom: 0; }
+    .cmd-row code { color: #f43f5e; }
+    .copy-btn { transition: all 0.15s; }
+    .copy-btn:hover { background-color: rgba(56, 189, 248, 0.15); }
+    .copy-btn.copied { background-color: rgba(34, 197, 94, 0.2); color: #4ade80; }
+  </style>
+
+  <!-- SoftwareApplication + FAQ Schema -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "healthai",
+    "applicationCategory": "DeveloperApplication",
+    "operatingSystem": "macOS, Linux, Windows",
+    "description": "Open-source CLI to analyze Apple Health export.xml with AI locally on your Mac.",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+    "url": "https://applehealthdata.com/apple-health-cli/",
+    "downloadUrl": "https://github.com/krumjahn/applehealth"
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "Is there a CLI for Apple Health data?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Yes. healthai is an open-source command-line tool that parses your Apple Health export.xml and runs AI analysis locally on your Mac. Install with pipx install healthai."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Does the Apple Health CLI upload my data?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "No. The CLI parses export.xml locally on your machine. The only network calls are to the AI provider you choose (e.g. OpenAI), and only the small summarized slices you request, not the full export."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "How do I install the Apple Health CLI?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Run: pipx install healthai. Then run healthai, drag-and-drop your export.xml, and ask questions or run slash commands like /sleep or /workouts."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What slash commands does the CLI support?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Built-in commands include /diagnose, /sleep, /steps, /distance, /heartrate, /weight, /workouts, /csv, /json, /settings, /reset, /openclaw, /changelog, /setup, /help, and /exit."
+        }
+      }
+    ]
+  }
+  </script>
+</head>
+<body>
+  <div class="mesh-gradient"></div>
+
+  <nav class="fixed w-full z-50 border-b border-white/10 bg-slate-950/80 backdrop-blur-xl">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex justify-between items-center h-20">
+        <a href="/" class="flex items-center gap-3 group">
+          <div class="w-10 h-10 bg-gradient-to-tr from-rose-600 to-orange-500 rounded-xl flex items-center justify-center shadow-lg shadow-rose-500/20 group-hover:scale-105 transition-transform">
+            <i data-lucide="activity" class="w-6 h-6 text-white"></i>
+          </div>
+          <div>
+            <span class="font-bold text-lg tracking-tight text-white block leading-none">Health Data</span>
+            <span class="text-xs text-slate-400 tracking-wider uppercase font-semibold">Export & Analyze</span>
+          </div>
+        </a>
+        <div class="hidden md:flex gap-6 items-center">
+          <a href="/apple-health-ai/" class="text-sm font-medium text-slate-300 hover:text-white transition-colors">Apple Health + AI</a>
+          <a href="https://github.com/krumjahn/applehealth" target="_blank" rel="noopener" class="text-sm font-medium text-slate-300 hover:text-white transition-colors flex items-center gap-1.5">
+            <i data-lucide="github" class="w-4 h-4"></i> GitHub
+          </a>
+          <a href="/go/website.html" class="text-sm font-bold text-rose-500 hover:text-rose-400 transition-colors">Download App</a>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <main class="pt-32 pb-20 lg:pt-40 lg:pb-32">
+    <div class="max-w-4xl mx-auto px-4 content-section">
+
+      <!-- Hero -->
+      <div class="text-center mb-12">
+        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-cyan-500/10 border border-cyan-500/20 text-cyan-300 text-sm font-medium mb-6">
+          <i data-lucide="terminal" class="w-4 h-4"></i>
+          Open Source · Privacy-First · Runs Locally
+        </div>
+        <h1 class="text-4xl lg:text-6xl font-bold text-white mb-6 tracking-tight">Your Apple Health data, in the terminal.</h1>
+        <p class="text-xl text-slate-400 leading-relaxed max-w-2xl mx-auto">A command-line tool to analyze Apple Health <code class="font-mono text-cyan-300 bg-white/5 px-1.5 py-0.5 rounded">export.xml</code> with AI — without uploading your full export anywhere.</p>
+
+        <!-- Install command + GitHub CTA -->
+        <div class="flex flex-col sm:flex-row gap-3 justify-center items-stretch sm:items-center mt-8">
+          <div class="flex items-center bg-slate-900/80 border border-white/10 rounded-xl pl-4 pr-2 py-2 font-mono text-base">
+            <span class="text-slate-500 mr-3 select-none">$</span>
+            <span class="text-cyan-300" id="install-cmd">pipx install healthai</span>
+            <button class="copy-btn ml-3 px-3 py-1.5 rounded-lg bg-white/5 text-slate-400 hover:text-white text-sm font-sans" onclick="copyCmd(this, 'pipx install healthai')">
+              Copy
+            </button>
+          </div>
+          <a href="https://github.com/krumjahn/applehealth" target="_blank" rel="noopener" class="inline-flex justify-center items-center gap-2 bg-slate-800 text-white font-semibold py-3 px-6 rounded-xl hover:bg-slate-700 transition-all border border-slate-700">
+            <i data-lucide="github" class="w-5 h-5"></i> Star on GitHub
+          </a>
+        </div>
+        <p class="text-sm text-slate-500 mt-4">Works on macOS, Linux, and Windows · Python 3.10+</p>
+      </div>
+
+      <!-- CLI screenshot -->
+      <div class="my-12 rounded-2xl overflow-hidden border border-white/10 shadow-xl shadow-black/40 bg-slate-900/40">
+        <img src="/images/healthai-cli-welcome.png" alt="healthai CLI welcome screen showing slash commands like /diagnose, /sleep, /workouts" class="w-full block" loading="lazy">
+        <p class="text-center text-sm text-slate-500 py-3 bg-slate-900/60">The healthai CLI welcome screen — drag-and-drop your <code class="font-mono text-slate-400">export.xml</code> and ask anything.</p>
+      </div>
+
+      <!-- Why a CLI? -->
+      <h2>Why a CLI for Apple Health?</h2>
+      <div class="grid sm:grid-cols-3 gap-4 not-prose">
+        <div class="glass p-5">
+          <i data-lucide="lock" class="w-6 h-6 text-cyan-400 mb-3"></i>
+          <h3 class="text-white font-semibold mb-2 text-base">Runs locally</h3>
+          <p class="text-slate-400 text-sm leading-relaxed mb-0">Your <code class="font-mono text-slate-300">export.xml</code> never leaves your machine. Only the small summarized slice you ask about gets sent to the AI provider you choose.</p>
+        </div>
+        <div class="glass p-5">
+          <i data-lucide="code-2" class="w-6 h-6 text-cyan-400 mb-3"></i>
+          <h3 class="text-white font-semibold mb-2 text-base">Scriptable</h3>
+          <p class="text-slate-400 text-sm leading-relaxed mb-0">Pipe to <code class="font-mono text-slate-300">jq</code>, schedule with <code class="font-mono text-slate-300">cron</code>, drop it in your dotfiles. CSV and JSON exports are built in.</p>
+        </div>
+        <div class="glass p-5">
+          <i data-lucide="git-branch" class="w-6 h-6 text-cyan-400 mb-3"></i>
+          <h3 class="text-white font-semibold mb-2 text-base">Open source</h3>
+          <p class="text-slate-400 text-sm leading-relaxed mb-0">MIT licensed on <a href="https://github.com/krumjahn/applehealth" target="_blank" rel="noopener">GitHub</a>. Read the parser, fork it, or vendor it into your own pipeline.</p>
+        </div>
+      </div>
+
+      <!-- Slash commands reference -->
+      <h2>Slash commands</h2>
+      <p>Once you launch <code class="font-mono">healthai</code>, type a slash command or just ask a question in natural language. Every command works on the export you loaded.</p>
+
+      <div class="glass overflow-hidden font-mono text-sm">
+        <div class="cmd-row"><code>/diagnose</code><span class="text-slate-300">Diagnose export &amp; generate debug report</span></div>
+        <div class="cmd-row"><code>/steps</code><span class="text-slate-300">Analyze steps</span></div>
+        <div class="cmd-row"><code>/distance</code><span class="text-slate-300">Analyze distance</span></div>
+        <div class="cmd-row"><code>/heartrate</code><span class="text-slate-300">Analyze heart rate</span></div>
+        <div class="cmd-row"><code>/weight</code><span class="text-slate-300">Analyze weight</span></div>
+        <div class="cmd-row"><code>/sleep</code><span class="text-slate-300">Analyze sleep</span></div>
+        <div class="cmd-row"><code>/workouts</code><span class="text-slate-300">Analyze workouts</span></div>
+        <div class="cmd-row"><code>/csv</code><span class="text-slate-300">Convert XML → CSV (full dump)</span></div>
+        <div class="cmd-row"><code>/json</code><span class="text-slate-300">Convert XML → JSON (full dump)</span></div>
+        <div class="cmd-row"><code>/settings</code><span class="text-slate-300">AI settings</span></div>
+        <div class="cmd-row"><code>/reset</code><span class="text-slate-300">Reset preferences</span></div>
+        <div class="cmd-row"><code>/openclaw</code><span class="text-slate-300">OpenClaw setup guide</span></div>
+        <div class="cmd-row"><code>/changelog</code><span class="text-slate-300">View change log</span></div>
+        <div class="cmd-row"><code>/setup</code><span class="text-slate-300">Re-run setup wizard</span></div>
+        <div class="cmd-row"><code>/help</code><span class="text-slate-300">Show this panel</span></div>
+        <div class="cmd-row"><code>/exit</code><span class="text-slate-300">Quit</span></div>
+      </div>
+
+      <!-- Quickstart -->
+      <h2>30-second quickstart</h2>
+      <ol class="list-decimal">
+        <li><strong>Install:</strong> <code>pipx install healthai</code> (or <code>pip install healthai</code> in a venv)</li>
+        <li><strong>Export from iPhone:</strong> Health app → profile → <em>Export All Health Data</em>. AirDrop the resulting <code>export.zip</code> to your Mac and unzip it. <a href="/export-apple-health-data/">Full guide</a>.</li>
+        <li><strong>Run it:</strong> <code>healthai</code></li>
+        <li><strong>Drag-and-drop</strong> your <code>export.xml</code> when prompted.</li>
+        <li><strong>Ask anything,</strong> or run a slash command like <code>/sleep</code> or <code>/workouts</code>.</li>
+      </ol>
+
+      <pre><code># Full session in 4 lines
+pipx install healthai
+healthai
+# &gt; drag-and-drop export.xml
+# &gt; "What does my sleep pattern look like over the last 30 days?"</code></pre>
+
+      <!-- Example prompts -->
+      <h2>What you can ask it</h2>
+      <p>Anything you'd ask a coach who happens to have read every row of your health export. A few that work well:</p>
+      <div class="glass p-5 mb-4">
+        <p class="text-slate-300 mb-0 font-mono text-sm leading-relaxed">"Summarize sleep consistency, resting heart rate trend, and weekly activity changes for the last 90 days."</p>
+      </div>
+      <div class="glass p-5 mb-4">
+        <p class="text-slate-300 mb-0 font-mono text-sm leading-relaxed">"Find correlations between sleep duration, HRV, and workout load. Flag unusual recovery days and suggest experiments for next week."</p>
+      </div>
+      <div class="glass p-5 mb-4">
+        <p class="text-slate-300 mb-0 font-mono text-sm leading-relaxed">"Create a weekly scorecard: sleep consistency, recovery trend, activity momentum, with 3 actions for next week."</p>
+      </div>
+
+      <!-- Comparison -->
+      <h2>CLI vs. Mac app vs. ChatGPT Health</h2>
+      <div class="overflow-x-auto">
+        <table class="w-full text-sm border-collapse">
+          <thead>
+            <tr class="border-b border-white/10">
+              <th class="text-left py-3 pr-4 text-slate-400 font-semibold"></th>
+              <th class="text-left py-3 px-4 text-cyan-300 font-semibold">healthai CLI</th>
+              <th class="text-left py-3 px-4 text-rose-300 font-semibold">Mac app</th>
+              <th class="text-left py-3 px-4 text-slate-400 font-semibold">ChatGPT Health</th>
+            </tr>
+          </thead>
+          <tbody class="text-slate-300">
+            <tr class="border-b border-white/5">
+              <td class="py-3 pr-4 text-slate-400">Best for</td>
+              <td class="py-3 px-4">Devs, scripting, max privacy</td>
+              <td class="py-3 px-4">Anyone who wants a GUI</td>
+              <td class="py-3 px-4">Quick chat, no setup</td>
+            </tr>
+            <tr class="border-b border-white/5">
+              <td class="py-3 pr-4 text-slate-400">Where data lives</td>
+              <td class="py-3 px-4">Your machine</td>
+              <td class="py-3 px-4">Your Mac</td>
+              <td class="py-3 px-4">Uploaded to OpenAI</td>
+            </tr>
+            <tr class="border-b border-white/5">
+              <td class="py-3 pr-4 text-slate-400">Scriptable / cron-able</td>
+              <td class="py-3 px-4 text-emerald-400">Yes</td>
+              <td class="py-3 px-4 text-slate-500">No</td>
+              <td class="py-3 px-4 text-slate-500">No</td>
+            </tr>
+            <tr class="border-b border-white/5">
+              <td class="py-3 pr-4 text-slate-400">Open source</td>
+              <td class="py-3 px-4 text-emerald-400">Yes (MIT)</td>
+              <td class="py-3 px-4 text-slate-500">No</td>
+              <td class="py-3 px-4 text-slate-500">No</td>
+            </tr>
+            <tr class="border-b border-white/5">
+              <td class="py-3 pr-4 text-slate-400">Cost</td>
+              <td class="py-3 px-4">Free + your AI API key</td>
+              <td class="py-3 px-4">$4.99 (Pro from $1.99/mo)</td>
+              <td class="py-3 px-4">ChatGPT Plus</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <p class="mt-6">Prefer a GUI? The <a href="/go/website.html">Mac app</a> is the same idea — privacy-first analysis with built-in AI providers — without touching the terminal.</p>
+
+      <!-- Troubleshooting -->
+      <h2>Troubleshooting</h2>
+      <h3>pipx not found?</h3>
+      <pre><code># macOS
+brew install pipx
+pipx ensurepath
+
+# Linux / Windows (via pip)
+python3 -m pip install --user pipx
+python3 -m pipx ensurepath</code></pre>
+
+      <h3>"No export.xml" or parse error?</h3>
+      <p>Make sure you unzipped the iPhone export — you want the <code>export.xml</code> file inside <code>apple_health_export/</code>, not the <code>.zip</code>. Run <code>/diagnose</code> to generate a debug report.</p>
+
+      <h3>Where do AI keys go?</h3>
+      <p>Run <code>/settings</code> from inside <code>healthai</code>. Keys are stored locally on your machine. The CLI supports OpenAI today; LM Studio and Ollama are on the roadmap (the <a href="/go/website.html">Mac app</a> already supports both).</p>
+
+      <!-- Related -->
+      <h2>Keep exploring</h2>
+      <div class="grid sm:grid-cols-2 gap-3 not-prose">
+        <a href="/export-apple-health-data/" class="glass p-4 hover:border-white/20 transition flex items-start gap-3">
+          <i data-lucide="download" class="w-5 h-5 text-cyan-400 flex-shrink-0 mt-1"></i>
+          <div>
+            <div class="text-white font-semibold">How to export Apple Health data</div>
+            <div class="text-slate-400 text-sm">Get <code class="font-mono">export.xml</code> off your iPhone</div>
+          </div>
+        </a>
+        <a href="/convert-tool/" class="glass p-4 hover:border-white/20 transition flex items-start gap-3">
+          <i data-lucide="file-spreadsheet" class="w-5 h-5 text-cyan-400 flex-shrink-0 mt-1"></i>
+          <div>
+            <div class="text-white font-semibold">Convert XML → CSV in your browser</div>
+            <div class="text-slate-400 text-sm">No install, no upload</div>
+          </div>
+        </a>
+        <a href="/apple-health-claude/" class="glass p-4 hover:border-white/20 transition flex items-start gap-3">
+          <i data-lucide="sparkles" class="w-5 h-5 text-cyan-400 flex-shrink-0 mt-1"></i>
+          <div>
+            <div class="text-white font-semibold">Apple Health + Claude</div>
+            <div class="text-slate-400 text-sm">Local API + Claude for deep reviews</div>
+          </div>
+        </a>
+        <a href="/apple-health-openai/" class="glass p-4 hover:border-white/20 transition flex items-start gap-3">
+          <i data-lucide="brain-circuit" class="w-5 h-5 text-cyan-400 flex-shrink-0 mt-1"></i>
+          <div>
+            <div class="text-white font-semibold">Apple Health + OpenAI</div>
+            <div class="text-slate-400 text-sm">GPT-4 for your health export</div>
+          </div>
+        </a>
+      </div>
+    </div>
+  </main>
+
+  <footer class="border-t border-white/10 py-10 text-center text-sm text-slate-500">
+    <div class="max-w-4xl mx-auto px-4">
+      <p class="mb-2">Open source on <a href="https://github.com/krumjahn/applehealth" target="_blank" rel="noopener" class="text-slate-300 hover:text-white">GitHub</a> · MIT licensed · Built by <a href="https://applehealthdata.com/" class="text-slate-300 hover:text-white">AppleHealthData.com</a></p>
+      <p>Not affiliated with Apple Inc. Apple Health is a trademark of Apple Inc.</p>
+    </div>
+  </footer>
+
+  <script>
+    lucide.createIcons();
+    function copyCmd(btn, cmd) {
+      navigator.clipboard.writeText(cmd).then(function() {
+        var orig = btn.textContent;
+        btn.textContent = 'Copied!';
+        btn.classList.add('copied');
+        setTimeout(function() { btn.textContent = orig; btn.classList.remove('copied'); }, 1500);
+      });
+    }
+  </script>
+</body>
+</html>

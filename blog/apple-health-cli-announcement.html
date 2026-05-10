@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>I Turned applehealth Into a CLI: Analyze Your Apple Health Data From the Terminal</title>
+    <meta name="description" content="Why I built healthai — a command-line tool to analyze Apple Health export.xml with AI, locally on your Mac. pipx install healthai. Open source, MIT.">
+    <meta name="keywords" content="apple health cli, apple health command line, apple health terminal, healthai cli, analyze apple health data cli, apple health python cli, apple health open source">
+    <link rel="canonical" href="https://applehealthdata.com/blog/apple-health-cli-announcement.html">
+
+    <meta property="og:type" content="article">
+    <meta property="og:site_name" content="AppleHealthData.com">
+    <meta property="og:url" content="https://applehealthdata.com/blog/apple-health-cli-announcement.html">
+    <meta property="og:title" content="I Turned applehealth Into a CLI: Analyze Your Apple Health Data From the Terminal">
+    <meta property="og:description" content="A command-line tool to analyze Apple Health export.xml with AI, locally on your Mac. Open source, MIT.">
+    <meta property="og:image" content="https://applehealthdata.com/images/healthai-cli-welcome.png">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="I Turned applehealth Into a CLI: Analyze Your Apple Health Data From the Terminal">
+    <meta name="twitter:description" content="A command-line tool to analyze Apple Health export.xml with AI, locally on your Mac.">
+    <meta name="twitter:image" content="https://applehealthdata.com/images/healthai-cli-welcome.png">
+    <meta name="robots" content="index,follow,max-image-preview:large">
+
+    <meta name="apple-itunes-app" content="app-id=6749297170">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;700&display=swap');
+        :root { --glass-border: rgba(255, 255, 255, 0.08); --glass-bg: rgba(255, 255, 255, 0.03); }
+        body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: #020617; color: #f8fafc; overflow-x: hidden; }
+        .font-mono { font-family: 'JetBrains Mono', monospace; }
+        .mesh-gradient { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: -1; background: radial-gradient(at 0% 0%, rgba(56, 189, 248, 0.15) 0px, transparent 50%), radial-gradient(at 100% 0%, rgba(168, 85, 247, 0.15) 0px, transparent 50%), radial-gradient(at 100% 100%, rgba(225, 29, 72, 0.15) 0px, transparent 50%); filter: blur(60px); }
+        .bento-card { background: var(--glass-bg); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); border: 1px solid var(--glass-border); border-radius: 1rem; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); }
+        .bento-card:hover { border-color: rgba(255, 255, 255, 0.2); background: rgba(255, 255, 255, 0.05); }
+        article h2 { font-size: 1.875rem; font-weight: 700; margin-top: 3rem; margin-bottom: 1rem; color: #f8fafc; }
+        article h3 { font-size: 1.5rem; font-weight: 600; margin-top: 2rem; margin-bottom: 0.75rem; color: #e2e8f0; }
+        article p { margin-bottom: 1rem; line-height: 1.75; color: #cbd5e1; }
+        article ul, article ol { margin-bottom: 1.5rem; margin-left: 1.5rem; }
+        article ul { list-style-type: disc; }
+        article ol { list-style-type: decimal; }
+        article li { margin-bottom: 0.5rem; line-height: 1.75; color: #cbd5e1; }
+        article strong { color: #f8fafc; font-weight: 600; }
+        article a { color: #38bdf8; text-decoration: none; border-bottom: 1px solid transparent; transition: border-color 0.2s; }
+        article a:hover { border-bottom-color: #38bdf8; }
+        article code { background: rgba(255, 255, 255, 0.08); padding: 0.15rem 0.4rem; border-radius: 0.25rem; font-family: 'JetBrains Mono', monospace; font-size: 0.9em; color: #67e8f9; }
+        article pre { background: rgba(15, 23, 42, 0.9); border: 1px solid var(--glass-border); padding: 1.25rem; border-radius: 0.75rem; overflow-x: auto; margin: 1.5rem 0; }
+        article pre code { background: none; padding: 0; color: #e2e8f0; }
+        .info-box { background: rgba(56, 189, 248, 0.08); border-left: 4px solid #38bdf8; padding: 1.25rem; border-radius: 0.5rem; margin: 1.5rem 0; }
+        .quote-box { background: rgba(255, 255, 255, 0.03); border-left: 4px solid rgba(255,255,255,0.2); padding: 1rem 1.25rem; border-radius: 0.5rem; margin: 1.5rem 0; font-style: italic; color: #94a3b8; }
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #020617; }
+        ::-webkit-scrollbar-thumb { background: #334155; border-radius: 4px; }
+    </style>
+
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Article",
+      "headline": "I Turned applehealth Into a CLI: Analyze Your Apple Health Data From the Terminal",
+      "description": "Why I built healthai — a command-line tool to analyze Apple Health export.xml with AI, locally on your Mac.",
+      "author": { "@type": "Person", "name": "Keith Rumjahn" },
+      "datePublished": "2026-05-10",
+      "dateModified": "2026-05-10",
+      "image": "https://applehealthdata.com/images/healthai-cli-welcome.png",
+      "publisher": { "@type": "Organization", "name": "AppleHealthData.com" }
+    }
+    </script>
+</head>
+<body>
+    <div class="mesh-gradient"></div>
+
+    <nav class="fixed top-0 left-0 right-0 z-50 bg-slate-950/80 backdrop-blur-md border-b border-white/5">
+        <div class="container mx-auto px-6 py-4">
+            <div class="flex items-center justify-between">
+                <a href="../index.html" class="flex items-center space-x-2">
+                    <i data-lucide="activity" class="w-6 h-6 text-rose-500"></i>
+                    <span class="text-xl font-bold">Health Data Export</span>
+                </a>
+                <div class="flex items-center space-x-6">
+                    <a href="../index.html" class="text-slate-400 hover:text-white transition-colors">Home</a>
+                    <a href="../apple-health-cli/" class="text-slate-400 hover:text-white transition-colors">CLI</a>
+                    <a href="https://github.com/krumjahn/applehealth" target="_blank" rel="noopener" class="text-slate-400 hover:text-white transition-colors">GitHub</a>
+                    <a href="/go/website.html" target="_blank" class="px-4 py-2 bg-gradient-to-r from-rose-600 to-purple-600 rounded-lg hover:from-rose-500 hover:to-purple-500 transition-all">
+                        Download App
+                    </a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <main class="container mx-auto px-6 pt-32 pb-20 max-w-3xl">
+        <article>
+            <header class="mb-10">
+                <div class="flex items-center space-x-2 text-sm text-slate-400 mb-4">
+                    <i data-lucide="calendar" class="w-4 h-4"></i>
+                    <time datetime="2026-05-10">May 10, 2026</time>
+                    <span class="mx-2">|</span>
+                    <span>4 min read</span>
+                </div>
+                <h1 class="text-4xl md:text-5xl font-bold mb-6 tracking-tight">
+                    I turned <code class="font-mono text-cyan-300 bg-white/5 px-2 py-1 rounded text-3xl md:text-4xl">applehealth</code> into a CLI
+                </h1>
+                <p class="text-xl text-slate-300 leading-relaxed">
+                    A command-line tool to analyze your Apple Health <code class="font-mono">export.xml</code> with AI — locally on your Mac, without uploading the file anywhere. Open source, MIT.
+                </p>
+            </header>
+
+            <div class="bento-card overflow-hidden mb-10">
+                <img src="../images/healthai-cli-welcome.png" alt="healthai CLI welcome screen with slash commands" class="w-full block" loading="eager">
+                <p class="text-center text-sm text-slate-500 py-3 bg-slate-900/60">The <code class="font-mono">healthai</code> welcome screen — drag-and-drop your export.xml and ask anything.</p>
+            </div>
+
+            <div class="info-box">
+                <p class="mb-2"><strong>TL;DR</strong></p>
+                <pre class="my-2"><code>pipx install healthai
+healthai
+# drag-and-drop export.xml, ask anything</code></pre>
+                <p class="mb-0">Source: <a href="https://github.com/krumjahn/applehealth" target="_blank" rel="noopener">github.com/krumjahn/applehealth</a> · Docs: <a href="../apple-health-cli/">applehealthdata.com/apple-health-cli</a></p>
+            </div>
+
+            <h2>Why a CLI?</h2>
+            <p>I already ship a Mac app for Apple Health analysis. It works for most people. But every few weeks I'd hear the same thing from a different angle:</p>
+
+            <div class="quote-box">"Cool, but I don't want a GUI. Can I just pipe this into <code class="font-mono">jq</code>?"</div>
+            <div class="quote-box">"I'd cron it daily and post the summary to my own dashboard."</div>
+            <div class="quote-box">"I'm not installing a Mac app. I want to read the parser."</div>
+
+            <p>The people asking weren't a huge audience — but they were the ones most likely to actually <em>use</em> their health data, fork the parser, file good bug reports, and tell their friends. The Mac app is the front door. The CLI is for the people who'd rather come in through the terminal.</p>
+
+            <h2>What it does</h2>
+            <p>Same core as the Mac app, in your shell. You point it at <code>export.xml</code> (the file iPhone produces when you tap <em>Export All Health Data</em>), and you can:</p>
+            <ul>
+                <li><strong>Ask questions in natural language</strong> — <em>"What does my sleep pattern look like over the last 30 days?"</em> The CLI extracts the relevant slice and sends only that to the AI provider.</li>
+                <li><strong>Run slash commands</strong> for canned analyses: <code>/sleep</code>, <code>/steps</code>, <code>/heartrate</code>, <code>/distance</code>, <code>/weight</code>, <code>/workouts</code>.</li>
+                <li><strong>Export to CSV or JSON</strong> with <code>/csv</code> and <code>/json</code> — full dumps you can pipe into anything.</li>
+                <li><strong>Diagnose broken exports</strong> with <code>/diagnose</code>. Apple's export format is fragile and I've seen every kind of corruption.</li>
+            </ul>
+
+            <h2>The privacy model</h2>
+            <p>The <code>export.xml</code> file never leaves your machine. The CLI parses it locally with a streaming XML reader (the file can be 500MB+ — you don't want to load that into memory). When you ask a question, only the <em>summarized slice</em> goes out to the AI provider you configured.</p>
+            <p>Concretely: if you ask <em>"how was my sleep last week?"</em>, the AI sees ~7 numbers, not 18 months of every heart-rate sample. That's the whole point of doing the parsing locally. Cloud "health AI" products upload the entire file, which is both slow and a privacy nightmare for what's arguably the most sensitive dataset on your phone.</p>
+
+            <h2>Why open source?</h2>
+            <p>Two reasons. First — <strong>trust.</strong> Telling people "your data stays on your machine" works a lot better when they can read the code. The repo is <a href="https://github.com/krumjahn/applehealth" target="_blank" rel="noopener">github.com/krumjahn/applehealth</a>, MIT licensed, no telemetry.</p>
+            <p>Second — <strong>the parser itself is useful.</strong> Apple's <code>export.xml</code> schema is undocumented in any practical sense, has changed across iOS versions, and includes some genuinely weird edge cases (workouts with negative duration, sleep stages that overlap, units that silently change between metric and imperial). If you want to build anything on top of Apple Health, having a battle-tested parser to fork from is worth more than the AI layer on top.</p>
+
+            <h2>Install it</h2>
+            <pre><code># macOS
+brew install pipx
+pipx install healthai
+
+# Linux / Windows
+python3 -m pip install --user pipx
+pipx ensurepath
+pipx install healthai</code></pre>
+
+            <p>Then:</p>
+            <pre><code>healthai</code></pre>
+            <p>You'll get the welcome panel above. Drag <code>export.xml</code> onto the terminal window when prompted (or paste the path). That's the whole setup.</p>
+
+            <h2>What's next</h2>
+            <p>The Mac app already supports <a href="https://lmstudio.ai/" target="_blank" rel="noopener">LM Studio</a> and <a href="https://ollama.com/" target="_blank" rel="noopener">Ollama</a> for fully-offline analysis with no API key. That's coming to the CLI next — currently it ships with OpenAI support. If you'd run this against a local model, drop a thumbs-up on the GitHub issue.</p>
+            <p>Other things on the list, in rough priority order:</p>
+            <ul>
+                <li>Plain-text mode (no AI) for people who just want fast slash-command summaries</li>
+                <li>JSON output flag on every command so you can pipe to <code>jq</code></li>
+                <li>HRV and respiratory-rate commands (currently only via the open-ended question mode)</li>
+                <li>An <code>--export-window</code> flag to pre-filter to a date range before analysis</li>
+            </ul>
+
+            <h2>If you try it</h2>
+            <p>I'd genuinely love feedback — what's missing, what's broken, what slash commands you wish existed. Open an issue on <a href="https://github.com/krumjahn/applehealth" target="_blank" rel="noopener">GitHub</a>, or email me. The repo has 0 stars at time of writing; if you find this useful, a star helps it surface for the next person searching for "apple health cli".</p>
+
+            <p>And if a GUI is more your thing, the <a href="/go/website.html">Mac app</a> does all of this with point-and-click — same privacy model, no terminal required.</p>
+
+            <div class="bento-card p-6 mt-12 text-center">
+                <h3 class="text-2xl font-bold mb-3">Try the Apple Health CLI</h3>
+                <p class="text-slate-400 mb-5">Free, open source, runs locally. Less than a minute to install.</p>
+                <div class="flex flex-col sm:flex-row gap-3 justify-center">
+                    <a href="../apple-health-cli/" class="inline-flex items-center justify-center gap-2 px-6 py-3 bg-cyan-600 text-white font-bold rounded-xl hover:bg-cyan-500 transition-colors">
+                        <i data-lucide="terminal" class="w-5 h-5"></i> Read the CLI docs
+                    </a>
+                    <a href="https://github.com/krumjahn/applehealth" target="_blank" rel="noopener" class="inline-flex items-center justify-center gap-2 px-6 py-3 bg-slate-800 text-white font-bold rounded-xl hover:bg-slate-700 transition-colors border border-slate-700">
+                        <i data-lucide="github" class="w-5 h-5"></i> Star on GitHub
+                    </a>
+                </div>
+            </div>
+        </article>
+    </main>
+
+    <footer class="border-t border-white/5 py-12">
+        <div class="container mx-auto px-6">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div>
+                    <div class="flex items-center space-x-2 mb-4">
+                        <i data-lucide="activity" class="w-6 h-6 text-rose-500"></i>
+                        <span class="text-xl font-bold">Health Data Export</span>
+                    </div>
+                    <p class="text-slate-400">Privacy-first Apple Health data export and AI analysis tools.</p>
+                </div>
+                <div>
+                    <h4 class="font-semibold mb-4">Quick Links</h4>
+                    <ul class="space-y-2 text-slate-400">
+                        <li><a href="../index.html" class="hover:text-white transition-colors">Home</a></li>
+                        <li><a href="../apple-health-cli/" class="hover:text-white transition-colors">Apple Health CLI</a></li>
+                        <li><a href="../openclaw-apple-health/" class="hover:text-white transition-colors">OpenClaw Integration</a></li>
+                        <li><a href="/go/website.html" target="_blank" class="hover:text-white transition-colors">Download App</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="font-semibold mb-4">Resources</h4>
+                    <ul class="space-y-2 text-slate-400">
+                        <li><a href="https://github.com/krumjahn/applehealth" target="_blank" class="hover:text-white transition-colors">GitHub</a></li>
+                        <li><a href="../convert-tool/" class="hover:text-white transition-colors">XML to CSV Converter</a></li>
+                        <li><a href="../export-apple-health-data/" class="hover:text-white transition-colors">Export Apple Health</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="mt-8 pt-8 border-t border-white/5 text-center text-slate-400">
+                <p>&copy; 2026 Health Data Export. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        lucide.createIcons();
+    </script>
+</body>
+</html>
