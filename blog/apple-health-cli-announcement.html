@@ -64,6 +64,54 @@
       "publisher": { "@type": "Organization", "name": "AppleHealthData.com" }
     }
     </script>
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "How does the Apple Health CLI handle privacy?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "All processing happens locally on your Mac. Your Apple Health export.xml file never leaves your device — no cloud upload, no third-party servers, no telemetry. The CLI reads your XML file directly and outputs CSV, JSON, or Excel formats to your local filesystem."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What Apple Health data types are supported by the CLI?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Heart rate, HRV, sleep analysis, workout summaries, step count, active calories, VO2 max, respiratory rate, and 20+ other HealthKit record types. Run 'apple-health-cli list' to see the full list."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Do I need an Apple Watch to use the Apple Health CLI?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "No. The CLI works with any Apple Health export, regardless of whether you have an Apple Watch. If you only have iPhone step counts and workout data from manual entry, that exports fine too."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Can I export Apple Health data from multiple years?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes. Apple's export includes your complete health history — every record you've logged since starting to use the Health app. A 3-year export with workouts and heart rate data typically processes in under 30 seconds."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How is the Apple Health CLI different from the Health app's built-in export?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Apple's built-in export gives you a ZIP file with a single XML file — readable but not analysis-ready. The CLI parses that XML into structured CSV/JSON with typed columns (date, type, value, unit), making it usable in Excel, Python, or any AI tool without manual data cleaning."
+          }
+        }
+      ]
+    }
+    </script>
 </head>
 <body>
     <div class="mesh-gradient"></div>
@@ -184,6 +232,48 @@ pipx install healthai</code></pre>
                     </a>
                 </div>
             </div>
+
+            <!-- FAQ Section -->
+            <section class="mt-12 p-6 rounded-2xl bg-slate-800/50 border border-slate-700">
+                <h2 class="text-2xl font-bold mb-6">Frequently Asked Questions</h2>
+                <div class="space-y-4">
+                    <details class="group">
+                        <summary class="flex items-center justify-between cursor-pointer text-lg font-medium py-2">
+                            <span>How does the CLI handle privacy?</span>
+                            <i data-lucide="chevron-down" class="w-5 h-5 text-slate-400 group-open:rotate-180 transition-transform"></i>
+                        </summary>
+                        <p class="text-slate-400 mt-2 pl-4 border-l-2 border-rose-500/50">All processing happens locally on your Mac. Your Apple Health export.xml file never leaves your device — no cloud upload, no third-party servers, no telemetry. The CLI reads your XML file directly and outputs CSV, JSON, or Excel formats to your local filesystem.</p>
+                    </details>
+                    <details class="group">
+                        <summary class="flex items-center justify-between cursor-pointer text-lg font-medium py-2">
+                            <span>What Apple Health data types are supported?</span>
+                            <i data-lucide="chevron-down" class="w-5 h-5 text-slate-400 group-open:rotate-180 transition-transform"></i>
+                        </summary>
+                        <p class="text-slate-400 mt-2 pl-4 border-l-2 border-rose-500/50">Heart rate, HRV, sleep analysis, workout summaries, step count, active calories, VO2 max, respiratory rate, and 20+ other HealthKit record types. Run <code class="bg-slate-700 px-2 py-1 rounded text-sm">apple-health-cli list</code> to see the full list.</p>
+                    </details>
+                    <details class="group">
+                        <summary class="flex items-center justify-between cursor-pointer text-lg font-medium py-2">
+                            <span>Do I need an Apple Watch to use the CLI?</span>
+                            <i data-lucide="chevron-down" class="w-5 h-5 text-slate-400 group-open:rotate-180 transition-transform"></i>
+                        </summary>
+                        <p class="text-slate-400 mt-2 pl-4 border-l-2 border-rose-500/50">No. The CLI works with any Apple Health export, regardless of whether you have an Apple Watch. If you only have iPhone step counts and workout data from manual entry, that exports fine too.</p>
+                    </details>
+                    <details class="group">
+                        <summary class="flex items-center justify-between cursor-pointer text-lg font-medium py-2">
+                            <span>Can I export data from multiple years?</span>
+                            <i data-lucide="chevron-down" class="w-5 h-5 text-slate-400 group-open:rotate-180 transition-transform"></i>
+                        </summary>
+                        <p class="text-slate-400 mt-2 pl-4 border-l-2 border-rose-500/50">Yes. Apple's export includes your complete health history — every record you've logged since starting to use the Health app. A 3-year export with workouts and heart rate data typically processes in under 30 seconds.</p>
+                    </details>
+                    <details class="group">
+                        <summary class="flex items-center justify-between cursor-pointer text-lg font-medium py-2">
+                            <span>How is this different from the Health app's built-in export?</span>
+                            <i data-lucide="chevron-down" class="w-5 h-5 text-slate-400 group-open:rotate-180 transition-transform"></i>
+                        </summary>
+                        <p class="text-slate-400 mt-2 pl-4 border-l-2 border-rose-500/50">Apple's built-in export gives you a ZIP file with a single XML file — readable but not analysis-ready. The CLI parses that XML into structured CSV/JSON with typed columns (date, type, value, unit), making it usable in Excel, Python, or any AI tool without manual data cleaning.</p>
+                    </details>
+                </div>
+            </section>
         </article>
     </main>
 
