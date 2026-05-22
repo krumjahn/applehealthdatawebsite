@@ -235,6 +235,13 @@
         g.async=true; g.src=u+'matomo.js'; s.parentNode.insertBefore(g,s);
       })();
     </script>
+    <!-- Modern Web Guidance: Performance — preconnect fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preload" as="style"
+          href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;700&display=swap"
+          onload="this.onload=null;this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;700&display=swap"></noscript>
 </head>
 <body>
     <div class="mesh-gradient"></div>
@@ -698,13 +705,16 @@
                         <i data-lucide="download" class="w-5 h-5 mr-2"></i>
                         Download iOS App - $4.99
                     </a>
+                    <a href="/convert-tool/" class="inline-flex items-center justify-center px-6 py-3 border-2 border-rose-500/50 rounded-lg hover:bg-rose-500/10 transition-all font-semibold text-slate-200">
+                        Try Free Converter
+                    </a>
                     <a href="../index.html" class="inline-flex items-center justify-center px-6 py-3 border border-white/20 rounded-lg hover:bg-white/5 transition-all font-semibold text-slate-200">
                         Learn More
                     </a>
                 </div>
-            </section>
-        </article>
-    </main>
+            </div>
+        </div>
+    </section>
 
     <!-- Footer -->
     <footer class="border-t border-white/5 py-12">

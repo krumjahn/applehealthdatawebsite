@@ -247,6 +247,13 @@
         g.async=true; g.src=u+'matomo.js'; s.parentNode.insertBefore(g,s);
       })();
     </script>
+    <!-- Modern Web Guidance: Performance — preconnect fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preload" as="style"
+          href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;700&display=swap"
+          onload="this.onload=null;this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;700&display=swap"></noscript>
 </head>
 <body>
     <div class="mesh-gradient"></div>
@@ -752,11 +759,15 @@
             <!-- CTA -->
             <section class="bento-card p-8 bg-gradient-to-r from-rose-600/10 to-purple-600/10 border-rose-500/20">
                 <h3 class="text-2xl font-bold mb-4">Ready to take control of your health data?</h3>
-                <p class="text-lg mb-6">Download our local Apple Health export tool - One-time $4.99 purchase, lifetime access, complete privacy.</p>
+                <p class="text-lg mb-6">Before you use any AI health tool — export your Apple Health data privately with our free converter.</p>
                 <div class="flex flex-col sm:flex-row gap-4">
+                    <a href="/convert-tool/" class="inline-flex items-center justify-center px-6 py-3 bg-rose-600 rounded-lg hover:bg-rose-500 transition-all font-semibold text-white">
+                        <i data-lucide="file-down" class="w-5 h-5 mr-2"></i>
+                        Try Free Converter
+                    </a>
                     <a href="https://apps.apple.com/us/app/health-data-export-ai-analyzer/id6749297170?ct=chatgpt-vs-claude-bottom&pt=123456&mt=8"
                        target="_blank"
-                       class="inline-flex items-center justify-center px-6 py-3 bg-gradient-to-r from-rose-600 to-purple-600 rounded-lg hover:from-rose-500 hover:to-purple-500 transition-all font-semibold"
+                       class="inline-flex items-center justify-center px-6 py-3 border border-white/20 rounded-lg hover:bg-white/5 transition-all font-semibold text-slate-200"
                        onclick="gtag('event', 'download_click', {
                          'event_category': 'app_download',
                          'event_label': 'ChatGPT vs Claude Health',
@@ -764,9 +775,6 @@
                        });">
                         <i data-lucide="download" class="w-5 h-5 mr-2"></i>
                         Download iOS App - $4.99
-                    </a>
-                    <a href="../index.html" class="inline-flex items-center justify-center px-6 py-3 border border-white/20 rounded-lg hover:bg-white/5 transition-all font-semibold text-slate-200">
-                        Learn More
                     </a>
                 </div>
             </section>

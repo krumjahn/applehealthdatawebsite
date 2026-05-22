@@ -261,6 +261,13 @@
         g.async=true; g.src=u+'matomo.js'; s.parentNode.insertBefore(g,s);
       })();
     </script>
+    <!-- Modern Web Guidance: Performance — preconnect fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preload" as="style"
+          href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;700&display=swap"
+          onload="this.onload=null;this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;700&display=swap"></noscript>
 </head>
 <body>
     <div class="mesh-gradient"></div>
@@ -606,8 +613,9 @@
                 <h2 class="text-3xl font-bold mb-4" style="border-top: none; margin-top: 0; padding-top: 0;">
                     Start Exporting Your Health Data Today
                 </h2>
-                <p class="text-slate-300 text-lg mb-8 max-w-2xl mx-auto">
-                    Health Data Export &amp; AI Analyzer is the fastest way to get your Apple Health data working with OpenClaw.
+                <p class="text-slate-300 text-base mb-6 max-w-2xl mx-auto">
+                    First export your Apple Health data to CSV or JSON — then bring it into OpenClaw.
+                    <a href="/convert-tool/" class="text-rose-400 hover:underline font-semibold">Free XML to CSV/JSON converter →</a>
                 </p>
                 <a href="https://apps.apple.com/us/app/health-data-export/id6749297170" target="_blank" rel="noopener noreferrer"
                    class="inline-flex items-center gap-2 px-8 py-4 bg-white text-slate-900 rounded-xl font-bold hover:bg-slate-100 transition-all"
@@ -616,7 +624,7 @@
                     Download on the App Store
                 </a>
                 <p class="text-slate-500 text-sm mt-5">
-                    $4.99 one-time &middot; Privacy first &middot; Works with OpenClaw
+                    $4.99 one-time · Privacy first · Works with OpenClaw
                 </p>
             </div>
 

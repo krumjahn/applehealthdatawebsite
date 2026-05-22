@@ -268,6 +268,13 @@
         g.async=true; g.src=u+'matomo.js'; s.parentNode.insertBefore(g,s);
       })();
     </script>
+    <!-- Modern Web Guidance: Performance — preconnect fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preload" as="style"
+          href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;700&display=swap"
+          onload="this.onload=null;this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;700&display=swap"></noscript>
 </head>
 <body>
     <div class="mesh-gradient"></div>
@@ -538,8 +545,9 @@
                 <h2 class="text-3xl font-bold mb-4" style="border-top: none; margin-top: 0; padding-top: 0;">
                     Ready to Get Started?
                 </h2>
-                <p class="text-slate-300 text-lg mb-8 max-w-2xl mx-auto">
-                    Turn your Apple Health data into daily AI-powered insights &mdash; all processed locally on your Mac, with no data leaving your device.
+                <p class="text-slate-300 text-base mb-6 max-w-2xl mx-auto">
+                    First export your Apple Health data to CSV or JSON — then analyze with OpenClaw.
+                    <a href="/convert-tool/" class="text-rose-400 hover:underline font-semibold">Try the free converter →</a>
                 </p>
                 <div class="flex flex-col sm:flex-row gap-4 justify-center">
                     <a href="/go/website.html" target="_blank" rel="noopener"
