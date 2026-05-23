@@ -7,6 +7,7 @@
     <meta name="description" content="Learn how to use OpenClaw with Apple Health for AI-powered daily health briefs. Step-by-step guide to installing the ClawHub skill, connecting your data, and getting personalized insights.">
     <meta name="keywords" content="how to use OpenClaw with Apple Health, OpenClaw ClawHub health skill setup, OpenClaw daily health brief guide, Apple Health AI daily check-in">
     <meta name="apple-itunes-app" content="app-id=6749297170">
+    <meta name="author" content="Keith Rumjahn">
     <link rel="canonical" href="https://applehealthdata.com/blog/openclaw-apple-health-guide.html">
 
     <!-- Open Graph -->
@@ -198,6 +199,11 @@
       "description": "Step-by-step guide to setting up the OpenClaw ClawHub health skill for AI-powered daily health briefs using your Apple Health data.",
       "image": "https://applehealthdata.com/images/mac-app-screenshot-1.png",
       "totalTime": "PT10M",
+      "author": {
+        "@type": "Person",
+        "name": "Keith Rumjahn"
+      },
+      "dateModified": "2026-05-23",
       "tool": [
         {
           "@type": "HowToTool",
@@ -244,6 +250,68 @@
           "position": 5,
           "name": "Ask for Your Daily Brief",
           "text": "Open OpenClaw and ask for your daily health brief using the health-analyzer-mac-local skill. You'll receive a plain-English summary of your health metrics."
+        }
+      ]
+    }
+    </script>
+
+    <!-- Article Structured Data -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Article",
+      "headline": "How to Use OpenClaw with Apple Health: Step-by-Step Setup Guide (2026)",
+      "description": "Learn how to use OpenClaw with Apple Health for AI-powered daily health briefs. Step-by-step guide to installing the ClawHub skill, connecting your data, and getting personalized insights.",
+      "author": {
+        "@type": "Person",
+        "name": "Keith Rumjahn"
+      },
+      "dateModified": "2026-05-23",
+      "publisher": {
+        "@type": "Organization",
+        "name": "Health Data Export",
+        "url": "https://applehealthdata.com"
+      }
+    }
+    </script>
+
+    <!-- FAQPage Structured Data -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "Does OpenClaw send my health data to the cloud?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "No. The Mac app runs a local-only API at http://127.0.0.1:8765. OpenClaw connects to that local endpoint — your data never leaves your Mac."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What format should I export from Apple Health?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Use the Export All Health Data option in the Health app to get a ZIP file. Import that ZIP into the Health Data Export AI Analyzer Mac app, which converts it to structured data the local API can serve."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Do I need the Mac app running every time I want a health brief?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes — the local API only runs when the Mac app is open. Open the app before asking OpenClaw for a health brief, and close it when you're done."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What data can the daily brief analyze?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Steps, sleep, heart rate, HRV, workouts, and active calories — any metric recorded in your Apple Health export. The Mac app parses what's available and serves it via the local API."
+          }
         }
       ]
     }
