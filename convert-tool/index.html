@@ -97,6 +97,86 @@
     }
     </script>
 
+    <!-- HowTo Schema: Step-by-step conversion guide -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "HowTo",
+      "name": "How to Convert Apple Health export.xml to CSV, JSON, or Excel",
+      "description": "Convert your Apple Health XML export to a usable format in under 2 minutes. No account, no uploads, no cloud processing — all conversion happens locally in your browser.",
+      "totalTime": "PT2M",
+      "estimatedCost": {
+        "@type": "MonetaryAmount",
+        "currency": "USD",
+        "value": "0"
+      },
+      "tool": [
+        {
+          "@type": "HowToTool",
+          "name": "Apple Health app (iPhone)",
+          "description": "Built-in Health app used to export your health data"
+        },
+        {
+          "@type": "HowToTool",
+          "name": "Apple Health XML to CSV, JSON & Excel Converter",
+          "description": "Free browser-based tool at applehealthdata.com/convert-tool — no installation or account required"
+        }
+      ],
+      "step": [
+        {
+          "@type": "HowToStep",
+          "name": "Export your health data from iPhone",
+          "itemListElement": {
+            "@type": "HowToDirection",
+            "text": "Open the Health app on your iPhone. Tap your profile photo (top right). Scroll down and tap 'Export All Health Data'. Confirm when prompted. Apple's built-in export produces a ZIP file containing export.xml — this file contains your raw Apple Health records in XML format."
+          },
+          "sourceEntry": {
+            "@type": "CreativeWork",
+            "name": "Apple Support — Share your Health data",
+            "url": "https://support.apple.com/guide/iphone/share-your-health-data-iph5ede58c3d/"
+          }
+        },
+        {
+          "@type": "HowToStep",
+          "name": "Open the converter in your browser",
+          "itemListElement": {
+            "@type": "HowToDirection",
+            "text": "Go to applehealthdata.com/convert-tool in any modern browser — desktop, tablet, or mobile. No account needed. No data is uploaded — the entire conversion process runs locally in your browser on your device."
+          }
+        },
+        {
+          "@type": "HowToStep",
+          "name": "Load your export.xml file",
+          "itemListElement": {
+            "@type": "HowToDirection",
+            "text": "Click 'Load export.xml' or drag and drop your export.xml file onto the converter. The file is read directly by your browser — it never leaves your device. Wait a moment for the parser to read all your records."
+          }
+        },
+        {
+          "@type": "HowToStep",
+          "name": "Choose your output format",
+          "itemListElement": {
+            "@type": "HowToDirection",
+            "text": "Select CSV for spreadsheets and data analysis (Google Sheets, Excel, Numbers). Select JSON for AI tools, Python scripts, or API integrations. Select Excel (XLSX) for formatted spreadsheet reports with charts and pivot tables. All three formats contain the same underlying health data."
+          }
+        },
+        {
+          "@type": "HowToStep",
+          "name": "Download your converted file",
+          "itemListElement": {
+            "@type": "HowToDirection",
+            "text": "Click the download button that appears after conversion. Your browser saves the converted file directly to your device. The original export.xml is not modified. You now have a clean, structured file ready for analysis."
+          }
+        }
+      ],
+      "author": {
+        "@type": "Person",
+        "name": "Keith Rumjahn"
+      },
+      "dateModified": "2026-05-25"
+    }
+    </script>
+
     <!-- Article Schema for E-E-A-T (author attribution) -->
     <script type="application/ld+json">
     {
