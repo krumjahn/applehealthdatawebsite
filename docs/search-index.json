@@ -413,6 +413,10 @@
         "snippet": ""
       },
       {
+        "heading": "MCP Server (Claude, Cursor)",
+        "snippet": ""
+      },
+      {
         "heading": "OpenClaw Integration",
         "snippet": ""
       },
@@ -522,6 +526,85 @@
       {
         "heading": "Related Pages",
         "snippet": "iPhone-to-Mac Sync AI Analysis API Reference OpenClaw Integration Convert XML to CSV/JSON/XLSX Getting Started"
+      }
+    ]
+  },
+  {
+    "title": "MCP Server",
+    "url": "/docs/mcp-server.html",
+    "intro": "Plug Apple Health into Claude Desktop , Cursor , and any other Model Context Protocol (MCP) client through the health-analyzer-mcp npm package. The MCP server runs locally on your Mac and talks to the",
+    "sections": [
+      {
+        "heading": "How It Works",
+        "snippet": "Health Data AI Analyzer (Mac app) — imports your Apple Health export and runs a read-only API on http://127.0.0.1:8765 . health-analyzer-mcp (Node process spawned by your MCP client) — translates betw"
+      },
+      {
+        "heading": "Prerequisites",
+        "snippet": "macOS — the Mac app is macOS-only Node.js 18+ — required to run the MCP server via npx Health Data AI Analyzer Mac app installed, with a dataset loaded and the Local API enabled in Settings An MCP cli"
+      },
+      {
+        "heading": "Setup — Claude Desktop",
+        "snippet": ""
+      },
+      {
+        "heading": "Step 1: Install the Mac App",
+        "snippet": "Download Health Data AI Analyzer from the Mac App Store. Import an Apple Health XML export, or sync one from your iPhone using one of the sync paths ."
+      },
+      {
+        "heading": "Step 2: Enable the Local API",
+        "snippet": "In the Mac app, open Settings and turn on Enable Local API for OpenClaw and scripts . The app writes an auth token to its sandboxed container; the MCP server auto-discovers this file."
+      },
+      {
+        "heading": "Step 3: Add the MCP Server to Claude Desktop Config",
+        "snippet": "Open your Claude Desktop config: ~/Library/Application Support/Claude/claude_desktop_config.json Add the health-analyzer server entry. If the file doesn't exist, create it: { \"mcpServers\": { \"health-a"
+      },
+      {
+        "heading": "Step 4: Restart Claude Desktop",
+        "snippet": "Quit Claude Desktop completely (Cmd+Q) and reopen it. The new server appears in the tools menu; you should see all 11 tools available."
+      },
+      {
+        "heading": "Step 5: Ask Claude About Your Health Data",
+        "snippet": "Open a new conversation and try one of these prompts: What were my step counts and sleep duration for the last 14 days? Pull my HRV for the past 30 days and look for signs of overtraining or stress. B"
+      },
+      {
+        "heading": "Setup — Cursor",
+        "snippet": "Cursor uses the same MCP spec. Open Cursor Settings → MCP and add the same JSON snippet: { \"mcpServers\": { \"health-analyzer\": { \"command\": \"npx\", \"args\": [\"-y\", \"health-analyzer-mcp\"] } } } Save and t"
+      },
+      {
+        "heading": "The 11 Tools",
+        "snippet": "Every tool is read-only and annotated with the MCP readOnlyHint: true flag so clients know they're safe to call without user confirmation. Tool What it does Inputs get_status Check whether the local A"
+      },
+      {
+        "heading": "Optional Environment Variables",
+        "snippet": "The MCP server auto-discovers the auth token from the Mac app's sandboxed container. You should never need to set these — they only exist as escape hatches for non-standard installations: Variable Pur"
+      },
+      {
+        "heading": "Troubleshooting",
+        "snippet": ""
+      },
+      {
+        "heading": "\"Cannot connect to Health Data AI Analyzer\"",
+        "snippet": "The Mac app is not running, or the Local API is not enabled. Open the Mac app, go to Settings , and confirm Enable Local API for OpenClaw and scripts is on. Then call get_status from your MCP client t"
+      },
+      {
+        "heading": "\"Token not found\" or 401 errors",
+        "snippet": "The server couldn't find the auth token file. Run get_status — the response includes the paths it searched. If the file exists at one of those paths but the server still can't read it, your shell may "
+      },
+      {
+        "heading": "Tools don't show up in Claude Desktop",
+        "snippet": "Confirm Claude Desktop was fully restarted (Cmd+Q, not just close-window). If the issue persists, check the Claude Desktop logs at ~/Library/Logs/Claude/ for MCP startup errors. The most common cause "
+      },
+      {
+        "heading": "Slow first response",
+        "snippet": "The first call after a restart may take several seconds because npx downloads the latest health-analyzer-mcp package. Subsequent calls reuse the cached package and are near-instant."
+      },
+      {
+        "heading": "Privacy",
+        "snippet": "The MCP server is built around the same rule as the rest of the app: your health data stays on your Mac. Loopback only — the server only ever connects to 127.0.0.1:8765 ; it has no network code that c"
+      },
+      {
+        "heading": "Resources",
+        "snippet": "npm: health-analyzer-mcp Source on GitHub Official MCP Registry listing Landing page: Apple Health MCP server Underlying local API reference"
       }
     ]
   },
