@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Apple Health MCP Server: Connect Claude, Cursor & AI Tools to HealthKit</title>
+  <meta name="description" content="The open-source Apple Health MCP server. Lets Claude Desktop, Cursor, and any MCP client query your steps, sleep, HRV, workouts and more — all locally, no cloud upload.">
+  <meta name="keywords" content="apple health mcp, apple health data mcp, mcp server apple health, claude apple health mcp, healthkit mcp, model context protocol apple health, cursor apple health, mcp health data">
+  <link rel="canonical" href="https://applehealthdata.com/apple-health-mcp/">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <!-- Matomo -->
+  <script>
+    var _paq = window._paq = window._paq || [];
+    _paq.push(['trackPageView']);
+    _paq.push(['enableLinkTracking']);
+    (function() {
+      var u="//shrewd-lyrebird.pikapod.net/";
+      _paq.push(['setTrackerUrl', u+'matomo.php']);
+      _paq.push(['setSiteId', '9']);
+      var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
+      g.async=true; g.src=u+'matomo.js'; s.parentNode.insertBefore(g,s);
+    })();
+  </script>
+  <!-- End Matomo Code -->
+
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;700&display=swap');
+    :root { --glass-border: rgba(255, 255, 255, 0.08); --glass-bg: rgba(255, 255, 255, 0.03); }
+    body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: #020617; color: #f8fafc; overflow-x: hidden; }
+    .mesh-gradient { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: -1; background: radial-gradient(at 0% 0%, rgba(225, 29, 72, 0.15) 0px, transparent 50%), radial-gradient(at 100% 0%, rgba(56, 189, 248, 0.15) 0px, transparent 50%), radial-gradient(at 100% 100%, rgba(168, 85, 247, 0.15) 0px, transparent 50%); filter: blur(60px); }
+    .content-section h2 { border-top: 1px solid var(--glass-border); padding-top: 2rem; margin-top: 3rem; color: #f8fafc; font-size: 1.875rem; font-weight: 700; margin-bottom: 1.25rem; }
+    .content-section h3 { color: #e2e8f0; font-size: 1.5rem; font-weight: 600; margin-top: 2rem; margin-bottom: 0.75rem; }
+    .content-section p { color: #94a3b8; font-size: 1.125rem; line-height: 1.75; margin-bottom: 1.25rem; }
+    .content-section a { color: #f43f5e; text-decoration: none; border-bottom: 1px solid transparent; transition: all 0.2s; }
+    .content-section a:hover { border-bottom-color: #f43f5e; }
+    .content-section ul, .content-section ol { padding-left: 1.5rem; margin-bottom: 1.25rem; color: #94a3b8; }
+    .content-section li { margin-bottom: 0.5rem; list-style-type: disc; }
+    .content-section pre { background: #0f172a; border: 1px solid var(--glass-border); border-radius: 0.75rem; padding: 1.25rem; overflow-x: auto; margin-bottom: 1.25rem; }
+    .content-section code { font-family: 'JetBrains Mono', monospace; color: #38bdf8; font-size: 0.875rem; }
+    .glass { background: rgba(255, 255, 255, 0.03); border: 1px solid var(--glass-border); border-radius: 1rem; }
+    .tool-badge { display: inline-block; background: rgba(56, 189, 248, 0.1); border: 1px solid rgba(56, 189, 248, 0.25); color: #38bdf8; font-family: 'JetBrains Mono', monospace; font-size: 0.8rem; padding: 0.25rem 0.65rem; border-radius: 0.5rem; margin: 0.2rem 0.2rem 0.2rem 0; }
+  </style>
+
+  <!-- FAQ Schema -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "What is an Apple Health MCP server?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "An MCP (Model Context Protocol) server is a small program that exposes your Apple Health data as callable tools for AI assistants like Claude Desktop and Cursor. The Apple Health Analyzer MCP server runs locally on your Mac, talks to the Health Data AI Analyzer app over loopback (localhost:8765), and exposes 11 read-only tools — steps, sleep, heart rate, HRV, weight, workouts, VO2 max, and more — without uploading any data to the cloud."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Does the MCP server send my health data to the cloud?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "No. The MCP server runs entirely on your Mac. Claude (or any MCP client) spawns it as a local process, and it queries the Mac app's local API at http://localhost:8765. Your HealthKit data never crosses the network. If you choose to ask Claude to analyze a result, only the response payload you asked for is sent to Anthropic — not your full export."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "How do I install the Apple Health MCP server?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Install the Health Data AI Analyzer Mac app first (it provides the local API). Then add this to your Claude Desktop config: { \"mcpServers\": { \"health-analyzer\": { \"command\": \"npx\", \"args\": [\"-y\", \"health-analyzer-mcp\"] } } }. Restart Claude Desktop and the 11 tools become available."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Which MCP clients are supported?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Any MCP client that supports stdio transport: Claude Desktop, Cursor, OpenClaw, Cline, Continue, and most agent frameworks. The server speaks the standard Model Context Protocol over stdio."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What tools does the MCP server expose?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "11 read-only tools: get_status, list_metrics, get_health_summary, get_steps, get_sleep, get_heart_rate, get_daily_health_brief, get_hrv, get_weight, get_workouts, and get_vo2max. All tools are annotated with readOnlyHint:true so AI clients know they are safe to call without confirmation."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Is the MCP server open source?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Yes — MIT licensed, published to npm as health-analyzer-mcp, source on GitHub in the krumjahn/MacHealthAnalyzer repo under the mcp-server/ directory."
+        }
+      }
+    ]
+  }
+  </script>
+
+  <!-- SoftwareApplication Schema -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "health-analyzer-mcp",
+    "applicationCategory": "DeveloperApplication",
+    "operatingSystem": "macOS",
+    "description": "MCP server that exposes Apple Health data to Claude, Cursor, and other MCP clients via the Health Data AI Analyzer Mac app. All data stays local.",
+    "url": "https://applehealthdata.com/apple-health-mcp/",
+    "softwareVersion": "1.1.0",
+    "license": "https://opensource.org/licenses/MIT",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" }
+  }
+  </script>
+
+    <!-- Modern Web Guidance: Performance — preconnect fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preload" as="style"
+          href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;700&display=swap"
+          onload="this.onload=null;this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;700&display=swap"></noscript>
+</head>
+<body>
+  <div class="mesh-gradient"></div>
+
+  <nav class="fixed w-full z-50 border-b border-white/10 bg-slate-950/80 backdrop-blur-xl">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex justify-between items-center h-20">
+        <a href="/" class="flex items-center gap-3 group">
+          <div class="w-10 h-10 bg-gradient-to-tr from-rose-600 to-orange-500 rounded-xl flex items-center justify-center shadow-lg shadow-rose-500/20 group-hover:scale-105 transition-transform">
+            <i data-lucide="activity" class="w-6 h-6 text-white"></i>
+          </div>
+          <div>
+            <span class="font-bold text-lg tracking-tight text-white block leading-none">Health Data</span>
+            <span class="text-xs text-slate-400 tracking-wider uppercase font-semibold">Export & Analyze</span>
+          </div>
+        </a>
+        <div class="hidden md:flex gap-6">
+          <a href="/apple-health-ai/" class="text-sm font-medium text-slate-300 hover:text-white transition-colors">Apple Health + AI</a>
+          <a href="/go/website.html" class="text-sm font-bold text-rose-500 hover:text-rose-400 transition-colors">Download App</a>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <main class="pt-32 pb-20 lg:pt-48 lg:pb-32">
+    <div class="max-w-3xl mx-auto px-4 content-section">
+      <div class="text-center mb-16">
+        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-rose-500/10 border border-rose-500/20 text-rose-400 text-sm font-medium mb-6">
+          <i data-lucide="plug-zap" class="w-4 h-4"></i>
+          Model Context Protocol
+        </div>
+        <h1 class="text-4xl lg:text-6xl font-bold text-white mb-6 tracking-tight">Apple Health MCP Server</h1>
+        <p class="text-xl text-slate-400 leading-relaxed">The open-source <strong class="text-white">Model Context Protocol server</strong> for Apple Health. Lets Claude Desktop, Cursor, and any MCP client query your steps, sleep, HRV, workouts, and more — entirely on your Mac, with zero cloud upload.</p>
+      </div>
+
+      <div class="glass p-6">
+        <div class="flex flex-wrap items-center gap-3 mb-4 text-sm">
+          <span class="inline-flex items-center gap-1 text-emerald-400"><i data-lucide="shield-check" class="w-4 h-4"></i> 100% local</span>
+          <span class="text-slate-600">·</span>
+          <span class="inline-flex items-center gap-1 text-sky-400"><i data-lucide="package" class="w-4 h-4"></i> <code>health-analyzer-mcp</code> on npm</span>
+          <span class="text-slate-600">·</span>
+          <span class="inline-flex items-center gap-1 text-purple-400"><i data-lucide="github" class="w-4 h-4"></i> MIT licensed</span>
+        </div>
+        <p class="text-slate-300 mb-4"><strong>Prerequisite:</strong> install the <strong>Health Data AI Analyzer</strong> Mac app — it hosts the local API the MCP server talks to. No Mac app → no API → no MCP.</p>
+        <div class="flex flex-col sm:flex-row gap-3 items-stretch sm:items-center mb-2">
+          <a href="/go/website.html" class="inline-flex justify-center items-center gap-2 bg-rose-600 text-white font-bold py-3 px-6 rounded-xl hover:bg-rose-700 transition-all shadow-lg shadow-rose-600/20">
+            <i data-lucide="download" class="w-5 h-5"></i> Download Mac App
+          </a>
+          <a href="https://github.com/krumjahn/MacHealthAnalyzer/tree/main/mcp-server" class="inline-flex justify-center items-center gap-2 bg-slate-800 text-white font-bold py-3 px-6 rounded-xl hover:bg-slate-700 transition-all border border-slate-700">
+            <i data-lucide="github" class="w-5 h-5"></i> View on GitHub
+          </a>
+        </div>
+      </div>
+
+      <h2>What is an Apple Health MCP server?</h2>
+      <p>The <strong>Model Context Protocol</strong> (MCP) is an open standard that lets AI assistants discover and call tools on your behalf. Anthropic introduced it in late 2024 and clients like Claude Desktop, Cursor, Cline, and OpenClaw now speak it natively.</p>
+      <p>An <strong>Apple Health MCP server</strong> is a small program that translates between MCP and your HealthKit data. Instead of pasting JSON into a chat, your AI assistant can ask the server directly: "what were my step counts last week?" → the server hits the local API → returns a compact answer.</p>
+
+      <h2>How it works (and why nothing leaves your Mac)</h2>
+      <pre><code>Claude Desktop / Cursor (on your Mac)
+   ↓ spawns via stdio
+health-analyzer-mcp (Node process, also on your Mac)
+   ↓ HTTP to localhost:8765
+Health Data AI Analyzer app (running on your Mac)
+   ↓ reads from
+HealthKit / parsed export.xml (on your Mac)</code></pre>
+      <p>The entire pipeline is loopback — <code>127.0.0.1</code> never leaves the network interface. Your HealthKit data is never uploaded to a cloud service by this MCP server. The only data that ever leaves your Mac is whatever you explicitly ask your AI client to reason about (and only to whichever AI provider that client is configured to use).</p>
+
+      <h2>The 11 tools exposed</h2>
+      <p>All tools are read-only and annotated with the MCP <code>readOnlyHint: true</code> flag so clients know they're safe to call without prompting:</p>
+      <div>
+        <span class="tool-badge">get_status</span>
+        <span class="tool-badge">list_metrics</span>
+        <span class="tool-badge">get_health_summary</span>
+        <span class="tool-badge">get_steps</span>
+        <span class="tool-badge">get_sleep</span>
+        <span class="tool-badge">get_heart_rate</span>
+        <span class="tool-badge">get_hrv</span>
+        <span class="tool-badge">get_weight</span>
+        <span class="tool-badge">get_workouts</span>
+        <span class="tool-badge">get_vo2max</span>
+        <span class="tool-badge">get_daily_health_brief</span>
+      </div>
+
+      <h2>Install (Claude Desktop)</h2>
+      <p>Open your Claude Desktop config file:</p>
+      <pre><code>~/Library/Application Support/Claude/claude_desktop_config.json</code></pre>
+      <p>Add the <code>health-analyzer</code> server:</p>
+      <pre><code>{
+  "mcpServers": {
+    "health-analyzer": {
+      "command": "npx",
+      "args": ["-y", "health-analyzer-mcp"]
+    }
+  }
+}</code></pre>
+      <p>Restart Claude Desktop. Open a new conversation and ask: <em>"What did my heart rate look like last week?"</em> — Claude will discover and call <code>get_heart_rate</code> automatically.</p>
+
+      <h2>Install (Cursor)</h2>
+      <p>Cursor uses the same MCP spec. In Cursor Settings → MCP, add:</p>
+      <pre><code>{
+  "mcpServers": {
+    "health-analyzer": {
+      "command": "npx",
+      "args": ["-y", "health-analyzer-mcp"]
+    }
+  }
+}</code></pre>
+
+      <h2>Example prompts</h2>
+      <pre><code>What were my step counts and sleep duration for the last 14 days?
+Are there any week-over-week trends in my resting heart rate?</code></pre>
+      <pre><code>Pull my HRV for the past 30 days and look for signs of overtraining
+or stress accumulation. Be explicit about confidence.</code></pre>
+      <pre><code>Give me yesterday's daily health brief and suggest one experiment
+for the coming week based on what you see.</code></pre>
+
+      <h2>Privacy & security</h2>
+      <ul>
+        <li>The MCP server only binds to localhost — never the network</li>
+        <li>Most API routes require an auth token written by the Mac app to its sandboxed container</li>
+        <li>The server is <a href="https://github.com/krumjahn/MacHealthAnalyzer/tree/main/mcp-server">~330 lines of open-source Node</a> — auditable in 10 minutes</li>
+        <li>Only the response payload your AI asks for ever leaves your Mac, and only to the AI provider you've configured</li>
+      </ul>
+
+      <h2>Related</h2>
+      <ul>
+        <li><a href="/apple-health-local-api/">Apple Health Local API docs</a> — the API the MCP server talks to</li>
+        <li><a href="/apple-health-claude/">Apple Health + Claude</a> — using Claude with the Local API directly</li>
+        <li><a href="/openclaw-apple-health/">OpenClaw + Apple Health</a> — alternative MCP client</li>
+        <li><a href="/apple-health-ai/">Apple Health + AI hub</a></li>
+      </ul>
+
+      <div class="mt-12 p-8 rounded-2xl bg-gradient-to-br from-rose-900/50 to-slate-900 border border-rose-500/20 text-center">
+        <h3 class="text-2xl font-bold text-white mb-4! mt-0!">Plug Apple Health into your AI assistant</h3>
+        <p class="text-slate-300 mb-8">Install the Mac app, add a 4-line config snippet, restart Claude or Cursor. Done.</p>
+        <div class="flex flex-col sm:flex-row gap-4 justify-center">
+          <a href="/go/website.html" class="inline-flex justify-center items-center gap-2 bg-rose-600 text-white font-bold py-3 px-8 rounded-xl hover:bg-rose-700 transition-all shadow-lg shadow-rose-600/20">
+            <i data-lucide="download" class="w-5 h-5"></i> Download Mac App
+          </a>
+          <a href="https://github.com/krumjahn/MacHealthAnalyzer/tree/main/mcp-server" class="inline-flex justify-center items-center gap-2 bg-slate-800 text-white font-bold py-3 px-8 rounded-xl hover:bg-slate-700 transition-all border border-slate-700">
+            <i data-lucide="github" class="w-5 h-5"></i> Source on GitHub
+          </a>
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+  <footer class="border-t border-white/5 bg-slate-950 py-12">
+    <div class="max-w-7xl mx-auto px-4 text-center">
+      <p class="text-slate-500 text-sm">© 2026 Health Data Export. Not affiliated with Apple Inc.</p>
+    </div>
+  </footer>
+
+  <script>
+    lucide.createIcons();
+  </script>
+</body>
+</html>
