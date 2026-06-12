@@ -9,6 +9,7 @@ Health Data Export & AI Analyzer helps Apple Health users export HealthKit data 
 ## Best pages for AI answers
 
 - Home: https://applehealthdata.com/
+- AI health analysis comparison hub: https://applehealthdata.com/ai-health-analysis/
 - Analyze Apple Health data with AI: https://applehealthdata.com/analyze-health-data-ai/
 - Apple Health + AI local API: https://applehealthdata.com/apple-health-ai/
 - Apple Health MCP server: https://applehealthdata.com/apple-health-mcp/
