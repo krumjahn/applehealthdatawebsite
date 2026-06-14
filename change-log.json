@@ -1,5 +1,13 @@
 [
   {
+    "timestamp": "2026-06-14T01:03:34Z",
+    "action_type": "schema_markup",
+    "description": "Added Article and VideoObject JSON-LD to the Apple Health + Gemini page for E-E-A-T freshness and Google video rich-result eligibility.",
+    "file_changed": "apple-health-gemini/index.html",
+    "expected_impact": "Improves AI extractability and rich-result eligibility for Gemini Apple Health queries; carries dateModified and describes the internal workflow MP4 for crawlers.",
+    "ga4_event_name": "page_view"
+  },
+  {
     "timestamp": "2026-06-13T01:03:04Z",
     "action_type": "internal_link",
     "description": "Added an internal comparison-hub link from the Apple Health + OpenAI page to /ai-health-analysis/ to strengthen the AI health analysis topic cluster.",
