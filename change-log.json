@@ -1,5 +1,13 @@
 [
   {
+    "timestamp": "2026-06-16T01:02:19Z",
+    "action_type": "internal_link",
+    "description": "Added direct comparison-hub links from the Apple Health + Claude and Apple Health + Gemini local API pages to /ai-health-analysis/.",
+    "file_changed": "apple-health-claude/index.html; apple-health-gemini/index.html",
+    "expected_impact": "Strengthens the AI health analysis topic cluster for Claude/Gemini health workflow queries and gives crawlers a clearer path from assistant-specific pages to the comparison hub.",
+    "ga4_event_name": "page_view"
+  },
+  {
     "timestamp": "2026-06-15T01:02:06Z",
     "action_type": "schema_markup",
     "description": "Added author meta plus Article and VideoObject JSON-LD to the Apple Health + Claude page for E-E-A-T freshness and video rich-result eligibility.",
