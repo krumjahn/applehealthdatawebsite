@@ -1,5 +1,13 @@
 [
   {
+    "timestamp": "2026-06-20T01:00:00Z",
+    "action_type": "internal_link",
+    "description": "Added direct comparison-hub links from the Copilot Health and Perplexity Health blog posts to /ai-health-analysis/ and refreshed their visible/schema modified dates.",
+    "file_changed": "blog/copilot-health-apple-health.html; blog/perplexity-health-analysis.html",
+    "expected_impact": "Strengthens the new AI health topic cluster by routing platform-specific launch traffic and crawlers into the comparison hub for Copilot Health, Perplexity Health, ChatGPT, Claude, Gemini, and local-first Apple Health analysis queries.",
+    "ga4_event_name": "page_view"
+  },
+  {
     "timestamp": "2026-06-16T01:02:19Z",
     "action_type": "internal_link",
     "description": "Added direct comparison-hub links from the Apple Health + Claude and Apple Health + Gemini local API pages to /ai-health-analysis/.",
