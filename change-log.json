@@ -1,5 +1,13 @@
 [
   {
+    "timestamp": "2026-06-21T01:00:00Z",
+    "action_type": "schema_markup",
+    "description": "Added author meta, canonical, robots meta, and Article + VideoObject JSON-LD to the Analyze Apple Health Data With AI guide.",
+    "file_changed": "analyze-health-data-ai/index.html",
+    "expected_impact": "Improves indexability, E-E-A-T freshness, and video rich-result eligibility for Apple Health AI analysis queries while giving AI crawlers clean page-level entity data.",
+    "ga4_event_name": "page_view"
+  },
+  {
     "timestamp": "2026-06-20T01:00:00Z",
     "action_type": "internal_link",
     "description": "Added direct comparison-hub links from the Copilot Health and Perplexity Health blog posts to /ai-health-analysis/ and refreshed their visible/schema modified dates.",
