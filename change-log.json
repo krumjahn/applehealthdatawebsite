@@ -1,5 +1,13 @@
 [
   {
+    "timestamp": "2026-06-23T01:02:47Z",
+    "action_type": "schema_markup",
+    "description": "Added author meta plus Article and VideoObject JSON-LD to the Apple Health + AI local API page.",
+    "file_changed": "apple-health-ai/index.html",
+    "expected_impact": "Improves E-E-A-T freshness and video rich-result eligibility for Apple Health AI, local API, ChatGPT, Claude, and Gemini health workflow queries while giving AI crawlers clean page-level entity data.",
+    "ga4_event_name": "page_view"
+  },
+  {
     "timestamp": "2026-06-22T01:03:34Z",
     "action_type": "answer_first",
     "description": "Added sourced answer-first paragraphs to the AI health analysis comparison hub and refreshed its visible/schema modified date.",
