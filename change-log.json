@@ -1,5 +1,14 @@
 [
   {
+    "timestamp": "2026-06-25T01:00:00Z",
+    "action_type": "answer_first+schema",
+    "description": "Added FAQPage schema (3 Q&As) + answer-first blocks (4/4 H2s) to analyze-health-data-ai/index.html. Citations: Apple Support, HealthKit docs, Statista, Nature npj Digital Medicine 2021. Added visible FAQ section. Updated dateModified to 2026-06-25.",
+    "file_changed": "analyze-health-data-ai/index.html",
+    "expected_impact": "Unlocks FAQPage rich result eligibility. Upgrades AF score from 0/4 to 4/4 with Tier 1-2 citations (+3.4x AI citation rate per GEO Research). Answers 'analyze Apple Health data with AI', 'HealthKit data types', and 'is it safe to upload health data to AI' queries for AI Overviews and Perplexity.",
+    "ga4_event_name": "page_view",
+    "commit": "97353f6"
+  },
+  {
     "timestamp": "2026-06-23T01:02:47Z",
     "action_type": "schema_markup",
     "description": "Added author meta plus Article and VideoObject JSON-LD to the Apple Health + AI local API page.",
