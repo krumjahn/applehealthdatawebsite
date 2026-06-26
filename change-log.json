@@ -1,5 +1,14 @@
 [
   {
+    "timestamp": "2026-06-26T01:00:00Z",
+    "action_type": "internal_link+sitemap",
+    "description": "Added /ai-health-analysis/ card to homepage Guides & Resources grid (9th card, completing 3x3). Card text: 'AI Health Analysis Comparison Hub — Compare Copilot Health, Perplexity Health, ChatGPT, Claude, and Gemini side-by-side.' Also updated sitemap lastmod for / (2026-06-26) and /analyze-health-data-ai/ (2026-06-25, was stale 2026-01-31).",
+    "file_changed": "index.html, sitemap.xml",
+    "expected_impact": "Stronger internal PageRank signal from homepage (highest-traffic page, 132 sess/7d) to /ai-health-analysis/ cluster page (currently 0 sessions). Increases crawl frequency signal for freshly-modified AI cluster pages. Guides & Resources is high-visibility section above FAQ — click intent is high.",
+    "ga4_event_name": "page_view",
+    "commit": "a0969cf"
+  },
+  {
     "timestamp": "2026-06-25T01:00:00Z",
     "action_type": "answer_first+schema",
     "description": "Added FAQPage schema (3 Q&As) + answer-first blocks (4/4 H2s) to analyze-health-data-ai/index.html. Citations: Apple Support, HealthKit docs, Statista, Nature npj Digital Medicine 2021. Added visible FAQ section. Updated dateModified to 2026-06-25.",
