@@ -1,5 +1,13 @@
 [
   {
+    "timestamp": "2026-06-27T01:02:45Z",
+    "action_type": "schema_markup",
+    "description": "Added author meta plus Article and VideoObject JSON-LD to the Apple Health + ChatGPT/OpenAI local API page.",
+    "file_changed": "apple-health-openai/index.html",
+    "expected_impact": "Improves E-E-A-T freshness and video rich-result eligibility for ChatGPT/OpenAI Apple Health workflow queries while giving AI crawlers clean page-level entity data and an internal MP4 object to parse.",
+    "ga4_event_name": "page_view"
+  },
+  {
     "timestamp": "2026-06-26T01:00:00Z",
     "action_type": "internal_link+sitemap",
     "description": "Added /ai-health-analysis/ card to homepage Guides & Resources grid (9th card, completing 3x3). Card text: 'AI Health Analysis Comparison Hub — Compare Copilot Health, Perplexity Health, ChatGPT, Claude, and Gemini side-by-side.' Also updated sitemap lastmod for / (2026-06-26) and /analyze-health-data-ai/ (2026-06-25, was stale 2026-01-31).",
