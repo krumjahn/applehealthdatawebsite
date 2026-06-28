@@ -1,5 +1,13 @@
 [
   {
+    "timestamp": "2026-06-28T01:02:31Z",
+    "action_type": "schema_markup+sitemap",
+    "description": "Added HowTo JSON-LD to the AI health analysis comparison hub for the local-first Apple Health export → CSV/JSON → local analysis → AI summary workflow, refreshed visible/schema dateModified, and updated sitemap lastmod.",
+    "file_changed": "ai-health-analysis/index.html, sitemap.xml",
+    "expected_impact": "Gives AI crawlers and search engines a step-by-step, machine-readable workflow for private Apple Health AI analysis queries covering Copilot Health, Perplexity Health, ChatGPT, Claude, and Gemini. Fresh lastmod/dateModified should also encourage recrawl of the new hub while GA4 still shows zero page sessions.",
+    "ga4_event_name": "page_view"
+  },
+  {
     "timestamp": "2026-06-27T01:02:45Z",
     "action_type": "schema_markup",
     "description": "Added author meta plus Article and VideoObject JSON-LD to the Apple Health + ChatGPT/OpenAI local API page.",

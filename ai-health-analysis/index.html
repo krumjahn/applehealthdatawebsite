@@ -20,7 +20,7 @@
   "headline": "Best AI Health Analysis Tools for Apple Health Data",
   "description": "Compare Copilot Health, Perplexity Health, ChatGPT, Claude, Gemini, and local Apple Health analysis workflows.",
   "datePublished": "2026-06-12",
-  "dateModified": "2026-06-22",
+  "dateModified": "2026-06-28",
   "author": {
     "@type": "Person",
     "name": "Keith Rumjahn",
@@ -106,6 +106,27 @@
     }
   ]
 }</script>
+  <script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "HowTo",
+  "name": "How to analyze Apple Health data with AI privately",
+  "description": "A local-first workflow for turning Apple Health exports into clean summaries before using Copilot Health, Perplexity Health, ChatGPT, Claude, or Gemini.",
+  "totalTime": "PT20M",
+  "supply": [
+    {"@type": "HowToSupply", "name": "Apple Health export.xml"},
+    {"@type": "HowToSupply", "name": "CSV or JSON summary"}
+  ],
+  "tool": [
+    {"@type": "HowToTool", "name": "Health Data Export & AI Analyzer"}
+  ],
+  "step": [
+    {"@type": "HowToStep", "position": 1, "name": "Export Apple Health data", "text": "Export Apple Health data from iPhone so you control the source file before any AI analysis."},
+    {"@type": "HowToStep", "position": 2, "name": "Convert export.xml", "text": "Convert export.xml into CSV or JSON so the data is smaller, cleaner, and easier to inspect."},
+    {"@type": "HowToStep", "position": 3, "name": "Analyze locally first", "text": "Run local Mac analysis to calculate trends, averages, anomalies, and metric summaries before sharing anything externally."},
+    {"@type": "HowToStep", "position": 4, "name": "Share only a focused summary", "text": "Send only the relevant summary to Copilot, Perplexity, ChatGPT, Claude, or Gemini instead of uploading the full raw HealthKit archive."},
+    {"@type": "HowToStep", "position": 5, "name": "Treat AI output as informational", "text": "Use AI explanations for personal context and better questions, not as medical diagnosis or treatment advice."}
+  ]
+}</script>
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://unpkg.com/lucide@latest"></script>
   <style>
@@ -135,7 +156,7 @@
       <span class="inline-flex px-3 py-1 rounded-full bg-rose-500/10 border border-rose-500/20 text-rose-400 text-sm font-bold">AI health analysis comparison</span>
       <h1 class="text-4xl md:text-6xl font-extrabold text-white my-6 tracking-tight">Best AI Health Analysis Tools for Apple Health Data</h1>
       <p class="text-xl text-slate-300 leading-relaxed max-w-3xl mx-auto">The best AI health workflow is not uploading years of raw HealthKit records into a chatbot. It is export → clean CSV/JSON → local analysis → AI-ready summary → optional research in Copilot, Perplexity, ChatGPT, Claude, or Gemini.</p>
-      <p class="text-sm text-slate-500 mt-4"><time datetime="2026-06-22">Last updated: June 22, 2026</time> · By Keith Rumjahn</p>
+      <p class="text-sm text-slate-500 mt-4"><time datetime="2026-06-28">Last updated: June 28, 2026</time> · By Keith Rumjahn</p>
     </div>
     <div class="card p-6 md:p-8">
       <p><strong class="text-white">Short answer:</strong> use Health Data Export & AI Analyzer as the privacy/data layer, then choose the AI assistant based on the job: Copilot Health for consumer health explanations, Perplexity Health for cited research, ChatGPT/OpenAI for structured outputs, Claude for long-form reasoning, and Gemini for recurring reports.</p>
