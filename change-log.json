@@ -1,5 +1,13 @@
 [
   {
+    "timestamp": "2026-06-29T01:00:00Z",
+    "action_type": "answer_first+schema+sitemap",
+    "description": "Added HowTo JSON-LD to the Perplexity Health Apple Health workflow page, refreshed dateModified/visible date, and upgraded the main H2 answer-first blocks with sourced Apple Support privacy citations.",
+    "file_changed": "blog/perplexity-health-analysis.html, sitemap.xml",
+    "expected_impact": "Unlocks HowTo rich-result eligibility and improves AI extractability for Perplexity Health, Apple Health Perplexity, and private AI health analysis queries while the new cluster is still at zero GA4 sessions.",
+    "ga4_event_name": "page_view"
+  },
+  {
     "timestamp": "2026-06-28T01:02:31Z",
     "action_type": "schema_markup+sitemap",
     "description": "Added HowTo JSON-LD to the AI health analysis comparison hub for the local-first Apple Health export → CSV/JSON → local analysis → AI summary workflow, refreshed visible/schema dateModified, and updated sitemap lastmod.",
