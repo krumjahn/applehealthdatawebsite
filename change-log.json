@@ -1,5 +1,13 @@
 [
   {
+    "timestamp": "2026-06-30T01:03:42Z",
+    "action_type": "schema_markup",
+    "description": "Added HowTo JSON-LD to the Analyze Apple Health Data With AI guide and refreshed Article dateModified for the local export → CSV/JSON → Mac analysis → AI-ready summary workflow.",
+    "file_changed": "analyze-health-data-ai/index.html, sitemap.xml",
+    "expected_impact": "Unlocks HowTo rich-result eligibility and gives AI crawlers a machine-readable private Apple Health analysis process for ChatGPT, Claude, Gemini, Perplexity, Copilot, and local-first health data queries while the new AI cluster is still at zero GA4 sessions.",
+    "ga4_event_name": "page_view"
+  },
+  {
     "timestamp": "2026-06-29T01:00:00Z",
     "action_type": "answer_first+schema+sitemap",
     "description": "Added HowTo JSON-LD to the Perplexity Health Apple Health workflow page, refreshed dateModified/visible date, and upgraded the main H2 answer-first blocks with sourced Apple Support privacy citations.",

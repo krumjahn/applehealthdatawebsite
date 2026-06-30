@@ -19,7 +19,7 @@
           "headline": "Analyze Apple Health Data With AI on Mac (Charts, Trends, Insights)",
           "description": "A privacy-first workflow for exporting Apple Health data, reviewing charts and trends on Mac, and preparing AI-ready health summaries without uploading full raw archives.",
           "datePublished": "2026-01-31",
-          "dateModified": "2026-06-25",
+          "dateModified": "2026-06-30",
           "author": {
             "@type": "Person",
             "name": "Keith Rumjahn",
@@ -31,6 +31,26 @@
             "url": "https://applehealthdata.com/"
           },
           "mainEntityOfPage": "https://applehealthdata.com/analyze-health-data-ai/"
+        },
+        {
+          "@type": "HowTo",
+          "name": "How to analyze Apple Health data with AI on Mac",
+          "description": "Export Apple Health data, convert it into a clean CSV or JSON file, analyze locally on Mac, and share only focused summaries with AI tools.",
+          "totalTime": "PT20M",
+          "supply": [
+            {"@type": "HowToSupply", "name": "Apple Health export.xml"},
+            {"@type": "HowToSupply", "name": "CSV or JSON health summary"}
+          ],
+          "tool": [
+            {"@type": "HowToTool", "name": "Health Data Export & AI Analyzer for Mac"}
+          ],
+          "step": [
+            {"@type": "HowToStep", "position": 1, "name": "Export Apple Health data", "text": "Export your Apple Health data from the iPhone Health app so you control the source file."},
+            {"@type": "HowToStep", "position": 2, "name": "Convert the XML export", "text": "Convert export.xml into CSV or JSON so the data is easier to inspect, chart, and summarize."},
+            {"@type": "HowToStep", "position": 3, "name": "Analyze locally on Mac", "text": "Run local analysis to calculate trends, averages, correlations, and anomaly checks before sharing anything with a cloud AI tool."},
+            {"@type": "HowToStep", "position": 4, "name": "Share a focused AI-ready summary", "text": "Send only the relevant summary to Claude, ChatGPT, Gemini, Perplexity, or Copilot instead of uploading a full raw HealthKit archive."},
+            {"@type": "HowToStep", "position": 5, "name": "Treat results as informational", "text": "Use AI output to understand patterns and prepare better questions, not as medical diagnosis or treatment advice."}
+          ]
         },
         {
           "@type": "VideoObject",
