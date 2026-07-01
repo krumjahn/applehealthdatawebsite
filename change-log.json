@@ -1,5 +1,13 @@
 [
   {
+    "timestamp": "2026-07-01T01:05:17Z",
+    "action_type": "internal_link+sitemap",
+    "description": "Added an above-the-fold homepage hero link to /ai-health-analysis/ with anchor text comparing Copilot Health, Perplexity, ChatGPT, Claude, and Gemini workflows; refreshed homepage sitemap lastmod.",
+    "file_changed": "index.html, sitemap.xml",
+    "expected_impact": "Moves the new AI health comparison hub from below-fold resource-card discovery into the homepage hero path, passing stronger internal-link and click signals from the highest-traffic page while GA4 still shows zero sessions on the new AI health cluster.",
+    "ga4_event_name": "page_view"
+  },
+  {
     "timestamp": "2026-06-30T01:03:42Z",
     "action_type": "schema_markup",
     "description": "Added HowTo JSON-LD to the Analyze Apple Health Data With AI guide and refreshed Article dateModified for the local export → CSV/JSON → Mac analysis → AI-ready summary workflow.",
