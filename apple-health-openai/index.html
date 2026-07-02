@@ -84,7 +84,7 @@
     "headline": "Apple Health + ChatGPT/OpenAI: Analyze Your Health Data (Local API)",
     "description": "A local-first workflow for querying Apple Health metrics on Mac and sending compact summaries to ChatGPT or OpenAI tools without uploading a full HealthKit export.",
     "datePublished": "2026-03-27",
-    "dateModified": "2026-06-27",
+    "dateModified": "2026-07-02",
     "author": {
       "@type": "Person",
       "name": "Keith Rumjahn",
@@ -184,9 +184,10 @@
       </div>
 
       <h2>Why OpenAI + local query endpoints works</h2>
-      <p>Time-series health data explodes in size. The trick is to keep the model focused: query summaries and trends (already aggregated), then ask ChatGPT to reason over the compact payload.</p>
+      <p>Apple says <a href="https://support.apple.com/en-us/102651">15 iCloud data categories, including Health, are end-to-end encrypted by default</a>. OpenAI works best here when it sees the smallest useful health payload: query local summaries and trends first, then ask ChatGPT to reason over the compact result.</p>
 
       <h2>Quickstart</h2>
+      <p>Apple says <a href="https://support.apple.com/en-us/108779">end-to-end encrypted Health data requires iOS 12 or later and two-factor authentication</a>. Keep that privacy posture in the AI workflow: confirm the local API, fetch one narrow metric slice, and paste only the summary ChatGPT needs.</p>
       <ol class="list-decimal">
         <li>Confirm the API is running: <code>GET http://127.0.0.1:8765/status</code></li>
         <li>Load your token (path returned by <code>/status</code>)</li>
@@ -195,6 +196,7 @@
       </ol>
 
       <h2>Prompts that work well (OpenAI-optimized)</h2>
+      <p>Apple lists Health among <a href="https://support.apple.com/en-us/102651">15 data categories protected with end-to-end encryption by default</a>. Good ChatGPT prompts should preserve that boundary by asking for findings, uncertainty, and next queries from a prepared summary instead of a raw Apple Health archive.</p>
       <div class="prompt-box">
         <p class="text-slate-300 mb-3"><strong>Prompt 1 — Findings + next queries</strong></p>
         <pre><code>Analyze the JSON below.
@@ -220,6 +222,7 @@ B) A JSON action plan with fields:
       </div>
 
       <h2>Example API calls</h2>
+      <p>Apple documents <a href="https://support.apple.com/en-us/108779">2 requirements for end-to-end encrypted Health data in iCloud: iOS 12 or later and two-factor authentication</a>. These example API calls follow the same minimization idea: request only one metric and date range before using ChatGPT.</p>
       <p>Daily steps (chart-ready):</p>
       <pre><code>curl -s \
   -H "X-Health-Analyzer-Token: $TOKEN" \
@@ -236,6 +239,7 @@ B) A JSON action plan with fields:
   "http://127.0.0.1:8765/blood-glucose/summary?start=2026-02-25&end=2026-03-27"</code></pre>
 
       <h2>Cost & accuracy best practices</h2>
+      <p>Apple says <a href="https://support.apple.com/en-us/102651">15 iCloud categories, including Health, use end-to-end encryption by default</a>. For cost and accuracy, keep ChatGPT inputs small: start with summary endpoints, use a short date range, and make the model request more data before drawing strong conclusions.</p>
       <ul>
         <li>Prefer <code>/summary</code> and <code>*/summary</code> endpoints over raw samples</li>
         <li>Start with 30–90 days; expand only if needed</li>
@@ -243,7 +247,7 @@ B) A JSON action plan with fields:
       </ul>
 
       <h2>Compatibility routes</h2>
-      <p>Compatibility endpoints also exist under <code>/health/*</code> (for example <code>/health/sleep</code> and <code>/health/workouts</code>).</p>
+      <p>Apple documents <a href="https://support.apple.com/en-us/108779">2 baseline requirements for end-to-end encrypted Health data</a>. Compatibility routes keep the same local-first workflow while supporting older endpoint names under <code>/health/*</code>, including <code>/health/sleep</code> and <code>/health/workouts</code>.</p>
 
       <div class="mt-12 p-8 rounded-2xl bg-gradient-to-br from-rose-900/50 to-slate-900 border border-rose-500/20 text-center">
         <h3 class="text-2xl font-bold text-white mb-4! mt-0!">Want the docs + endpoints list?</h3>
