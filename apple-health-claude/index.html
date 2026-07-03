@@ -94,7 +94,7 @@
     "headline": "Apple Health + Claude: Chat With Your Health Data (Local API)",
     "description": "Use Claude with a local Apple Health API to query sleep, steps, workouts, and heart-rate trends without uploading a full Apple Health export.",
     "datePublished": "2026-06-12",
-    "dateModified": "2026-06-15",
+    "dateModified": "2026-07-03",
     "author": {
       "@type": "Person",
       "name": "Keith Rumjahn",
@@ -196,6 +196,7 @@
       </div>
 
       <h2>What Claude is great at (once it has the right slice)</h2>
+      <p>According to <a href="https://docs.anthropic.com/en/docs/build-with-claude/context-windows">Anthropic's Claude documentation</a>, Claude supports up to a 200K-token context window. That makes Claude strong for summarizing trends and planning follow-up questions, but the best Apple Health workflow is still to send a focused slice instead of a raw export.</p>
       <ul>
         <li><strong>Weekly reviews:</strong> “What changed vs last week?”</li>
         <li><strong>Trend detection:</strong> resting HR drift, sleep consistency, training load shifts</li>
@@ -212,6 +213,7 @@
       </ol>
 
       <h2>Example Claude prompts (copy/paste)</h2>
+      <p>According to <a href="https://docs.anthropic.com/en/docs/build-with-claude/context-windows">Anthropic's Claude documentation</a>, Claude's 200K-token context window is large enough for compact summaries, not a reason to paste years of noisy HealthKit records. Use prompts that ask for deltas, confidence, and the next API query.</p>
       <div class="prompt-box">
         <p class="text-slate-300 mb-3"><strong>Prompt 1 — Weekly review</strong></p>
         <pre><code>Analyze the JSON below for the last 30 days.
@@ -251,6 +253,7 @@ Be explicit about confidence and alternative explanations.</code></pre>
   "http://127.0.0.1:8765/heart-rate/trends?start=2026-02-25&end=2026-03-27"</code></pre>
 
       <h2>Privacy & security notes</h2>
+      <p>According to <a href="https://www.rfc-editor.org/rfc/rfc1122">IETF RFC 1122</a>, the 127.0.0.0/8 address block is reserved for host loopback. In practical terms, the local API stays on your Mac unless you choose to copy a summarized payload into Claude.</p>
       <ul>
         <li>API runs locally on <code>127.0.0.1</code></li>
         <li>Most endpoints require <code>X-Health-Analyzer-Token</code></li>
