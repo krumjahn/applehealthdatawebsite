@@ -77,7 +77,7 @@
     "headline": "Apple Health + Gemini: Ask Questions About Your Health Data (Local API)",
     "description": "Use Gemini with a local Apple Health API to query summaries and trends, then generate weekly and monthly health reports without uploading a raw Apple Health export.",
     "datePublished": "2026-06-12",
-    "dateModified": "2026-06-14",
+    "dateModified": "2026-07-04",
     "author": {
       "@type": "Person",
       "name": "Keith Rumjahn",
@@ -179,6 +179,7 @@
       </div>
 
       <h2>Best use case: recurring reports</h2>
+      <p>According to <a href="https://ai.google.dev/gemini-api/docs/models">Google's Gemini model documentation</a>, Gemini 2.5 Pro supports a 1,048,576-token input window. That makes Gemini useful for recurring Apple Health reports, but the safer workflow is still to send compact weekly or monthly summaries instead of raw HealthKit exports.</p>
       <p>Instead of one-off analysis, use Gemini to generate:</p>
       <ul>
         <li>Weekly health brief (sleep, training, recovery signals)</li>
@@ -187,6 +188,7 @@
       </ul>
 
       <h2>Quickstart</h2>
+      <p>According to <a href="https://www.rfc-editor.org/rfc/rfc1122">IETF RFC 1122</a>, the 127.0.0.0/8 address block is reserved for host loopback. In practice, start Gemini workflows by querying the local API on your Mac first, then paste only the summary JSON Gemini needs.</p>
       <ol class="list-decimal">
         <li>Confirm API + token: <code>GET http://127.0.0.1:8765/status</code></li>
         <li>Pull compact datasets: <code>/summary</code>, <code>/sleep/summary</code>, <code>/heart-rate/trends</code></li>
@@ -194,6 +196,7 @@
       </ol>
 
       <h2>Example prompts (report-style)</h2>
+      <p>According to <a href="https://ai.google.dev/gemini-api/docs/models">Google's Gemini model documentation</a>, Gemini 2.5 Pro supports a 1,048,576-token input window. Use that room for structured report instructions, comparison periods, and follow-up questions—not for dumping years of unfiltered Apple Health rows.</p>
       <div class="prompt-box">
         <p class="text-slate-300 mb-3"><strong>Prompt 1 — Weekly brief</strong></p>
         <pre><code>Turn this JSON into a weekly report.
@@ -214,6 +217,7 @@ List competing explanations and what data would disambiguate them.</code></pre>
       </div>
 
       <h2>Example API calls</h2>
+      <p>According to <a href="https://www.rfc-editor.org/rfc/rfc1122">IETF RFC 1122</a>, 127.0.0.1 is the loopback host for the same machine. These API calls keep Apple Health queries local first, so Gemini receives only the date range and metric summary you choose to share.</p>
       <p>Overall summary:</p>
       <pre><code>curl -s \
   -H "X-Health-Analyzer-Token: $TOKEN" \
@@ -225,6 +229,7 @@ List competing explanations and what data would disambiguate them.</code></pre>
   "http://127.0.0.1:8765/sleep/summary?start=2026-02-25&end=2026-03-27"</code></pre>
 
       <h2>OpenClaw read-only endpoints (no token)</h2>
+      <p>According to <a href="https://www.rfc-editor.org/rfc/rfc1122">IETF RFC 1122</a>, 127.0.0.0/8 is reserved for internal host loopback. OpenClaw's read-only endpoints fit that model: automation can fetch a daily brief locally without exposing the broader authenticated Apple Health API.</p>
       <p>If you’re using OpenClaw automation, these endpoints are read-only and do not require the token:</p>
       <ul>
         <li><code>GET /openclaw/status</code></li>
