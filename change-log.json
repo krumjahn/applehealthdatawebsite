@@ -1,5 +1,13 @@
 [
   {
+    "timestamp": "2026-07-19T02:04:07Z",
+    "action_type": "answer_first+internal_link+freshness",
+    "description": "Upgraded the /convert-tool/ prompt section with a sourced Apple Support privacy statistic, added a direct /ai-health-analysis/ pathway at the CSV/JSON-to-AI workflow handoff, and refreshed visible/schema modified dates.",
+    "file_changed": "convert-tool/index.html",
+    "expected_impact": "Improves answer-first extractability for 'copy prompts after converting Apple Health data' and moves high-intent converter users toward the AI Health Analysis Hub from the exact point where they are ready to use CSV/JSON with AI tools.",
+    "ga4_event_name": "page_view"
+  },
+  {
     "timestamp": "2026-07-19T01:02:56Z",
     "action_type": "internal_link+answer_first+sitemap",
     "description": "Added a high-traffic /convert-tool/ next-step link to /ai-health-analysis/ and rewrote the post-conversion answer-first block with a sourced Apple Support privacy statistic; refreshed sitemap lastmod for /convert-tool/.",
