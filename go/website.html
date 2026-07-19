@@ -4,7 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Health Data AI Analyzer</title>
-    <meta http-equiv="refresh" content="0; url=https://apps.apple.com/us/app/health-data-ai-analyzer/id6749297170?ct=website&mt=8">
+    <!-- No-JS fallback only; the script below redirects instantly with the per-CTA campaign token -->
+    <meta http-equiv="refresh" content="1; url=https://apps.apple.com/us/app/health-data-ai-analyzer/id6749297170?ct=website&mt=8">
     <link rel="canonical" href="https://apps.apple.com/us/app/health-data-ai-analyzer/id6749297170?ct=website&mt=8">
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-8SMQRLT4VS"></script>
     <script>
@@ -12,15 +13,30 @@
       function gtag(){dataLayer.push(arguments);}
       gtag('js', new Date());
       gtag('config', 'G-8SMQRLT4VS');
+
+      // Campaign token from ?c=, e.g. /go/website.html?c=convert_tool_hero
+      var campaign = 'website';
+      try {
+        var c = new URLSearchParams(window.location.search).get('c');
+        if (c && /^[a-z0-9_]{1,40}$/.test(c)) campaign = c;
+      } catch (e) {}
+
+      // TODO: once the real App Store Connect provider token is known, append '&pt=<token>'
+      // (Apple only surfaces ct= campaigns in ASC analytics when a valid pt= accompanies them)
+      var dest = 'https://apps.apple.com/us/app/health-data-ai-analyzer/id6749297170?ct=' + campaign + '&mt=8';
+
       gtag('event', 'app_store_redirect', {
         'event_category': 'conversion',
-        'event_label': 'website',
-        'source': 'website'
+        'event_label': campaign,
+        'source': campaign,
+        'transport_type': 'beacon'
       });
+
+      window.location.replace(dest);
     </script>
 </head>
 <body>
     <p>Redirecting to App Store...</p>
-    <script>window.location.replace("https://apps.apple.com/us/app/health-data-ai-analyzer/id6749297170?ct=website&mt=8");</script>
+    <noscript><p><a href="https://apps.apple.com/us/app/health-data-ai-analyzer/id6749297170?ct=website&mt=8">Open Health Data AI Analyzer on the App Store</a></p></noscript>
 </body>
 </html>
