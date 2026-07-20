@@ -160,5 +160,13 @@
     "file_changed": "apple-health-openai/index.html",
     "expected_impact": "Helps ChatGPT/OpenAI-focused visitors and crawlers discover the AI health comparison hub; improves internal PageRank flow to the new hub while keeping the change low-risk.",
     "ga4_event_name": "page_view"
+  },
+  {
+    "timestamp": "2026-07-20T01:02:46.722798+00:00",
+    "action_type": "ai_seo_internal_link",
+    "description": "Added a contextual link from the Apple Health Local API page to the AI health analysis hub for Copilot Health, Perplexity Health, ChatGPT, Claude, Gemini, and local-first workflow queries.",
+    "file_changed": "apple-health-local-api/index.html",
+    "expected_impact": "Improves crawl paths and topical consolidation from a technical AI workflow page into the AI health comparison hub while giving visitors a clear next step for choosing private Apple Health AI analysis workflows.",
+    "ga4_event_name": "n/a_internal_link"
   }
 ]
