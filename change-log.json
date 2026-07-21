@@ -1,5 +1,13 @@
 [
   {
+    "timestamp": "2026-07-21T01:03:02Z",
+    "action_type": "internal_link+freshness",
+    "description": "Added a prominent /convert-tool/ path inside the AI health analysis hub workflow for users who arrive with Apple Health export.xml and need CSV/JSON before using Copilot Health, Perplexity Health, ChatGPT, Claude, or Gemini; refreshed visible and Article dateModified dates.",
+    "file_changed": "ai-health-analysis/index.html",
+    "expected_impact": "Improves conversion continuity from the AI health comparison hub to the free Apple Health XML converter and gives AI crawlers a clearer export.xml → CSV/JSON → AI-ready summary path on the primary AI health cluster page.",
+    "ga4_event_name": "page_view"
+  },
+  {
     "timestamp": "2026-07-19T02:04:07Z",
     "action_type": "answer_first+internal_link+freshness",
     "description": "Upgraded the /convert-tool/ prompt section with a sourced Apple Support privacy statistic, added a direct /ai-health-analysis/ pathway at the CSV/JSON-to-AI workflow handoff, and refreshed visible/schema modified dates.",
