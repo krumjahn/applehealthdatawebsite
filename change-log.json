@@ -176,5 +176,13 @@
     "file_changed": "apple-health-local-api/index.html",
     "expected_impact": "Improves crawl paths and topical consolidation from a technical AI workflow page into the AI health comparison hub while giving visitors a clear next step for choosing private Apple Health AI analysis workflows.",
     "ga4_event_name": "n/a_internal_link"
+  },
+  {
+    "timestamp": "2026-07-22T01:02:59+00:00",
+    "action_type": "ai_seo_answer_first",
+    "description": "Updated the AI health analysis hub CTA section with an answer-first, source-backed privacy statement and refreshed page/sitemap modified dates.",
+    "file_changed": "ai-health-analysis/index.html; sitemap.xml",
+    "expected_impact": "Improves AEO extractability for the AI health comparison hub, strengthens the final conversion CTA with a cited Apple privacy stat, and signals freshness for recrawl.",
+    "ga4_event_name": "app_store_redirect"
   }
 ]
