@@ -1,5 +1,13 @@
 [
   {
+    "timestamp": "2026-07-24T01:00:00Z",
+    "action_type": "answer_first+freshness+sitemap",
+    "description": "Upgraded the Apple Health + Claude local API page back to 6/6 answer-first H2 sections by adding sourced Anthropic context-window and IETF loopback answer blocks to Quickstart and Example API calls; refreshed Article dateModified and sitemap lastmod.",
+    "file_changed": "apple-health-claude/index.html, sitemap.xml",
+    "expected_impact": "Improves extractability and AI citation readiness for Claude Apple Health, local health data API, private Apple Health AI analysis, and AI health workflow queries while the new AI health cluster is still waiting for measurable organic page traffic.",
+    "ga4_event_name": "page_view"
+  },
+  {
     "timestamp": "2026-07-23T01:04:02Z",
     "action_type": "eeat+freshness+sitemap",
     "description": "Completed E-E-A-T freshness signals on the Apple Health + Gemini workflow page by adding meta author, visible last-updated/byline text, Article dateModified, and sitemap lastmod.",

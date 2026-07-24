@@ -94,7 +94,7 @@
     "headline": "Apple Health + Claude: Chat With Your Health Data (Local API)",
     "description": "Use Claude with a local Apple Health API to query sleep, steps, workouts, and heart-rate trends without uploading a full Apple Health export.",
     "datePublished": "2026-06-12",
-    "dateModified": "2026-07-03",
+    "dateModified": "2026-07-24",
     "author": {
       "@type": "Person",
       "name": "Keith Rumjahn",
@@ -205,6 +205,7 @@
       </ul>
 
       <h2>Quickstart</h2>
+      <p>According to <a href="https://docs.anthropic.com/en/docs/build-with-claude/context-windows">Anthropic's Claude documentation</a>, Claude supports up to a 200K-token context window, but the safer Apple Health workflow is still four steps: run the Mac app locally, load the token, query one metric slice, then paste only that compact JSON into Claude.</p>
       <ol class="list-decimal">
         <li>Confirm the app is running: <code>GET http://127.0.0.1:8765/status</code></li>
         <li>Read the token file path from <code>/status</code>, load the token</li>
@@ -237,6 +238,7 @@ Be explicit about confidence and alternative explanations.</code></pre>
       </div>
 
       <h2>Example API calls (minimal data in)</h2>
+      <p>According to <a href="https://www.rfc-editor.org/rfc/rfc1122">IETF RFC 1122</a>, the 127.0.0.0/8 address block is reserved for host loopback. These example API calls keep Apple Health queries on your Mac first, so Claude receives only the small summary or date range you deliberately copy.</p>
       <p>Discover metrics:</p>
       <pre><code>curl -s \
   -H "X-Health-Analyzer-Token: $TOKEN" \
