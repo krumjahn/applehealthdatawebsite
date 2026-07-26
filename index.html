@@ -229,6 +229,63 @@
             from { opacity: 0; transform: translateY(-10px); }
             to { opacity: 1; transform: translateY(0); }
         }
+
+        /* ——— Scroll film: scroll-scrubbed canvas sequence ——— */
+        #film-track {
+            position: relative;
+            height: 500vh;
+        }
+        #film-stage {
+            position: sticky;
+            top: 0;
+            height: 100vh;
+            overflow: hidden;
+            background: #020617;
+        }
+        #film-canvas {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+        }
+        .film-vignette {
+            position: absolute;
+            inset: 0;
+            pointer-events: none;
+            background: radial-gradient(ellipse 130% 100% at 50% 50%, transparent 55%, rgba(2, 6, 23, 0.65) 100%);
+        }
+        .film-scrim {
+            position: absolute;
+            inset-inline: 0;
+            bottom: 0;
+            height: 45vh;
+            pointer-events: none;
+            background: linear-gradient(to top, rgba(2, 6, 23, 0.75), rgba(2, 6, 23, 0.32) 45%, transparent);
+        }
+        .film-caption {
+            position: absolute;
+            left: 1.5rem;
+            bottom: 4rem;
+            max-width: 42rem;
+            opacity: 0;
+            translate: 0 26px;
+            text-shadow: 0 2px 30px rgba(2, 6, 23, 0.85), 0 1px 8px rgba(2, 6, 23, 0.7);
+        }
+        @media (min-width: 768px) {
+            .film-caption { left: 3rem; bottom: 5rem; }
+        }
+        .film-cue {
+            animation: film-cue-fade 2.6s ease-in-out infinite;
+        }
+        @keyframes film-cue-fade {
+            0%, 100% { opacity: 0.35; }
+            50% { opacity: 1; }
+        }
+        @media (prefers-reduced-motion: reduce) {
+            #film-track { height: auto; }
+            #film-stage { position: relative; height: 60vh; }
+            .film-caption { opacity: 1 !important; translate: 0 0 !important; }
+        }
     </style>
     <meta name="google-site-verification" content="mfw8yyYjETYvKDrxInR-_YSvL8zUQJ2qAB3N_OVbjjM" />
 
@@ -751,6 +808,264 @@
         </div>
     </section>
 
+    <!-- Scroll Film: your health data, from archive to insight -->
+    <section id="film-track" aria-label="How your Apple Health export becomes private, on-device insight">
+        <div id="film-stage">
+            <canvas id="film-canvas" aria-hidden="true"></canvas>
+            <div class="film-vignette"></div>
+            <div class="film-scrim"></div>
+
+            <header class="absolute inset-x-0 top-0 z-10 flex items-baseline justify-between px-6 pt-6 md:px-12 md:pt-9">
+                <span class="font-bold text-sm tracking-[0.3em] text-white">HEALTH DATA</span>
+                <span class="hidden font-mono text-[10px] tracking-[0.35em] text-slate-400 md:block">FROM EXPORT TO INSIGHT</span>
+            </header>
+
+            <div class="absolute inset-x-0 bottom-0 z-10 px-6 pb-16 md:px-12 md:pb-20">
+                <div class="film-caption" data-film-caption>
+                    <p class="mb-3 flex items-center gap-3 font-mono text-[10px] tracking-[0.35em] text-rose-400">
+                        <span class="inline-block border border-rose-400/60 px-2 py-1">01</span>
+                        <span>THE EXPORT</span>
+                    </p>
+                    <p class="text-3xl md:text-5xl font-bold uppercase leading-tight tracking-tight text-white">
+                        4,018 days of health data. Locked in one file.
+                    </p>
+                </div>
+                <div class="film-caption" data-film-caption>
+                    <p class="mb-3 flex items-center gap-3 font-mono text-[10px] tracking-[0.35em] text-rose-400">
+                        <span class="inline-block border border-rose-400/60 px-2 py-1">02</span>
+                        <span>THE EXTRACTION</span>
+                    </p>
+                    <p class="text-3xl md:text-5xl font-bold uppercase leading-tight tracking-tight text-white">
+                        Every heart rate, sleep stage, and workout answers at once.
+                    </p>
+                </div>
+                <div class="film-caption" data-film-caption>
+                    <p class="mb-3 flex items-center gap-3 font-mono text-[10px] tracking-[0.35em] text-rose-400">
+                        <span class="inline-block border border-rose-400/60 px-2 py-1">03</span>
+                        <span>THE CROSSING</span>
+                    </p>
+                    <p class="text-3xl md:text-5xl font-bold uppercase leading-tight tracking-tight text-white">
+                        From iPhone export.xml to your Mac. No cloud in between.
+                    </p>
+                </div>
+                <div class="film-caption" data-film-caption>
+                    <p class="mb-3 flex items-center gap-3 font-mono text-[10px] tracking-[0.35em] text-rose-400">
+                        <span class="inline-block border border-rose-400/60 px-2 py-1">04</span>
+                        <span>THE ANALYSIS</span>
+                    </p>
+                    <p class="text-3xl md:text-5xl font-bold uppercase leading-tight tracking-tight text-white">
+                        Trends and correlations, read like a private report.
+                    </p>
+                </div>
+                <div class="film-caption" data-film-caption>
+                    <p class="mb-3 flex items-center gap-3 font-mono text-[10px] tracking-[0.35em] text-rose-400">
+                        <span class="inline-block border border-rose-400/60 px-2 py-1">05</span>
+                        <span>THE RESULT</span>
+                    </p>
+                    <p class="text-3xl md:text-5xl font-bold uppercase leading-tight tracking-tight text-white">
+                        Your history, finally legible.
+                    </p>
+                    <p class="mt-4 text-sm font-light tracking-wide text-slate-300">Export from iPhone. Analyze on Mac. Nothing leaves your device.</p>
+                </div>
+            </div>
+
+            <div class="absolute bottom-6 right-6 z-10 flex flex-col items-end gap-1 md:bottom-9 md:right-12">
+                <span id="film-phase" class="font-mono text-[10px] tracking-[0.35em] text-slate-400"></span>
+                <span id="film-frame" class="font-mono text-[10px] tracking-[0.2em] text-slate-500"></span>
+            </div>
+
+            <div class="absolute right-3 top-1/2 z-10 h-[38vh] w-px -translate-y-1/2 bg-white/10 md:right-6">
+                <div id="film-rail" class="w-px bg-rose-400/80" style="height:0%"></div>
+            </div>
+
+            <div id="film-cue" class="absolute inset-x-0 bottom-6 z-10 flex justify-center">
+                <span class="film-cue font-mono text-[10px] tracking-[0.35em] text-slate-400">SCROLL — THE WHEEL IS THE PLAYHEAD</span>
+            </div>
+        </div>
+    </section>
+    <script>
+    (function () {
+        var track = document.getElementById('film-track');
+        var canvas = document.getElementById('film-canvas');
+        if (!track || !canvas) return;
+        var ctx = canvas.getContext('2d');
+        var captions = Array.prototype.slice.call(document.querySelectorAll('[data-film-caption]'));
+        var phaseEl = document.getElementById('film-phase');
+        var frameEl = document.getElementById('film-frame');
+        var railEl = document.getElementById('film-rail');
+        var cueEl = document.getElementById('film-cue');
+        var reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+        // caption visibility windows: [riseStart, riseEnd, holdEnd, fallEnd] over 0..1 scroll progress
+        var CHAPTERS = [
+            { w: [0.01, 0.04, 0.14, 0.18], name: 'THE EXPORT' },
+            { w: [0.21, 0.25, 0.35, 0.39], name: 'THE EXTRACTION' },
+            { w: [0.46, 0.5, 0.6, 0.64], name: 'THE CROSSING' },
+            { w: [0.71, 0.75, 0.85, 0.89], name: 'THE ANALYSIS' },
+            { w: [0.93, 0.97, 1.0, 1.02], name: 'THE RESULT' }
+        ];
+
+        function clamp01(v) { return v < 0 ? 0 : v > 1 ? 1 : v; }
+        function trap(p, a, b, c, d) {
+            if (p <= a || p >= d) return 0;
+            if (p < b) return (p - a) / (b - a);
+            if (p <= c) return 1;
+            return 1 - (p - c) / (d - c);
+        }
+        function phaseName(p) {
+            if (p < 0.21) return 'THE EXPORT';
+            if (p < 0.46) return 'THE EXTRACTION';
+            if (p < 0.71) return 'THE CROSSING';
+            if (p < 0.93) return 'THE ANALYSIS';
+            return 'THE RESULT';
+        }
+
+        var progress = 0;
+        function onScroll() {
+            var rect = track.getBoundingClientRect();
+            var travel = rect.height - window.innerHeight;
+            progress = clamp01(-rect.top / travel);
+        }
+        onScroll();
+        window.addEventListener('scroll', onScroll, { passive: true });
+        window.addEventListener('resize', onScroll, { passive: true });
+
+        if (reducedMotion) {
+            // static: show one representative frame, reveal all captions in place, skip the rAF loop
+            captions.forEach(function (el) { el.style.opacity = '1'; el.style.translate = '0 0'; });
+            if (cueEl) cueEl.style.display = 'none';
+        }
+
+        // ---- frame loading + canvas draw ----
+        var manifest = null;
+        var frames = [];
+        var current = 0;
+        var lastDrawn = -1;
+        var lastW = 0, lastH = 0;
+        var lastPhase = '';
+        var lastFrameText = '';
+
+        function frameUrl(m, i) {
+            return m.base + String(i + 1).padStart(m.pad, '0') + m.ext;
+        }
+
+        function loadFrame(m, i) {
+            if (frames[i]) return Promise.resolve();
+            return fetch(frameUrl(m, i))
+                .then(function (res) { return res.blob(); })
+                .then(function (blob) { return createImageBitmap(blob); })
+                .then(function (bmp) { frames[i] = bmp; lastDrawn = -1; })
+                .catch(function () {});
+        }
+
+        function loadAll(m) {
+            var order = [];
+            [6, 2, 1].forEach(function (step) {
+                for (var i = 0; i < m.count; i += step) order.push(i);
+            });
+            var seen = {};
+            var queue = order.filter(function (i) {
+                if (seen[i]) return false;
+                seen[i] = true;
+                return true;
+            });
+            var CONCURRENCY = 6;
+            var cursor = 0;
+            function worker() {
+                if (cursor >= queue.length) return Promise.resolve();
+                var i = queue[cursor++];
+                return loadFrame(m, i).then(worker);
+            }
+            var workers = [];
+            for (var w = 0; w < CONCURRENCY; w++) workers.push(worker());
+            return Promise.all(workers);
+        }
+
+        function nearestLoaded(idx) {
+            if (frames[idx]) return frames[idx];
+            for (var d = 1; d < frames.length; d++) {
+                if (frames[idx - d]) return frames[idx - d];
+                if (frames[idx + d]) return frames[idx + d];
+            }
+            return null;
+        }
+
+        function resize() {
+            var dpr = Math.min(window.devicePixelRatio || 1, 2);
+            var w = window.innerWidth;
+            var h = window.innerHeight;
+            canvas.width = Math.round(w * dpr);
+            canvas.height = Math.round(h * dpr);
+            canvas.style.width = w + 'px';
+            canvas.style.height = h + 'px';
+            ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+            lastDrawn = -1;
+            lastW = w;
+            lastH = h;
+        }
+
+        function draw() {
+            requestAnimationFrame(draw);
+            if (!manifest) return;
+            var N = manifest.count;
+            var target = progress * (N - 1);
+            var lerp = reducedMotion ? 1 : 0.14;
+            current += (target - current) * lerp;
+            if (Math.abs(target - current) < 0.05) current = target;
+            var idx = Math.max(0, Math.min(N - 1, Math.round(current)));
+
+            if (window.innerWidth !== lastW || window.innerHeight !== lastH) resize();
+
+            CHAPTERS.forEach(function (ch, i) {
+                var el = captions[i];
+                if (!el || reducedMotion) return;
+                var v = trap(progress, ch.w[0], ch.w[1], ch.w[2], ch.w[3]);
+                el.style.opacity = String(v);
+                el.style.translate = '0 ' + ((1 - v) * 26) + 'px';
+                el.style.visibility = v <= 0.001 ? 'hidden' : 'visible';
+            });
+
+            var ph = phaseName(progress);
+            if (ph !== lastPhase && phaseEl) { phaseEl.textContent = ph; lastPhase = ph; }
+            if (frameEl && manifest.count > 0) {
+                var fr = String(Math.round(current) + 1).padStart(4, '0');
+                var text = 'T+' + fr + ' / ' + String(manifest.count).padStart(4, '0');
+                if (text !== lastFrameText) { frameEl.textContent = text; lastFrameText = text; }
+            }
+            if (railEl) railEl.style.height = (progress * 100) + '%';
+            if (cueEl) {
+                var o = Math.max(0, 1 - progress / 0.04);
+                cueEl.style.opacity = String(o);
+                cueEl.style.visibility = o <= 0.001 ? 'hidden' : 'visible';
+            }
+
+            if (idx === lastDrawn) return;
+            var bmp = nearestLoaded(idx);
+            if (!bmp) return;
+
+            var vw = window.innerWidth, vh = window.innerHeight;
+            var fw = manifest.w, fh = manifest.h;
+            ctx.fillStyle = '#020617';
+            ctx.fillRect(0, 0, vw, vh);
+            var landscape = vw / vh >= 1;
+            var s = landscape ? vw / fw : Math.max(vw / fw, vh / fh);
+            var dw = fw * s, dh = fh * s;
+            ctx.drawImage(bmp, (vw - dw) / 2, (vh - dh) / 2, dw, dh);
+            lastDrawn = idx;
+        }
+
+        fetch('/images/film/frames.json')
+            .then(function (res) { return res.json(); })
+            .then(function (m) {
+                manifest = m;
+                frames = new Array(m.count).fill(null);
+                resize();
+                requestAnimationFrame(draw);
+                loadAll(m);
+            });
+    })();
+    </script>
+
     <!-- ChatGPT Health vs Local Analysis Section -->
     <section class="py-20 bg-slate-950 border-t border-white/5">
         <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -1124,6 +1439,23 @@
                     <i data-lucide="terminal" class="text-cyan-400 mb-4 w-8 h-8"></i>
                     <h3 class="text-xl font-bold text-white mb-2">Local Health API</h3>
                     <p class="text-slate-400 text-sm">A read-only localhost API for AI tools and developer workflows. Query your Apple Health data from <strong class="text-white">OpenClaw, scripts, or custom integrations</strong>.</p>
+                </a>
+
+                <!-- Daily Scores Card -->
+                <a href="/apple-health-daily-scores/" class="bento-card md:col-span-4 p-8 border-orange-500/30 relative overflow-hidden hover:border-orange-400/50 block group">
+                  <div class="flex items-center gap-3 mb-3">
+                    <div class="w-10 h-10 bg-gradient-to-tr from-orange-500 to-purple-500 rounded-xl flex items-center justify-center">
+                      <i data-lucide="activity" class="w-5 h-5 text-white"></i>
+                    </div>
+                    <span class="font-bold text-white">Daily Scores</span>
+                    <span class="ml-auto text-xs font-semibold px-2 py-0.5 rounded-full bg-orange-500/20 text-orange-300 border border-orange-500/30">New</span>
+                  </div>
+                  <p class="text-sm text-slate-400">WHOOP-style <strong class="text-white">Strain, Sleep & Recovery scores</strong> computed from your Apple Watch data. No subscription needed.</p>
+                  <div class="mt-4 flex gap-2 text-xs">
+                    <span class="px-2 py-1 rounded-md bg-orange-500/15 text-orange-300">Strain</span>
+                    <span class="px-2 py-1 rounded-md bg-purple-500/15 text-purple-300">Sleep</span>
+                    <span class="px-2 py-1 rounded-md bg-teal-500/15 text-teal-300">Recovery</span>
+                  </div>
                 </a>
 
                 <!-- Live Health Dashboard Card -->
