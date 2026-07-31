@@ -189,6 +189,9 @@
                 <p>In the Mac app, open <strong>Settings</strong> and turn on <strong>Enable Local API for OpenClaw and scripts</strong>. The app writes an auth token to its sandboxed container; the MCP server auto-discovers this file.</p>
 
                 <h3>Step 3: Add the MCP Server to Claude Desktop Config</h3>
+                <blockquote>
+                    <p><strong>Easiest path (Claude Desktop only):</strong> skip the config file — <a href="/downloads/apple-health-analyzer.mcpb">download the one-click extension (.mcpb)</a> and drag it onto Claude Desktop. It bundles the server with its runtime, so Node.js isn't required. The manual config below works for Cursor and other MCP clients.</p>
+                </blockquote>
                 <p>Open your Claude Desktop config:</p>
                 <pre><code>~/Library/Application Support/Claude/claude_desktop_config.json</code></pre>
                 <p>Add the <code>health-analyzer</code> server entry. If the file doesn't exist, create it:</p>

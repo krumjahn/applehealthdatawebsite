@@ -1,0 +1,2932 @@
+{
+ "openapi": "3.1.0",
+ "info": {
+  "title": "Health Data AI Analyzer \u2014 Local API",
+  "version": "v1",
+  "description": "Read-only localhost REST API exposed by the Health Data AI Analyzer Mac app. It binds to 127.0.0.1:8765 only (never a network interface) and serves de-duplicated, corrected Apple Health summaries \u2014 numbers that match the figures shown in Apple's Health app \u2014 from the user's own imported dataset. Nothing is uploaded to the cloud; the data never leaves the machine. All endpoints are GET-only. Most require an X-Health-Analyzer-Token header; the token value lives in a local file whose path is returned by GET /status as token_path. Full documentation: https://applehealthdata.com/docs/api-reference.html",
+  "contact": {
+   "name": "Health Data AI Analyzer",
+   "url": "https://applehealthdata.com/docs/api-reference.html"
+  }
+ },
+ "servers": [
+  {
+   "url": "http://127.0.0.1:8765",
+   "description": "Local loopback server (fixed port 8765, hardcoded in the app; not configurable)."
+  }
+ ],
+ "tags": [
+  {
+   "name": "Status",
+   "description": "Server and dataset status."
+  },
+  {
+   "name": "Summaries",
+   "description": "Range-scoped roll-ups."
+  },
+  {
+   "name": "Metrics",
+   "description": "v1 per-metric series and summaries."
+  },
+  {
+   "name": "Briefs",
+   "description": "Single-day briefs."
+  },
+  {
+   "name": "OpenClaw",
+   "description": "OpenClaw / local-AI integration endpoints."
+  },
+  {
+   "name": "Health (legacy)",
+   "description": "Original /health/* endpoints, camelCase payloads."
+  }
+ ],
+ "security": [
+  {
+   "apiKeyAuth": []
+  }
+ ],
+ "paths": {
+  "/status": {
+   "get": {
+    "operationId": "getStatus",
+    "summary": "Local API status",
+    "description": "General local API status: app/server version, dataset state, import/sync timestamps, and token_path (the absolute path to the token file for authenticating protected endpoints).",
+    "responses": {
+     "200": {
+      "description": "Success. Logical failures also return HTTP 200 with an ErrorResponse body.",
+      "content": {
+       "application/json": {
+        "schema": {
+         "type": "object",
+         "properties": {
+          "ok": {
+           "type": "boolean",
+           "description": "Mirrors success. true on success."
+          },
+          "success": {
+           "type": "boolean"
+          },
+          "data": {
+           "type": "object",
+           "properties": {
+            "app_version": {
+             "type": "string"
+            },
+            "server_version": {
+             "type": "string",
+             "example": "v1"
+            },
+            "dataset_loaded": {
+             "type": "boolean"
+            },
+            "last_imported_at": {
+             "type": [
+              "string",
+              "null"
+             ],
+             "format": "date-time"
+            },
+            "last_synced_at": {
+             "type": [
+              "string",
+              "null"
+             ],
+             "format": "date-time"
+            },
+            "sleep_semantics": {
+             "$ref": "#/components/schemas/SleepSemantics"
+            },
+            "token_path": {
+             "type": "string",
+             "description": "Absolute path to the local API token file. Read this file to obtain the X-Health-Analyzer-Token value."
+            }
+           }
+          },
+          "summary": {
+           "type": [
+            "string",
+            "null"
+           ],
+           "description": "Optional human-readable summary."
+          }
+         },
+         "required": [
+          "ok",
+          "success",
+          "data"
+         ]
+        }
+       }
+      }
+     }
+    },
+    "tags": [
+     "Status"
+    ],
+    "security": []
+   }
+  },
+  "/metrics": {
+   "get": {
+    "operationId": "getMetrics",
+    "summary": "Available metrics",
+    "description": "List of metric identifiers present in the loaded dataset.",
+    "responses": {
+     "200": {
+      "description": "Success. Logical failures also return HTTP 200 with an ErrorResponse body.",
+      "content": {
+       "application/json": {
+        "schema": {
+         "type": "object",
+         "properties": {
+          "ok": {
+           "type": "boolean",
+           "description": "Mirrors success. true on success."
+          },
+          "success": {
+           "type": "boolean"
+          },
+          "data": {
+           "type": "object",
+           "properties": {
+            "available_metrics": {
+             "type": "array",
+             "items": {
+              "type": "string"
+             }
+            }
+           }
+          },
+          "summary": {
+           "type": [
+            "string",
+            "null"
+           ],
+           "description": "Optional human-readable summary."
+          }
+         },
+         "required": [
+          "ok",
+          "success",
+          "data"
+         ]
+        }
+       }
+      }
+     }
+    },
+    "tags": [
+     "Status"
+    ],
+    "security": [
+     {
+      "apiKeyAuth": []
+     }
+    ]
+   }
+  },
+  "/sync/latest": {
+   "get": {
+    "operationId": "getLatestSync",
+    "summary": "Latest sync/import metadata",
+    "description": "Source, format, export id, timestamps, record count, and date range of the most recent sync/import.",
+    "responses": {
+     "200": {
+      "description": "Success. Logical failures also return HTTP 200 with an ErrorResponse body.",
+      "content": {
+       "application/json": {
+        "schema": {
+         "type": "object",
+         "properties": {
+          "ok": {
+           "type": "boolean",
+           "description": "Mirrors success. true on success."
+          },
+          "success": {
+           "type": "boolean"
+          },
+          "data": {
+           "type": "object",
+           "properties": {
+            "source": {
+             "type": "string",
+             "description": "Sync provider identifier, lowercased."
+            },
+            "format": {
+             "type": "string",
+             "description": "Latest export/file format, lowercased."
+            },
+            "export_id": {
+             "type": [
+              "string",
+              "null"
+             ]
+            },
+            "exported_at": {
+             "type": [
+              "string",
+              "null"
+             ],
+             "format": "date-time"
+            },
+            "imported_at": {
+             "type": [
+              "string",
+              "null"
+             ],
+             "format": "date-time"
+            },
+            "record_count": {
+             "type": "integer"
+            },
+            "date_range": {
+             "type": "object",
+             "properties": {
+              "start": {
+               "type": [
+                "string",
+                "null"
+               ],
+               "format": "date-time"
+              },
+              "end": {
+               "type": [
+                "string",
+                "null"
+               ],
+               "format": "date-time"
+              }
+             }
+            }
+           }
+          },
+          "summary": {
+           "type": [
+            "string",
+            "null"
+           ],
+           "description": "Optional human-readable summary."
+          }
+         },
+         "required": [
+          "ok",
+          "success",
+          "data"
+         ]
+        }
+       }
+      }
+     }
+    },
+    "tags": [
+     "Status"
+    ],
+    "security": [
+     {
+      "apiKeyAuth": []
+     }
+    ]
+   }
+  },
+  "/summary": {
+   "get": {
+    "operationId": "getSummary",
+    "summary": "Dataset summary (v1)",
+    "description": "Range-scoped averages and totals across steps, sleep, workouts, heart rate, and blood glucose.",
+    "responses": {
+     "200": {
+      "description": "Success. Logical failures also return HTTP 200 with an ErrorResponse body.",
+      "content": {
+       "application/json": {
+        "schema": {
+         "type": "object",
+         "properties": {
+          "ok": {
+           "type": "boolean",
+           "description": "Mirrors success. true on success."
+          },
+          "success": {
+           "type": "boolean"
+          },
+          "data": {
+           "type": "object",
+           "properties": {
+            "range": {
+             "type": "object",
+             "properties": {
+              "start": {
+               "type": "string"
+              },
+              "end": {
+               "type": "string"
+              }
+             }
+            },
+            "sleep_semantics": {
+             "$ref": "#/components/schemas/SleepSemantics"
+            },
+            "steps": {
+             "type": "object",
+             "properties": {
+              "avg_daily": {
+               "type": [
+                "number",
+                "null"
+               ]
+              },
+              "total": {
+               "type": "integer"
+              }
+             }
+            },
+            "sleep": {
+             "type": "object",
+             "properties": {
+              "avg_hours": {
+               "type": [
+                "number",
+                "null"
+               ]
+              }
+             }
+            },
+            "workouts": {
+             "type": "object",
+             "properties": {
+              "count": {
+               "type": "integer"
+              },
+              "total_minutes": {
+               "type": "integer"
+              }
+             }
+            },
+            "heart_rate": {
+             "type": "object",
+             "properties": {
+              "avg_resting": {
+               "type": [
+                "integer",
+                "null"
+               ]
+              },
+              "avg_daily": {
+               "type": [
+                "integer",
+                "null"
+               ]
+              }
+             }
+            },
+            "blood_glucose": {
+             "type": "object",
+             "properties": {
+              "avg_daily": {
+               "type": [
+                "number",
+                "null"
+               ]
+              }
+             }
+            }
+           }
+          },
+          "summary": {
+           "type": [
+            "string",
+            "null"
+           ],
+           "description": "Optional human-readable summary."
+          }
+         },
+         "required": [
+          "ok",
+          "success",
+          "data"
+         ]
+        }
+       }
+      }
+     }
+    },
+    "tags": [
+     "Summaries"
+    ],
+    "parameters": [
+     {
+      "name": "start",
+      "in": "query",
+      "required": false,
+      "description": "Inclusive start date. Accepts ISO 8601 datetime or yyyy-MM-dd (interpreted at local noon).",
+      "schema": {
+       "type": "string"
+      }
+     },
+     {
+      "name": "end",
+      "in": "query",
+      "required": false,
+      "description": "Inclusive end date. Accepts ISO 8601 datetime or yyyy-MM-dd (interpreted at local noon).",
+      "schema": {
+       "type": "string"
+      }
+     }
+    ],
+    "security": [
+     {
+      "apiKeyAuth": []
+     }
+    ]
+   }
+  },
+  "/steps/daily": {
+   "get": {
+    "operationId": "getStepsDaily",
+    "summary": "Daily step counts (v1)",
+    "description": "Normalized daily step counts for a date range. Each day exposes its count under value.",
+    "responses": {
+     "200": {
+      "description": "Success. Logical failures also return HTTP 200 with an ErrorResponse body.",
+      "content": {
+       "application/json": {
+        "schema": {
+         "type": "object",
+         "properties": {
+          "ok": {
+           "type": "boolean",
+           "description": "Mirrors success. true on success."
+          },
+          "success": {
+           "type": "boolean"
+          },
+          "data": {
+           "type": "object",
+           "properties": {
+            "unit": {
+             "type": "string",
+             "example": "count"
+            },
+            "days": {
+             "type": "array",
+             "items": {
+              "type": "object",
+              "properties": {
+               "date": {
+                "type": "string"
+               },
+               "value": {
+                "type": "integer"
+               }
+              },
+              "required": [
+               "date",
+               "value"
+              ]
+             }
+            }
+           }
+          }
+         },
+         "required": [
+          "ok",
+          "success",
+          "data"
+         ]
+        }
+       }
+      }
+     }
+    },
+    "tags": [
+     "Metrics"
+    ],
+    "parameters": [
+     {
+      "name": "start",
+      "in": "query",
+      "required": false,
+      "description": "Inclusive start date. Accepts ISO 8601 datetime or yyyy-MM-dd (interpreted at local noon).",
+      "schema": {
+       "type": "string"
+      }
+     },
+     {
+      "name": "end",
+      "in": "query",
+      "required": false,
+      "description": "Inclusive end date. Accepts ISO 8601 datetime or yyyy-MM-dd (interpreted at local noon).",
+      "schema": {
+       "type": "string"
+      }
+     }
+    ],
+    "security": [
+     {
+      "apiKeyAuth": []
+     }
+    ]
+   }
+  },
+  "/sleep/summary": {
+   "get": {
+    "operationId": "getSleepSummary",
+    "summary": "Sleep summary (v1)",
+    "description": "Daily sleep summaries plus range-level averages (avg hours, bedtime, wake time).",
+    "responses": {
+     "200": {
+      "description": "Success. Logical failures also return HTTP 200 with an ErrorResponse body.",
+      "content": {
+       "application/json": {
+        "schema": {
+         "type": "object",
+         "properties": {
+          "ok": {
+           "type": "boolean",
+           "description": "Mirrors success. true on success."
+          },
+          "success": {
+           "type": "boolean"
+          },
+          "data": {
+           "type": "object",
+           "properties": {
+            "sleep_semantics": {
+             "$ref": "#/components/schemas/SleepSemantics"
+            },
+            "avg_hours": {
+             "type": [
+              "number",
+              "null"
+             ]
+            },
+            "avg_bedtime": {
+             "type": [
+              "string",
+              "null"
+             ],
+             "description": "Average bedtime, HH:mm."
+            },
+            "avg_wake_time": {
+             "type": [
+              "string",
+              "null"
+             ],
+             "description": "Average wake time, HH:mm."
+            },
+            "days_detected": {
+             "type": "integer"
+            },
+            "days": {
+             "type": "array",
+             "items": {
+              "type": "object",
+              "properties": {
+               "date": {
+                "type": "string"
+               },
+               "hours": {
+                "type": [
+                 "number",
+                 "null"
+                ]
+               },
+               "asleep_hours": {
+                "type": [
+                 "number",
+                 "null"
+                ]
+               },
+               "in_bed_hours": {
+                "type": [
+                 "number",
+                 "null"
+                ]
+               }
+              }
+             }
+            }
+           }
+          }
+         },
+         "required": [
+          "ok",
+          "success",
+          "data"
+         ]
+        }
+       }
+      }
+     }
+    },
+    "tags": [
+     "Metrics"
+    ],
+    "parameters": [
+     {
+      "name": "start",
+      "in": "query",
+      "required": false,
+      "description": "Inclusive start date. Accepts ISO 8601 datetime or yyyy-MM-dd (interpreted at local noon).",
+      "schema": {
+       "type": "string"
+      }
+     },
+     {
+      "name": "end",
+      "in": "query",
+      "required": false,
+      "description": "Inclusive end date. Accepts ISO 8601 datetime or yyyy-MM-dd (interpreted at local noon).",
+      "schema": {
+       "type": "string"
+      }
+     }
+    ],
+    "security": [
+     {
+      "apiKeyAuth": []
+     }
+    ]
+   }
+  },
+  "/blood-glucose/summary": {
+   "get": {
+    "operationId": "getBloodGlucoseSummary",
+    "summary": "Blood glucose summary (v1)",
+    "description": "Daily blood-glucose summaries plus range min/max/average.",
+    "responses": {
+     "200": {
+      "description": "Success. Logical failures also return HTTP 200 with an ErrorResponse body.",
+      "content": {
+       "application/json": {
+        "schema": {
+         "type": "object",
+         "properties": {
+          "ok": {
+           "type": "boolean",
+           "description": "Mirrors success. true on success."
+          },
+          "success": {
+           "type": "boolean"
+          },
+          "data": {
+           "type": "object",
+           "properties": {
+            "unit": {
+             "type": "string",
+             "example": "mg/dL"
+            },
+            "avg_glucose": {
+             "type": [
+              "number",
+              "null"
+             ]
+            },
+            "min_glucose": {
+             "type": [
+              "number",
+              "null"
+             ]
+            },
+            "max_glucose": {
+             "type": [
+              "number",
+              "null"
+             ]
+            },
+            "days": {
+             "type": "array",
+             "items": {
+              "type": "object",
+              "description": "Per-day glucose. Snapshot path returns only date + avg_glucose; full-dataset path adds min/max/sample_count.",
+              "properties": {
+               "date": {
+                "type": "string"
+               },
+               "avg_glucose": {
+                "type": "number"
+               },
+               "min_glucose": {
+                "type": "number"
+               },
+               "max_glucose": {
+                "type": "number"
+               },
+               "sample_count": {
+                "type": "integer"
+               }
+              }
+             }
+            }
+           }
+          }
+         },
+         "required": [
+          "ok",
+          "success",
+          "data"
+         ]
+        }
+       }
+      }
+     }
+    },
+    "tags": [
+     "Metrics"
+    ],
+    "parameters": [
+     {
+      "name": "start",
+      "in": "query",
+      "required": false,
+      "description": "Inclusive start date. Accepts ISO 8601 datetime or yyyy-MM-dd (interpreted at local noon).",
+      "schema": {
+       "type": "string"
+      }
+     },
+     {
+      "name": "end",
+      "in": "query",
+      "required": false,
+      "description": "Inclusive end date. Accepts ISO 8601 datetime or yyyy-MM-dd (interpreted at local noon).",
+      "schema": {
+       "type": "string"
+      }
+     }
+    ],
+    "security": [
+     {
+      "apiKeyAuth": []
+     }
+    ]
+   }
+  },
+  "/heart-rate/trends": {
+   "get": {
+    "operationId": "getHeartRateTrends",
+    "summary": "Heart rate & HRV trends (v1)",
+    "description": "Average heart rate, resting heart rate, and HRV (SDNN) day series for a date range.",
+    "responses": {
+     "200": {
+      "description": "Success. Logical failures also return HTTP 200 with an ErrorResponse body.",
+      "content": {
+       "application/json": {
+        "schema": {
+         "type": "object",
+         "properties": {
+          "ok": {
+           "type": "boolean",
+           "description": "Mirrors success. true on success."
+          },
+          "success": {
+           "type": "boolean"
+          },
+          "data": {
+           "type": "object",
+           "properties": {
+            "average_heart_rate": {
+             "type": "array",
+             "items": {
+              "$ref": "#/components/schemas/DatePoint"
+             }
+            },
+            "resting_heart_rate": {
+             "type": "array",
+             "items": {
+              "$ref": "#/components/schemas/DatePoint"
+             }
+            },
+            "hrv_sdnn": {
+             "type": "array",
+             "items": {
+              "$ref": "#/components/schemas/DatePoint"
+             }
+            }
+           }
+          }
+         },
+         "required": [
+          "ok",
+          "success",
+          "data"
+         ]
+        }
+       }
+      }
+     }
+    },
+    "tags": [
+     "Metrics"
+    ],
+    "parameters": [
+     {
+      "name": "start",
+      "in": "query",
+      "required": false,
+      "description": "Inclusive start date. Accepts ISO 8601 datetime or yyyy-MM-dd (interpreted at local noon).",
+      "schema": {
+       "type": "string"
+      }
+     },
+     {
+      "name": "end",
+      "in": "query",
+      "required": false,
+      "description": "Inclusive end date. Accepts ISO 8601 datetime or yyyy-MM-dd (interpreted at local noon).",
+      "schema": {
+       "type": "string"
+      }
+     }
+    ],
+    "security": [
+     {
+      "apiKeyAuth": []
+     }
+    ]
+   }
+  },
+  "/workouts/summary": {
+   "get": {
+    "operationId": "getWorkoutsSummary",
+    "summary": "Workouts summary (v1)",
+    "description": "Workout totals, per-type breakdown, and per-session summaries for a date range.",
+    "responses": {
+     "200": {
+      "description": "Success. Logical failures also return HTTP 200 with an ErrorResponse body.",
+      "content": {
+       "application/json": {
+        "schema": {
+         "type": "object",
+         "properties": {
+          "ok": {
+           "type": "boolean",
+           "description": "Mirrors success. true on success."
+          },
+          "success": {
+           "type": "boolean"
+          },
+          "data": {
+           "type": "object",
+           "properties": {
+            "count": {
+             "type": "integer"
+            },
+            "total_minutes": {
+             "type": "integer"
+            },
+            "by_type": {
+             "type": "array",
+             "items": {
+              "type": "object",
+              "properties": {
+               "type": {
+                "type": "string"
+               },
+               "count": {
+                "type": "integer"
+               },
+               "minutes": {
+                "type": "integer"
+               }
+              }
+             }
+            },
+            "workouts": {
+             "type": "array",
+             "items": {
+              "type": "object",
+              "properties": {
+               "date": {
+                "type": "string",
+                "format": "date-time"
+               },
+               "type": {
+                "type": "string"
+               },
+               "duration_minutes": {
+                "type": "integer"
+               },
+               "energy_burned_kcal": {
+                "type": [
+                 "number",
+                 "null"
+                ]
+               }
+              }
+             }
+            }
+           }
+          }
+         },
+         "required": [
+          "ok",
+          "success",
+          "data"
+         ]
+        }
+       }
+      }
+     }
+    },
+    "tags": [
+     "Metrics"
+    ],
+    "parameters": [
+     {
+      "name": "start",
+      "in": "query",
+      "required": false,
+      "description": "Inclusive start date. Accepts ISO 8601 datetime or yyyy-MM-dd (interpreted at local noon).",
+      "schema": {
+       "type": "string"
+      }
+     },
+     {
+      "name": "end",
+      "in": "query",
+      "required": false,
+      "description": "Inclusive end date. Accepts ISO 8601 datetime or yyyy-MM-dd (interpreted at local noon).",
+      "schema": {
+       "type": "string"
+      }
+     }
+    ],
+    "security": [
+     {
+      "apiKeyAuth": []
+     }
+    ]
+   }
+  },
+  "/daily-brief": {
+   "get": {
+    "operationId": "getDailyBrief",
+    "summary": "Daily brief",
+    "description": "Compact single-day brief: steps, sleep, workouts, heart rate, HRV with 7-day baselines and deltas, signal flags, and a context summary.",
+    "responses": {
+     "200": {
+      "description": "Success. Logical failures also return HTTP 200 with an ErrorResponse body.",
+      "content": {
+       "application/json": {
+        "schema": {
+         "type": "object",
+         "properties": {
+          "ok": {
+           "type": "boolean",
+           "description": "Mirrors success. true on success."
+          },
+          "success": {
+           "type": "boolean"
+          },
+          "data": {
+           "type": "object",
+           "properties": {
+            "date": {
+             "type": "string"
+            },
+            "sync": {
+             "type": "object",
+             "properties": {
+              "last_synced_at": {
+               "type": [
+                "string",
+                "null"
+               ],
+               "format": "date-time"
+              },
+              "last_imported_at": {
+               "type": [
+                "string",
+                "null"
+               ],
+               "format": "date-time"
+              }
+             }
+            },
+            "steps": {
+             "type": "object",
+             "properties": {
+              "value": {
+               "type": [
+                "integer",
+                "null"
+               ]
+              },
+              "baseline_7d": {
+               "type": [
+                "number",
+                "null"
+               ]
+              },
+              "delta_vs_baseline": {
+               "type": [
+                "number",
+                "null"
+               ]
+              }
+             }
+            },
+            "sleep": {
+             "type": "object",
+             "properties": {
+              "hours": {
+               "type": [
+                "number",
+                "null"
+               ]
+              },
+              "baseline_7d": {
+               "type": [
+                "number",
+                "null"
+               ]
+              },
+              "delta_vs_baseline": {
+               "type": [
+                "number",
+                "null"
+               ]
+              },
+              "bedtime": {
+               "type": [
+                "string",
+                "null"
+               ]
+              },
+              "wake_time": {
+               "type": [
+                "string",
+                "null"
+               ]
+              }
+             }
+            },
+            "workouts": {
+             "type": "object",
+             "properties": {
+              "count": {
+               "type": "integer"
+              },
+              "total_minutes": {
+               "type": "integer"
+              },
+              "types": {
+               "type": "array",
+               "items": {
+                "type": "string"
+               }
+              }
+             }
+            },
+            "heart_rate": {
+             "type": "object",
+             "properties": {
+              "average": {
+               "type": [
+                "integer",
+                "null"
+               ]
+              },
+              "resting": {
+               "type": [
+                "integer",
+                "null"
+               ]
+              },
+              "resting_baseline_7d": {
+               "type": [
+                "integer",
+                "null"
+               ]
+              },
+              "resting_delta_vs_baseline": {
+               "type": [
+                "number",
+                "null"
+               ]
+              }
+             }
+            },
+            "hrv": {
+             "type": "object",
+             "properties": {
+              "value": {
+               "type": [
+                "number",
+                "null"
+               ]
+              },
+              "baseline_7d": {
+               "type": [
+                "number",
+                "null"
+               ]
+              },
+              "delta_vs_baseline": {
+               "type": [
+                "number",
+                "null"
+               ]
+              },
+              "recovery_score": {
+               "type": [
+                "number",
+                "null"
+               ]
+              },
+              "recovery_status": {
+               "type": [
+                "string",
+                "null"
+               ]
+              }
+             }
+            },
+            "signals": {
+             "type": "array",
+             "items": {
+              "type": "string"
+             },
+             "description": "Baseline-deviation flags, e.g. sleep_below_baseline, activity_above_baseline, resting_hr_elevated, hrv_below_baseline, workout_completed."
+            },
+            "context_summary": {
+             "type": "string"
+            }
+           }
+          }
+         },
+         "required": [
+          "ok",
+          "success",
+          "data"
+         ]
+        }
+       }
+      }
+     }
+    },
+    "tags": [
+     "Briefs"
+    ],
+    "parameters": [
+     {
+      "name": "date",
+      "in": "query",
+      "required": false,
+      "description": "Target day (yyyy-MM-dd or ISO 8601). If omitted, the most recent available day is used.",
+      "schema": {
+       "type": "string"
+      }
+     }
+    ],
+    "security": [
+     {
+      "apiKeyAuth": []
+     }
+    ]
+   }
+  },
+  "/openclaw/status": {
+   "get": {
+    "operationId": "getOpenClawStatus",
+    "summary": "OpenClaw readiness",
+    "description": "Readiness endpoint for OpenClaw and local AI integrations: app version, dataset state, timestamps, and available metrics.",
+    "responses": {
+     "200": {
+      "description": "Success. Logical failures also return HTTP 200 with an ErrorResponse body.",
+      "content": {
+       "application/json": {
+        "schema": {
+         "type": "object",
+         "properties": {
+          "ok": {
+           "type": "boolean",
+           "description": "Mirrors success. true on success."
+          },
+          "success": {
+           "type": "boolean"
+          },
+          "data": {
+           "type": "object",
+           "properties": {
+            "app": {
+             "type": "string",
+             "example": "Health Data AI Analyzer"
+            },
+            "app_version": {
+             "type": "string"
+            },
+            "server_version": {
+             "type": "string"
+            },
+            "dataset_loaded": {
+             "type": "boolean"
+            },
+            "last_imported_at": {
+             "type": [
+              "string",
+              "null"
+             ],
+             "format": "date-time"
+            },
+            "last_synced_at": {
+             "type": [
+              "string",
+              "null"
+             ],
+             "format": "date-time"
+            },
+            "available_metrics": {
+             "type": "array",
+             "items": {
+              "type": "string"
+             },
+             "description": "Metric identifiers present in the loaded dataset (steps, sleep, heart_rate, hrv, weight, blood_glucose, workouts, vo2max)."
+            },
+            "sleep_semantics": {
+             "$ref": "#/components/schemas/SleepSemantics"
+            }
+           }
+          },
+          "summary": {
+           "type": [
+            "string",
+            "null"
+           ],
+           "description": "Optional human-readable summary."
+          }
+         },
+         "required": [
+          "ok",
+          "success",
+          "data"
+         ]
+        }
+       }
+      }
+     }
+    },
+    "tags": [
+     "OpenClaw"
+    ],
+    "security": []
+   }
+  },
+  "/openclaw/daily-brief": {
+   "get": {
+    "operationId": "getOpenClawDailyBrief",
+    "summary": "OpenClaw daily brief",
+    "description": "Same payload as /daily-brief wrapped with an OpenClaw-oriented summary. Currently exempt from authentication on loopback, but a future Mac app update will require the X-Health-Analyzer-Token header on this endpoint. Send the token now so clients keep working across the update; it is already accepted today.",
+    "responses": {
+     "200": {
+      "description": "Success. Logical failures also return HTTP 200 with an ErrorResponse body.",
+      "content": {
+       "application/json": {
+        "schema": {
+         "type": "object",
+         "properties": {
+          "ok": {
+           "type": "boolean",
+           "description": "Mirrors success. true on success."
+          },
+          "success": {
+           "type": "boolean"
+          },
+          "data": {
+           "type": "object",
+           "properties": {
+            "date": {
+             "type": "string"
+            },
+            "sync": {
+             "type": "object",
+             "properties": {
+              "last_synced_at": {
+               "type": [
+                "string",
+                "null"
+               ],
+               "format": "date-time"
+              },
+              "last_imported_at": {
+               "type": [
+                "string",
+                "null"
+               ],
+               "format": "date-time"
+              }
+             }
+            },
+            "steps": {
+             "type": "object",
+             "properties": {
+              "value": {
+               "type": [
+                "integer",
+                "null"
+               ]
+              },
+              "baseline_7d": {
+               "type": [
+                "number",
+                "null"
+               ]
+              },
+              "delta_vs_baseline": {
+               "type": [
+                "number",
+                "null"
+               ]
+              }
+             }
+            },
+            "sleep": {
+             "type": "object",
+             "properties": {
+              "hours": {
+               "type": [
+                "number",
+                "null"
+               ]
+              },
+              "baseline_7d": {
+               "type": [
+                "number",
+                "null"
+               ]
+              },
+              "delta_vs_baseline": {
+               "type": [
+                "number",
+                "null"
+               ]
+              },
+              "bedtime": {
+               "type": [
+                "string",
+                "null"
+               ]
+              },
+              "wake_time": {
+               "type": [
+                "string",
+                "null"
+               ]
+              }
+             }
+            },
+            "workouts": {
+             "type": "object",
+             "properties": {
+              "count": {
+               "type": "integer"
+              },
+              "total_minutes": {
+               "type": "integer"
+              },
+              "types": {
+               "type": "array",
+               "items": {
+                "type": "string"
+               }
+              }
+             }
+            },
+            "heart_rate": {
+             "type": "object",
+             "properties": {
+              "average": {
+               "type": [
+                "integer",
+                "null"
+               ]
+              },
+              "resting": {
+               "type": [
+                "integer",
+                "null"
+               ]
+              },
+              "resting_baseline_7d": {
+               "type": [
+                "integer",
+                "null"
+               ]
+              },
+              "resting_delta_vs_baseline": {
+               "type": [
+                "number",
+                "null"
+               ]
+              }
+             }
+            },
+            "hrv": {
+             "type": "object",
+             "properties": {
+              "value": {
+               "type": [
+                "number",
+                "null"
+               ]
+              },
+              "baseline_7d": {
+               "type": [
+                "number",
+                "null"
+               ]
+              },
+              "delta_vs_baseline": {
+               "type": [
+                "number",
+                "null"
+               ]
+              },
+              "recovery_score": {
+               "type": [
+                "number",
+                "null"
+               ]
+              },
+              "recovery_status": {
+               "type": [
+                "string",
+                "null"
+               ]
+              }
+             }
+            },
+            "signals": {
+             "type": "array",
+             "items": {
+              "type": "string"
+             },
+             "description": "Baseline-deviation flags, e.g. sleep_below_baseline, activity_above_baseline, resting_hr_elevated, hrv_below_baseline, workout_completed."
+            },
+            "context_summary": {
+             "type": "string"
+            }
+           }
+          },
+          "summary": {
+           "type": [
+            "string",
+            "null"
+           ],
+           "description": "Optional human-readable summary."
+          }
+         },
+         "required": [
+          "ok",
+          "success",
+          "data"
+         ]
+        }
+       }
+      }
+     }
+    },
+    "tags": [
+     "OpenClaw"
+    ],
+    "parameters": [
+     {
+      "name": "date",
+      "in": "query",
+      "required": false,
+      "description": "Target day (yyyy-MM-dd or ISO 8601). If omitted, the most recent available day is used.",
+      "schema": {
+       "type": "string"
+      }
+     }
+    ],
+    "security": [
+     {
+      "apiKeyAuth": []
+     }
+    ]
+   }
+  },
+  "/openclaw/recent-trends": {
+   "get": {
+    "operationId": "getOpenClawRecentTrends",
+    "summary": "OpenClaw recent trends",
+    "description": "Step and sleep trends over the last N days: average, best, latest, and per-day series. Currently exempt from authentication on loopback, but a future Mac app update will require the X-Health-Analyzer-Token header on this endpoint. Send the token now so clients keep working across the update; it is already accepted today.",
+    "responses": {
+     "200": {
+      "description": "Success. Logical failures also return HTTP 200 with an ErrorResponse body.",
+      "content": {
+       "application/json": {
+        "schema": {
+         "type": "object",
+         "properties": {
+          "ok": {
+           "type": "boolean",
+           "description": "Mirrors success. true on success."
+          },
+          "success": {
+           "type": "boolean"
+          },
+          "data": {
+           "type": "object",
+           "properties": {
+            "days": {
+             "type": "integer"
+            },
+            "steps": {
+             "type": "object",
+             "properties": {
+              "average": {
+               "type": [
+                "number",
+                "null"
+               ]
+              },
+              "best": {
+               "type": [
+                "number",
+                "null"
+               ]
+              },
+              "latest": {
+               "type": [
+                "number",
+                "null"
+               ]
+              },
+              "series": {
+               "type": "array",
+               "items": {
+                "$ref": "#/components/schemas/DatePoint"
+               }
+              }
+             }
+            },
+            "sleep": {
+             "type": "object",
+             "properties": {
+              "average": {
+               "type": [
+                "number",
+                "null"
+               ]
+              },
+              "best": {
+               "type": [
+                "number",
+                "null"
+               ]
+              },
+              "latest": {
+               "type": [
+                "number",
+                "null"
+               ]
+              },
+              "series": {
+               "type": "array",
+               "items": {
+                "$ref": "#/components/schemas/DatePoint"
+               }
+              }
+             }
+            }
+           }
+          },
+          "summary": {
+           "type": [
+            "string",
+            "null"
+           ],
+           "description": "Optional human-readable summary."
+          }
+         },
+         "required": [
+          "ok",
+          "success",
+          "data"
+         ]
+        }
+       }
+      }
+     }
+    },
+    "tags": [
+     "OpenClaw"
+    ],
+    "parameters": [
+     {
+      "name": "days",
+      "in": "query",
+      "required": false,
+      "description": "Number of most-recent days to roll up. Defaults to 7; values below 1 are clamped to 1.",
+      "schema": {
+       "type": "integer",
+       "default": 7,
+       "minimum": 1
+      }
+     }
+    ],
+    "security": [
+     {
+      "apiKeyAuth": []
+     }
+    ]
+   }
+  },
+  "/openclaw/weekly-summary": {
+   "get": {
+    "operationId": "getOpenClawWeeklySummary",
+    "summary": "OpenClaw weekly summary",
+    "description": "Rolled-up summary over the last N days: step/sleep averages, total workout minutes and count, average heart rate, and step/sleep series. Currently exempt from authentication on loopback, but a future Mac app update will require the X-Health-Analyzer-Token header on this endpoint. Send the token now so clients keep working across the update; it is already accepted today.",
+    "responses": {
+     "200": {
+      "description": "Success. Logical failures also return HTTP 200 with an ErrorResponse body.",
+      "content": {
+       "application/json": {
+        "schema": {
+         "type": "object",
+         "properties": {
+          "ok": {
+           "type": "boolean",
+           "description": "Mirrors success. true on success."
+          },
+          "success": {
+           "type": "boolean"
+          },
+          "data": {
+           "type": "object",
+           "properties": {
+            "days": {
+             "type": "integer"
+            },
+            "steps_average": {
+             "type": [
+              "number",
+              "null"
+             ]
+            },
+            "sleep_average": {
+             "type": [
+              "number",
+              "null"
+             ]
+            },
+            "workout_minutes_total": {
+             "type": "number"
+            },
+            "workout_count_total": {
+             "type": "integer"
+            },
+            "heart_rate_average": {
+             "type": [
+              "number",
+              "null"
+             ]
+            },
+            "steps_series": {
+             "type": "array",
+             "items": {
+              "$ref": "#/components/schemas/DatePoint"
+             }
+            },
+            "sleep_series": {
+             "type": "array",
+             "items": {
+              "$ref": "#/components/schemas/DatePoint"
+             }
+            }
+           }
+          },
+          "summary": {
+           "type": [
+            "string",
+            "null"
+           ],
+           "description": "Optional human-readable summary."
+          }
+         },
+         "required": [
+          "ok",
+          "success",
+          "data"
+         ]
+        }
+       }
+      }
+     }
+    },
+    "tags": [
+     "OpenClaw"
+    ],
+    "parameters": [
+     {
+      "name": "days",
+      "in": "query",
+      "required": false,
+      "description": "Number of most-recent days to roll up. Defaults to 7; values below 1 are clamped to 1.",
+      "schema": {
+       "type": "integer",
+       "default": 7,
+       "minimum": 1
+      }
+     }
+    ],
+    "security": [
+     {
+      "apiKeyAuth": []
+     }
+    ]
+   }
+  },
+  "/health/status": {
+   "get": {
+    "operationId": "getHealthStatus",
+    "summary": "Health status (legacy)",
+    "description": "Dataset load state, metric list, record count, and date range.",
+    "responses": {
+     "200": {
+      "description": "Success. Logical failures also return HTTP 200 with an ErrorResponse body.",
+      "content": {
+       "application/json": {
+        "schema": {
+         "type": "object",
+         "properties": {
+          "ok": {
+           "type": "boolean",
+           "description": "Mirrors success. true on success."
+          },
+          "success": {
+           "type": "boolean"
+          },
+          "data": {
+           "type": "object",
+           "properties": {
+            "dataLoaded": {
+             "type": "boolean"
+            },
+            "metrics": {
+             "type": "array",
+             "items": {
+              "type": "string"
+             }
+            },
+            "recordCount": {
+             "type": "integer"
+            },
+            "dateRange": {
+             "type": "object",
+             "properties": {
+              "start": {
+               "type": "string"
+              },
+              "end": {
+               "type": "string"
+              }
+             }
+            }
+           }
+          },
+          "summary": {
+           "type": [
+            "string",
+            "null"
+           ],
+           "description": "Optional human-readable summary."
+          }
+         },
+         "required": [
+          "ok",
+          "success",
+          "data"
+         ]
+        }
+       }
+      }
+     }
+    },
+    "tags": [
+     "Health (legacy)"
+    ],
+    "security": [
+     {
+      "apiKeyAuth": []
+     }
+    ]
+   }
+  },
+  "/health/summary": {
+   "get": {
+    "operationId": "getHealthSummary",
+    "summary": "Health summary (legacy)",
+    "description": "Newline-joined human-readable summary of the dataset.",
+    "responses": {
+     "200": {
+      "description": "Success. Logical failures also return HTTP 200 with an ErrorResponse body.",
+      "content": {
+       "application/json": {
+        "schema": {
+         "type": "object",
+         "properties": {
+          "ok": {
+           "type": "boolean",
+           "description": "Mirrors success. true on success."
+          },
+          "success": {
+           "type": "boolean"
+          },
+          "data": {
+           "type": "object",
+           "properties": {
+            "summary": {
+             "type": "string",
+             "description": "Newline-joined human-readable summary lines."
+            }
+           }
+          },
+          "summary": {
+           "type": [
+            "string",
+            "null"
+           ],
+           "description": "Optional human-readable summary."
+          }
+         },
+         "required": [
+          "ok",
+          "success",
+          "data"
+         ]
+        }
+       }
+      }
+     }
+    },
+    "tags": [
+     "Health (legacy)"
+    ],
+    "security": [
+     {
+      "apiKeyAuth": []
+     }
+    ]
+   }
+  },
+  "/health/steps": {
+   "get": {
+    "operationId": "getHealthSteps",
+    "summary": "Steps (legacy)",
+    "description": "Step statistics and recent daily series (steps under the steps key).",
+    "responses": {
+     "200": {
+      "description": "Success. Logical failures also return HTTP 200 with an ErrorResponse body.",
+      "content": {
+       "application/json": {
+        "schema": {
+         "type": "object",
+         "properties": {
+          "ok": {
+           "type": "boolean",
+           "description": "Mirrors success. true on success."
+          },
+          "success": {
+           "type": "boolean"
+          },
+          "data": {
+           "type": "object",
+           "properties": {
+            "average": {
+             "type": "integer"
+            },
+            "total": {
+             "type": "integer"
+            },
+            "min": {
+             "type": "integer"
+            },
+            "max": {
+             "type": "integer"
+            },
+            "days": {
+             "type": "array",
+             "items": {
+              "type": "object",
+              "properties": {
+               "date": {
+                "type": "string"
+               },
+               "steps": {
+                "type": "integer"
+               }
+              }
+             }
+            }
+           }
+          },
+          "summary": {
+           "type": [
+            "string",
+            "null"
+           ],
+           "description": "Optional human-readable summary."
+          }
+         },
+         "required": [
+          "ok",
+          "success",
+          "data"
+         ]
+        }
+       }
+      }
+     }
+    },
+    "tags": [
+     "Health (legacy)"
+    ],
+    "parameters": [
+     {
+      "name": "start",
+      "in": "query",
+      "required": false,
+      "description": "Inclusive start date. Accepts ISO 8601 datetime or yyyy-MM-dd (interpreted at local noon).",
+      "schema": {
+       "type": "string"
+      }
+     },
+     {
+      "name": "end",
+      "in": "query",
+      "required": false,
+      "description": "Inclusive end date. Accepts ISO 8601 datetime or yyyy-MM-dd (interpreted at local noon).",
+      "schema": {
+       "type": "string"
+      }
+     },
+     {
+      "name": "limit",
+      "in": "query",
+      "required": false,
+      "description": "Maximum number of most-recent days/sessions to return after date filtering. Defaults to 30.",
+      "schema": {
+       "type": "integer",
+       "default": 30
+      }
+     }
+    ],
+    "security": [
+     {
+      "apiKeyAuth": []
+     }
+    ]
+   }
+  },
+  "/health/sleep": {
+   "get": {
+    "operationId": "getHealthSleep",
+    "summary": "Sleep (legacy)",
+    "description": "Sleep statistics and recent daily series with deep/rem/core hours.",
+    "responses": {
+     "200": {
+      "description": "Success. Logical failures also return HTTP 200 with an ErrorResponse body.",
+      "content": {
+       "application/json": {
+        "schema": {
+         "type": "object",
+         "properties": {
+          "ok": {
+           "type": "boolean",
+           "description": "Mirrors success. true on success."
+          },
+          "success": {
+           "type": "boolean"
+          },
+          "data": {
+           "type": "object",
+           "properties": {
+            "averageHours": {
+             "type": "number"
+            },
+            "minHours": {
+             "type": "number"
+            },
+            "maxHours": {
+             "type": "number"
+            },
+            "days": {
+             "type": "array",
+             "items": {
+              "type": "object",
+              "properties": {
+               "date": {
+                "type": "string"
+               },
+               "hours": {
+                "type": "number"
+               },
+               "deep": {
+                "type": "number"
+               },
+               "rem": {
+                "type": "number"
+               },
+               "core": {
+                "type": "number"
+               }
+              }
+             }
+            }
+           }
+          },
+          "summary": {
+           "type": [
+            "string",
+            "null"
+           ],
+           "description": "Optional human-readable summary."
+          }
+         },
+         "required": [
+          "ok",
+          "success",
+          "data"
+         ]
+        }
+       }
+      }
+     }
+    },
+    "tags": [
+     "Health (legacy)"
+    ],
+    "parameters": [
+     {
+      "name": "start",
+      "in": "query",
+      "required": false,
+      "description": "Inclusive start date. Accepts ISO 8601 datetime or yyyy-MM-dd (interpreted at local noon).",
+      "schema": {
+       "type": "string"
+      }
+     },
+     {
+      "name": "end",
+      "in": "query",
+      "required": false,
+      "description": "Inclusive end date. Accepts ISO 8601 datetime or yyyy-MM-dd (interpreted at local noon).",
+      "schema": {
+       "type": "string"
+      }
+     },
+     {
+      "name": "limit",
+      "in": "query",
+      "required": false,
+      "description": "Maximum number of most-recent days/sessions to return after date filtering. Defaults to 30.",
+      "schema": {
+       "type": "integer",
+       "default": 30
+      }
+     }
+    ],
+    "security": [
+     {
+      "apiKeyAuth": []
+     }
+    ]
+   }
+  },
+  "/health/heart-rate": {
+   "get": {
+    "operationId": "getHealthHeartRate",
+    "summary": "Heart rate (legacy)",
+    "description": "Heart-rate statistics and recent daily avg/min/max series.",
+    "responses": {
+     "200": {
+      "description": "Success. Logical failures also return HTTP 200 with an ErrorResponse body.",
+      "content": {
+       "application/json": {
+        "schema": {
+         "type": "object",
+         "properties": {
+          "ok": {
+           "type": "boolean",
+           "description": "Mirrors success. true on success."
+          },
+          "success": {
+           "type": "boolean"
+          },
+          "data": {
+           "type": "object",
+           "properties": {
+            "average": {
+             "type": "integer"
+            },
+            "min": {
+             "type": "integer"
+            },
+            "max": {
+             "type": "integer"
+            },
+            "resting": {
+             "type": [
+              "integer",
+              "null"
+             ]
+            },
+            "days": {
+             "type": "array",
+             "items": {
+              "type": "object",
+              "properties": {
+               "date": {
+                "type": "string"
+               },
+               "avg": {
+                "type": "integer"
+               },
+               "min": {
+                "type": "integer"
+               },
+               "max": {
+                "type": "integer"
+               }
+              }
+             }
+            }
+           }
+          },
+          "summary": {
+           "type": [
+            "string",
+            "null"
+           ],
+           "description": "Optional human-readable summary."
+          }
+         },
+         "required": [
+          "ok",
+          "success",
+          "data"
+         ]
+        }
+       }
+      }
+     }
+    },
+    "tags": [
+     "Health (legacy)"
+    ],
+    "parameters": [
+     {
+      "name": "start",
+      "in": "query",
+      "required": false,
+      "description": "Inclusive start date. Accepts ISO 8601 datetime or yyyy-MM-dd (interpreted at local noon).",
+      "schema": {
+       "type": "string"
+      }
+     },
+     {
+      "name": "end",
+      "in": "query",
+      "required": false,
+      "description": "Inclusive end date. Accepts ISO 8601 datetime or yyyy-MM-dd (interpreted at local noon).",
+      "schema": {
+       "type": "string"
+      }
+     },
+     {
+      "name": "limit",
+      "in": "query",
+      "required": false,
+      "description": "Maximum number of most-recent days/sessions to return after date filtering. Defaults to 30.",
+      "schema": {
+       "type": "integer",
+       "default": 30
+      }
+     }
+    ],
+    "security": [
+     {
+      "apiKeyAuth": []
+     }
+    ]
+   }
+  },
+  "/health/hrv": {
+   "get": {
+    "operationId": "getHealthHRV",
+    "summary": "HRV (legacy)",
+    "description": "HRV statistics, recovery trend, and recent daily series.",
+    "responses": {
+     "200": {
+      "description": "Success. Logical failures also return HTTP 200 with an ErrorResponse body.",
+      "content": {
+       "application/json": {
+        "schema": {
+         "type": "object",
+         "properties": {
+          "ok": {
+           "type": "boolean",
+           "description": "Mirrors success. true on success."
+          },
+          "success": {
+           "type": "boolean"
+          },
+          "data": {
+           "type": "object",
+           "properties": {
+            "average": {
+             "type": "integer"
+            },
+            "min": {
+             "type": "integer"
+            },
+            "max": {
+             "type": "integer"
+            },
+            "recovery": {
+             "type": "string"
+            },
+            "days": {
+             "type": "array",
+             "items": {
+              "type": "object",
+              "properties": {
+               "date": {
+                "type": "string"
+               },
+               "hrv": {
+                "type": "integer"
+               }
+              }
+             }
+            }
+           }
+          },
+          "summary": {
+           "type": [
+            "string",
+            "null"
+           ],
+           "description": "Optional human-readable summary."
+          }
+         },
+         "required": [
+          "ok",
+          "success",
+          "data"
+         ]
+        }
+       }
+      }
+     }
+    },
+    "tags": [
+     "Health (legacy)"
+    ],
+    "parameters": [
+     {
+      "name": "start",
+      "in": "query",
+      "required": false,
+      "description": "Inclusive start date. Accepts ISO 8601 datetime or yyyy-MM-dd (interpreted at local noon).",
+      "schema": {
+       "type": "string"
+      }
+     },
+     {
+      "name": "end",
+      "in": "query",
+      "required": false,
+      "description": "Inclusive end date. Accepts ISO 8601 datetime or yyyy-MM-dd (interpreted at local noon).",
+      "schema": {
+       "type": "string"
+      }
+     },
+     {
+      "name": "limit",
+      "in": "query",
+      "required": false,
+      "description": "Maximum number of most-recent days/sessions to return after date filtering. Defaults to 30.",
+      "schema": {
+       "type": "integer",
+       "default": 30
+      }
+     }
+    ],
+    "security": [
+     {
+      "apiKeyAuth": []
+     }
+    ]
+   }
+  },
+  "/health/weight": {
+   "get": {
+    "operationId": "getHealthWeight",
+    "summary": "Weight (legacy)",
+    "description": "Weight statistics, trend, change, and recent measurements.",
+    "responses": {
+     "200": {
+      "description": "Success. Logical failures also return HTTP 200 with an ErrorResponse body.",
+      "content": {
+       "application/json": {
+        "schema": {
+         "type": "object",
+         "properties": {
+          "ok": {
+           "type": "boolean",
+           "description": "Mirrors success. true on success."
+          },
+          "success": {
+           "type": "boolean"
+          },
+          "data": {
+           "type": "object",
+           "properties": {
+            "current": {
+             "type": [
+              "number",
+              "null"
+             ]
+            },
+            "average": {
+             "type": "number"
+            },
+            "min": {
+             "type": "number"
+            },
+            "max": {
+             "type": "number"
+            },
+            "change": {
+             "type": [
+              "number",
+              "null"
+             ]
+            },
+            "trend": {
+             "type": "string"
+            },
+            "measurements": {
+             "type": "array",
+             "items": {
+              "type": "object",
+              "properties": {
+               "date": {
+                "type": "string"
+               },
+               "weight": {
+                "type": "number"
+               },
+               "unit": {
+                "type": "string"
+               }
+              }
+             }
+            }
+           }
+          },
+          "summary": {
+           "type": [
+            "string",
+            "null"
+           ],
+           "description": "Optional human-readable summary."
+          }
+         },
+         "required": [
+          "ok",
+          "success",
+          "data"
+         ]
+        }
+       }
+      }
+     }
+    },
+    "tags": [
+     "Health (legacy)"
+    ],
+    "parameters": [
+     {
+      "name": "start",
+      "in": "query",
+      "required": false,
+      "description": "Inclusive start date. Accepts ISO 8601 datetime or yyyy-MM-dd (interpreted at local noon).",
+      "schema": {
+       "type": "string"
+      }
+     },
+     {
+      "name": "end",
+      "in": "query",
+      "required": false,
+      "description": "Inclusive end date. Accepts ISO 8601 datetime or yyyy-MM-dd (interpreted at local noon).",
+      "schema": {
+       "type": "string"
+      }
+     },
+     {
+      "name": "limit",
+      "in": "query",
+      "required": false,
+      "description": "Maximum number of most-recent days/sessions to return after date filtering. Defaults to 30.",
+      "schema": {
+       "type": "integer",
+       "default": 30
+      }
+     }
+    ],
+    "security": [
+     {
+      "apiKeyAuth": []
+     }
+    ]
+   }
+  },
+  "/health/blood-glucose": {
+   "get": {
+    "operationId": "getHealthBloodGlucose",
+    "summary": "Blood glucose (legacy)",
+    "description": "Blood-glucose statistics and recent daily series.",
+    "responses": {
+     "200": {
+      "description": "Success. Logical failures also return HTTP 200 with an ErrorResponse body.",
+      "content": {
+       "application/json": {
+        "schema": {
+         "type": "object",
+         "properties": {
+          "ok": {
+           "type": "boolean",
+           "description": "Mirrors success. true on success."
+          },
+          "success": {
+           "type": "boolean"
+          },
+          "data": {
+           "type": "object",
+           "properties": {
+            "average": {
+             "type": [
+              "number",
+              "null"
+             ]
+            },
+            "min": {
+             "type": [
+              "number",
+              "null"
+             ]
+            },
+            "max": {
+             "type": [
+              "number",
+              "null"
+             ]
+            },
+            "unit": {
+             "type": "string"
+            },
+            "days": {
+             "type": "array",
+             "items": {
+              "type": "object",
+              "properties": {
+               "date": {
+                "type": "string"
+               },
+               "glucose": {
+                "type": "number"
+               },
+               "min_glucose": {
+                "type": "number"
+               },
+               "max_glucose": {
+                "type": "number"
+               },
+               "sample_count": {
+                "type": "integer"
+               }
+              }
+             }
+            }
+           }
+          },
+          "summary": {
+           "type": [
+            "string",
+            "null"
+           ],
+           "description": "Optional human-readable summary."
+          }
+         },
+         "required": [
+          "ok",
+          "success",
+          "data"
+         ]
+        }
+       }
+      }
+     }
+    },
+    "tags": [
+     "Health (legacy)"
+    ],
+    "parameters": [
+     {
+      "name": "start",
+      "in": "query",
+      "required": false,
+      "description": "Inclusive start date. Accepts ISO 8601 datetime or yyyy-MM-dd (interpreted at local noon).",
+      "schema": {
+       "type": "string"
+      }
+     },
+     {
+      "name": "end",
+      "in": "query",
+      "required": false,
+      "description": "Inclusive end date. Accepts ISO 8601 datetime or yyyy-MM-dd (interpreted at local noon).",
+      "schema": {
+       "type": "string"
+      }
+     },
+     {
+      "name": "limit",
+      "in": "query",
+      "required": false,
+      "description": "Maximum number of most-recent days/sessions to return after date filtering. Defaults to 30.",
+      "schema": {
+       "type": "integer",
+       "default": 30
+      }
+     }
+    ],
+    "security": [
+     {
+      "apiKeyAuth": []
+     }
+    ]
+   }
+  },
+  "/health/workouts": {
+   "get": {
+    "operationId": "getHealthWorkouts",
+    "summary": "Workouts (legacy)",
+    "description": "Workout totals, per-type counts, and recent sessions.",
+    "responses": {
+     "200": {
+      "description": "Success. Logical failures also return HTTP 200 with an ErrorResponse body.",
+      "content": {
+       "application/json": {
+        "schema": {
+         "type": "object",
+         "properties": {
+          "ok": {
+           "type": "boolean",
+           "description": "Mirrors success. true on success."
+          },
+          "success": {
+           "type": "boolean"
+          },
+          "data": {
+           "type": "object",
+           "properties": {
+            "totalWorkouts": {
+             "type": "integer"
+            },
+            "totalDurationHours": {
+             "type": "number"
+            },
+            "averageDurationMinutes": {
+             "type": "number"
+            },
+            "byType": {
+             "type": "object",
+             "additionalProperties": {
+              "type": "integer"
+             },
+             "description": "Map of workout type name to session count."
+            },
+            "workouts": {
+             "type": "array",
+             "items": {
+              "type": "object",
+              "properties": {
+               "date": {
+                "type": "string"
+               },
+               "type": {
+                "type": "string"
+               },
+               "durationMinutes": {
+                "type": "integer"
+               },
+               "calories": {
+                "type": [
+                 "number",
+                 "null"
+                ]
+               }
+              }
+             }
+            }
+           }
+          },
+          "summary": {
+           "type": [
+            "string",
+            "null"
+           ],
+           "description": "Optional human-readable summary."
+          }
+         },
+         "required": [
+          "ok",
+          "success",
+          "data"
+         ]
+        }
+       }
+      }
+     }
+    },
+    "tags": [
+     "Health (legacy)"
+    ],
+    "parameters": [
+     {
+      "name": "start",
+      "in": "query",
+      "required": false,
+      "description": "Inclusive start date. Accepts ISO 8601 datetime or yyyy-MM-dd (interpreted at local noon).",
+      "schema": {
+       "type": "string"
+      }
+     },
+     {
+      "name": "end",
+      "in": "query",
+      "required": false,
+      "description": "Inclusive end date. Accepts ISO 8601 datetime or yyyy-MM-dd (interpreted at local noon).",
+      "schema": {
+       "type": "string"
+      }
+     },
+     {
+      "name": "limit",
+      "in": "query",
+      "required": false,
+      "description": "Maximum number of most-recent days/sessions to return after date filtering. Defaults to 30.",
+      "schema": {
+       "type": "integer",
+       "default": 30
+      }
+     }
+    ],
+    "security": [
+     {
+      "apiKeyAuth": []
+     }
+    ]
+   }
+  },
+  "/health/vo2max": {
+   "get": {
+    "operationId": "getHealthVO2Max",
+    "summary": "VO2 max (legacy)",
+    "description": "VO2 max statistics, fitness level, trend, and recent measurements.",
+    "responses": {
+     "200": {
+      "description": "Success. Logical failures also return HTTP 200 with an ErrorResponse body.",
+      "content": {
+       "application/json": {
+        "schema": {
+         "type": "object",
+         "properties": {
+          "ok": {
+           "type": "boolean",
+           "description": "Mirrors success. true on success."
+          },
+          "success": {
+           "type": "boolean"
+          },
+          "data": {
+           "type": "object",
+           "properties": {
+            "current": {
+             "type": [
+              "number",
+              "null"
+             ]
+            },
+            "average": {
+             "type": "number"
+            },
+            "max": {
+             "type": "number"
+            },
+            "min": {
+             "type": "number"
+            },
+            "fitnessLevel": {
+             "type": "string"
+            },
+            "trend": {
+             "type": "string"
+            },
+            "measurements": {
+             "type": "array",
+             "items": {
+              "type": "object",
+              "properties": {
+               "date": {
+                "type": "string"
+               },
+               "vo2max": {
+                "type": "number"
+               }
+              }
+             }
+            }
+           }
+          },
+          "summary": {
+           "type": [
+            "string",
+            "null"
+           ],
+           "description": "Optional human-readable summary."
+          }
+         },
+         "required": [
+          "ok",
+          "success",
+          "data"
+         ]
+        }
+       }
+      }
+     }
+    },
+    "tags": [
+     "Health (legacy)"
+    ],
+    "parameters": [
+     {
+      "name": "start",
+      "in": "query",
+      "required": false,
+      "description": "Inclusive start date. Accepts ISO 8601 datetime or yyyy-MM-dd (interpreted at local noon).",
+      "schema": {
+       "type": "string"
+      }
+     },
+     {
+      "name": "end",
+      "in": "query",
+      "required": false,
+      "description": "Inclusive end date. Accepts ISO 8601 datetime or yyyy-MM-dd (interpreted at local noon).",
+      "schema": {
+       "type": "string"
+      }
+     },
+     {
+      "name": "limit",
+      "in": "query",
+      "required": false,
+      "description": "Maximum number of most-recent days/sessions to return after date filtering. Defaults to 30.",
+      "schema": {
+       "type": "integer",
+       "default": 30
+      }
+     }
+    ],
+    "security": [
+     {
+      "apiKeyAuth": []
+     }
+    ]
+   }
+  }
+ },
+ "components": {
+  "securitySchemes": {
+   "apiKeyAuth": {
+    "type": "apiKey",
+    "in": "header",
+    "name": "X-Health-Analyzer-Token",
+    "description": "Local API token sent as a request header. The token value is stored in a file on the user's machine; read its absolute path from the token_path field of GET /status. Endpoints currently exempt from the token on loopback: GET /status and all four GET /openclaw/* endpoints. A future Mac app update will require the token on the three /openclaw data endpoints (/openclaw/daily-brief, /openclaw/recent-trends, /openclaw/weekly-summary) \u2014 only /openclaw/status stays open. Those three are marked with this security scheme here so clients start sending the token now; it is already accepted today and clients that send it keep working across the update."
+   }
+  },
+  "schemas": {
+   "SleepSemantics": {
+    "type": "object",
+    "description": "How the app assigns sleep sessions to calendar days and which time zone it uses. Empty object when no dataset is loaded.",
+    "properties": {
+     "day_assignment": {
+      "type": "string",
+      "description": "Raw day-assignment mode identifier (e.g. wakeDay)."
+     },
+     "day_assignment_label": {
+      "type": "string",
+      "description": "Human-readable day-assignment description."
+     },
+     "time_zone_mode": {
+      "type": "string",
+      "description": "Raw time-zone preference identifier."
+     },
+     "time_zone_label": {
+      "type": "string",
+      "description": "Human-readable time-zone description."
+     },
+     "time_zone_identifier": {
+      "type": "string",
+      "description": "IANA time-zone identifier used for bucketing."
+     }
+    }
+   },
+   "DatePoint": {
+    "type": "object",
+    "properties": {
+     "date": {
+      "type": "string",
+      "description": "Local calendar date, yyyy-MM-dd."
+     },
+     "value": {
+      "type": [
+       "number",
+       "null"
+      ],
+      "description": "Metric value for that day; null when no data."
+     }
+    },
+    "required": [
+     "date",
+     "value"
+    ]
+   },
+   "ErrorResponse": {
+    "type": "object",
+    "description": "Returned with HTTP 200 for logical failures (HTTP 400 only for genuinely malformed HTTP requests).",
+    "properties": {
+     "ok": {
+      "type": "boolean",
+      "enum": [
+       false
+      ]
+     },
+     "success": {
+      "type": "boolean",
+      "enum": [
+       false
+      ]
+     },
+     "error": {
+      "type": [
+       "string",
+       "null"
+      ],
+      "description": "Human-readable message."
+     },
+     "errorDetail": {
+      "type": "object",
+      "properties": {
+       "code": {
+        "type": "string",
+        "enum": [
+         "unauthorized",
+         "dataset_unavailable",
+         "not_found",
+         "method_not_allowed",
+         "bad_request",
+         "timeout",
+         "internal_error"
+        ]
+       },
+       "message": {
+        "type": "string"
+       }
+      },
+      "required": [
+       "code",
+       "message"
+      ]
+     },
+     "data": {
+      "type": "null"
+     }
+    },
+    "required": [
+     "ok",
+     "success"
+    ]
+   }
+  }
+ }
+}
