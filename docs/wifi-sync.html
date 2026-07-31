@@ -311,10 +311,14 @@
                 <h2>How Sync Works Today</h2>
                 <ol>
                     <li><strong>On iPhone:</strong> choose a provider in the <strong>Sync</strong> tab.</li>
-                    <li><strong>First sync:</strong> the app exports an initial date range and sends it to the selected destination.</li>
-                    <li><strong>Later syncs:</strong> the app sends only newer data incrementally.</li>
-                    <li><strong>On Mac:</strong> open the <strong>Sync</strong> tab and download the latest XML export when you want to analyze it.</li>
+                    <li><strong>First sync:</strong> the app exports an initial date range — you can choose a full backfill — and sends it to the selected destination.</li>
+                    <li><strong>Later syncs:</strong> the app sends only newer data incrementally, so each auto-sync is a small export containing just the records added since the last one.</li>
+                    <li><strong>On Mac:</strong> open the <strong>Sync</strong> tab to import the synced data. The Mac app merges every incremental sync into one rolling <strong>Synced Health Data</strong> dataset, so analyzing it covers your full synced history.</li>
                 </ol>
+
+                <blockquote>
+                    <p>Using an older Mac version? Before Mac 1.996 each sync was saved as its own tiny entry in History (often showing "Not enough data"). Mac 1.996 merges every increment into one <strong>Synced Health Data</strong> entry that updates in place — updating the Mac app fixes the many-small-entries behavior.</p>
+                </blockquote>
 
                 <h2>Direct to Mac</h2>
                 <p>If you want the local-network workflow, use <strong>Direct to Mac</strong>. This is still available, but it is now one provider among several.</p>
@@ -342,7 +346,7 @@
                     <li><strong>Vitals</strong> -- blood oxygen, respiratory rate, body temperature</li>
                     <li><strong>Mindfulness</strong> -- mindful minutes, state of mind</li>
                 </ul>
-                <p>The first sync establishes your baseline. Later syncs send only newer data.</p>
+                <p>The first sync establishes your baseline — choose a full backfill if you want your complete history. Later syncs send only newer data, and the Mac app merges each increment into the single <strong>Synced Health Data</strong> dataset.</p>
 
                 <h2>Privacy and Security</h2>
                 <p>The privacy model depends on the provider:</p>
@@ -357,9 +361,10 @@
                 <ul>
                     <li>review available exports</li>
                     <li>refresh the export list</li>
-                    <li>download the latest XML export into analysis</li>
+                    <li>import the newest export into the merged <strong>Synced Health Data</strong> dataset</li>
                     <li>manage Mac-side sync and import flow</li>
                 </ul>
+                <p>Because increments merge into one dataset, History shows a single <strong>Synced Health Data</strong> entry that updates in place each time you import, rather than a new row per sync.</p>
 
                 <h2>Troubleshooting</h2>
 
@@ -373,7 +378,13 @@
                 <h3>Cloud sync completed on iPhone but nothing shows on Mac</h3>
                 <ul>
                     <li>Open the Mac <strong>Sync</strong> tab and refresh the list.</li>
-                    <li>The Mac app does not automatically analyze a remote export just because it exists.</li>
+                    <li>Mac 1.996 auto-sync imports the newest export into the merged <strong>Synced Health Data</strong> dataset; if you have several pending increments, open the Sync tab so the latest one is picked up.</li>
+                </ul>
+
+                <h3>Sync failed while the iPhone was locked</h3>
+                <ul>
+                    <li>When protected data is unavailable (iPhone locked), the app now prompts you to unlock your iPhone and retries the sync automatically.</li>
+                    <li>Unlock the device and let the sync run again, or trigger a manual sync from the <strong>Sync</strong> tab.</li>
                 </ul>
 
                 <h3>Widget shows the wrong provider</h3>

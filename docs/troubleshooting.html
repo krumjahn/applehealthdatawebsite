@@ -3,17 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>OpenClaw Integration — Health Data Export & AI Analyzer</title>
-    <meta name="description" content="Connect OpenClaw to your Apple Health data through the Health Data AI Analyzer Mac app. Get AI-powered daily briefs, trend analysis, and actionable suggestions — all processed locally.">
-    <link rel="canonical" href="https://applehealthdata.com/docs/openclaw.html">
+    <title>Troubleshooting — Health Data Export & AI Analyzer</title>
+    <meta name="description" content="Fix common issues with Health Data Export & AI Analyzer: mismatched numbers, tiny History entries, analysis stalls, export.zip imports, empty charts, failed iPhone exports, iCloud sync, and AI errors.">
+    <link rel="canonical" href="https://applehealthdata.com/docs/troubleshooting.html">
     <meta name="apple-itunes-app" content="app-id=6749297170">
     <meta name="robots" content="index,follow">
 
     <meta property="og:type" content="website">
     <meta property="og:site_name" content="Health Data Export & Analyze">
-    <meta property="og:url" content="https://applehealthdata.com/docs/openclaw.html">
-    <meta property="og:title" content="OpenClaw Integration — Health Data Export & AI Analyzer">
-    <meta property="og:description" content="Talk to your Apple Health data with OpenClaw. Get AI-powered daily health briefs and suggestions — processed locally on your Mac.">
+    <meta property="og:url" content="https://applehealthdata.com/docs/troubleshooting.html">
+    <meta property="og:title" content="Troubleshooting — Health Data Export & AI Analyzer">
+    <meta property="og:description" content="Self-serve fixes for the most common issues on iPhone and Mac.">
     <meta property="og:image" content="https://applehealthdata.com/images/mac-app-screenshot-1.png">
 
     <script src="https://cdn.tailwindcss.com"></script>
@@ -183,6 +183,80 @@
           href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;700&display=swap"
           onload="this.onload=null;this.rel='stylesheet'">
     <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;700&display=swap"></noscript>
+
+    <!-- FAQ Schema: Troubleshooting questions -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "My step, distance, or sleep numbers don't match the Apple Health app",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Mac 1.996 fixed the counting: it de-duplicates the overlap between iPhone and Apple Watch, converts miles to kilometers, and counts time asleep rather than time in bed. Update the Mac app, then re-open your analysis or re-import your data so the numbers line up with the Health app."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "History is full of tiny 1 KB entries that show 'Not enough data'",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Before Mac 1.996 each auto-sync was saved as its own separate entry, so a run of tiny increments piled up in History. Mac 1.996 merges every increment into one Synced Health Data entry and cleans up the old tiny ones when you open History. Update the Mac app and open History to let it consolidate. If you want a full history right away, run one full export or backfill from the iPhone."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Analysis stalls around 40%",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "This was a bug fixed in Mac 1.995. Update the Mac app to the latest version and run the analysis again."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "The Mac won't accept my export.zip",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "The Mac app imports the export.xml file, not the zip. Unzip export.zip first by double-clicking it in Finder, then in the Mac app choose the export.xml inside the unzipped folder. The file can be large, so create it with Export All Health Data from the profile tab of the Health app."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Charts say 'Not enough data' or look empty",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "There are two common causes. First, some charts need a minimum span of data: about 14 days for heart rate, HRV, and sleep, and about 28 days for steps and distance. Second, the timeframe picker may be pointing at a period with no data. Choose All or use the arrow controls or Latest to move to a period that has data."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Export fails or stops partway on iPhone",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "The July iPhone update made exports more resilient: one unavailable data type no longer aborts the whole export, and a sync that starts while the phone is locked now asks you to unlock and retry. Update the iPhone app. For very large libraries, keep the app in the foreground during the first full export."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "iCloud sync isn't arriving on the Mac",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Check the following: both devices are signed in with the same Apple ID, iCloud Drive is turned on, Pro is active, and you have given the first sync a few minutes to propagate. Use the refresh control in the Mac app's Sync Hub. If a device is signed out, sign back in through System Settings and try again."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "AI analysis fails or shows an error",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Check your provider setup: Pro uses the built-in provider, while the free version needs an OpenRouter key entered in Settings. Confirm your network connection and try again. If it keeps failing, contact support and include the exact error text."
+          }
+        }
+      ]
+    }
+    </script>
 </head>
 <body>
 
@@ -225,12 +299,13 @@
 
             <div class="section-label">Integrations</div>
             <a href="/docs/mcp-server.html">MCP Server (Claude, Cursor)</a>
-            <a href="/docs/openclaw.html" class="active">OpenClaw Integration</a>
+            <a href="/docs/openclaw.html">OpenClaw Integration</a>
             <a href="/docs/api-reference.html">API Reference</a>
             <a href="/docs/workflows.html">Workflows & Automation</a>
             <a href="/docs/prompts.html">Prompt Library</a>
 
             <div class="section-label">Resources</div>
+            <a href="/docs/troubleshooting.html" class="active">Troubleshooting</a>
             <a href="/docs/changelog.html">Changelog</a>
             <a href="https://apps.apple.com/us/app/health-data-export-ai-analyzer/id6749297170" target="_blank">Download App</a>
             <a href="https://github.com/krumjahn/applehealth" target="_blank">GitHub (Open Source)</a>
@@ -246,184 +321,97 @@
     <main class="docs-main">
         <div class="max-w-3xl mx-auto px-6 py-16">
             <div class="doc-content">
-                <h1>OpenClaw Integration</h1>
-                <p>Connect <strong>OpenClaw</strong> to the Mac app’s local API and get daily health briefs, trend analysis, and actionable suggestions from your selected Apple Health dataset.</p>
+                <h1>Troubleshooting</h1>
+                <p>Stuck on something? Find your problem below. Most fixes start with updating the app, because that is where the fix shipped. If your issue is not listed, jump to <a href="#still-stuck">Still stuck?</a> at the bottom.</p>
 
                 <blockquote>
-                    <p>Your health data stays on your Mac. OpenClaw reads a local, read-only API exposed by the Mac app.</p>
+                    <p>The quickest fix for the majority of issues is updating to the latest version — Mac 1.996 and the current iPhone app. Many problems described here were already fixed in a recent update.</p>
                 </blockquote>
 
-                <h2>What is OpenClaw + Apple Health?</h2>
-                <p>Your iPhone collects an incredible amount of health data every day -- steps, sleep duration, heart rate, HRV, workouts, and more. But Apple Health is better at <em>collecting</em> data than <em>explaining</em> it. You get raw numbers without the context that makes them useful.</p>
-                <p>The OpenClaw Apple Health integration changes that. The <a href="https://apps.apple.com/us/app/health-data-export-ai-analyzer/id6749297170">Health Data AI Analyzer</a> Mac app exposes a local read-only API that OpenClaw can query through the <a href="https://clawhub.ai/krumjahn/apple-health-export-analyzer">apple-health-export-analyzer</a> ClawHub skill. You can ask AI about your health in natural language and get a daily brief with status, trends, suggestions, and missing-data alerts.</p>
-                <p>Think of it as a personal health analyst that lives on your Mac. You ask a question; OpenClaw reads your local health data and delivers a structured summary with actionable insights.</p>
-
-                <h2>How It Works</h2>
-                <p>The integration has three components that connect locally on your Mac:</p>
+                <h2>My step / distance / sleep numbers don't match the Apple Health app</h2>
+                <p>The Mac app used to count some data differently from the Health app, so totals could look too high or use the wrong units. This was fixed in <strong>Mac 1.996</strong>, which de-duplicates the overlap between your iPhone and Apple Watch, converts miles to kilometers, and counts <strong>time asleep</strong> rather than time in bed.</p>
                 <ol>
-                    <li><strong>Health Data AI Analyzer (Mac app)</strong> -- imports your Apple Health export and runs a read-only API on <code>http://127.0.0.1:8765</code>.</li>
-                    <li><strong>ClawHub skill</strong> -- teaches OpenClaw how to call the Mac app's localhost API endpoints.</li>
-                    <li><strong>OpenClaw</strong> -- sends natural-language requests, receives structured JSON, and returns a human-readable daily brief.</li>
+                    <li>Update the Mac app to <strong>1.996</strong> or later.</li>
+                    <li>Re-open your analysis, or re-import your export, so the corrected counting is applied.</li>
+                    <li>Compare the totals again — they should now line up with the Apple Health app.</li>
                 </ol>
-                <p>No remote service is required beyond the OpenClaw client and the local Mac app workflow.</p>
 
-                <h2>Setup Steps</h2>
+                <h2>History is full of tiny 1 KB entries that show "Not enough data"</h2>
+                <p>Before <strong>Mac 1.996</strong>, every auto-sync was saved as its own separate entry, so a stream of small increments piled up as tiny rows that each showed "Not enough data" on their own. <strong>Mac 1.996</strong> merges these increments into a single <strong>Synced Health Data</strong> entry and cleans up the old tiny ones when you open History.</p>
+                <ol>
+                    <li>Update the Mac app to <strong>1.996</strong> or later.</li>
+                    <li>Open the <strong>History</strong> screen and let it consolidate the small entries into one <strong>Synced Health Data</strong> entry.</li>
+                    <li>Want a full history immediately? Run one full <strong>export or backfill</strong> from the iPhone app.</li>
+                </ol>
 
-                <h3>Step 1: Install the Mac App</h3>
-                <p>Download <a href="https://apps.apple.com/us/app/health-data-export-ai-analyzer/id6749297170">Health Data AI Analyzer</a> from the Mac App Store. It runs natively on macOS and processes everything locally.</p>
+                <h2>Analysis stalls around 40%</h2>
+                <p>An analysis that froze near 40% was a bug fixed in <strong>Mac 1.995</strong>.</p>
+                <ol>
+                    <li>Update the Mac app to <strong>1.995</strong> or later.</li>
+                    <li>Run the analysis again.</li>
+                </ol>
 
-                <h3>Step 2: Get a Dataset into the Mac App</h3>
-                <p>Import an Apple Health XML file into the Mac app, or use the iPhone sync workflow and pull the latest XML export from the Mac <strong>Sync</strong> tab. For a step-by-step walkthrough, see <a href="/docs/getting-started.html">Getting Started</a>.</p>
+                <h2>The Mac won't accept my export.zip</h2>
+                <p>The Mac app imports the <code>export.xml</code> file, not the zip archive that the Health app produces.</p>
+                <ol>
+                    <li><strong>Unzip first:</strong> double-click <code>export.zip</code> in Finder to expand it.</li>
+                    <li>In the Mac app, choose the <code>export.xml</code> inside the unzipped folder.</li>
+                    <li>The file can be large. Create it with <strong>Export All Health Data</strong> from the profile tab of the Apple Health app.</li>
+                </ol>
 
-                <h3>Step 3: Install the ClawHub Skill</h3>
-                <p>Add the <a href="https://clawhub.ai/krumjahn/apple-health-export-analyzer">apple-health-export-analyzer</a> skill from ClawHub. This teaches OpenClaw how to read from your local health API. The current skill version is <code>apple-health-export-analyzer@1.0.6</code>.</p>
-
-                <h3>Step 4: Enable the Local API and Choose an Integration Dataset</h3>
-                <p>In the Mac app, open <strong>Settings</strong> and turn on <strong>Enable Local API for OpenClaw and scripts</strong>. If needed, select the dataset you want to use for integrations.</p>
-
-                <blockquote>
-                    <p><strong>Upcoming change (next Mac app update):</strong> the OpenClaw <em>data</em> endpoints — <code>/openclaw/daily-brief</code>, <code>/openclaw/recent-trends</code>, and <code>/openclaw/weekly-summary</code> — will require the local API auth token, matching the rest of the API. Only the <code>/openclaw/status</code> readiness check stays open. The current ClawHub skill already reads the token from the app's local-api token file, so no action is needed if you use the skill. If you call these endpoints directly from your own scripts, start sending the <code>X-Health-Analyzer-Token</code> header now (the token is accepted today) so nothing breaks on update. The token path is returned by <code>GET /status</code>; see the <a href="/docs/api-reference.html#authentication">API Reference</a>.</p>
-                </blockquote>
-
-                <h3>Step 5: Open OpenClaw and Ask for a Daily Brief</h3>
-                <p>Open OpenClaw and ask for your daily health brief. The AI reads from the Mac app’s localhost API and returns a structured summary with suggestions. Try this prompt to get started:</p>
-                <pre><code>Use the "health-analyzer-mac-local" skill for this request.
-Give me my daily health brief for today and 3 suggestions.</code></pre>
-
-                <h2>What You Get: The Daily Brief</h2>
-                <p>Each daily brief is structured around four sections that give you a complete picture of your day:</p>
-
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Section</th>
-                            <th>Description</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td><strong>Status</strong></td>
-                            <td>Current numbers for steps, sleep, workouts, heart rate, and HRV.</td>
-                        </tr>
-                        <tr>
-                            <td><strong>What Changed</strong></td>
-                            <td>How today compares to your 7-day baselines. Surfaces signal flags like <code>activity_below_baseline</code>.</td>
-                        </tr>
-                        <tr>
-                            <td><strong>Suggestions</strong></td>
-                            <td>Actionable recommendations based on your data (e.g., "Take a 20-minute walk to close the gap with your step baseline").</td>
-                        </tr>
-                        <tr>
-                            <td><strong>Missing Data</strong></td>
-                            <td>Alerts for any metrics that were not recorded for the requested date.</td>
-                        </tr>
-                    </tbody>
-                </table>
-
-                <h3>Daily Brief Data Fields</h3>
-                <p>The daily brief JSON response includes these fields:</p>
-
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Field</th>
-                            <th>Type</th>
-                            <th>Description</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td><code>steps</code></td>
-                            <td>object</td>
-                            <td>Current step count, 7-day baseline, and delta vs. baseline.</td>
-                        </tr>
-                        <tr>
-                            <td><code>sleep</code></td>
-                            <td>object</td>
-                            <td>Sleep hours (or null if missing) and 7-day baseline.</td>
-                        </tr>
-                        <tr>
-                            <td><code>workouts</code></td>
-                            <td>object</td>
-                            <td>Workout count and total minutes for the day.</td>
-                        </tr>
-                        <tr>
-                            <td><code>heart_rate</code></td>
-                            <td>object</td>
-                            <td>Average and resting heart rate for the day.</td>
-                        </tr>
-                        <tr>
-                            <td><code>hrv</code></td>
-                            <td>object</td>
-                            <td>Heart rate variability measurement.</td>
-                        </tr>
-                        <tr>
-                            <td><code>signals</code></td>
-                            <td>array</td>
-                            <td>Machine-readable flags like <code>activity_below_baseline</code> used to surface suggestions.</td>
-                        </tr>
-                        <tr>
-                            <td><code>context_summary</code></td>
-                            <td>string</td>
-                            <td>Human-readable one-line summary of the day's data.</td>
-                        </tr>
-                    </tbody>
-                </table>
-
-                <h3>Example Response</h3>
-                <pre><code>{
-  "ok": true,
-  "success": true,
-  "summary": "Daily Apple Health brief from Health Data AI Analyzer.",
-  "data": {
-    "date": "2026-03-19",
-    "steps": {
-      "value": 2444,
-      "baseline_7d": 10004.57,
-      "delta_vs_baseline": -7560.57
-    },
-    "sleep": { "hours": null, "baseline_7d": 6.47 },
-    "workouts": { "count": 0, "total_minutes": 0 },
-    "signals": ["activity_below_baseline"],
-    "context_summary": "Daily brief for 2026-03-19, steps 2444"
-  }
-}</code></pre>
-
-                <h2>Example Prompts</h2>
-                <p>Copy any of these prompts and paste them directly into OpenClaw. For a full collection, see the <a href="/docs/prompts.html">prompt library</a>.</p>
-
-                <h3>Daily Brief</h3>
-                <pre><code>Use the "health-analyzer-mac-local" skill for this request.
-Give me my daily health brief for today and 3 suggestions.</code></pre>
-
-                <h3>Specific Date</h3>
-                <pre><code>Use the "health-analyzer-mac-local" skill for this request.
-Give me my daily health brief for 2026-03-19 and 3 suggestions for that day.</code></pre>
-
-                <h3>Week in Review</h3>
-                <pre><code>Use the "health-analyzer-mac-local" skill for this request.
-Pull my daily brief for the last 7 days and summarize trends in my steps, sleep, and activity.</code></pre>
-
-                <h3>Follow-Up Questions</h3>
-                <p>Once OpenClaw has your health data in context, you can ask natural follow-up questions:</p>
+                <h2>Charts say "Not enough data" or look empty</h2>
+                <p>There are two common causes, and they have different fixes.</p>
+                <h3>Minimum coverage</h3>
+                <p>Some charts need a minimum span of data before they can draw:</p>
                 <ul>
-                    <li>"Why were my steps so low on Wednesday?"</li>
-                    <li>"Compare this week to last week."</li>
-                    <li>"Which days did I miss workouts?"</li>
-                    <li>"What is my average sleep this month?"</li>
+                    <li><strong>Heart rate, HRV, and sleep:</strong> about <strong>14 days</strong>.</li>
+                    <li><strong>Steps and distance:</strong> about <strong>28 days</strong>.</li>
+                </ul>
+                <p>If you have less than that, export or sync a longer range so there is enough history to chart.</p>
+                <h3>The timeframe picker</h3>
+                <ol>
+                    <li>Check whether the timeframe picker is pointing at a period with no data.</li>
+                    <li>Choose <strong>All</strong>, or use the <strong>‹ ›</strong> arrow controls, or tap <strong>Latest</strong> to move to a period that has data.</li>
+                </ol>
+
+                <h2>Export fails or stops partway on iPhone</h2>
+                <p>The July iPhone update made exports much more resilient: a single unavailable data type no longer aborts the whole export, and a sync that begins while the phone is locked now prompts you to unlock and retry.</p>
+                <ol>
+                    <li>Update the iPhone app to the latest version.</li>
+                    <li>If prompted, unlock your iPhone so a locked-phone sync can continue.</li>
+                    <li>For very large libraries, keep the app in the <strong>foreground</strong> for the first full export.</li>
+                </ol>
+
+                <h2>iCloud sync isn't arriving on the Mac</h2>
+                <p>If a sync completed on iPhone but nothing shows up on the Mac, work through this checklist:</p>
+                <ul>
+                    <li>Both devices are signed in with the <strong>same Apple ID</strong>.</li>
+                    <li><strong>iCloud Drive</strong> is turned on.</li>
+                    <li><strong>Pro</strong> is active.</li>
+                    <li>Give the first sync <strong>a few minutes</strong> to propagate.</li>
+                    <li>Use the <strong>refresh</strong> control in the Mac app's <strong>Sync Hub</strong>.</li>
+                    <li>If a device is signed out, sign back in through <strong>System Settings</strong> and try again.</li>
                 </ul>
 
-                <h2>Privacy</h2>
-                <p>This integration is built around a simple rule: your health data stays on your Mac.</p>
-                <ul>
-                    <li><strong>Local processing</strong> -- the Mac app processes your imported Apple Health data entirely on your machine. Nothing is sent to external servers.</li>
-                    <li><strong>Read-only API</strong> -- the localhost API is read-only. OpenClaw can query your data but cannot modify, delete, or write to your health records.</li>
-                    <li><strong>No app-operated cloud uploads</strong> -- the ClawHub skill reads from localhost only.</li>
-                </ul>
-                <p>For full API documentation, see the <a href="/docs/api-reference.html">API Reference</a>.</p>
+                <h2>AI analysis fails or shows an error</h2>
+                <p>Analysis errors usually come down to provider setup or the network.</p>
+                <ol>
+                    <li><strong>Check your provider:</strong> Pro uses the built-in provider, while the free version needs an <strong>OpenRouter key</strong> entered in <strong>Settings</strong>.</li>
+                    <li>Confirm you have a working <strong>network</strong> connection and try again.</li>
+                    <li>If it keeps failing, contact support and include the exact <strong>error text</strong> you see.</li>
+                </ol>
 
-                <h2>Current Skill Version</h2>
-                <p>The current ClawHub skill version is <code>apple-health-export-analyzer@1.0.6</code>. You can view the skill definition and install it from <a href="https://clawhub.ai/krumjahn/apple-health-export-analyzer">ClawHub</a>.</p>
+                <h2 id="still-stuck">Still stuck?</h2>
+                <p>If none of the above solves it, we are happy to help. Visit the <a href="/support/">support page</a> or email <a href="mailto:keith@rumjahn.com">keith@rumjahn.com</a> directly.</p>
+                <p>Since <strong>1.995</strong>, support emails sent from the app automatically include your app version, so there is no need to look it up. When you write in, describe what you were doing, what happened, and what you expected.</p>
+
+                <h2>Related Pages</h2>
+                <ul>
+                    <li><a href="/docs/getting-started.html">Getting Started</a></li>
+                    <li><a href="/docs/wifi-sync.html">iPhone-to-Mac Sync</a></li>
+                    <li><a href="/docs/ai-analysis.html">AI Analysis</a></li>
+                    <li><a href="/docs/mac-app.html">Mac App Overview</a></li>
+                </ul>
             </div>
         </div>
     </main>

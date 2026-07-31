@@ -328,9 +328,19 @@
 
                 <h3>Results and AI Analysis</h3>
                 <p>Once a dataset is open, review charts and summaries, then run AI analysis using OpenAI, Anthropic, OpenRouter, Ollama, or LM Studio.</p>
+                <p>All charts share one time selection. Pick <strong>Day</strong>, <strong>Week</strong>, <strong>Month</strong>, <strong>Quarter</strong>, or <strong>Year</strong> on any chart and every chart follows. Once you choose a timeframe other than <strong>All</strong>, a navigation row appears so you can step through periods with the <strong>‹</strong> and <strong>›</strong> arrows, and a <strong>Latest</strong> button jumps you back to your newest data.</p>
+                <blockquote>
+                    <p>Some charts need a minimum amount of history before they render — 14 days for heart rate, HRV, and sleep, and 28 days for steps and distance. Below that, the chart shows an "insufficient data" notice instead.</p>
+                </blockquote>
 
                 <h3>Settings</h3>
-                <p>Manage AI providers, local API settings, display preferences, and other Mac-side app options. The Mac app does not use Settings as the main sync-management surface.</p>
+                <p>Manage AI providers, local API settings, and display preferences. Settings also controls how daily numbers are calculated:</p>
+                <ul>
+                    <li><strong>Day Boundary Time Zone</strong> — choose whether each day is counted using your current time zone or UTC. This applies to every metric, so your daily totals line up with how you expect days to break.</li>
+                    <li><strong>Sleep Attribution</strong> — count a night's sleep toward the day you woke up or the day you went to bed.</li>
+                    <li><strong>Weight unit</strong> — display weight in kilograms or pounds.</li>
+                </ul>
+                <p>The Mac app does not use Settings as the main sync-management surface.</p>
 
                 <h2>Getting Data into the Mac App</h2>
                 <p>Use one of these Mac-side paths:</p>

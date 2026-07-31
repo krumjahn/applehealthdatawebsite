@@ -292,15 +292,23 @@
                     </tbody>
                 </table>
 
-                <h2>Authentication</h2>
-                <p>These routes are public on loopback and do not require a token:</p>
+                <h2 id="authentication">Authentication</h2>
+                <p>These routes are currently public on loopback and do not require a token:</p>
                 <ul>
+                    <li><code>GET /status</code></li>
                     <li><code>GET /openclaw/status</code></li>
                     <li><code>GET /openclaw/daily-brief</code></li>
-                    <li><code>GET /status</code></li>
+                    <li><code>GET /openclaw/recent-trends</code></li>
+                    <li><code>GET /openclaw/weekly-summary</code></li>
                 </ul>
-                <p>All other routes require the <code>X-Health-Analyzer-Token</code> header. The token file path is returned by <code>GET /status</code>.</p>
+                <p>All other routes require the <code>X-Health-Analyzer-Token</code> header. The token file path is returned by <code>GET /status</code> as <code>token_path</code>.</p>
                 <pre><code>curl -H "X-Health-Analyzer-Token: YOUR_TOKEN" http://127.0.0.1:8765/summary</code></pre>
+
+                <blockquote>
+                    <p><strong>Upcoming change (next Mac app update):</strong> the three <code>/openclaw/</code> <em>data</em> endpoints — <code>/openclaw/daily-brief</code>, <code>/openclaw/recent-trends</code>, and <code>/openclaw/weekly-summary</code> — will require the same <code>X-Health-Analyzer-Token</code> header as the rest of the API. Only <code>GET /openclaw/status</code> stays open. <strong>Start sending the token on those endpoints now.</strong> The token is already accepted today, so any client that sends it will keep working across the update with no changes. Read the token from the <code>token_path</code> returned by <code>GET /status</code>:</p>
+                </blockquote>
+                <pre><code>curl -H "X-Health-Analyzer-Token: $(cat ~/.health-analyzer/token)" \
+  "http://127.0.0.1:8765/openclaw/daily-brief?date=2026-03-19"</code></pre>
 
                 <h2>Endpoints</h2>
 
@@ -311,19 +319,25 @@
                 <p>Example response:</p>
                 <pre><code>{
   "ok": true,
-  "app": "Health Data AI Analyzer",
-  "version": "1.4.2",
-  "dataset_loaded": true,
-  "last_import": "2026-03-19T10:30:00Z",
-  "available_metrics": [
-    "steps", "sleep", "workouts",
-    "heart_rate", "hrv"
-  ]
+  "success": true,
+  "summary": "Health Data AI Analyzer is ready and has an analyzed health dataset loaded.",
+  "data": {
+    "app": "Health Data AI Analyzer",
+    "app_version": "1.4.2",
+    "server_version": "v1",
+    "dataset_loaded": true,
+    "last_imported_at": "2026-03-19T10:30:00Z",
+    "last_synced_at": "2026-03-19T10:35:00Z",
+    "available_metrics": [
+      "steps", "sleep", "workouts",
+      "heart_rate", "hrv"
+    ]
+  }
 }</code></pre>
 
                 <!-- /openclaw/daily-brief -->
                 <h3><span class="method-badge method-get">GET</span> /openclaw/daily-brief?date=YYYY-MM-DD</h3>
-                <p>Compact Apple Health daily summary for AI assistants and scripts. Returns steps, sleep, workouts, heart rate, HRV, signals, sync metadata, and a human-readable context summary. No authentication required.</p>
+                <p>Compact Apple Health daily summary for AI assistants and scripts. Returns steps, sleep, workouts, heart rate, HRV, signals, sync metadata, and a human-readable context summary. If <code>date</code> is omitted, the most recent available day is used. No authentication required today; see the <a href="#authentication">upcoming change</a> above — send the token now.</p>
                 <pre><code>curl "http://127.0.0.1:8765/openclaw/daily-brief?date=2026-03-19"</code></pre>
                 <p>Example response:</p>
                 <pre><code>{
@@ -350,6 +364,65 @@
   }
 }</code></pre>
 
+                <!-- /openclaw/recent-trends -->
+                <h3><span class="method-badge method-get">GET</span> /openclaw/recent-trends?days=N</h3>
+                <p>Recent step and sleep trends for the last <code>N</code> days (default 7, minimum 1). Returns average, best, and latest values plus a per-day series for each. No authentication required today; see the <a href="#authentication">upcoming change</a> above — send the token now.</p>
+                <pre><code>curl "http://127.0.0.1:8765/openclaw/recent-trends?days=7"</code></pre>
+                <p>Example response:</p>
+                <pre><code>{
+  "ok": true,
+  "success": true,
+  "summary": "Recent Apple Health step and sleep trends from Health Data AI Analyzer.",
+  "data": {
+    "days": 7,
+    "steps": {
+      "average": 8576.0,
+      "best": 12045.0,
+      "latest": 2444.0,
+      "series": [
+        { "date": "2026-03-13", "value": 11204.0 },
+        { "date": "2026-03-19", "value": 2444.0 }
+      ]
+    },
+    "sleep": {
+      "average": 6.72,
+      "best": 8.0,
+      "latest": null,
+      "series": [
+        { "date": "2026-03-13", "value": 7.2 },
+        { "date": "2026-03-19", "value": null }
+      ]
+    }
+  }
+}</code></pre>
+
+                <!-- /openclaw/weekly-summary -->
+                <h3><span class="method-badge method-get">GET</span> /openclaw/weekly-summary?days=N</h3>
+                <p>Rolled-up summary over the last <code>N</code> days (default 7, minimum 1): step and sleep averages, total workout minutes and count, average heart rate, plus step and sleep day series. No authentication required today; see the <a href="#authentication">upcoming change</a> above — send the token now.</p>
+                <pre><code>curl "http://127.0.0.1:8765/openclaw/weekly-summary?days=7"</code></pre>
+                <p>Example response:</p>
+                <pre><code>{
+  "ok": true,
+  "success": true,
+  "summary": "Weekly Apple Health summary from Health Data AI Analyzer.",
+  "data": {
+    "days": 7,
+    "steps_average": 8576.0,
+    "sleep_average": 6.72,
+    "workout_minutes_total": 202.0,
+    "workout_count_total": 5,
+    "heart_rate_average": 72.5,
+    "steps_series": [
+      { "date": "2026-03-13", "value": 11204.0 },
+      { "date": "2026-03-19", "value": 2444.0 }
+    ],
+    "sleep_series": [
+      { "date": "2026-03-13", "value": 7.2 },
+      { "date": "2026-03-19", "value": null }
+    ]
+  }
+}</code></pre>
+
                 <!-- /status -->
                 <h3><span class="method-badge method-get">GET</span> /status</h3>
                 <p>General local API status endpoint for host tools and debugging. Returns app and server version, dataset state, import/sync timestamps, and the token path for protected endpoints. No authentication required on loopback.</p>
@@ -357,13 +430,17 @@
                 <p>Example response:</p>
                 <pre><code>{
   "ok": true,
-  "app": "Health Data AI Analyzer",
-  "version": "1.4.2",
-  "server_version": "1.0.0",
-  "dataset_loaded": true,
-  "last_import": "2026-03-19T10:30:00Z",
-  "token_path": "~/.health-analyzer/token"
+  "success": true,
+  "data": {
+    "app_version": "1.4.2",
+    "server_version": "v1",
+    "dataset_loaded": true,
+    "last_imported_at": "2026-03-19T10:30:00Z",
+    "last_synced_at": "2026-03-19T10:35:00Z",
+    "token_path": "/Users/you/Library/Containers/.../local-api-token.txt"
+  }
 }</code></pre>
+                <p>Use the absolute path from <code>token_path</code> to read the token. In examples on this page we abbreviate it as <code>~/.health-analyzer/token</code>.</p>
 
                 <!-- /summary -->
                 <h3><span class="method-badge method-get">GET</span> /summary</h3>
@@ -372,117 +449,142 @@
 
                 <!-- /steps/daily -->
                 <h3><span class="method-badge method-get">GET</span> /steps/daily?start=YYYY-MM-DD&amp;end=YYYY-MM-DD</h3>
-                <p>Normalized daily step counts for a date range. Requires <code>X-Health-Analyzer-Token</code>.</p>
+                <p>Normalized daily step counts for a date range. Requires <code>X-Health-Analyzer-Token</code>. Each day exposes its count under <code>value</code>.</p>
                 <pre><code>curl -H "X-Health-Analyzer-Token: YOUR_TOKEN" \
   "http://127.0.0.1:8765/steps/daily?start=2026-03-13&end=2026-03-19"</code></pre>
                 <p>Example response:</p>
                 <pre><code>{
   "ok": true,
-  "data": [
-    { "date": "2026-03-13", "steps": 11204 },
-    { "date": "2026-03-14", "steps": 8930 },
-    { "date": "2026-03-15", "steps": 12045 },
-    { "date": "2026-03-16", "steps": 9512 },
-    { "date": "2026-03-17", "steps": 10321 },
-    { "date": "2026-03-18", "steps": 7576 },
-    { "date": "2026-03-19", "steps": 2444 }
-  ]
+  "success": true,
+  "data": {
+    "unit": "count",
+    "days": [
+      { "date": "2026-03-13", "value": 11204 },
+      { "date": "2026-03-14", "value": 8930 },
+      { "date": "2026-03-15", "value": 12045 },
+      { "date": "2026-03-16", "value": 9512 },
+      { "date": "2026-03-17", "value": 10321 },
+      { "date": "2026-03-18", "value": 7576 },
+      { "date": "2026-03-19", "value": 2444 }
+    ]
+  }
 }</code></pre>
 
                 <!-- /sleep/summary -->
                 <h3><span class="method-badge method-get">GET</span> /sleep/summary?start=YYYY-MM-DD&amp;end=YYYY-MM-DD</h3>
-                <p>Normalized daily sleep summaries for a date range. Requires <code>X-Health-Analyzer-Token</code>.</p>
+                <p>Normalized daily sleep summaries for a date range, plus range-level averages. Requires <code>X-Health-Analyzer-Token</code>.</p>
                 <pre><code>curl -H "X-Health-Analyzer-Token: YOUR_TOKEN" \
   "http://127.0.0.1:8765/sleep/summary?start=2026-03-13&end=2026-03-19"</code></pre>
                 <p>Example response:</p>
                 <pre><code>{
   "ok": true,
-  "data": [
-    { "date": "2026-03-13", "hours": 7.2 },
-    { "date": "2026-03-14", "hours": 6.1 },
-    { "date": "2026-03-15", "hours": 8.0 },
-    { "date": "2026-03-16", "hours": 5.5 },
-    { "date": "2026-03-17", "hours": 6.8 },
-    { "date": "2026-03-18", "hours": 6.7 },
-    { "date": "2026-03-19", "hours": null }
-  ]
+  "success": true,
+  "data": {
+    "avg_hours": 6.72,
+    "avg_bedtime": "23:41",
+    "avg_wake_time": "06:58",
+    "days_detected": 6,
+    "days": [
+      { "date": "2026-03-13", "hours": 7.2, "asleep_hours": 6.6, "in_bed_hours": 7.2 },
+      { "date": "2026-03-18", "hours": 6.7, "asleep_hours": 6.1, "in_bed_hours": 6.7 },
+      { "date": "2026-03-19", "hours": null, "asleep_hours": null, "in_bed_hours": null }
+    ]
+  }
 }</code></pre>
 
                 <!-- /workouts/summary -->
                 <h3><span class="method-badge method-get">GET</span> /workouts/summary?start=YYYY-MM-DD&amp;end=YYYY-MM-DD</h3>
-                <p>Workout totals, minutes, and per-session summaries for a date range. Requires <code>X-Health-Analyzer-Token</code>.</p>
+                <p>Workout totals, a per-type breakdown, and per-session summaries for a date range. Requires <code>X-Health-Analyzer-Token</code>.</p>
                 <pre><code>curl -H "X-Health-Analyzer-Token: YOUR_TOKEN" \
   "http://127.0.0.1:8765/workouts/summary?start=2026-03-13&end=2026-03-19"</code></pre>
                 <p>Example response:</p>
                 <pre><code>{
   "ok": true,
-  "data": [
-    { "date": "2026-03-13", "count": 1, "total_minutes": 45 },
-    { "date": "2026-03-14", "count": 0, "total_minutes": 0 },
-    { "date": "2026-03-15", "count": 2, "total_minutes": 72 },
-    { "date": "2026-03-16", "count": 1, "total_minutes": 30 },
-    { "date": "2026-03-17", "count": 0, "total_minutes": 0 },
-    { "date": "2026-03-18", "count": 1, "total_minutes": 55 },
-    { "date": "2026-03-19", "count": 0, "total_minutes": 0 }
-  ]
+  "success": true,
+  "data": {
+    "count": 5,
+    "total_minutes": 202,
+    "by_type": [
+      { "type": "Running", "count": 3, "minutes": 127 },
+      { "type": "Strength Training", "count": 2, "minutes": 75 }
+    ],
+    "workouts": [
+      {
+        "date": "2026-03-13T18:00:00Z",
+        "type": "Running",
+        "duration_minutes": 45,
+        "energy_burned_kcal": 420
+      }
+    ]
+  }
 }</code></pre>
 
                 <!-- /heart-rate/trends -->
                 <h3><span class="method-badge method-get">GET</span> /heart-rate/trends?start=YYYY-MM-DD&amp;end=YYYY-MM-DD</h3>
-                <p>Average heart rate, resting heart rate, and HRV day series for a date range. Requires <code>X-Health-Analyzer-Token</code>.</p>
+                <p>Average heart rate, resting heart rate, and HRV (SDNN) day series for a date range. Requires <code>X-Health-Analyzer-Token</code>. Each metric is returned as its own array of <code>{ date, value }</code> points.</p>
                 <pre><code>curl -H "X-Health-Analyzer-Token: YOUR_TOKEN" \
   "http://127.0.0.1:8765/heart-rate/trends?start=2026-03-13&end=2026-03-19"</code></pre>
                 <p>Example response:</p>
                 <pre><code>{
   "ok": true,
-  "data": [
-    { "date": "2026-03-13", "avg_hr": 72, "resting_hr": 58, "hrv": 42 },
-    { "date": "2026-03-14", "avg_hr": 75, "resting_hr": 60, "hrv": 38 },
-    { "date": "2026-03-15", "avg_hr": 70, "resting_hr": 57, "hrv": 45 },
-    { "date": "2026-03-16", "avg_hr": 74, "resting_hr": 59, "hrv": 40 },
-    { "date": "2026-03-17", "avg_hr": 71, "resting_hr": 56, "hrv": 44 },
-    { "date": "2026-03-18", "avg_hr": 73, "resting_hr": 58, "hrv": 41 },
-    { "date": "2026-03-19", "avg_hr": null, "resting_hr": null, "hrv": null }
-  ]
+  "success": true,
+  "data": {
+    "average_heart_rate": [
+      { "date": "2026-03-13", "value": 72 },
+      { "date": "2026-03-18", "value": 73 }
+    ],
+    "resting_heart_rate": [
+      { "date": "2026-03-13", "value": 58 },
+      { "date": "2026-03-18", "value": 58 }
+    ],
+    "hrv_sdnn": [
+      { "date": "2026-03-13", "value": 42 },
+      { "date": "2026-03-18", "value": 41 }
+    ]
+  }
 }</code></pre>
 
                 <h2>Error Handling</h2>
-                <p>All endpoints return a consistent error format when something goes wrong:</p>
+                <p>When a request fails, the server still responds with HTTP <code>200</code> and a JSON body where <code>ok</code> and <code>success</code> are <code>false</code>. The human-readable message is in <code>error</code>; a machine-readable <code>code</code> is nested under <code>errorDetail</code>. (Genuinely malformed HTTP requests are the exception and return HTTP <code>400</code>.)</p>
                 <pre><code>{
   "ok": false,
-  "error": "No dataset loaded. Import Apple Health data first.",
-  "code": "NO_DATASET"
+  "success": false,
+  "error": "No imported health dataset is available.",
+  "errorDetail": {
+    "code": "dataset_unavailable",
+    "message": "No imported health dataset is available."
+  }
 }</code></pre>
 
-                <p>Common error scenarios:</p>
+                <p>Common error codes:</p>
                 <table>
                     <thead>
                         <tr>
-                            <th>HTTP Status</th>
                             <th>Code</th>
                             <th>Description</th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr>
-                            <td>401</td>
-                            <td><code>UNAUTHORIZED</code></td>
+                            <td><code>unauthorized</code></td>
                             <td>Missing or invalid <code>X-Health-Analyzer-Token</code> header on a protected endpoint.</td>
                         </tr>
                         <tr>
-                            <td>404</td>
-                            <td><code>NOT_FOUND</code></td>
+                            <td>
+                            <code>dataset_unavailable</code></td>
+                            <td>The Mac app is running but no Apple Health dataset has been imported or selected for integrations.</td>
+                        </tr>
+                        <tr>
+                            <td><code>not_found</code></td>
                             <td>Unknown endpoint path.</td>
                         </tr>
                         <tr>
-                            <td>422</td>
-                            <td><code>INVALID_DATE</code></td>
-                            <td>Date parameter is missing or not in YYYY-MM-DD format.</td>
+                            <td><code>method_not_allowed</code></td>
+                            <td>A non-<code>GET</code> method was used. The API is read-only and only supports <code>GET</code>.</td>
                         </tr>
                         <tr>
-                            <td>503</td>
-                            <td><code>NO_DATASET</code></td>
-                            <td>The Mac app is running but no Apple Health dataset has been imported or selected for integrations.</td>
+                            <td><code>timeout</code></td>
+                            <td>The request exceeded the server's internal processing timeout.</td>
                         </tr>
                     </tbody>
                 </table>
@@ -499,7 +601,7 @@
                 <h2>Use Cases</h2>
 
                 <h3>OpenClaw</h3>
-                <p>Install the <a href="https://clawhub.ai/krumjahn/apple-health-export-analyzer">apple-health-export-analyzer</a> ClawHub skill to give OpenClaw access to <code>/openclaw/status</code> and <code>/openclaw/daily-brief</code>. See the <a href="/docs/openclaw.html">OpenClaw Integration</a> guide for setup steps and example prompts.</p>
+                <p>Install the <a href="https://clawhub.ai/krumjahn/apple-health-export-analyzer">apple-health-export-analyzer</a> ClawHub skill to give OpenClaw access to the <code>/openclaw/</code> endpoints: <code>/openclaw/status</code>, <code>/openclaw/daily-brief</code>, <code>/openclaw/recent-trends</code>, and <code>/openclaw/weekly-summary</code>. See the <a href="/docs/openclaw.html">OpenClaw Integration</a> guide for setup steps and example prompts.</p>
 
                 <h3>Claude Code</h3>
                 <p>Use <code>curl</code> from Claude Code to read health data directly into your development workflow:</p>
@@ -520,8 +622,8 @@ resp = requests.get(
     headers={"X-Health-Analyzer-Token": token}
 )
 data = resp.json()
-for day in data["data"]:
-    print(f"{day['date']}: {day['steps']} steps")</code></pre>
+for day in data["data"]["days"]:
+    print(f"{day['date']}: {day['value']} steps")</code></pre>
             </div>
         </div>
     </main>

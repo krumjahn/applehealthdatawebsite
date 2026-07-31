@@ -254,7 +254,7 @@
                 </blockquote>
 
                 <h2>Supported AI Providers</h2>
-                <p>The current Mac app supports these providers out of the box.</p>
+                <p>The current Mac app supports these providers out of the box. If you subscribe to Pro, OpenAI and Anthropic are built in and ready to use with no key setup &mdash; open Settings and start analyzing. Everyone can use OpenRouter with their own key (the feature is free; you pay OpenRouter for usage), or run a model locally with Ollama or LM Studio. You can pick your default provider in Settings.</p>
 
                 <table>
                     <thead>
@@ -269,19 +269,19 @@
                         <tr>
                             <td><strong>OpenAI</strong></td>
                             <td>Cloud</td>
-                            <td>Pay-per-use</td>
+                            <td>Built in for Pro (no key), or bring your own key</td>
                             <td>Strong general analysis, large context windows</td>
                         </tr>
                         <tr>
                             <td><strong>Anthropic</strong></td>
                             <td>Cloud</td>
-                            <td>Pay-per-use</td>
+                            <td>Built in for Pro (no key), or bring your own key</td>
                             <td>Nuanced health reasoning, detailed explanations</td>
                         </tr>
                         <tr>
                             <td><strong>OpenRouter</strong></td>
                             <td>Cloud</td>
-                            <td>Pay-per-use</td>
+                            <td>Free feature &mdash; you pay OpenRouter with your own key</td>
                             <td>Access to many models (Llama, Mistral, Gemini, etc.) through a single API key</td>
                         </tr>
                         <tr>
@@ -300,6 +300,10 @@
                 </table>
 
                 <h2>Setting Up Each Provider</h2>
+
+                <blockquote>
+                    <p>Already a Pro subscriber? OpenAI and Anthropic are built in &mdash; open <strong>Settings</strong>, confirm your default provider, and skip straight to running analysis. No API key needed. The steps below are for bringing your own key.</p>
+                </blockquote>
 
                 <h3>OpenAI</h3>
                 <ol>
@@ -357,6 +361,13 @@
 
                 <h3>Suggestions</h3>
                 <p>Based on the patterns it finds, the AI generates actionable recommendations. These might include adjusting your bedtime, modifying your workout schedule, or investigating a metric that has changed unexpectedly.</p>
+
+                <h2>Reading Your Results</h2>
+                <p>AI insights render as formatted text, not raw output. Markdown tables display as real tables, numbered and bulleted lists are laid out cleanly, and code blocks are shown in a monospaced block &mdash; so a response full of pipes and asterisks reads the way it was meant to. Numbers follow your region's formatting (for example, thousands separators and decimal marks match your Mac's locale).</p>
+
+                <h2>Accuracy: Why Your Numbers Should Match Apple Health</h2>
+                <p>The Mac app's analysis metrics are built to match what you see in the Apple Health app. Totals are de-duplicated across devices, so steps and distance recorded by an iPhone and Apple Watch worn together are not double-counted. Sleep reflects time actually asleep rather than time in bed, and distances recorded in miles are converted correctly instead of being read as kilometers.</p>
+                <p>If your analysis totals do not match the Health app, make sure you are on the latest Mac release &mdash; these accuracy improvements shipped in Mac 1.996. After updating, your daily totals should line up with Apple Health.</p>
 
                 <h2>Privacy Considerations</h2>
                 <p>Your choice of provider directly affects where your health data is processed.</p>
