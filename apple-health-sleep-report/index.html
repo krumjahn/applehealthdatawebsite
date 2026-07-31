@@ -1,0 +1,762 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Apple Health Sleep Report Card — Free Sleep Score Tool | Apple Health Data</title>
+    <meta name="description" content="Get a graded Apple Health sleep report card from your export.xml. See your sleep score, duration, consistency, stages, and social jetlag — free, private, runs in your browser.">
+    <meta name="keywords" content="apple health sleep report, apple watch sleep analysis, sleep score from apple health, apple health sleep score, sleep report card, sleep consistency, sleep debt, social jetlag">
+    <meta name="apple-itunes-app" content="app-id=6749297170">
+    <link rel="canonical" href="https://applehealthdata.com/apple-health-sleep-report/">
+
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="AppleHealthData.com">
+    <meta property="og:url" content="https://applehealthdata.com/apple-health-sleep-report/">
+    <meta property="og:title" content="Apple Health Sleep Report Card — Free Sleep Score Tool">
+    <meta property="og:description" content="Grade your sleep from Apple Health export.xml: duration, consistency, stages, social jetlag. Free and 100% private — nothing is uploaded.">
+    <meta property="og:image" content="https://applehealthdata.com/images/iphone-app-screenshot.png">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Apple Health Sleep Report Card — Free Sleep Score Tool">
+    <meta name="twitter:description" content="Grade your sleep from Apple Health export.xml: duration, consistency, stages, social jetlag. Free and 100% private.">
+    <meta name="twitter:image" content="https://applehealthdata.com/images/iphone-app-screenshot.png">
+    <meta name="robots" content="index,follow,max-image-preview:large">
+    <meta name="author" content="Keith Rumjahn">
+
+    <!-- SoftwareApplication Schema -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "SoftwareApplication",
+      "name": "Apple Health Sleep Report Card",
+      "applicationCategory": "HealthApplication",
+      "operatingSystem": "Any (web browser)",
+      "url": "https://applehealthdata.com/apple-health-sleep-report/",
+      "description": "Free browser-based tool that grades your Apple Health sleep data — duration, consistency, stages, sleep debt, and social jetlag — from your export.xml. All processing is local; nothing is uploaded.",
+      "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+      "author": { "@type": "Person", "name": "Keith Rumjahn" }
+    }
+    </script>
+
+    <!-- FAQ Schema -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [
+        { "@type": "Question", "name": "Where does the sleep score come from?", "acceptedAnswer": { "@type": "Answer", "text": "The score is computed entirely in your browser from the HKCategoryTypeIdentifierSleepAnalysis records in your Apple Health export.xml. It combines average sleep duration, bedtime and wake-time consistency, sleep debt against your target, stage balance, and weekday-vs-weekend difference into a single letter grade. Nothing is uploaded to any server." } },
+        { "@type": "Question", "name": "Does this work with Apple Watch sleep analysis?", "acceptedAnswer": { "@type": "Answer", "text": "Yes. Apple Watch records detailed sleep stages (Core, Deep, REM) which appear in your export as AsleepCore, AsleepDeep, and AsleepREM values. The tool reads those for the stage breakdown. If you only track sleep with your iPhone, you will still get duration and consistency grades, but the stage breakdown may be unavailable." } },
+        { "@type": "Question", "name": "How does it handle my iPhone and Apple Watch both logging sleep?", "acceptedAnswer": { "@type": "Answer", "text": "Many people have two devices recording overlapping InBed and Asleep intervals for the same night. The tool merges overlapping sleep intervals across all sources before summing, so a single night is never double-counted." } },
+        { "@type": "Question", "name": "What counts as one night?", "acceptedAnswer": { "@type": "Answer", "text": "Sleep sessions are grouped into a noon-to-noon window. Any asleep interval starting between noon on one day and noon the next is attributed to that night. This keeps late bedtimes past midnight on the correct night and handles naps that fall inside the window." } },
+        { "@type": "Question", "name": "Is my health data uploaded anywhere?", "acceptedAnswer": { "@type": "Answer", "text": "No. The entire report is generated locally in your browser using streaming file parsing. Your export.xml never leaves your device, and there is no account or server involved." } },
+        { "@type": "Question", "name": "Why is my score different from Apple's or my watch's sleep score?", "acceptedAnswer": { "@type": "Answer", "text": "This tool uses its own transparent formulas (explained on the page) and looks at long-term patterns like consistency and social jetlag, not just a single night. It is meant as an at-a-glance report card of your habits, not a medical measurement." } }
+      ]
+    }
+    </script>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: #020617; color: #f8fafc; overflow-x: hidden; }
+        .font-mono { font-family: 'JetBrains Mono', monospace; }
+        .mesh-gradient { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: -1; background: radial-gradient(at 0% 0%, rgba(225, 29, 72, 0.15) 0px, transparent 50%), radial-gradient(at 100% 0%, rgba(56, 189, 248, 0.15) 0px, transparent 50%), radial-gradient(at 100% 100%, rgba(168, 85, 247, 0.15) 0px, transparent 50%); filter: blur(60px); }
+        .card { background: rgba(255,255,255,.04); border: 1px solid rgba(255,255,255,.1); border-radius: 1rem; }
+        .drop-zone { border: 3px dashed rgba(255,255,255,.12); transition: all .3s ease; cursor: pointer; background: rgba(255,255,255,.03); }
+        .drop-zone.dragover { border-color: #f43f5e; background-color: rgba(225,29,72,.1); }
+        .faq-accordion details { border-bottom: 1px solid rgba(255,255,255,.08); }
+        .faq-accordion details:first-of-type { border-top: 1px solid rgba(255,255,255,.08); }
+        .faq-accordion summary { display:flex; justify-content:space-between; align-items:center; padding:1.25rem .5rem; cursor:pointer; list-style:none; font-size:1.05rem; font-weight:600; color:#e2e8f0; }
+        .faq-accordion summary::-webkit-details-marker { display:none; }
+        .faq-accordion .faq-content { padding: 0 .5rem 1.25rem .5rem; color:#94a3b8; line-height:1.6; }
+        .faq-accordion summary .chevron { transition: transform .3s ease; }
+        .faq-accordion details[open] summary .chevron { transform: rotate(90deg); }
+        .grade-A { color:#34d399; } .grade-B { color:#a3e635; } .grade-C { color:#fbbf24; } .grade-D { color:#fb923c; } .grade-F { color:#f87171; }
+        .ring-A { border-color:#34d399; } .ring-B { border-color:#a3e635; } .ring-C { border-color:#fbbf24; } .ring-D { border-color:#fb923c; } .ring-F { border-color:#f87171; }
+    </style>
+
+    <meta name="google-site-verification" content="mfw8yyYjETYvKDrxInR-_YSvL8zUQJ2qAB3N_OVbjjM" />
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-8SMQRLT4VS"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-8SMQRLT4VS');
+    </script>
+    <script defer src="https://umami.rumjahn.synology.me/script.js" data-website-id="5d7b4fa8-90b2-4191-8daf-8ea487a8d961"></script>
+    <!-- Matomo -->
+    <script>
+      var _paq = window._paq = window._paq || [];
+      _paq.push(['trackPageView']);
+      _paq.push(['enableLinkTracking']);
+      (function() {
+        var u="//shrewd-lyrebird.pikapod.net/";
+        _paq.push(['setTrackerUrl', u+'matomo.php']);
+        _paq.push(['setSiteId', '9']);
+        var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
+        g.async=true; g.src=u+'matomo.js'; s.parentNode.insertBefore(g,s);
+      })();
+    </script>
+    <!-- End Matomo Code -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;700&display=swap" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;700&display=swap"></noscript>
+</head>
+<body>
+
+    <div class="mesh-gradient"></div>
+
+    <nav class="fixed w-full z-50 border-b border-white/10 bg-slate-950/50 backdrop-blur-xl">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8"><div class="flex justify-between items-center h-20">
+        <a href="/" class="flex items-center gap-3">
+          <div class="w-10 h-10 bg-gradient-to-tr from-rose-600 to-orange-500 rounded-xl flex items-center justify-center shadow-lg shadow-rose-500/20"><i data-lucide="activity" class="w-6 h-6 text-white"></i></div>
+          <div><span class="font-bold text-lg tracking-tight text-white block leading-none">Health Data</span><span class="text-xs text-slate-400 tracking-wider uppercase font-semibold">Export &amp; Analyze</span></div>
+        </a>
+        <a href="/tools/" class="text-slate-300 hover:text-white text-sm font-semibold">All Free Tools</a>
+      </div></div>
+    </nav>
+
+    <main class="pt-32 pb-20">
+      <div class="max-w-4xl mx-auto px-4">
+
+        <header class="text-center mb-10">
+          <h1 class="text-4xl lg:text-5xl font-bold text-white mb-4">Apple Health Sleep Report Card</h1>
+          <p class="text-xl text-slate-400 leading-relaxed max-w-2xl mx-auto">Load your <code class="font-mono text-rose-300">export.xml</code> and get a graded sleep score card — duration, consistency, stages, and social jetlag. <strong class="text-slate-200">Free, private, and runs entirely in your browser — nothing is uploaded.</strong></p>
+        </header>
+
+        <section class="card p-6 md:p-8 mb-10" aria-label="Sleep report tool">
+          <div id="controls" class="flex flex-col sm:flex-row gap-4 sm:items-end justify-between mb-6">
+            <div>
+              <label for="period" class="block text-sm text-slate-400 mb-1">Report period</label>
+              <select id="period" class="w-full sm:w-auto rounded-lg bg-slate-900 border border-white/10 p-2.5 text-slate-100">
+                <option value="30" selected>Last 30 nights</option>
+                <option value="90">Last 90 nights</option>
+                <option value="365">Last 365 nights</option>
+              </select>
+            </div>
+            <div>
+              <label for="target" class="block text-sm text-slate-400 mb-1">Nightly sleep target</label>
+              <select id="target" class="w-full sm:w-auto rounded-lg bg-slate-900 border border-white/10 p-2.5 text-slate-100">
+                <option value="7">7 hours</option>
+                <option value="7.5">7.5 hours</option>
+                <option value="8" selected>8 hours</option>
+                <option value="8.5">8.5 hours</option>
+                <option value="9">9 hours</option>
+              </select>
+            </div>
+          </div>
+
+          <div id="drop-zone" class="drop-zone w-full p-8 md:p-14 rounded-2xl">
+            <div class="flex flex-col items-center justify-center text-center">
+              <i data-lucide="moon-star" class="w-14 h-14 text-rose-500 mb-5"></i>
+              <label for="file-upload" class="cursor-pointer border-2 border-rose-500 text-rose-400 font-semibold py-3 px-8 rounded-lg hover:bg-rose-500 hover:text-white transition-all">
+                Load export.xml
+              </label>
+              <input type="file" id="file-upload" class="hidden" accept=".xml,.zip">
+              <p id="status" class="text-slate-400 mt-4">... or drop your <code class="font-mono">export.xml</code> file here</p>
+              <div id="progress-wrap" class="hidden w-full max-w-md mt-5">
+                <div class="h-2 rounded-full bg-white/10 overflow-hidden"><div id="progress-bar" class="h-full bg-rose-500 transition-all duration-150" style="width:0%"></div></div>
+                <p id="progress-label" class="text-xs text-slate-500 mt-2 font-mono">0%</p>
+              </div>
+            </div>
+          </div>
+
+          <div id="results" class="hidden mt-8"></div>
+        </section>
+
+        <section class="mb-14">
+          <h2 class="text-2xl font-bold text-white mb-4">How to use</h2>
+          <ol class="list-decimal list-inside text-lg text-slate-400 space-y-2">
+            <li>On your iPhone, open the <a href="/export-apple-health-data/" class="text-rose-400 hover:text-rose-300">Health app and export all health data</a> to get a ZIP containing <code class="font-mono">export.xml</code>.</li>
+            <li>Unzip it on your computer (if you have the <code class="font-mono">.zip</code>, extract <code class="font-mono">export.xml</code> first).</li>
+            <li>Pick your report period and nightly sleep target above.</li>
+            <li>Click <em>Load export.xml</em> or drag the file onto the box. Parsing runs locally and may take 10&ndash;60 seconds for large files.</li>
+            <li>Read your report card. Adjust the target or period to recompute instantly.</li>
+          </ol>
+        </section>
+
+        <section class="mb-14 space-y-6">
+          <h2 class="text-3xl font-bold text-white">What this Apple Health sleep report measures</h2>
+          <p class="text-lg text-slate-400">Apple Health and Apple Watch record a lot of raw sleep data, but the Health app stops short of telling you whether your sleep <em>habits</em> are actually good. This tool reads the <code class="font-mono text-rose-300">HKCategoryTypeIdentifierSleepAnalysis</code> records in your export and turns weeks or months of nights into a single, honest report card. Everything below is computed in your browser &mdash; your data never leaves your device.</p>
+
+          <h3 class="text-2xl font-bold text-white pt-2">How each grade is calculated</h3>
+          <p class="text-lg text-slate-400">We only count <strong class="text-slate-200">asleep</strong> intervals (values <code class="font-mono">AsleepCore</code>, <code class="font-mono">AsleepDeep</code>, <code class="font-mono">AsleepREM</code>, and the older <code class="font-mono">Asleep</code>/<code class="font-mono">AsleepUnspecified</code>) &mdash; never <code class="font-mono">InBed</code> or <code class="font-mono">Awake</code>. Because an iPhone and an Apple Watch often both log the same night, we <strong class="text-slate-200">merge overlapping intervals across every source</strong> before summing, so no minute is ever double-counted.</p>
+          <ul class="text-lg text-slate-400 space-y-3 list-disc list-inside">
+            <li><strong class="text-slate-200">Average nightly duration.</strong> Sessions are grouped by "night" using a noon-to-noon window (an interval starting between 12:00 on one day and 12:00 the next belongs to that night). We average the merged asleep time per night. Grade: A &ge; 7.5h, B &ge; 7h, C &ge; 6.5h, D &ge; 6h, otherwise F.</li>
+            <li><strong class="text-slate-200">Consistency.</strong> We take the standard deviation of your bedtimes and wake times (in minutes, handling the midnight wrap). Grade: A if SD &lt; 30 min, B &lt; 60 min, C &lt; 90 min, otherwise D. A regular schedule is one of the strongest predictors of feeling rested.</li>
+            <li><strong class="text-slate-200">Sleep debt.</strong> For every night we compute <code class="font-mono">target &minus; actual</code> (only shortfalls count) and sum it over the period. Grade: A if average debt &lt; 15 min/night, B &lt; 30, C &lt; 45, D &lt; 60, otherwise F. Your target is adjustable from 7 to 9 hours.</li>
+            <li><strong class="text-slate-200">Stage breakdown.</strong> When your watch logged stages, we show the share of Deep and REM sleep. Typical healthy ranges are <strong class="text-slate-200">Deep 13&ndash;23%</strong> and <strong class="text-slate-200">REM 20&ndash;25%</strong>. We grade how many of the two fall in range (A = both, B = one, C = neither but close, D = far off). If no staged data exists, this card is skipped.</li>
+            <li><strong class="text-slate-200">Social jetlag.</strong> We compare average sleep-midpoint on weekends versus weekdays. A large weekend shift means your body clock is effectively flying across time zones each week. Grade: A &lt; 30 min, B &lt; 60 min, C &lt; 90 min, otherwise D.</li>
+          </ul>
+
+          <h3 class="text-2xl font-bold text-white pt-2">The overall grade</h3>
+          <p class="text-lg text-slate-400">The overall letter grade is a weighted average of the cards above, converted to a 0&ndash;100 score. Duration and consistency matter most, so they carry the most weight: <strong class="text-slate-200">duration 30%, consistency 25%, sleep debt 20%, stage balance 15%, social jetlag 10%</strong>. If stage data is missing, its weight is redistributed proportionally across the others so you are never penalized for not owning a watch. A maps to 90+, B to 80+, C to 70+, D to 60+, and F below that.</p>
+
+          <h3 class="text-2xl font-bold text-white pt-2">How to read your report</h3>
+          <p class="text-lg text-slate-400">Focus on your <em>lowest</em> card first &mdash; that is usually where the easiest wins are. If consistency is your worst grade, anchoring a fixed wake time (even on weekends) tends to help everything else. If duration is low, most people gain the fastest minutes by moving bedtime earlier rather than sleeping in. This report is a habit tracker, not a medical device; if you are worried about your sleep, talk to a clinician.</p>
+        </section>
+
+        <section class="mb-14">
+          <h2 class="text-3xl font-bold text-white text-center mb-8">Frequently asked questions</h2>
+          <div class="faq-accordion">
+            <details open>
+              <summary><span>Where does the sleep score come from?</span><i data-lucide="chevron-right" class="chevron w-6 h-6 text-rose-400"></i></summary>
+              <div class="faq-content"><p>The score is computed entirely in your browser from the <code class="font-mono">HKCategoryTypeIdentifierSleepAnalysis</code> records in your Apple Health <code class="font-mono">export.xml</code>. It combines average duration, bedtime/wake consistency, sleep debt versus your target, stage balance, and weekday-vs-weekend difference into a single letter grade. Nothing is uploaded.</p></div>
+            </details>
+            <details>
+              <summary><span>Does this work with Apple Watch sleep analysis?</span><i data-lucide="chevron-right" class="chevron w-6 h-6 text-rose-400"></i></summary>
+              <div class="faq-content"><p>Yes. Apple Watch records Core, Deep, and REM stages that appear as <code class="font-mono">AsleepCore</code>, <code class="font-mono">AsleepDeep</code>, and <code class="font-mono">AsleepREM</code>. The tool reads those for the stage breakdown. iPhone-only tracking still gives you duration and consistency grades; the stage card is simply skipped.</p></div>
+            </details>
+            <details>
+              <summary><span>How does it handle my iPhone and Apple Watch both logging sleep?</span><i data-lucide="chevron-right" class="chevron w-6 h-6 text-rose-400"></i></summary>
+              <div class="faq-content"><p>The tool merges overlapping asleep intervals across all sources before summing, so a night logged by two devices is never double-counted.</p></div>
+            </details>
+            <details>
+              <summary><span>What counts as one night?</span><i data-lucide="chevron-right" class="chevron w-6 h-6 text-rose-400"></i></summary>
+              <div class="faq-content"><p>Sleep is grouped into a noon-to-noon window. Any asleep interval starting between noon on one day and noon the next is attributed to that night, which keeps post-midnight bedtimes on the correct night.</p></div>
+            </details>
+            <details>
+              <summary><span>Is my health data uploaded anywhere?</span><i data-lucide="chevron-right" class="chevron w-6 h-6 text-rose-400"></i></summary>
+              <div class="faq-content"><p>No. The report is generated locally using streaming file parsing. Your <code class="font-mono">export.xml</code> never leaves your device, and there is no account or server.</p></div>
+            </details>
+            <details>
+              <summary><span>Why is my score different from Apple's or my watch's?</span><i data-lucide="chevron-right" class="chevron w-6 h-6 text-rose-400"></i></summary>
+              <div class="faq-content"><p>This tool uses its own transparent formulas and looks at long-term patterns like consistency and social jetlag, not a single night. It is an at-a-glance report card of your habits, not a medical measurement.</p></div>
+            </details>
+          </div>
+        </section>
+
+        <section class="mb-14">
+          <h2 class="text-2xl font-bold text-white mb-4">More free tools</h2>
+          <div class="flex flex-wrap gap-3 text-sm">
+            <a href="/tools/" class="px-4 py-2 rounded-full bg-white/10 hover:bg-white/20 text-slate-200">All Free Tools</a>
+            <a href="/convert-tool/" class="px-4 py-2 rounded-full bg-white/10 hover:bg-white/20 text-slate-200">XML &rarr; CSV Converter</a>
+            <a href="/apple-health-export-validator/" class="px-4 py-2 rounded-full bg-white/10 hover:bg-white/20 text-slate-200">Export Validator</a>
+            <a href="/export-apple-health-sleep-data/" class="px-4 py-2 rounded-full bg-white/10 hover:bg-white/20 text-slate-200">Export Sleep Data</a>
+            <a href="/sleep-debt-calculator/" class="px-4 py-2 rounded-full bg-white/10 hover:bg-white/20 text-slate-200">Sleep Debt Calculator</a>
+            <a href="/recovery-score-calculator/" class="px-4 py-2 rounded-full bg-white/10 hover:bg-white/20 text-slate-200">Recovery Score</a>
+          </div>
+        </section>
+
+        <section class="card p-8 text-center">
+          <h2 class="text-3xl font-bold text-white mb-3">Want deeper analysis?</h2>
+          <p class="text-lg text-slate-400 max-w-2xl mx-auto mb-6">This report card is a snapshot. For private, AI-powered insights across sleep, HRV, heart rate, and workouts — day after day — grab the companion apps.</p>
+          <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
+            <a href="/go/website.html?c=ah_sleepreport" target="_blank" rel="noopener" data-cta-location="footer_cta" class="inline-flex items-center gap-2 bg-rose-600 hover:bg-rose-700 text-white font-bold py-3 px-8 rounded-full transition-all shadow-lg shadow-rose-600/20">
+              <img src="https://upload.wikimedia.org/wikipedia/commons/6/67/App_Store_%28iOS%29.svg" class="w-5 h-5 filter invert" alt="">
+              Download iOS App
+            </a>
+            <a href="https://github.com/krumjahn/applehealth" class="inline-flex items-center gap-2 bg-white/10 hover:bg-white/20 text-white font-bold py-3 px-8 rounded-full transition-all">
+              <i data-lucide="github" class="w-5 h-5"></i>
+              Get Mac Analyzer
+            </a>
+          </div>
+        </section>
+
+      </div>
+    </main>
+
+    <footer class="bg-black border-t border-slate-900 pt-16 pb-8">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+        <div class="inline-flex items-center gap-2 mb-6">
+          <i data-lucide="activity" class="w-6 h-6 text-rose-600"></i>
+          <span class="font-bold text-xl text-white">Health Data Export</span>
+        </div>
+        <div class="flex justify-center gap-8 mb-8">
+          <a href="/support/" class="text-slate-500 hover:text-white transition-colors">Support</a>
+          <a href="/privacy/" class="text-slate-500 hover:text-white transition-colors">Privacy Policy</a>
+          <a href="https://www.apple.com/legal/internet-services/itunes/dev/stdeula/" class="text-slate-500 hover:text-white transition-colors">Terms</a>
+        </div>
+        <p class="text-slate-600 text-sm">&copy; 2025 Keith Rumjahn. Crafted for the Health Tech Community.</p>
+      </div>
+    </footer>
+
+    <script>
+    (function () {
+      "use strict";
+
+      var dropZone = document.getElementById('drop-zone');
+      var fileInput = document.getElementById('file-upload');
+      var statusEl = document.getElementById('status');
+      var progressWrap = document.getElementById('progress-wrap');
+      var progressBar = document.getElementById('progress-bar');
+      var progressLabel = document.getElementById('progress-label');
+      var resultsEl = document.getElementById('results');
+      var periodSel = document.getElementById('period');
+      var targetSel = document.getElementById('target');
+
+      var lastIntervals = null;
+
+      fileInput.addEventListener('change', function (e) {
+        if (e.target.files.length) handleFile(e.target.files[0]);
+      });
+      dropZone.addEventListener('dragover', function (e) { e.preventDefault(); dropZone.classList.add('dragover'); });
+      dropZone.addEventListener('dragleave', function () { dropZone.classList.remove('dragover'); });
+      dropZone.addEventListener('drop', function (e) {
+        e.preventDefault(); dropZone.classList.remove('dragover');
+        if (e.dataTransfer.files.length) handleFile(e.dataTransfer.files[0]);
+      });
+      dropZone.addEventListener('click', function (e) {
+        if (e.target.closest('label[for="file-upload"]')) return;
+        fileInput.click();
+      });
+      periodSel.addEventListener('change', recompute);
+      targetSel.addEventListener('change', recompute);
+
+      function setProgress(pct) {
+        progressWrap.classList.remove('hidden');
+        var p = Math.max(0, Math.min(100, Math.round(pct)));
+        progressBar.style.width = p + '%';
+        progressLabel.textContent = p + '%';
+      }
+
+      function parseAppleDate(str) {
+        if (!str) return null;
+        var m = str.match(/^(\d{4})-(\d{2})-(\d{2}) (\d{2}):(\d{2}):(\d{2})\s*([+-]\d{4})?/);
+        if (!m) { var d = new Date(str); return isNaN(d) ? null : { epoch: d.getTime(), offsetMin: -d.getTimezoneOffset() }; }
+        var offsetMin = 0;
+        if (m[7]) {
+          var sign = m[7][0] === '-' ? -1 : 1;
+          offsetMin = sign * (parseInt(m[7].slice(1, 3), 10) * 60 + parseInt(m[7].slice(3, 5), 10));
+        }
+        var utc = Date.UTC(+m[1], +m[2] - 1, +m[3], +m[4], +m[5], +m[6]) - offsetMin * 60000;
+        return { epoch: utc, offsetMin: offsetMin };
+      }
+
+      function localMs(d) { return d.epoch + d.offsetMin * 60000; }
+
+      var ASLEEP_VALUES = {
+        'HKCategoryValueSleepAnalysisAsleepCore': 'Core',
+        'HKCategoryValueSleepAnalysisAsleepDeep': 'Deep',
+        'HKCategoryValueSleepAnalysisAsleepREM': 'REM',
+        'HKCategoryValueSleepAnalysisAsleepUnspecified': 'Unspecified',
+        'HKCategoryValueSleepAnalysisAsleep': 'Unspecified'
+      };
+      var STAGED = { 'Core': 1, 'Deep': 1, 'REM': 1 };
+
+      function handleFile(file) {
+        resultsEl.classList.add('hidden');
+        resultsEl.innerHTML = '';
+        lastIntervals = null;
+
+        if (file.name.toLowerCase().endsWith('.zip')) {
+          statusEl.innerHTML = 'That looks like the raw <code class="font-mono">.zip</code>. Please unzip it and select the <code class="font-mono">export.xml</code> inside.';
+          return;
+        }
+        if (!file.name.toLowerCase().endsWith('.xml')) {
+          statusEl.textContent = 'Please select your export.xml file.';
+          return;
+        }
+
+        statusEl.textContent = 'Reading sleep records...';
+        setProgress(0);
+
+        var CHUNK = 8 * 1024 * 1024;
+        var offset = 0;
+        var carry = '';
+        var decoder = new TextDecoder('utf-8');
+        var asleep = [];
+        var staged = [];
+        var recordCount = 0;
+
+        var recordRe = /<Record\b[^>]*\btype="HKCategoryTypeIdentifierSleepAnalysis"[^>]*\/>/g;
+
+        function attr(tag, name) {
+          var m = tag.match(new RegExp('\\b' + name + '="([^"]*)"'));
+          return m ? m[1] : '';
+        }
+
+        function processBuffer(buf, isFinal) {
+          recordRe.lastIndex = 0;
+          var lastEnd = 0;
+          var mm;
+          while ((mm = recordRe.exec(buf)) !== null) {
+            var tag = mm[0];
+            lastEnd = recordRe.lastIndex;
+            var val = attr(tag, 'value');
+            var stage = ASLEEP_VALUES[val];
+            if (!stage) continue;
+            var sd = parseAppleDate(attr(tag, 'startDate'));
+            var ed = parseAppleDate(attr(tag, 'endDate'));
+            if (!sd || !ed || ed.epoch <= sd.epoch) continue;
+            recordCount++;
+            asleep.push({ s: sd, e: ed });
+            if (STAGED[stage]) staged.push({ s: sd, e: ed, stage: stage });
+          }
+          if (isFinal) return '';
+          if (lastEnd > 0) return buf.slice(lastEnd);
+          return buf.length > 2048 ? buf.slice(buf.length - 2048) : buf;
+        }
+
+        function readNext() {
+          if (offset >= file.size) {
+            processBuffer(carry, true);
+            finish();
+            return;
+          }
+          var slice = file.slice(offset, offset + CHUNK);
+          var reader = new FileReader();
+          reader.onload = function (e) {
+            var text = decoder.decode(new Uint8Array(e.target.result), { stream: true });
+            var buf = carry + text;
+            carry = processBuffer(buf, false);
+            offset += CHUNK;
+            setProgress((offset / file.size) * 100);
+            statusEl.textContent = 'Parsing sleep records... ' + recordCount.toLocaleString() + ' found';
+            setTimeout(readNext, 0);
+          };
+          reader.onerror = function () { statusEl.textContent = 'Error reading file.'; };
+          reader.readAsArrayBuffer(slice);
+        }
+
+        function finish() {
+          setProgress(100);
+          if (asleep.length === 0) {
+            statusEl.innerHTML = 'No sleep records found. This tool needs <code class="font-mono">HKCategoryTypeIdentifierSleepAnalysis</code> data — make sure you track sleep with your iPhone or Apple Watch, then re-export.';
+            progressWrap.classList.add('hidden');
+            return;
+          }
+          statusEl.innerHTML = 'Done — analyzed <strong class="text-slate-100">' + recordCount.toLocaleString() + '</strong> sleep records.';
+          setTimeout(function () { progressWrap.classList.add('hidden'); }, 800);
+
+          lastIntervals = { asleep: mergeIntervals(asleep), staged: staged.slice() };
+          recompute();
+          resultsEl.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }
+
+        readNext();
+      }
+
+      function mergeIntervals(list) {
+        if (!list.length) return [];
+        var arr = list.slice().sort(function (a, b) { return a.s.epoch - b.s.epoch; });
+        var out = [{ s: arr[0].s, e: arr[0].e }];
+        for (var i = 1; i < arr.length; i++) {
+          var cur = arr[i];
+          var last = out[out.length - 1];
+          if (cur.s.epoch <= last.e.epoch) {
+            if (cur.e.epoch > last.e.epoch) last.e = cur.e;
+          } else {
+            out.push({ s: cur.s, e: cur.e });
+          }
+        }
+        return out;
+      }
+
+      function nightKey(intervalStart) {
+        var lm = localMs(intervalStart) - 12 * 3600000;
+        var d = new Date(lm);
+        return d.getUTCFullYear() + '-' + pad(d.getUTCMonth() + 1) + '-' + pad(d.getUTCDate());
+      }
+      function pad(n) { return n < 10 ? '0' + n : '' + n; }
+
+      function localMinutesOfDay(d) {
+        var day = new Date(localMs(d));
+        return day.getUTCHours() * 60 + day.getUTCMinutes();
+      }
+      function localDOW(d) { return new Date(localMs(d)).getUTCDay(); }
+
+      function mean(a) { return a.reduce(function (x, y) { return x + y; }, 0) / a.length; }
+      function circularStats(mins) {
+        if (!mins.length) return { mean: 0, sd: 0 };
+        var sx = 0, sy = 0;
+        mins.forEach(function (m) {
+          var a = (m / 1440) * 2 * Math.PI;
+          sx += Math.cos(a); sy += Math.sin(a);
+        });
+        sx /= mins.length; sy /= mins.length;
+        var meanAng = Math.atan2(sy, sx);
+        if (meanAng < 0) meanAng += 2 * Math.PI;
+        var meanMin = (meanAng / (2 * Math.PI)) * 1440;
+        var R = Math.sqrt(sx * sx + sy * sy);
+        var sdRad = R > 0 ? Math.sqrt(-2 * Math.log(R)) : Math.PI;
+        var sdMin = (sdRad / (2 * Math.PI)) * 1440;
+        return { mean: meanMin, sd: sdMin };
+      }
+
+      function gradeToScore(g) { return { A: 95, B: 85, C: 75, D: 65, F: 45 }[g]; }
+      function letterFromScore(s) {
+        if (s >= 90) return 'A'; if (s >= 80) return 'B'; if (s >= 70) return 'C'; if (s >= 60) return 'D'; return 'F';
+      }
+      function fmtDur(mins) {
+        var h = Math.floor(mins / 60), m = Math.round(mins % 60);
+        return h + 'h ' + pad(m) + 'm';
+      }
+      function fmtClock(mins) {
+        mins = ((Math.round(mins) % 1440) + 1440) % 1440;
+        var h = Math.floor(mins / 60), m = mins % 60;
+        var ampm = h < 12 ? 'AM' : 'PM';
+        var hh = h % 12; if (hh === 0) hh = 12;
+        return hh + ':' + pad(m) + ' ' + ampm;
+      }
+
+      function recompute() {
+        if (!lastIntervals) return;
+        var periodDays = parseInt(periodSel.value, 10);
+        var targetH = parseFloat(targetSel.value);
+        var targetMin = targetH * 60;
+
+        var merged = lastIntervals.asleep;
+        if (!merged.length) return;
+
+        var newestEpoch = merged.reduce(function (mx, iv) { return Math.max(mx, iv.e.epoch); }, 0);
+        var cutoff = newestEpoch - periodDays * 86400000;
+        var inWindow = merged.filter(function (iv) { return iv.s.epoch >= cutoff; });
+        if (!inWindow.length) inWindow = merged.slice();
+
+        var nights = {};
+        inWindow.forEach(function (iv) {
+          var key = nightKey(iv.s);
+          if (!nights[key]) nights[key] = { dur: 0, firstStartEpoch: iv.s.epoch, firstStart: iv.s, lastEnd: iv.e };
+          var n = nights[key];
+          n.dur += (iv.e.epoch - iv.s.epoch) / 60000;
+          if (iv.s.epoch < n.firstStartEpoch) { n.firstStartEpoch = iv.s.epoch; n.firstStart = iv.s; }
+          if (iv.e.epoch > n.lastEnd.epoch) n.lastEnd = iv.e;
+        });
+
+        var nightKeys = Object.keys(nights).sort();
+        var nightArr = nightKeys.map(function (k) { return { key: k, n: nights[k] }; });
+        var nNights = nightArr.length;
+
+        var durations = nightArr.map(function (x) { return x.n.dur; });
+        var avgDur = mean(durations);
+
+        var bedMins = nightArr.map(function (x) { return localMinutesOfDay(x.n.firstStart); });
+        var wakeMins = nightArr.map(function (x) { return localMinutesOfDay(x.n.lastEnd); });
+        var bedStats = circularStats(bedMins);
+        var wakeStats = circularStats(wakeMins);
+        var consistencySD = (bedStats.sd + wakeStats.sd) / 2;
+
+        var debts = durations.map(function (d) { return Math.max(0, targetMin - d); });
+        var avgDebt = mean(debts);
+        var totalDebtH = debts.reduce(function (a, b) { return a + b; }, 0) / 60;
+
+        var weekdayMid = [], weekendMid = [];
+        nightArr.forEach(function (x) {
+          var bed = localMinutesOfDay(x.n.firstStart);
+          var wake = localMinutesOfDay(x.n.lastEnd);
+          var mid = midpointClock(bed, wake);
+          var dow = localDOW(x.n.firstStart);
+          if (dow === 5 || dow === 6) weekendMid.push(mid); else weekdayMid.push(mid);
+        });
+        var socialJetlag = null;
+        if (weekdayMid.length && weekendMid.length) {
+          socialJetlag = Math.abs(clockDiff(circularStats(weekendMid).mean, circularStats(weekdayMid).mean));
+        }
+
+        var stagedInWindow = lastIntervals.staged.filter(function (iv) { return iv.s.epoch >= cutoff; });
+        var stageTotals = { Core: 0, Deep: 0, REM: 0 };
+        var haveStages = false;
+        ['Core', 'Deep', 'REM'].forEach(function (st) {
+          var m = mergeIntervals(stagedInWindow.filter(function (iv) { return iv.stage === st; }));
+          var tot = m.reduce(function (a, iv) { return a + (iv.e.epoch - iv.s.epoch) / 60000; }, 0);
+          stageTotals[st] = tot;
+          if (tot > 0) haveStages = true;
+        });
+        var stagedSum = stageTotals.Core + stageTotals.Deep + stageTotals.REM;
+
+        var cards = [];
+
+        var durGrade = avgDur >= 450 ? 'A' : avgDur >= 420 ? 'B' : avgDur >= 390 ? 'C' : avgDur >= 360 ? 'D' : 'F';
+        cards.push({
+          key: 'duration', weight: 0.30, grade: durGrade,
+          icon: 'bed', title: 'Sleep Duration',
+          value: fmtDur(avgDur), sub: 'avg per night across ' + nNights + ' nights',
+          advice: durGrade === 'A' ? 'Great — you are consistently getting enough sleep.' :
+                  (durGrade === 'B' || durGrade === 'C') ? 'Solid — protect this by keeping a steady bedtime.' :
+                  'Aim to move bedtime ' + Math.round(targetMin - avgDur) + ' min earlier to close the gap.'
+        });
+
+        var consGrade = consistencySD < 30 ? 'A' : consistencySD < 60 ? 'B' : consistencySD < 90 ? 'C' : 'D';
+        cards.push({
+          key: 'consistency', weight: 0.25, grade: consGrade,
+          icon: 'alarm-clock', title: 'Consistency',
+          value: '±' + Math.round(consistencySD) + ' min', sub: 'variation in bed & wake times',
+          advice: consGrade === 'A' ? 'Excellent — your body clock is well anchored.' :
+                  consGrade === 'B' ? 'Good. Tightening wake time would push this to an A.' :
+                  'Pick one fixed wake time (even weekends) — it stabilizes everything else.'
+        });
+
+        var debtGrade = avgDebt < 15 ? 'A' : avgDebt < 30 ? 'B' : avgDebt < 45 ? 'C' : avgDebt < 60 ? 'D' : 'F';
+        cards.push({
+          key: 'debt', weight: 0.20, grade: debtGrade,
+          icon: 'battery-low', title: 'Sleep Debt',
+          value: totalDebtH.toFixed(1) + 'h', sub: 'total shortfall vs ' + targetH + 'h target',
+          advice: debtGrade === 'A' ? 'You are keeping up with your sleep need.' :
+                  'Averaging ' + Math.round(avgDebt) + ' min short per night — an earlier bedtime a few nights a week clears most of it.'
+        });
+
+        if (haveStages && stagedSum > 0) {
+          var deepPct = (stageTotals.Deep / stagedSum) * 100;
+          var remPct = (stageTotals.REM / stagedSum) * 100;
+          var deepOK = deepPct >= 13 && deepPct <= 23;
+          var remOK = remPct >= 20 && remPct <= 25;
+          var deepClose = deepPct >= 10 && deepPct <= 26;
+          var remClose = remPct >= 17 && remPct <= 28;
+          var stageGrade = (deepOK && remOK) ? 'A' : (deepOK || remOK) ? 'B' : (deepClose && remClose) ? 'C' : 'D';
+          cards.push({
+            key: 'stages', weight: 0.15, grade: stageGrade,
+            icon: 'layers', title: 'Stage Balance',
+            value: 'Deep ' + Math.round(deepPct) + '% · REM ' + Math.round(remPct) + '%',
+            sub: 'typical: Deep 13–23%, REM 20–25%',
+            advice: stageGrade === 'A' ? 'Both deep and REM are in the healthy range.' :
+                    'Alcohol, late meals, and irregular timing tend to suppress deep and REM sleep.'
+          });
+        }
+
+        if (socialJetlag !== null) {
+          var sjGrade = socialJetlag < 30 ? 'A' : socialJetlag < 60 ? 'B' : socialJetlag < 90 ? 'C' : 'D';
+          cards.push({
+            key: 'jetlag', weight: 0.10, grade: sjGrade,
+            icon: 'plane', title: 'Social Jetlag',
+            value: Math.round(socialJetlag) + ' min', sub: 'weekend vs weekday sleep shift',
+            advice: sjGrade === 'A' ? 'Your weekend and weekday clocks are nicely aligned.' :
+                    'Your weekend midpoint drifts ' + Math.round(socialJetlag) + ' min — like a mini time-zone trip each week.'
+          });
+        }
+
+        var totalWeight = cards.reduce(function (a, c) { return a + c.weight; }, 0);
+        var overallScore = cards.reduce(function (a, c) { return a + gradeToScore(c.grade) * (c.weight / totalWeight); }, 0);
+        var overall = letterFromScore(overallScore);
+
+        var chronotype = labelChronotype(bedStats.mean);
+
+        render(cards, overall, Math.round(overallScore), nightArr, targetMin, {
+          avgBed: bedStats.mean, avgWake: wakeStats.mean, chronotype: chronotype, nNights: nNights, periodDays: periodDays
+        });
+      }
+
+      function midpointClock(bed, wake) {
+        var w = wake; if (w < bed) w += 1440;
+        var mid = (bed + w) / 2;
+        return ((mid % 1440) + 1440) % 1440;
+      }
+      function clockDiff(a, b) {
+        var d = a - b;
+        while (d > 720) d -= 1440;
+        while (d < -720) d += 1440;
+        return d;
+      }
+      function labelChronotype(avgBedMin) {
+        // avgBedMin is minutes-of-day (0..1439) of average bedtime.
+        var b = avgBedMin;
+        if (b >= 0 && b < 240) return { label: 'Night Owl 🦉', desc: 'You tend to fall asleep after midnight.' };   // 12:00–3:59 AM
+        if (b >= 1410) return { label: 'Night Owl 🦉', desc: 'You lean toward very late bedtimes.' };                // 11:30 PM+
+        if (b >= 1320) return { label: 'Balanced 🌙', desc: 'A healthy, steady bedtime around 10–11 PM.' };          // 10:00–11:29 PM
+        if (b >= 1080) return { label: 'Early Bird 🐦', desc: 'You head to bed nice and early.' };                   // 6:00–9:59 PM
+        return { label: 'Early Bird 🐦', desc: 'You are an early-to-bed sleeper.' };
+      }
+
+      function render(cards, overall, overallScore, nightArr, targetMin, extra) {
+        var html = '';
+        html += '<div class="text-center card p-8 mb-8" style="background:rgba(255,255,255,.03)">';
+        html += '<p class="text-sm uppercase tracking-widest text-slate-500 font-semibold mb-2">Overall Sleep Grade · last ' + extra.periodDays + ' nights</p>';
+        html += '<div class="flex items-center justify-center gap-6 flex-wrap">';
+        html += '<div class="w-32 h-32 rounded-full border-4 ring-' + overall + ' flex items-center justify-center"><span class="text-6xl font-extrabold grade-' + overall + '">' + overall + '</span></div>';
+        html += '<div class="text-left">';
+        html += '<p class="text-4xl font-bold text-white">' + overallScore + '<span class="text-xl text-slate-500">/100</span></p>';
+        html += '<p class="text-lg text-slate-300 mt-1">' + extra.chronotype.label + '</p>';
+        html += '<p class="text-sm text-slate-500 max-w-xs">' + extra.chronotype.desc + '</p>';
+        html += '<p class="text-sm text-slate-500 mt-2">Avg bedtime <span class="text-slate-300 font-mono">' + fmtClock(extra.avgBed) + '</span> · wake <span class="text-slate-300 font-mono">' + fmtClock(extra.avgWake) + '</span></p>';
+        html += '</div></div></div>';
+
+        html += '<div class="grid sm:grid-cols-2 gap-4 mb-8">';
+        cards.forEach(function (c) {
+          html += '<div class="card p-5">';
+          html += '<div class="flex items-start justify-between gap-3">';
+          html += '<div class="flex items-center gap-2 text-slate-300"><i data-lucide="' + c.icon + '" class="w-5 h-5 text-rose-400"></i><span class="font-semibold">' + c.title + '</span></div>';
+          html += '<span class="text-3xl font-extrabold grade-' + c.grade + '">' + c.grade + '</span>';
+          html += '</div>';
+          html += '<p class="text-2xl font-bold text-white mt-3">' + c.value + '</p>';
+          html += '<p class="text-xs text-slate-500">' + c.sub + '</p>';
+          html += '<p class="text-sm text-slate-400 mt-3">' + c.advice + '</p>';
+          html += '</div>';
+        });
+        html += '</div>';
+
+        html += '<div class="card p-5 mb-2">';
+        html += '<div class="flex items-center justify-between mb-3"><h3 class="font-semibold text-white">Nightly sleep (most recent 30 nights)</h3><span class="text-xs text-slate-500 font-mono">target = ' + fmtDur(targetMin) + '</span></div>';
+        html += '<canvas id="sleep-chart" width="900" height="240" class="w-full" style="max-width:100%"></canvas>';
+        html += '<p class="text-xs text-slate-600 mt-2">All grades computed locally in your browser from ' + extra.nNights + ' nights of HKCategoryTypeIdentifierSleepAnalysis records. Nothing was uploaded.</p>';
+        html += '</div>';
+
+        resultsEl.innerHTML = html;
+        resultsEl.classList.remove('hidden');
+        if (window.lucide) lucide.createIcons();
+
+        drawChart(nightArr.slice(-30), targetMin);
+      }
+
+      function drawChart(nightArr, targetMin) {
+        var cv = document.getElementById('sleep-chart');
+        if (!cv) return;
+        var ctx = cv.getContext('2d');
+        var W = cv.width, H = cv.height;
+        ctx.clearRect(0, 0, W, H);
+        var padL = 40, padB = 26, padT = 12, padR = 10;
+        var plotW = W - padL - padR, plotH = H - padT - padB;
+        var maxH = Math.max(9 * 60, targetMin + 60, nightArr.reduce(function (m, x) { return Math.max(m, x.n.dur); }, 0) + 30);
+
+        ctx.font = '11px JetBrains Mono, monospace';
+        ctx.textAlign = 'right'; ctx.textBaseline = 'middle';
+        for (var h = 0; h <= maxH; h += 120) {
+          var y = padT + plotH - (h / maxH) * plotH;
+          ctx.strokeStyle = 'rgba(255,255,255,.06)';
+          ctx.beginPath(); ctx.moveTo(padL, y); ctx.lineTo(W - padR, y); ctx.stroke();
+          ctx.fillStyle = 'rgba(148,163,184,.7)';
+          ctx.fillText((h / 60) + 'h', padL - 6, y);
+        }
+
+        var n = nightArr.length;
+        var gap = 3;
+        var bw = n ? (plotW - gap * (n - 1)) / n : plotW;
+        nightArr.forEach(function (x, i) {
+          var val = x.n.dur;
+          var bh = (val / maxH) * plotH;
+          var bx = padL + i * (bw + gap);
+          var by = padT + plotH - bh;
+          ctx.fillStyle = val >= targetMin ? '#34d399' : val >= targetMin - 60 ? '#fbbf24' : '#fb923c';
+          roundRect(ctx, bx, by, Math.max(1, bw), bh, Math.min(3, bw / 2));
+          ctx.fill();
+        });
+
+        var ty = padT + plotH - (targetMin / maxH) * plotH;
+        ctx.strokeStyle = 'rgba(244,63,94,.8)';
+        ctx.setLineDash([5, 4]);
+        ctx.beginPath(); ctx.moveTo(padL, ty); ctx.lineTo(W - padR, ty); ctx.stroke();
+        ctx.setLineDash([]);
+
+        ctx.strokeStyle = 'rgba(255,255,255,.15)';
+        ctx.beginPath(); ctx.moveTo(padL, padT + plotH); ctx.lineTo(W - padR, padT + plotH); ctx.stroke();
+        ctx.textAlign = 'center'; ctx.fillStyle = 'rgba(148,163,184,.7)';
+        ctx.fillText('← older     newer →', padL + plotW / 2, H - 8);
+      }
+      function roundRect(ctx, x, y, w, h, r) {
+        if (h < r) r = h / 2;
+        if (r < 0) r = 0;
+        ctx.beginPath();
+        ctx.moveTo(x + r, y);
+        ctx.arcTo(x + w, y, x + w, y + h, r);
+        ctx.arcTo(x + w, y + h, x, y + h, r);
+        ctx.arcTo(x, y + h, x, y, r);
+        ctx.arcTo(x, y, x + w, y, r);
+        ctx.closePath();
+      }
+
+      if (window.lucide) lucide.createIcons();
+
+      (function () {
+        var links = document.querySelectorAll('a[href^="/go/website.html"]');
+        links.forEach(function (a) {
+          a.addEventListener('click', function () {
+            try {
+              if (typeof gtag === 'function') {
+                gtag('event', 'app_store_click', { link_url: a.href, cta_location: a.dataset.ctaLocation || 'unknown', page_path: window.location.pathname });
+              }
+            } catch (e) {}
+          }, { capture: true });
+        });
+      })();
+    })();
+    </script>
+</body>
+</html>

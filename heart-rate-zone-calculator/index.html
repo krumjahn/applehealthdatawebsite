@@ -1,0 +1,489 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Heart Rate Zone Calculator — Free Online Tool | Apple Health Data</title>
+    <meta name="description" content="Free heart rate zone calculator. Get your 5 training zones and Zone 2 range using the Tanaka max-HR and Karvonen methods, then set them on your Apple Watch. Runs 100% in your browser.">
+    <meta name="keywords" content="heart rate zone calculator, zone 2 calculator, apple watch heart rate zones, karvonen calculator, max heart rate calculator, training zones, tanaka formula, heart rate reserve">
+    <meta name="apple-itunes-app" content="app-id=6749297170">
+    <link rel="canonical" href="https://applehealthdata.com/heart-rate-zone-calculator/">
+    <meta property="og:title" content="Heart Rate Zone Calculator — Free & Private">
+    <meta property="og:description" content="Find your 5 training zones and Zone 2 range with the Tanaka and Karvonen methods, then set them on your Apple Watch. 100% in-browser.">
+    <meta property="og:url" content="https://applehealthdata.com/heart-rate-zone-calculator/">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="AppleHealthData.com">
+    <meta property="og:image" content="https://applehealthdata.com/images/iphone-app-screenshot.png">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Heart Rate Zone Calculator — Free & Private">
+    <meta name="twitter:description" content="Find your 5 training zones and Zone 2 range with the Tanaka and Karvonen methods, then set them on your Apple Watch.">
+    <meta name="twitter:image" content="https://applehealthdata.com/images/iphone-app-screenshot.png">
+    <meta name="robots" content="index,follow,max-image-preview:large">
+    <meta name="author" content="Keith Rumjahn">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap">
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script defer src="https://umami.rumjahn.synology.me/script.js" data-website-id="5d7b4fa8-90b2-4191-8daf-8ea487a8d961"></script>
+    <!-- Matomo -->
+    <script>
+      var _paq = window._paq = window._paq || [];
+      _paq.push(['trackPageView']);
+      _paq.push(['enableLinkTracking']);
+      (function() {
+        var u="//shrewd-lyrebird.pikapod.net/";
+        _paq.push(['setTrackerUrl', u+'matomo.php']);
+        _paq.push(['setSiteId', '9']);
+        var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
+        g.async=true; g.src=u+'matomo.js'; s.parentNode.insertBefore(g,s);
+      })();
+    </script>
+
+    <style>
+      body { font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif; background-color:#020617; color:#f8fafc; }
+      code, .mono { font-family: 'JetBrains Mono', ui-monospace, monospace; }
+      .mesh-gradient { position: fixed; inset: 0; z-index: -1; background: radial-gradient(at 0% 0%, rgba(225,29,72,.15), transparent 50%), radial-gradient(at 100% 0%, rgba(56,189,248,.15), transparent 50%), radial-gradient(at 100% 100%, rgba(168,85,247,.15), transparent 50%); filter: blur(60px); }
+      .card { background:rgba(255,255,255,.04); border:1px solid rgba(255,255,255,.1); border-radius:1rem; }
+      input[type=number]::-webkit-outer-spin-button, input[type=number]::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
+      input[type=number] { -moz-appearance: textfield; }
+      .zone-seg { transition: width .35s cubic-bezier(.4,0,.2,1); }
+    </style>
+
+    <!-- Structured data -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "SoftwareApplication",
+      "name": "Heart Rate Zone Calculator",
+      "applicationCategory": "HealthApplication",
+      "operatingSystem": "Any (web browser)",
+      "url": "https://applehealthdata.com/heart-rate-zone-calculator/",
+      "description": "Free calculator for your 5 heart rate training zones and Zone 2 range using the Tanaka max-HR and Karvonen heart-rate-reserve methods. Built for Apple Watch users.",
+      "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" }
+    }
+    </script>
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "How do I calculate my heart rate zones?",
+          "acceptedAnswer": { "@type": "Answer", "text": "First estimate your maximum heart rate. This calculator uses the Tanaka formula (208 − 0.7 × age), which is more accurate than the old 220 − age rule. Your five training zones are then set as percentage bands of that maximum: Zone 1 is 50–60%, Zone 2 is 60–70%, Zone 3 is 70–80%, Zone 4 is 80–90%, and Zone 5 is 90–100%. If you also enter your resting heart rate, the calculator adds the Karvonen (heart-rate-reserve) method for more personalized numbers." }
+        },
+        {
+          "@type": "Question",
+          "name": "What is Zone 2 heart rate and why does everyone talk about it?",
+          "acceptedAnswer": { "@type": "Answer", "text": "Zone 2 is a comfortable, conversational effort at roughly 60–70% of your maximum heart rate. It is the intensity where your body relies most on fat for fuel and builds aerobic (mitochondrial) capacity, which is why endurance coaches recommend spending the majority of easy training time there. It feels almost too easy, and that is the point." }
+        },
+        {
+          "@type": "Question",
+          "name": "What is the difference between the percentage method and the Karvonen method?",
+          "acceptedAnswer": { "@type": "Answer", "text": "The percentage-of-max method takes a flat percentage of your maximum heart rate. The Karvonen method instead works from your heart rate reserve (max HR minus resting HR), then adds your resting heart rate back in. Because it accounts for how fit your resting heart rate says you are, Karvonen gives more personalized zone boundaries — usually a bit higher than the plain percentage method." }
+        },
+        {
+          "@type": "Question",
+          "name": "Can I set these heart rate zones on my Apple Watch?",
+          "acceptedAnswer": { "@type": "Answer", "text": "Yes. On watchOS you can switch to manual heart rate zones in the Workout app. On your iPhone open the Watch app or go to Settings → Workout → Heart Rate Zones (or set them in the Fitness app), choose manual, and type in the bpm boundaries this calculator gives you. Your watch will then show and buzz the correct zones during workouts." }
+        },
+        {
+          "@type": "Question",
+          "name": "Is the Tanaka formula better than 220 minus age?",
+          "acceptedAnswer": { "@type": "Answer", "text": "For most people, yes. The 220 − age rule was never derived from careful research and tends to overestimate max heart rate for younger adults and underestimate it for older adults. The Tanaka formula (208 − 0.7 × age) came from a large meta-analysis and tracks measured maximums much more closely across ages." }
+        },
+        {
+          "@type": "Question",
+          "name": "Is this heart rate zone calculator private?",
+          "acceptedAnswer": { "@type": "Answer", "text": "Completely. Every calculation runs in your browser using JavaScript. Your age, resting heart rate, and results are never sent to any server — nothing is uploaded." }
+        }
+      ]
+    }
+    </script>
+</head>
+<body>
+    <div class="mesh-gradient"></div>
+
+    <nav class="fixed w-full z-50 border-b border-white/10 bg-slate-950/50 backdrop-blur-xl">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8"><div class="flex justify-between items-center h-20">
+        <a href="/" class="flex items-center gap-3">
+          <div class="w-10 h-10 bg-gradient-to-tr from-rose-600 to-orange-500 rounded-xl flex items-center justify-center shadow-lg shadow-rose-500/20"><i data-lucide="activity" class="w-6 h-6 text-white"></i></div>
+          <div><span class="font-bold text-lg tracking-tight text-white block leading-none">Health Data</span><span class="text-xs text-slate-400 tracking-wider uppercase font-semibold">Export &amp; Analyze</span></div>
+        </a>
+        <a href="/tools/" class="text-slate-300 hover:text-white text-sm font-semibold">All Free Tools</a>
+      </div></div>
+    </nav>
+
+    <main class="pt-32 pb-20">
+      <div class="max-w-4xl mx-auto px-4">
+
+        <!-- Hero / H1 -->
+        <header class="text-center mb-10">
+          <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/5 border border-white/10 text-xs font-semibold text-slate-300 mb-5">
+            <i data-lucide="heart-pulse" class="w-4 h-4 text-rose-400"></i> Built for Apple Watch users
+          </div>
+          <h1 class="text-4xl sm:text-5xl font-extrabold tracking-tight leading-tight">Heart Rate Zone Calculator</h1>
+          <p class="text-lg text-slate-400 mt-4 max-w-2xl mx-auto">Find your 5 training zones and your Zone 2 fat-burning range in seconds. Free, private, and running entirely in your browser — nothing is uploaded. Your Apple Watch already uses zones like these in the Workout app; here is how to personalize them.</p>
+        </header>
+
+        <!-- The tool -->
+        <section class="card p-6 sm:p-8">
+          <div class="grid sm:grid-cols-3 gap-5">
+            <div>
+              <label for="age" class="block text-sm font-semibold text-slate-300 mb-1">Age <span class="text-rose-400">*</span></label>
+              <input id="age" type="number" min="10" max="120" inputmode="numeric" placeholder="e.g. 35" class="w-full rounded-xl bg-slate-900 border border-white/10 p-3 text-lg focus:outline-none focus:ring-2 focus:ring-rose-500">
+              <p class="text-xs text-slate-500 mt-1">Required</p>
+            </div>
+            <div>
+              <label for="rhr" class="block text-sm font-semibold text-slate-300 mb-1">Resting heart rate</label>
+              <input id="rhr" type="number" min="30" max="120" inputmode="numeric" placeholder="e.g. 58" class="w-full rounded-xl bg-slate-900 border border-white/10 p-3 text-lg focus:outline-none focus:ring-2 focus:ring-rose-500">
+              <p class="text-xs text-slate-500 mt-1">Optional — enables Karvonen</p>
+            </div>
+            <div>
+              <label for="maxoverride" class="block text-sm font-semibold text-slate-300 mb-1">Known max HR</label>
+              <input id="maxoverride" type="number" min="100" max="230" inputmode="numeric" placeholder="from a test" class="w-full rounded-xl bg-slate-900 border border-white/10 p-3 text-lg focus:outline-none focus:ring-2 focus:ring-rose-500">
+              <p class="text-xs text-slate-500 mt-1">Optional — overrides formula</p>
+            </div>
+          </div>
+
+          <!-- Max HR summary -->
+          <div id="maxSummary" class="mt-6 hidden">
+            <div class="flex flex-wrap items-baseline gap-x-3 gap-y-1 p-4 rounded-xl bg-slate-900/70 border border-white/10">
+              <span class="text-slate-400 text-sm">Your estimated maximum heart rate</span>
+              <span id="maxHrValue" class="mono text-3xl font-bold text-white">—</span>
+              <span class="text-slate-400 text-sm">bpm</span>
+              <span id="maxHrSource" class="text-xs text-slate-500 ml-auto"></span>
+            </div>
+          </div>
+
+          <!-- Visual stacked zone bar -->
+          <div id="zoneBarWrap" class="mt-6 hidden">
+            <div class="flex h-14 w-full overflow-hidden rounded-xl border border-white/10">
+              <div id="segZ1" class="zone-seg bg-slate-500 flex items-center justify-center text-[11px] font-bold text-white/90" style="width:20%">Z1</div>
+              <div id="segZ2" class="zone-seg bg-sky-500 flex items-center justify-center text-[11px] font-bold text-white/90" style="width:20%">Z2</div>
+              <div id="segZ3" class="zone-seg bg-emerald-500 flex items-center justify-center text-[11px] font-bold text-white/90" style="width:20%">Z3</div>
+              <div id="segZ4" class="zone-seg bg-amber-500 flex items-center justify-center text-[11px] font-bold text-black/80" style="width:20%">Z4</div>
+              <div id="segZ5" class="zone-seg bg-rose-600 flex items-center justify-center text-[11px] font-bold text-white/90" style="width:20%">Z5</div>
+            </div>
+            <div id="zoneBarLabels" class="flex justify-between text-[11px] mono text-slate-400 mt-1.5 px-0.5"></div>
+          </div>
+
+          <!-- Zone 2 callout -->
+          <div id="zone2Callout" class="mt-6 hidden">
+            <div class="p-5 rounded-xl bg-sky-500/10 border border-sky-400/30">
+              <div class="flex items-center gap-2 mb-2">
+                <i data-lucide="flame" class="w-5 h-5 text-sky-300"></i>
+                <h3 class="text-lg font-bold text-white">Your Zone 2 (fat-burning / endurance)</h3>
+              </div>
+              <p class="mono text-2xl font-bold text-sky-200"><span id="z2low">—</span>–<span id="z2high">—</span> bpm</p>
+              <p class="text-sm text-slate-300 mt-2">This is the conversational, "could-talk-in-full-sentences" pace where your body burns the most fat and builds aerobic base. Most easy training should live here. On your Apple Watch, open the Workout app, switch to <strong>manual heart rate zones</strong> (iPhone → Settings → Workout → Heart Rate Zones), and set Zone 2 to <span class="mono" id="z2applewatch">— to — bpm</span> so your watch buzzes when you drift out of it.</p>
+            </div>
+          </div>
+
+          <!-- Tables -->
+          <div id="tablesWrap" class="mt-6 hidden">
+            <div class="grid lg:grid-cols-2 gap-6">
+              <!-- % of max HR -->
+              <div>
+                <h3 class="text-sm font-bold text-slate-200 uppercase tracking-wide mb-2">% of Max HR</h3>
+                <div class="overflow-hidden rounded-xl border border-white/10">
+                  <table class="w-full text-sm">
+                    <thead class="bg-white/5 text-slate-300">
+                      <tr><th class="text-left p-2.5 font-semibold">Zone</th><th class="text-left p-2.5 font-semibold">% Max</th><th class="text-right p-2.5 font-semibold">BPM</th></tr>
+                    </thead>
+                    <tbody id="pctBody" class="divide-y divide-white/5"></tbody>
+                  </table>
+                </div>
+              </div>
+              <!-- Karvonen -->
+              <div id="karvonenCol" class="hidden">
+                <h3 class="text-sm font-bold text-slate-200 uppercase tracking-wide mb-2">Karvonen (Heart Rate Reserve)</h3>
+                <div class="overflow-hidden rounded-xl border border-white/10">
+                  <table class="w-full text-sm">
+                    <thead class="bg-white/5 text-slate-300">
+                      <tr><th class="text-left p-2.5 font-semibold">Zone</th><th class="text-left p-2.5 font-semibold">% HRR</th><th class="text-right p-2.5 font-semibold">BPM</th></tr>
+                    </thead>
+                    <tbody id="karvBody" class="divide-y divide-white/5"></tbody>
+                  </table>
+                </div>
+                <p class="text-xs text-slate-500 mt-2">Karvonen factors in your resting heart rate, so these zones are more personal to your fitness than a flat percentage.</p>
+              </div>
+            </div>
+            <div id="karvHint" class="mt-3 text-sm text-slate-400 hidden">
+              <i data-lucide="lightbulb" class="w-4 h-4 inline text-amber-300"></i>
+              Add your resting heart rate above to unlock the more personalized Karvonen zones.
+            </div>
+          </div>
+
+          <!-- Empty / prompt state -->
+          <p id="prompt" class="mt-6 text-slate-400 text-sm">Enter your age above and your zones appear instantly — no submit button, no upload.</p>
+          <p id="error" class="mt-6 text-rose-400 text-sm hidden"></p>
+        </section>
+
+        <!-- How to use -->
+        <section class="mt-14">
+          <h2 class="text-3xl font-bold text-white">How to use it</h2>
+          <ol class="mt-5 space-y-4 text-lg text-slate-400">
+            <li class="flex gap-3"><span class="flex-none w-7 h-7 rounded-full bg-rose-600 text-white text-sm font-bold flex items-center justify-center">1</span><span><strong class="text-slate-200">Enter your age.</strong> That is all you need for a solid estimate of your maximum heart rate and all five zones.</span></li>
+            <li class="flex gap-3"><span class="flex-none w-7 h-7 rounded-full bg-rose-600 text-white text-sm font-bold flex items-center justify-center">2</span><span><strong class="text-slate-200">Add your resting heart rate</strong> (optional) to unlock the Karvonen method for more personalized zones. Check it first thing in the morning, or read it from the Apple Health app.</span></li>
+            <li class="flex gap-3"><span class="flex-none w-7 h-7 rounded-full bg-rose-600 text-white text-sm font-bold flex items-center justify-center">3</span><span><strong class="text-slate-200">Know your true max?</strong> If you have measured it in a lab or a hard field test, type it into "Known max HR" to override the formula.</span></li>
+            <li class="flex gap-3"><span class="flex-none w-7 h-7 rounded-full bg-rose-600 text-white text-sm font-bold flex items-center justify-center">4</span><span><strong class="text-slate-200">Read your Zone 2 range</strong> and the full table, which update live as you type.</span></li>
+            <li class="flex gap-3"><span class="flex-none w-7 h-7 rounded-full bg-rose-600 text-white text-sm font-bold flex items-center justify-center">5</span><span><strong class="text-slate-200">Copy the numbers to your Apple Watch:</strong> iPhone → Settings → Workout → Heart Rate Zones → Manual, then enter these bpm boundaries.</span></li>
+          </ol>
+        </section>
+
+        <!-- SEO content -->
+        <section class="mt-14 space-y-6">
+          <h2 class="text-3xl font-bold text-white">Understanding your heart rate zones</h2>
+          <p class="text-lg text-slate-400">Heart rate zones are simply bands of exercise intensity, measured as a share of how hard your heart can possibly work. Train in the right zone and every workout has a clear purpose: easy days stay easy, hard days deliver, and you stop grinding through the "gray zone" that leaves you tired without getting fitter. Your Apple Watch already colors your effort into zones during a workout — this calculator just lets you set those boundaries from numbers that actually fit you instead of generic defaults.</p>
+
+          <h3 class="text-2xl font-bold text-white">Why we use the Tanaka formula, not 220 − age</h3>
+          <p class="text-lg text-slate-400">Almost every gym poster still shows "220 minus your age" for maximum heart rate. The problem is that this rule was never based on solid research — it came from a rough eyeballing of old data and can be off by 10–20 beats per minute. A 2001 meta-analysis by Tanaka and colleagues, pooling data from thousands of people, produced a far more reliable estimate: <span class="mono text-slate-200">Max HR = 208 − (0.7 × age)</span>. It tends to give younger adults a slightly lower max and older adults a higher one than the 220 rule, which matches what labs actually measure. That is why this tool defaults to Tanaka — but if you have a genuine measured maximum from a stress test or an all-out effort, always prefer that and enter it as your override.</p>
+
+          <h3 class="text-2xl font-bold text-white">Percentage of max vs. the Karvonen method</h3>
+          <p class="text-lg text-slate-400">There are two common ways to turn a maximum heart rate into zones. The <strong class="text-slate-200">percentage-of-max</strong> method takes flat slices of your max: Zone 1 is 50–60%, Zone 2 is 60–70%, Zone 3 is 70–80%, Zone 4 is 80–90%, and Zone 5 is 90–100%. It is simple and it is what most watches use out of the box.</p>
+          <p class="text-lg text-slate-400">The <strong class="text-slate-200">Karvonen method</strong> is more personal because it works from your <em>heart rate reserve</em> — the gap between your maximum and your resting heart rate. The formula is <span class="mono text-slate-200">target = ((Max HR − Resting HR) × intensity%) + Resting HR</span>. Because a fitter person with a lower resting heart rate has a wider reserve, Karvonen shifts their zones to reflect that, usually landing a few beats higher than the plain percentage method. If you entered your resting heart rate above, this calculator shows both tables side by side so you can compare.</p>
+
+          <h3 class="text-2xl font-bold text-white">What each zone is for</h3>
+          <p class="text-lg text-slate-400"><strong class="text-slate-200">Zone 1 (50–60%)</strong> is recovery — warm-ups, cool-downs, and easy walks. <strong class="text-slate-200">Zone 2 (60–70%)</strong> is the aerobic base and fat-burning zone where endurance is built; most of your training time belongs here. <strong class="text-slate-200">Zone 3 (70–80%)</strong> is a moderate "tempo" effort that improves aerobic efficiency. <strong class="text-slate-200">Zone 4 (80–90%)</strong> is threshold work that raises the pace you can hold before lactate piles up. <strong class="text-slate-200">Zone 5 (90–100%)</strong> is all-out interval territory for peak speed and power, used sparingly. A common, well-supported approach is to spend roughly 80% of your training easy (Zones 1–2) and 20% hard (Zones 4–5).</p>
+
+          <h3 class="text-2xl font-bold text-white">Setting these zones on your Apple Watch</h3>
+          <p class="text-lg text-slate-400">watchOS can show heart rate zones live during any workout, and it lets you set them manually instead of relying on Apple's automatic calculation. On your iPhone, open <strong class="text-slate-200">Settings → Workout → Heart Rate Zones</strong> (you can also reach zone settings from the Fitness app), switch to <strong class="text-slate-200">Manual</strong>, and enter the bpm boundaries from the table above. Now, when you glance at your wrist mid-run, the zone your watch reports is measured against numbers that actually match your body — so your Zone 2 easy days stay genuinely easy.</p>
+        </section>
+
+        <!-- FAQ -->
+        <section class="mt-14">
+          <h2 class="text-3xl font-bold text-white mb-6">Frequently asked questions</h2>
+          <div class="space-y-4">
+            <details class="card p-5 group" open>
+              <summary class="cursor-pointer font-semibold text-white flex justify-between items-center">How do I calculate my heart rate zones?<i data-lucide="chevron-down" class="w-5 h-5 text-slate-400 group-open:rotate-180 transition"></i></summary>
+              <p class="text-slate-400 mt-3">First estimate your maximum heart rate. This calculator uses the Tanaka formula (208 − 0.7 × age), which is more accurate than the old 220 − age rule. Your five zones are then set as percentage bands of that maximum (Zone 1 = 50–60% up to Zone 5 = 90–100%). Enter your resting heart rate too and it also shows the more personalized Karvonen (heart-rate-reserve) zones.</p>
+            </details>
+            <details class="card p-5 group">
+              <summary class="cursor-pointer font-semibold text-white flex justify-between items-center">What is Zone 2 heart rate and why does everyone talk about it?<i data-lucide="chevron-down" class="w-5 h-5 text-slate-400 group-open:rotate-180 transition"></i></summary>
+              <p class="text-slate-400 mt-3">Zone 2 is a comfortable, conversational effort at roughly 60–70% of your maximum heart rate. It is the intensity where your body relies most on fat for fuel and builds aerobic (mitochondrial) capacity, which is why coaches recommend spending most easy training time there. It should feel almost too easy — that is the point.</p>
+            </details>
+            <details class="card p-5 group">
+              <summary class="cursor-pointer font-semibold text-white flex justify-between items-center">Percentage method vs. Karvonen method — what's the difference?<i data-lucide="chevron-down" class="w-5 h-5 text-slate-400 group-open:rotate-180 transition"></i></summary>
+              <p class="text-slate-400 mt-3">The percentage-of-max method takes a flat percentage of your maximum heart rate. Karvonen works from your heart rate reserve (max HR minus resting HR) and then adds your resting HR back in. Because it accounts for how fit your resting heart rate says you are, Karvonen gives more personalized boundaries — usually a little higher than the plain percentage method.</p>
+            </details>
+            <details class="card p-5 group">
+              <summary class="cursor-pointer font-semibold text-white flex justify-between items-center">Can I set these heart rate zones on my Apple Watch?<i data-lucide="chevron-down" class="w-5 h-5 text-slate-400 group-open:rotate-180 transition"></i></summary>
+              <p class="text-slate-400 mt-3">Yes. watchOS supports manual heart rate zones in the Workout app. On your iPhone go to Settings → Workout → Heart Rate Zones (or set them in the Fitness app), choose Manual, and type in the bpm boundaries this calculator gives you. Your watch will then show and buzz the correct zones during workouts.</p>
+            </details>
+            <details class="card p-5 group">
+              <summary class="cursor-pointer font-semibold text-white flex justify-between items-center">Is the Tanaka formula better than 220 − age?<i data-lucide="chevron-down" class="w-5 h-5 text-slate-400 group-open:rotate-180 transition"></i></summary>
+              <p class="text-slate-400 mt-3">For most people, yes. The 220 − age rule was never derived from careful research and tends to overestimate max heart rate for younger adults and underestimate it for older adults. The Tanaka formula (208 − 0.7 × age) came from a large meta-analysis and tracks measured maximums much more closely across ages.</p>
+            </details>
+            <details class="card p-5 group">
+              <summary class="cursor-pointer font-semibold text-white flex justify-between items-center">Is this calculator private?<i data-lucide="chevron-down" class="w-5 h-5 text-slate-400 group-open:rotate-180 transition"></i></summary>
+              <p class="text-slate-400 mt-3">Completely. Every calculation runs in your browser using JavaScript. Your age, resting heart rate, and results are never sent to any server — nothing is uploaded.</p>
+            </details>
+          </div>
+        </section>
+
+        <!-- Cross-links -->
+        <section class="mt-14">
+          <h2 class="text-xl font-bold text-white mb-4">More free tools</h2>
+          <div class="flex flex-wrap gap-3 text-sm">
+            <a href="/tools/" class="px-4 py-2 rounded-full bg-white/10 hover:bg-white/20 text-slate-200 font-semibold">All Free Tools</a>
+            <a href="/convert-tool/" class="px-4 py-2 rounded-full bg-white/10 hover:bg-white/20 text-slate-200 font-semibold">XML → CSV Converter</a>
+            <a href="/apple-health-export-validator/" class="px-4 py-2 rounded-full bg-white/10 hover:bg-white/20 text-slate-200 font-semibold">Export Validator</a>
+            <a href="/fitness-age-calculator/" class="px-4 py-2 rounded-full bg-white/10 hover:bg-white/20 text-slate-200 font-semibold">Fitness Age Calculator</a>
+            <a href="/recovery-score-calculator/" class="px-4 py-2 rounded-full bg-white/10 hover:bg-white/20 text-slate-200 font-semibold">Recovery Score Calculator</a>
+            <a href="/sleep-debt-calculator/" class="px-4 py-2 rounded-full bg-white/10 hover:bg-white/20 text-slate-200 font-semibold">Sleep Debt Calculator</a>
+          </div>
+        </section>
+
+        <!-- CTA -->
+        <section class="mt-14">
+          <div class="card p-8 text-center">
+            <h2 class="text-2xl font-bold text-white">Want deeper analysis?</h2>
+            <p class="text-slate-400 mt-2 max-w-xl mx-auto">See how much time your Apple Watch actually logs in each zone, track your resting heart rate trend, and let AI surface patterns across all your health data.</p>
+            <div class="mt-6 flex flex-wrap gap-3 justify-center">
+              <a href="/go/website.html?c=ah_hrzones" class="px-6 py-3 rounded-full bg-rose-600 hover:bg-rose-700 font-bold text-white">Download iOS App</a>
+              <a href="https://github.com/krumjahn/applehealth" class="px-6 py-3 rounded-full bg-white/10 hover:bg-white/20 font-bold text-slate-200">Get Mac Analyzer</a>
+            </div>
+          </div>
+          <p class="text-center text-xs text-slate-500 mt-8">This tool is for general fitness information and is not medical advice. Talk to a doctor before starting a new exercise program.</p>
+        </section>
+
+      </div>
+    </main>
+
+    <script>
+      const ZONES = [
+        { n: 1, name: 'Recovery',   lo: 0.50, hi: 0.60, color: 'bg-slate-500' },
+        { n: 2, name: 'Endurance',  lo: 0.60, hi: 0.70, color: 'bg-sky-500'   },
+        { n: 3, name: 'Tempo',      lo: 0.70, hi: 0.80, color: 'bg-emerald-500' },
+        { n: 4, name: 'Threshold',  lo: 0.80, hi: 0.90, color: 'bg-amber-500' },
+        { n: 5, name: 'VO2 Max',    lo: 0.90, hi: 1.00, color: 'bg-rose-600'  }
+      ];
+
+      const $ = id => document.getElementById(id);
+      const els = {
+        age: $('age'), rhr: $('rhr'), maxoverride: $('maxoverride'),
+        maxSummary: $('maxSummary'), maxHrValue: $('maxHrValue'), maxHrSource: $('maxHrSource'),
+        zoneBarWrap: $('zoneBarWrap'), zoneBarLabels: $('zoneBarLabels'),
+        zone2Callout: $('zone2Callout'), z2low: $('z2low'), z2high: $('z2high'), z2applewatch: $('z2applewatch'),
+        tablesWrap: $('tablesWrap'), pctBody: $('pctBody'), karvBody: $('karvBody'),
+        karvonenCol: $('karvonenCol'), karvHint: $('karvHint'),
+        prompt: $('prompt'), error: $('error')
+      };
+
+      function showError(msg) {
+        els.error.textContent = msg;
+        els.error.classList.remove('hidden');
+        els.prompt.classList.add('hidden');
+        [els.maxSummary, els.zoneBarWrap, els.zone2Callout, els.tablesWrap].forEach(e => e.classList.add('hidden'));
+      }
+      function hideResults() {
+        els.error.classList.add('hidden');
+        els.prompt.classList.remove('hidden');
+        [els.maxSummary, els.zoneBarWrap, els.zone2Callout, els.tablesWrap].forEach(e => e.classList.add('hidden'));
+      }
+
+      // Build one table row with safe DOM APIs (no innerHTML).
+      function buildRow(z) {
+        const tr = document.createElement('tr');
+
+        const tdZone = document.createElement('td');
+        tdZone.className = 'p-2.5';
+        const dot = document.createElement('span');
+        dot.className = 'inline-block w-2.5 h-2.5 rounded-full ' + z.color + ' mr-2 align-middle';
+        const zoneName = document.createElement('span');
+        zoneName.className = 'font-semibold text-slate-200';
+        zoneName.textContent = 'Zone ' + z.n + ' ';
+        const zoneDesc = document.createElement('span');
+        zoneDesc.className = 'text-slate-500';
+        zoneDesc.textContent = z.name;
+        tdZone.append(dot, zoneName, zoneDesc);
+
+        const tdPct = document.createElement('td');
+        tdPct.className = 'p-2.5 mono text-slate-400';
+        tdPct.textContent = z.loPct + '–' + z.hiPct + '%';
+
+        const tdBpm = document.createElement('td');
+        tdBpm.className = 'p-2.5 mono text-right font-semibold text-slate-100';
+        tdBpm.textContent = z.lobpm + '–' + z.hibpm;
+
+        tr.append(tdZone, tdPct, tdBpm);
+        return tr;
+      }
+
+      function fillTable(tbody, rows) {
+        tbody.replaceChildren(...rows.map(buildRow));
+      }
+
+      function fillLabels(bounds) {
+        els.zoneBarLabels.replaceChildren(...bounds.map(b => {
+          const s = document.createElement('span');
+          s.textContent = String(b);
+          return s;
+        }));
+      }
+
+      function recompute() {
+        const ageRaw = els.age.value.trim();
+        if (ageRaw === '') { hideResults(); return; }
+
+        const age = Number(ageRaw);
+        if (!Number.isFinite(age) || age < 10 || age > 120) {
+          showError('Please enter an age between 10 and 120.');
+          return;
+        }
+
+        // Resting HR (optional)
+        let rhr = null;
+        const rhrRaw = els.rhr.value.trim();
+        if (rhrRaw !== '') {
+          const r = Number(rhrRaw);
+          if (!Number.isFinite(r) || r < 30 || r > 120) { showError('Resting heart rate should be between 30 and 120 bpm.'); return; }
+          rhr = r;
+        }
+
+        // Max HR: override or Tanaka
+        const tanaka = Math.round(208 - 0.7 * age);
+        let maxHr = tanaka, overridden = false;
+        const ovRaw = els.maxoverride.value.trim();
+        if (ovRaw !== '') {
+          const ov = Number(ovRaw);
+          if (!Number.isFinite(ov) || ov < 100 || ov > 230) { showError('Known max HR should be between 100 and 230 bpm.'); return; }
+          maxHr = Math.round(ov); overridden = true;
+        }
+
+        if (rhr !== null && rhr >= maxHr) { showError('Resting heart rate must be below your maximum heart rate.'); return; }
+
+        els.error.classList.add('hidden');
+        els.prompt.classList.add('hidden');
+
+        // Max HR summary
+        els.maxHrValue.textContent = maxHr;
+        els.maxHrSource.textContent = overridden
+          ? 'Using your entered max HR'
+          : 'Tanaka: 208 − 0.7 × ' + age + ' = ' + tanaka + ' bpm';
+        els.maxSummary.classList.remove('hidden');
+
+        // Percentage-of-max zones
+        const pct = ZONES.map(z => ({
+          ...z,
+          lobpm: Math.round(z.lo * maxHr),
+          hibpm: Math.round(z.hi * maxHr),
+          loPct: Math.round(z.lo * 100),
+          hiPct: Math.round(z.hi * 100)
+        }));
+
+        // Karvonen zones (heart rate reserve)
+        let karv = null;
+        if (rhr !== null) {
+          const reserve = maxHr - rhr;
+          karv = ZONES.map(z => ({
+            ...z,
+            lobpm: Math.round(reserve * z.lo + rhr),
+            hibpm: Math.round(reserve * z.hi + rhr),
+            loPct: Math.round(z.lo * 100),
+            hiPct: Math.round(z.hi * 100)
+          }));
+        }
+
+        // Zone 2 callout (prefer Karvonen when present, since it's more personal)
+        const z2 = (karv || pct)[1];
+        els.z2low.textContent = z2.lobpm;
+        els.z2high.textContent = z2.hibpm;
+        els.z2applewatch.textContent = z2.lobpm + ' to ' + z2.hibpm + ' bpm';
+        els.zone2Callout.classList.remove('hidden');
+
+        // Visual bar: segment widths proportional to each zone's bpm span
+        const barRows = karv || pct;
+        const spanTotal = barRows[4].hibpm - barRows[0].lobpm;
+        ['segZ1','segZ2','segZ3','segZ4','segZ5'].forEach((id, i) => {
+          const span = barRows[i].hibpm - barRows[i].lobpm;
+          $(id).style.width = ((span / spanTotal) * 100).toFixed(2) + '%';
+        });
+        // Labels: boundary bpm values under the bar
+        fillLabels([barRows[0].lobpm, barRows[1].lobpm, barRows[2].lobpm, barRows[3].lobpm, barRows[4].lobpm, barRows[4].hibpm]);
+        els.zoneBarWrap.classList.remove('hidden');
+
+        // Tables
+        fillTable(els.pctBody, pct);
+        if (karv) {
+          fillTable(els.karvBody, karv);
+          els.karvonenCol.classList.remove('hidden');
+          els.karvHint.classList.add('hidden');
+        } else {
+          els.karvonenCol.classList.add('hidden');
+          els.karvHint.classList.remove('hidden');
+        }
+        els.tablesWrap.classList.remove('hidden');
+      }
+
+      [els.age, els.rhr, els.maxoverride].forEach(el => el.addEventListener('input', recompute));
+
+      lucide.createIcons();
+    </script>
+</body>
+</html>

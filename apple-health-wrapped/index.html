@@ -1,0 +1,821 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Apple Health Year Wrapped — Free Year in Review Generator | Apple Health Data</title>
+    <meta name="description" content="Turn your Apple Health export into a beautiful, shareable year-in-review card — steps, workouts, sleep, and more. Free, private, and runs entirely in your browser.">
+    <meta name="keywords" content="apple health year in review, apple health wrapped, apple watch year wrapped, fitness year in review generator, apple health year recap, year in fitness, health wrapped generator">
+    <meta name="apple-itunes-app" content="app-id=6749297170">
+    <link rel="canonical" href="https://applehealthdata.com/apple-health-wrapped/">
+    <meta property="og:title" content="Apple Health Year Wrapped — Your Fitness Year in Review">
+    <meta property="og:description" content="Generate a Spotify-Wrapped-style card from your Apple Health export. Steps, workouts, sleep and more — private, in-browser, and free.">
+    <meta property="og:url" content="https://applehealthdata.com/apple-health-wrapped/">
+    <meta property="og:type" content="website">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Apple Health Year Wrapped — Your Fitness Year in Review">
+    <meta name="twitter:description" content="Generate a Spotify-Wrapped-style card from your Apple Health export. Steps, workouts, sleep and more — private, in-browser, and free.">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap">
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script defer src="https://umami.rumjahn.synology.me/script.js" data-website-id="5d7b4fa8-90b2-4191-8daf-8ea487a8d961"></script>
+    <!-- Matomo -->
+    <script>
+      var _paq = window._paq = window._paq || [];
+      _paq.push(['trackPageView']);
+      _paq.push(['enableLinkTracking']);
+      (function() {
+        var u="//shrewd-lyrebird.pikapod.net/";
+        _paq.push(['setTrackerUrl', u+'matomo.php']);
+        _paq.push(['setSiteId', '9']);
+        var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
+        g.async=true; g.src=u+'matomo.js'; s.parentNode.insertBefore(g,s);
+      })();
+    </script>
+
+    <style>
+      body { font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif; background-color:#020617; color:#f8fafc; }
+      code, .mono { font-family: 'JetBrains Mono', ui-monospace, monospace; }
+      .mesh-gradient { position: fixed; inset: 0; z-index: -1; background: radial-gradient(at 0% 0%, rgba(225,29,72,.15), transparent 50%), radial-gradient(at 100% 0%, rgba(56,189,248,.15), transparent 50%), radial-gradient(at 100% 100%, rgba(168,85,247,.15), transparent 50%); filter: blur(60px); }
+      .card { background:rgba(255,255,255,.04); border:1px solid rgba(255,255,255,.1); border-radius:1rem; }
+      .drop-active { border-color:#f43f5e !important; background:rgba(244,63,94,.08) !important; }
+      .stat-num { font-variant-numeric: tabular-nums; }
+      .bar-track { background:rgba(255,255,255,.08); border-radius:999px; overflow:hidden; }
+      .bar-fill { background:linear-gradient(90deg,#e11d48,#f97316); height:100%; transition:width .15s ease; }
+    </style>
+
+    <!-- Structured data -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "SoftwareApplication",
+      "name": "Apple Health Year Wrapped",
+      "applicationCategory": "HealthApplication",
+      "operatingSystem": "Any (web browser)",
+      "url": "https://applehealthdata.com/apple-health-wrapped/",
+      "description": "Generate a shareable Spotify-Wrapped-style year-in-review card from your Apple Health export. Steps, distance, workouts, sleep, and streaks — all computed in your browser.",
+      "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" }
+    }
+    </script>
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "Is my Apple Health data uploaded anywhere?",
+          "acceptedAnswer": { "@type": "Answer", "text": "No. Your export.xml is read and parsed entirely inside your browser using JavaScript. Nothing is uploaded to any server, and no data leaves your device. You can even turn off Wi-Fi after the page loads." }
+        },
+        {
+          "@type": "Question",
+          "name": "How do I get my Apple Health export.xml file?",
+          "acceptedAnswer": { "@type": "Answer", "text": "On your iPhone open the Health app, tap your profile picture in the top right, scroll down and tap Export All Health Data. This produces a export.zip. Unzip it on your computer and select the export.xml file inside." }
+        },
+        {
+          "@type": "Question",
+          "name": "Which year does the Wrapped card cover?",
+          "acceptedAnswer": { "@type": "Answer", "text": "After parsing your file, a dropdown is populated with every year that has data. Pick any year and the card recalculates instantly. Partial years work too — the card only shows the stats it can compute." }
+        },
+        {
+          "@type": "Question",
+          "name": "How are the fun comparisons calculated?",
+          "acceptedAnswer": { "@type": "Answer", "text": "Distance is compared to the 42.195 km marathon and the 40,075 km circumference of the Earth. Active energy is divided by 285 kcal, roughly one slice of pepperoni pizza. These are illustrative approximations, not medical figures." }
+        },
+        {
+          "@type": "Question",
+          "name": "Why is a stat missing from my card?",
+          "acceptedAnswer": { "@type": "Answer", "text": "The generator only shows stats it can actually compute from your data. If you never recorded sleep, or your export has no workouts for that year, those rows are omitted rather than shown as zero." }
+        },
+        {
+          "@type": "Question",
+          "name": "What image size do I get?",
+          "acceptedAnswer": { "@type": "Answer", "text": "You can download a 1080x1920 story-format PNG for Instagram and TikTok stories, or a 1080x1080 square PNG for feed posts. On supported devices you can also share directly using the native share sheet." }
+        }
+      ]
+    }
+    </script>
+</head>
+<body>
+    <div class="mesh-gradient"></div>
+
+    <nav class="fixed w-full z-50 border-b border-white/10 bg-slate-950/50 backdrop-blur-xl">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8"><div class="flex justify-between items-center h-20">
+        <a href="/" class="flex items-center gap-3">
+          <div class="w-10 h-10 bg-gradient-to-tr from-rose-600 to-orange-500 rounded-xl flex items-center justify-center shadow-lg shadow-rose-500/20"><i data-lucide="activity" class="w-6 h-6 text-white"></i></div>
+          <div><span class="font-bold text-lg tracking-tight text-white block leading-none">Health Data</span><span class="text-xs text-slate-400 tracking-wider uppercase font-semibold">Export &amp; Analyze</span></div>
+        </a>
+        <a href="/tools/" class="text-slate-300 hover:text-white text-sm font-semibold">All Free Tools</a>
+      </div></div>
+    </nav>
+
+    <main class="pt-32 pb-20">
+      <div class="max-w-4xl mx-auto px-4">
+
+        <!-- Hero -->
+        <header class="text-center mb-10">
+          <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/5 border border-white/10 text-xs font-semibold text-slate-300 mb-5">
+            <i data-lucide="sparkles" class="w-3.5 h-3.5 text-rose-400"></i> 100% private · nothing is uploaded
+          </div>
+          <h1 class="text-4xl sm:text-5xl font-extrabold tracking-tight text-white">Apple Health Year Wrapped</h1>
+          <p class="mt-4 text-lg text-slate-400 max-w-2xl mx-auto">Turn your Apple Health export into a beautiful, shareable year-in-review card — steps, workouts, sleep, streaks and more. Free, private, and runs entirely in your browser. Nothing is uploaded.</p>
+        </header>
+
+        <!-- Tool -->
+        <section id="tool" class="card p-6 sm:p-8">
+          <!-- Step 1: drop zone -->
+          <div id="dropWrap">
+            <div id="drop" class="border-2 border-dashed border-white/15 rounded-2xl p-8 sm:p-12 text-center cursor-pointer transition-colors hover:border-rose-500/50">
+              <div class="w-14 h-14 mx-auto rounded-2xl bg-gradient-to-tr from-rose-600 to-orange-500 flex items-center justify-center shadow-lg shadow-rose-500/20 mb-4">
+                <i data-lucide="upload" class="w-7 h-7 text-white"></i>
+              </div>
+              <p class="text-lg font-bold text-white">Drop your <code class="text-rose-300">export.xml</code> here</p>
+              <p class="text-sm text-slate-400 mt-1">or click to choose a file · it never leaves your device</p>
+              <input id="file" type="file" accept=".xml,text/xml,.zip" class="hidden">
+            </div>
+            <p class="text-xs text-slate-500 mt-3 text-center">Don't have it yet? Open Health app → profile picture → <span class="text-slate-300 font-semibold">Export All Health Data</span>, unzip, and pick <code>export.xml</code>.</p>
+          </div>
+
+          <!-- Step 2: parsing progress -->
+          <div id="progressWrap" class="hidden">
+            <div class="flex items-center gap-3 mb-3">
+              <i data-lucide="loader-circle" class="w-5 h-5 text-rose-400 animate-spin"></i>
+              <span class="font-semibold text-white">Reading your health data…</span>
+            </div>
+            <div class="bar-track h-3 w-full"><div id="bar" class="bar-fill" style="width:0%"></div></div>
+            <p id="progressText" class="text-sm text-slate-400 mt-2 mono">0%</p>
+            <p class="text-xs text-slate-500 mt-1">Large exports can take 10–60 seconds. Everything is processed locally.</p>
+          </div>
+
+          <!-- Step 3: results -->
+          <div id="results" class="hidden">
+            <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6">
+              <div class="flex items-center gap-3">
+                <label for="yearSelect" class="text-sm font-semibold text-slate-300">Your year:</label>
+                <select id="yearSelect" class="rounded-lg bg-slate-900 border border-white/10 px-3 py-2 text-white font-bold text-lg"></select>
+              </div>
+              <div class="flex items-center gap-2">
+                <div class="inline-flex rounded-full bg-white/5 border border-white/10 p-1 text-xs font-semibold">
+                  <button id="fmtStory" class="px-3 py-1.5 rounded-full bg-rose-600 text-white">Story 9:16</button>
+                  <button id="fmtSquare" class="px-3 py-1.5 rounded-full text-slate-300 hover:text-white">Square 1:1</button>
+                </div>
+              </div>
+            </div>
+
+            <div class="grid lg:grid-cols-2 gap-6 items-start">
+              <!-- Live card preview -->
+              <div class="order-1">
+                <div class="rounded-2xl overflow-hidden border border-white/10 shadow-2xl shadow-black/40 bg-black">
+                  <canvas id="card" class="w-full h-auto block"></canvas>
+                </div>
+                <div class="flex flex-wrap gap-3 mt-4">
+                  <button id="download" class="px-4 py-2.5 rounded-full bg-rose-600 hover:bg-rose-700 font-bold text-white inline-flex items-center gap-2">
+                    <i data-lucide="download" class="w-4 h-4"></i> Download PNG
+                  </button>
+                  <button id="share" class="hidden px-4 py-2.5 rounded-full bg-white/10 hover:bg-white/20 font-bold text-white inline-flex items-center gap-2">
+                    <i data-lucide="share-2" class="w-4 h-4"></i> Share
+                  </button>
+                  <button id="reset" class="px-4 py-2.5 rounded-full bg-white/5 hover:bg-white/10 font-semibold text-slate-300 inline-flex items-center gap-2">
+                    <i data-lucide="rotate-ccw" class="w-4 h-4"></i> New file
+                  </button>
+                </div>
+              </div>
+
+              <!-- Stat grid -->
+              <div class="order-2">
+                <h3 class="text-sm font-semibold uppercase tracking-wider text-slate-400 mb-3">Your <span id="statYear"></span> in numbers</h3>
+                <div id="statGrid" class="grid grid-cols-2 gap-3"></div>
+                <p class="text-xs text-slate-500 mt-4 leading-relaxed">Comparisons are playful approximations: marathon = 42.195 km, Earth's circumference = 40,075 km, one pizza slice ≈ 285 kcal.</p>
+              </div>
+            </div>
+          </div>
+
+          <p id="errorBox" class="hidden mt-4 text-sm text-rose-300 bg-rose-500/10 border border-rose-500/20 rounded-lg p-3"></p>
+        </section>
+
+        <!-- How to use -->
+        <section class="mt-14">
+          <h2 class="text-3xl font-bold text-white">How to make your Health Wrapped</h2>
+          <ol class="mt-6 space-y-4">
+            <li class="flex gap-4"><span class="flex-none w-8 h-8 rounded-full bg-rose-600/20 text-rose-300 font-bold flex items-center justify-center">1</span><p class="text-lg text-slate-400">On your iPhone, open the <strong class="text-slate-200">Health</strong> app, tap your profile picture, then <strong class="text-slate-200">Export All Health Data</strong>. Save the resulting <code>export.zip</code>.</p></li>
+            <li class="flex gap-4"><span class="flex-none w-8 h-8 rounded-full bg-rose-600/20 text-rose-300 font-bold flex items-center justify-center">2</span><p class="text-lg text-slate-400">Unzip it on your computer (or use the Files app). Inside the <code>apple_health_export</code> folder you'll find <code>export.xml</code>.</p></li>
+            <li class="flex gap-4"><span class="flex-none w-8 h-8 rounded-full bg-rose-600/20 text-rose-300 font-bold flex items-center justify-center">3</span><p class="text-lg text-slate-400">Drop <code>export.xml</code> into the box above. Parsing happens locally — nothing uploads.</p></li>
+            <li class="flex gap-4"><span class="flex-none w-8 h-8 rounded-full bg-rose-600/20 text-rose-300 font-bold flex items-center justify-center">4</span><p class="text-lg text-slate-400">Pick your year from the dropdown and choose <strong class="text-slate-200">Story</strong> or <strong class="text-slate-200">Square</strong> format.</p></li>
+            <li class="flex gap-4"><span class="flex-none w-8 h-8 rounded-full bg-rose-600/20 text-rose-300 font-bold flex items-center justify-center">5</span><p class="text-lg text-slate-400"><strong class="text-slate-200">Download</strong> the PNG or tap <strong class="text-slate-200">Share</strong>, then post your fitness year in review.</p></li>
+          </ol>
+        </section>
+
+        <!-- SEO content -->
+        <section class="mt-14 space-y-6">
+          <h2 class="text-3xl font-bold text-white">What is an Apple Health year in review?</h2>
+          <p class="text-lg text-slate-400">Every December, apps like Spotify and Strava publish a slick "wrapped" recap of your year. Apple Health quietly stores far richer data than any of them — every step, every workout, every night of sleep going back years — but it gives you no way to celebrate it or share it. This free generator fills that gap. It reads the <code>export.xml</code> file that the Health app produces and turns a full year of numbers into a single, beautiful card you can post as an Instagram story, a TikTok, or a feed image.</p>
+
+          <h3 class="text-2xl font-bold text-white">How the stats are calculated</h3>
+          <p class="text-lg text-slate-400">Everything is computed by streaming through your export one chunk at a time, so even multi-gigabyte files won't crash your browser tab. For the year you select, the generator adds up:</p>
+          <ul class="text-lg text-slate-400 list-disc pl-6 space-y-2">
+            <li><strong class="text-slate-200">Total steps</strong> and your single best day, summed from <code>HKQuantityTypeIdentifierStepCount</code> records and grouped by local date.</li>
+            <li><strong class="text-slate-200">Distance walked and run</strong> from <code>HKQuantityTypeIdentifierDistanceWalkingRunning</code>, shown in both kilometres and miles.</li>
+            <li><strong class="text-slate-200">Workouts</strong> — total count, total minutes, and your most frequent activity type, read from <code>Workout</code> elements.</li>
+            <li><strong class="text-slate-200">Active energy</strong> burned from <code>HKQuantityTypeIdentifierActiveEnergyBurned</code>.</li>
+            <li><strong class="text-slate-200">Sleep</strong> — your average nightly duration and your longest single night, derived from "asleep" values in <code>HKCategoryTypeIdentifierSleepAnalysis</code>.</li>
+            <li><strong class="text-slate-200">Longest streak</strong> — the longest run of consecutive days where you hit at least 5,000 steps.</li>
+          </ul>
+          <p class="text-lg text-slate-400">The fun comparisons are simple division: your total distance divided by the 42.195 km marathon distance and by the 40,075 km circumference of the Earth, and your active energy divided by roughly 285 kcal per slice of pepperoni pizza. They are meant to make big numbers feel real, not to be medically precise.</p>
+
+          <h3 class="text-2xl font-bold text-white">Why do so many stats need explaining?</h3>
+          <p class="text-lg text-slate-400">Apple Health records the same metric from multiple sources — your iPhone, your Apple Watch, and third-party apps can all log steps for the same minute. Naive tools double-count these. This generator sums the raw records as recorded, which matches what most people see in the Health app's own yearly totals; if your numbers look inflated, run the <a href="/apple-health-duplicate-steps-checker/" class="text-rose-400 hover:text-rose-300 underline">duplicate steps checker</a> to see how much overlap your sources create. Sleep is similarly nuanced: Apple stores separate stages (Core, Deep, REM) plus older "InBed" and "Asleep" values, so the generator counts any "asleep" state as sleep and ignores time merely spent in bed.</p>
+
+          <h3 class="text-2xl font-bold text-white">How to read your results</h3>
+          <p class="text-lg text-slate-400">Treat the card as a celebration, not a scorecard. A big step total is satisfying, but the streak number is often the more meaningful one — consistency beats any single record-breaking day. If a stat is missing, it simply means your export had no data of that type for that year; the card omits empty rows rather than showing misleading zeros. Because the whole thing runs offline, you can generate a card for every year you've owned your iPhone and watch the trend for yourself.</p>
+        </section>
+
+        <!-- FAQ -->
+        <section class="mt-14">
+          <h2 class="text-3xl font-bold text-white">Frequently asked questions</h2>
+          <div class="mt-6 space-y-4">
+            <details class="card p-5 group" open>
+              <summary class="font-bold text-white cursor-pointer flex justify-between items-center">Is my Apple Health data uploaded anywhere?<i data-lucide="chevron-down" class="w-5 h-5 text-slate-400 group-open:rotate-180 transition-transform"></i></summary>
+              <p class="mt-3 text-slate-400">No. Your <code>export.xml</code> is read and parsed entirely inside your browser using JavaScript. Nothing is uploaded to any server, and no data leaves your device. You can even turn off Wi-Fi after the page loads and it will still work.</p>
+            </details>
+            <details class="card p-5 group">
+              <summary class="font-bold text-white cursor-pointer flex justify-between items-center">How do I get my Apple Health export.xml file?<i data-lucide="chevron-down" class="w-5 h-5 text-slate-400 group-open:rotate-180 transition-transform"></i></summary>
+              <p class="mt-3 text-slate-400">On your iPhone open the Health app, tap your profile picture in the top right, scroll down and tap <strong class="text-slate-200">Export All Health Data</strong>. This produces an <code>export.zip</code>. Unzip it and select the <code>export.xml</code> file inside.</p>
+            </details>
+            <details class="card p-5 group">
+              <summary class="font-bold text-white cursor-pointer flex justify-between items-center">Which year does the Wrapped card cover?<i data-lucide="chevron-down" class="w-5 h-5 text-slate-400 group-open:rotate-180 transition-transform"></i></summary>
+              <p class="mt-3 text-slate-400">After parsing your file, the dropdown is populated with every year that has data. Pick any year and the card recalculates instantly. Partial years work too — the card only shows the stats it can compute.</p>
+            </details>
+            <details class="card p-5 group">
+              <summary class="font-bold text-white cursor-pointer flex justify-between items-center">How are the fun comparisons calculated?<i data-lucide="chevron-down" class="w-5 h-5 text-slate-400 group-open:rotate-180 transition-transform"></i></summary>
+              <p class="mt-3 text-slate-400">Distance is compared to the 42.195 km marathon and the 40,075 km circumference of the Earth. Active energy is divided by 285 kcal, roughly one slice of pepperoni pizza. These are illustrative approximations, not medical figures.</p>
+            </details>
+            <details class="card p-5 group">
+              <summary class="font-bold text-white cursor-pointer flex justify-between items-center">Why is a stat missing from my card?<i data-lucide="chevron-down" class="w-5 h-5 text-slate-400 group-open:rotate-180 transition-transform"></i></summary>
+              <p class="mt-3 text-slate-400">The generator only shows stats it can actually compute. If you never recorded sleep, or your export has no workouts for that year, those rows are omitted rather than shown as zero.</p>
+            </details>
+            <details class="card p-5 group">
+              <summary class="font-bold text-white cursor-pointer flex justify-between items-center">What image size do I get?<i data-lucide="chevron-down" class="w-5 h-5 text-slate-400 group-open:rotate-180 transition-transform"></i></summary>
+              <p class="mt-3 text-slate-400">You can download a 1080×1920 story-format PNG for Instagram and TikTok stories, or a 1080×1080 square PNG for feed posts. On supported devices you can also share directly using the native share sheet.</p>
+            </details>
+          </div>
+        </section>
+
+        <!-- Cross-links -->
+        <section class="mt-14">
+          <h2 class="text-xl font-bold text-white mb-4">More free Apple Health tools</h2>
+          <div class="flex flex-wrap gap-3 text-sm font-semibold">
+            <a href="/tools/" class="px-4 py-2 rounded-full bg-white/10 hover:bg-white/20 text-slate-200">All free tools</a>
+            <a href="/convert-tool/" class="px-4 py-2 rounded-full bg-white/10 hover:bg-white/20 text-slate-200">XML → CSV converter</a>
+            <a href="/apple-health-export-validator/" class="px-4 py-2 rounded-full bg-white/10 hover:bg-white/20 text-slate-200">Export validator</a>
+            <a href="/apple-health-duplicate-steps-checker/" class="px-4 py-2 rounded-full bg-white/10 hover:bg-white/20 text-slate-200">Duplicate steps checker</a>
+            <a href="/recovery-score-calculator/" class="px-4 py-2 rounded-full bg-white/10 hover:bg-white/20 text-slate-200">Recovery score calculator</a>
+            <a href="/sleep-debt-calculator/" class="px-4 py-2 rounded-full bg-white/10 hover:bg-white/20 text-slate-200">Sleep debt calculator</a>
+          </div>
+        </section>
+
+        <!-- CTA -->
+        <section class="mt-14 card p-8 text-center">
+          <h2 class="text-2xl font-bold text-white">Want deeper analysis?</h2>
+          <p class="mt-2 text-slate-400 max-w-xl mx-auto">Track trends across every year, get AI-powered insights, and keep your data on your own device.</p>
+          <div class="mt-6 flex flex-wrap gap-3 justify-center">
+            <a href="/go/website.html?c=ah_wrapped" class="px-6 py-3 rounded-full bg-rose-600 hover:bg-rose-700 font-bold text-white inline-flex items-center gap-2"><i data-lucide="smartphone" class="w-4 h-4"></i> Download iOS App</a>
+            <a href="https://github.com/krumjahn/applehealth" class="px-6 py-3 rounded-full bg-white/10 hover:bg-white/20 font-bold text-white inline-flex items-center gap-2"><i data-lucide="github" class="w-4 h-4"></i> Get Mac Analyzer</a>
+          </div>
+        </section>
+
+      </div>
+    </main>
+
+    <footer class="border-t border-white/10 py-8 text-center text-sm text-slate-500">
+      <p>Built for the Apple Health community · Your data never leaves your browser.</p>
+    </footer>
+
+    <script>
+    // DOM refs
+    const drop = document.getElementById('drop');
+    const dropWrap = document.getElementById('dropWrap');
+    const fileInput = document.getElementById('file');
+    const progressWrap = document.getElementById('progressWrap');
+    const bar = document.getElementById('bar');
+    const progressText = document.getElementById('progressText');
+    const results = document.getElementById('results');
+    const yearSelect = document.getElementById('yearSelect');
+    const statGrid = document.getElementById('statGrid');
+    const statYear = document.getElementById('statYear');
+    const canvas = document.getElementById('card');
+    const errorBox = document.getElementById('errorBox');
+    const fmtStory = document.getElementById('fmtStory');
+    const fmtSquare = document.getElementById('fmtSquare');
+    const btnDownload = document.getElementById('download');
+    const btnShare = document.getElementById('share');
+    const btnReset = document.getElementById('reset');
+
+    // State
+    let perYear = {};
+    let currentFormat = 'story';
+    const STEP_STREAK_THRESHOLD = 5000;
+    const MARATHON_KM = 42.195;
+    const EARTH_KM = 40075;
+    const PIZZA_KCAL = 285;
+
+    // File handling
+    drop.addEventListener('click', () => fileInput.click());
+    fileInput.addEventListener('change', e => { if (e.target.files[0]) handleFile(e.target.files[0]); });
+    ['dragenter','dragover'].forEach(ev => drop.addEventListener(ev, e => { e.preventDefault(); drop.classList.add('drop-active'); }));
+    ['dragleave','drop'].forEach(ev => drop.addEventListener(ev, e => { e.preventDefault(); drop.classList.remove('drop-active'); }));
+    drop.addEventListener('drop', e => { const f = e.dataTransfer.files[0]; if (f) handleFile(f); });
+
+    function showError(msg) { errorBox.textContent = msg; errorBox.classList.remove('hidden'); }
+    function hideError() { errorBox.classList.add('hidden'); }
+
+    function handleFile(file) {
+      hideError();
+      if (file.name.toLowerCase().endsWith('.zip')) {
+        showError('That looks like the export.zip. Please unzip it first and select the export.xml file inside the apple_health_export folder.');
+        return;
+      }
+      if (!file.name.toLowerCase().endsWith('.xml')) {
+        showError('Please select your export.xml file.');
+        return;
+      }
+      dropWrap.classList.add('hidden');
+      results.classList.add('hidden');
+      progressWrap.classList.remove('hidden');
+      perYear = {};
+      parseFile(file).then(onParsed).catch(err => {
+        console.error(err);
+        progressWrap.classList.add('hidden');
+        dropWrap.classList.remove('hidden');
+        showError('Something went wrong reading that file. Make sure it is the export.xml from Apple Health.');
+      });
+    }
+
+    // Streaming parser
+    const CHUNK = 8 * 1024 * 1024;
+
+    function dateKeyFromAppleDate(s) {
+      if (!s || s.length < 10) return null;
+      return s.slice(0, 10);
+    }
+
+    function ensureYear(y) {
+      if (!perYear[y]) {
+        perYear[y] = {
+          stepsByDay: {},
+          distanceKm: 0,
+          activeEnergy: 0,
+          workoutCount: 0,
+          workoutMinutes: 0,
+          workoutTypes: {},
+          sleepByNight: {},
+        };
+      }
+      return perYear[y];
+    }
+
+    function attr(recordStr, name) {
+      const m = recordStr.match(new RegExp(name + '="([^"]*)"'));
+      return m ? m[1] : null;
+    }
+
+    const RECORD_RE = /<Record\b[^>]*\/?>/g;
+    const WORKOUT_RE = /<Workout\b[^>]*>/g;
+
+    function processRecord(rec) {
+      const type = attr(rec, 'type');
+      if (!type) return;
+      const startDate = attr(rec, 'startDate') || attr(rec, 'creationDate');
+      const key = dateKeyFromAppleDate(startDate);
+      if (!key) return;
+      const year = key.slice(0, 4);
+
+      if (type === 'HKQuantityTypeIdentifierStepCount') {
+        const v = parseFloat(attr(rec, 'value'));
+        if (!isNaN(v)) { const y = ensureYear(year); y.stepsByDay[key] = (y.stepsByDay[key] || 0) + v; }
+      } else if (type === 'HKQuantityTypeIdentifierDistanceWalkingRunning') {
+        const v = parseFloat(attr(rec, 'value'));
+        const unit = (attr(rec, 'unit') || 'km').toLowerCase();
+        if (!isNaN(v)) { const y = ensureYear(year); y.distanceKm += unit === 'mi' ? v * 1.609344 : v; }
+      } else if (type === 'HKQuantityTypeIdentifierActiveEnergyBurned') {
+        const v = parseFloat(attr(rec, 'value'));
+        const unit = (attr(rec, 'unit') || 'kcal').toLowerCase();
+        if (!isNaN(v)) { const y = ensureYear(year); y.activeEnergy += unit === 'kj' ? v / 4.184 : v; }
+      } else if (type === 'HKCategoryTypeIdentifierSleepAnalysis') {
+        const val = attr(rec, 'value') || '';
+        const isAsleep = val.indexOf('Asleep') !== -1;
+        if (!isAsleep) return;
+        const sd = attr(rec, 'startDate'); const ed = attr(rec, 'endDate');
+        const secs = durationSeconds(sd, ed);
+        if (secs > 0) {
+          const nightKey = dateKeyFromAppleDate(ed) || key;
+          const y = ensureYear(nightKey.slice(0,4));
+          y.sleepByNight[nightKey] = (y.sleepByNight[nightKey] || 0) + secs;
+        }
+      }
+    }
+
+    function processWorkout(w) {
+      const startDate = attr(w, 'startDate');
+      const key = dateKeyFromAppleDate(startDate);
+      if (!key) return;
+      const year = key.slice(0, 4);
+      const y = ensureYear(year);
+      y.workoutCount += 1;
+      let mins = parseFloat(attr(w, 'duration'));
+      const unit = (attr(w, 'durationUnit') || 'min').toLowerCase();
+      if (!isNaN(mins)) { if (unit === 'sec' || unit === 's') mins = mins / 60; y.workoutMinutes += mins; }
+      let t = attr(w, 'workoutActivityType') || 'Other';
+      t = t.replace('HKWorkoutActivityType', '');
+      y.workoutTypes[t] = (y.workoutTypes[t] || 0) + 1;
+    }
+
+    function appleDateToMs(s) {
+      if (!s) return NaN;
+      const iso = s.replace(' ', 'T').replace(/ ([+-]\d{2})(\d{2})$/, '$1:$2');
+      return Date.parse(iso);
+    }
+    function durationSeconds(sd, ed) {
+      const a = appleDateToMs(sd), b = appleDateToMs(ed);
+      if (isNaN(a) || isNaN(b) || b <= a) return 0;
+      return (b - a) / 1000;
+    }
+
+    async function parseFile(file) {
+      const decoder = new TextDecoder('utf-8');
+      let carry = '';
+      let offset = 0;
+      const size = file.size;
+
+      while (offset < size) {
+        const slice = file.slice(offset, offset + CHUNK);
+        const buf = await slice.arrayBuffer();
+        let text = carry + decoder.decode(buf, { stream: true });
+
+        // Only parse text up to the last complete tag. Anything after the
+        // final '<' may be a tag split across the chunk boundary, so we hold
+        // it back as carry and prepend it to the next chunk. This guarantees
+        // every tag is processed exactly once (no double-counting).
+        const isLast = offset + CHUNK >= size;
+        let scanEnd = text.length;
+        if (!isLast) {
+          const lastOpen = text.lastIndexOf('<');
+          if (lastOpen > 0) scanEnd = lastOpen;
+        }
+        const scanText = text.slice(0, scanEnd);
+
+        RECORD_RE.lastIndex = 0;
+        let m;
+        while ((m = RECORD_RE.exec(scanText)) !== null) { processRecord(m[0]); }
+
+        WORKOUT_RE.lastIndex = 0;
+        let wm;
+        while ((wm = WORKOUT_RE.exec(scanText)) !== null) { processWorkout(wm[0]); }
+
+        carry = isLast ? '' : text.slice(scanEnd);
+
+        offset += CHUNK;
+        const pct = Math.min(100, Math.round((offset / size) * 100));
+        bar.style.width = pct + '%';
+        progressText.textContent = pct + '% · ' + fmtBytes(Math.min(offset, size)) + ' / ' + fmtBytes(size);
+        await new Promise(r => setTimeout(r, 0));
+      }
+      bar.style.width = '100%';
+      progressText.textContent = '100% · done';
+    }
+
+    function fmtBytes(b) {
+      if (b > 1e9) return (b/1e9).toFixed(1) + ' GB';
+      if (b > 1e6) return (b/1e6).toFixed(0) + ' MB';
+      if (b > 1e3) return (b/1e3).toFixed(0) + ' KB';
+      return b + ' B';
+    }
+
+    function onParsed() {
+      const years = Object.keys(perYear).filter(y => /^\d{4}$/.test(y)).sort((a,b) => b - a);
+      if (years.length === 0) {
+        progressWrap.classList.add('hidden');
+        dropWrap.classList.remove('hidden');
+        showError('No step, workout, sleep, distance or energy records were found in that file. Double-check you selected export.xml.');
+        return;
+      }
+      yearSelect.innerHTML = years.map(y => `<option value="${y}">${y}</option>`).join('');
+      yearSelect.value = years[0];
+      progressWrap.classList.add('hidden');
+      results.classList.remove('hidden');
+      renderYear(yearSelect.value);
+    }
+
+    yearSelect.addEventListener('change', () => renderYear(yearSelect.value));
+
+    function computeStats(year) {
+      const d = perYear[year];
+      if (!d) return null;
+      const s = { year };
+
+      const dayKeys = Object.keys(d.stepsByDay);
+      if (dayKeys.length) {
+        let total = 0, bestDay = null, bestVal = 0;
+        for (const k of dayKeys) {
+          const v = d.stepsByDay[k];
+          total += v;
+          if (v > bestVal) { bestVal = v; bestDay = k; }
+        }
+        s.totalSteps = Math.round(total);
+        s.bestStepDay = bestDay;
+        s.bestStepVal = Math.round(bestVal);
+        s.longestStreak = longestStreak(d.stepsByDay, STEP_STREAK_THRESHOLD);
+      }
+
+      if (d.distanceKm > 0) {
+        s.distanceKm = d.distanceKm;
+        s.distanceMi = d.distanceKm / 1.609344;
+        s.marathons = d.distanceKm / MARATHON_KM;
+        s.earthPct = (d.distanceKm / EARTH_KM) * 100;
+      }
+
+      if (d.activeEnergy > 0) {
+        s.activeEnergy = Math.round(d.activeEnergy);
+        s.pizzas = d.activeEnergy / PIZZA_KCAL;
+      }
+
+      if (d.workoutCount > 0) {
+        s.workoutCount = d.workoutCount;
+        s.workoutMinutes = Math.round(d.workoutMinutes);
+        let topType = null, topN = 0;
+        for (const t in d.workoutTypes) { if (d.workoutTypes[t] > topN) { topN = d.workoutTypes[t]; topType = t; } }
+        s.topWorkout = spaceCamel(topType);
+      }
+
+      const nights = Object.keys(d.sleepByNight);
+      if (nights.length) {
+        let sum = 0, longest = 0;
+        for (const k of nights) { const v = d.sleepByNight[k]; sum += v; if (v > longest) longest = v; }
+        s.avgSleepHrs = (sum / nights.length) / 3600;
+        s.longestSleepHrs = longest / 3600;
+        s.sleepNights = nights.length;
+      }
+
+      return s;
+    }
+
+    function longestStreak(stepsByDay, threshold) {
+      const days = Object.keys(stepsByDay).filter(k => stepsByDay[k] >= threshold).sort();
+      if (!days.length) return 0;
+      let best = 1, cur = 1;
+      for (let i = 1; i < days.length; i++) {
+        const prev = new Date(days[i-1] + 'T00:00:00');
+        const now = new Date(days[i] + 'T00:00:00');
+        const diff = Math.round((now - prev) / 86400000);
+        if (diff === 1) { cur++; best = Math.max(best, cur); }
+        else { cur = 1; }
+      }
+      return best;
+    }
+
+    function spaceCamel(s) { return s ? s.replace(/([a-z])([A-Z])/g, '$1 $2') : s; }
+
+    const nf = new Intl.NumberFormat('en-US');
+    function fmtNum(n) { return nf.format(Math.round(n)); }
+    function fmtDate(key) {
+      try {
+        const dt = new Date(key + 'T00:00:00');
+        return dt.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+      } catch (e) { return key; }
+    }
+    function fmtHrs(h) {
+      const hh = Math.floor(h);
+      const mm = Math.round((h - hh) * 60);
+      return hh + 'h ' + (mm < 10 ? '0' : '') + mm + 'm';
+    }
+
+    function statRows(s) {
+      const rows = [];
+      if (s.totalSteps != null) rows.push({ icon:'footprints', label:'Total steps', value:fmtNum(s.totalSteps) });
+      if (s.bestStepDay) rows.push({ icon:'trophy', label:'Best day', value:fmtNum(s.bestStepVal), sub:fmtDate(s.bestStepDay) });
+      if (s.distanceKm != null) rows.push({ icon:'route', label:'Distance', value:fmtNum(s.distanceKm)+' km', sub:fmtNum(s.distanceMi)+' mi' });
+      if (s.workoutCount != null) rows.push({ icon:'dumbbell', label:'Workouts', value:fmtNum(s.workoutCount), sub:fmtNum(s.workoutMinutes)+' min' });
+      if (s.topWorkout) rows.push({ icon:'flame', label:'Top activity', value:s.topWorkout });
+      if (s.activeEnergy != null) rows.push({ icon:'zap', label:'Active energy', value:fmtNum(s.activeEnergy)+' kcal' });
+      if (s.avgSleepHrs != null) rows.push({ icon:'moon', label:'Avg sleep', value:fmtHrs(s.avgSleepHrs) });
+      if (s.longestSleepHrs != null) rows.push({ icon:'bed-double', label:'Longest night', value:fmtHrs(s.longestSleepHrs) });
+      if (s.longestStreak) rows.push({ icon:'trending-up', label:'Longest streak', value:s.longestStreak+' days', sub:'≥5,000 steps' });
+      return rows;
+    }
+
+    function funLine(s) {
+      const bits = [];
+      if (s.earthPct != null && s.earthPct >= 0.1) bits.push(fmtPct(s.earthPct) + '% around the Earth');
+      if (s.marathons != null && s.marathons >= 0.5) bits.push(s.marathons.toFixed(1) + ' marathons');
+      if (s.pizzas != null && s.pizzas >= 1) bits.push(fmtNum(s.pizzas) + ' pizza slices burned');
+      return bits;
+    }
+    function fmtPct(p) { return p >= 10 ? Math.round(p) : p.toFixed(1); }
+
+    function renderYear(year) {
+      const s = computeStats(year);
+      statYear.textContent = year;
+      if (!s) return;
+      const rows = statRows(s);
+      statGrid.innerHTML = rows.map(r => `
+        <div class="card p-4">
+          <div class="flex items-center gap-2 text-slate-400 text-xs font-semibold uppercase tracking-wider mb-1">
+            <i data-lucide="${r.icon}" class="w-3.5 h-3.5"></i> ${r.label}
+          </div>
+          <div class="text-2xl font-extrabold text-white stat-num leading-tight">${r.value}</div>
+          ${r.sub ? `<div class="text-xs text-slate-500 mt-0.5">${r.sub}</div>` : ''}
+        </div>`).join('');
+      if (window.lucide) lucide.createIcons();
+      drawCard(s);
+    }
+
+    // Canvas share card
+    function drawCard(s) {
+      const W = 1080;
+      const H = currentFormat === 'story' ? 1920 : 1080;
+      canvas.width = W; canvas.height = H;
+      const ctx = canvas.getContext('2d');
+
+      const g = ctx.createLinearGradient(0, 0, W, H);
+      g.addColorStop(0, '#0b0a1f');
+      g.addColorStop(0.5, '#170a1e');
+      g.addColorStop(1, '#020617');
+      ctx.fillStyle = g; ctx.fillRect(0, 0, W, H);
+
+      radial(ctx, W*0.08, H*0.06, W*0.9, 'rgba(225,29,72,0.35)');
+      radial(ctx, W*0.95, H*0.10, W*0.8, 'rgba(56,189,248,0.28)');
+      radial(ctx, W*0.9, H*0.95, W*0.9, 'rgba(168,85,247,0.32)');
+
+      const pad = 96;
+      let y = currentFormat === 'story' ? 200 : 90;
+
+      ctx.textAlign = 'left';
+      ctx.fillStyle = 'rgba(255,255,255,0.6)';
+      ctx.font = '600 34px "Plus Jakarta Sans", sans-serif';
+      ctx.fillText('APPLE HEALTH', pad, y);
+      ctx.fillStyle = '#fb7185';
+      ctx.font = '800 120px "Plus Jakarta Sans", sans-serif';
+      ctx.fillText('' + s.year, pad, y + 122);
+      ctx.fillStyle = '#ffffff';
+      ctx.font = '800 84px "Plus Jakarta Sans", sans-serif';
+      ctx.fillText('WRAPPED', pad, y + 218);
+
+      y += currentFormat === 'story' ? 340 : 300;
+
+      const rows = cardRows(s);
+      const hero = rows.shift();
+      if (hero) {
+        ctx.fillStyle = 'rgba(255,255,255,0.55)';
+        ctx.font = '600 36px "Plus Jakarta Sans", sans-serif';
+        ctx.fillText(hero.label.toUpperCase(), pad, y);
+        ctx.fillStyle = '#ffffff';
+        const heroSize = currentFormat === 'story' ? 148 : 120;
+        ctx.font = '800 ' + heroSize + 'px "Plus Jakarta Sans", sans-serif';
+        ctx.fillText(hero.value, pad, y + heroSize*0.85);
+        if (hero.sub) {
+          ctx.fillStyle = '#fb7185';
+          ctx.font = '600 40px "Plus Jakarta Sans", sans-serif';
+          ctx.fillText(hero.sub, pad, y + heroSize*0.85 + 56);
+        }
+        y += heroSize + (hero.sub ? 130 : 80);
+      }
+
+      const rowH = currentFormat === 'story' ? 118 : 92;
+      const maxRows = currentFormat === 'story' ? 7 : 4;
+      const shown = rows.slice(0, maxRows);
+      for (const r of shown) {
+        ctx.fillStyle = 'rgba(255,255,255,0.5)';
+        ctx.font = '600 32px "Plus Jakarta Sans", sans-serif';
+        ctx.textAlign = 'left';
+        ctx.fillText(r.label.toUpperCase(), pad, y);
+        const labelW = ctx.measureText(r.label.toUpperCase()).width;
+        // Shrink the value font if it would collide with the label. Long
+        // values like "Traditional Strength Training" would otherwise overlap.
+        const avail = (W - pad) - (pad + labelW + 30);
+        let vSize = 62;
+        ctx.fillStyle = '#ffffff';
+        ctx.font = '800 ' + vSize + 'px "Plus Jakarta Sans", sans-serif';
+        while (ctx.measureText(r.value).width > avail && vSize > 28) {
+          vSize -= 3;
+          ctx.font = '800 ' + vSize + 'px "Plus Jakarta Sans", sans-serif';
+        }
+        ctx.textAlign = 'right';
+        ctx.fillText(r.value, W - pad, y + 6);
+        ctx.textAlign = 'left';
+        ctx.strokeStyle = 'rgba(255,255,255,0.08)';
+        ctx.lineWidth = 2;
+        ctx.beginPath(); ctx.moveTo(pad, y + rowH - 44); ctx.lineTo(W - pad, y + rowH - 44); ctx.stroke();
+        y += rowH;
+      }
+
+      const fun = funLine(s);
+      if (fun.length && currentFormat === 'story') {
+        y += 20;
+        ctx.fillStyle = 'rgba(251,113,133,0.95)';
+        ctx.font = '700 38px "Plus Jakarta Sans", sans-serif';
+        ctx.textAlign = 'left';
+        wrapText(ctx, '★ ' + fun.join('  ·  '), pad, y, W - pad*2, 52);
+      }
+
+      ctx.textAlign = 'center';
+      ctx.fillStyle = 'rgba(255,255,255,0.6)';
+      ctx.font = '600 34px "Plus Jakarta Sans", sans-serif';
+      ctx.fillText('applehealthdata.com/apple-health-wrapped', W/2, H - 70);
+    }
+
+    function cardRows(s) {
+      const r = [];
+      if (s.totalSteps != null) r.push({ label:'Steps this year', value:fmtNum(s.totalSteps) });
+      if (s.distanceKm != null) r.push({ label:'Distance', value:fmtNum(s.distanceKm)+' km' });
+      if (s.workoutCount != null) r.push({ label:'Workouts', value:fmtNum(s.workoutCount) });
+      if (s.topWorkout) r.push({ label:'Top activity', value:s.topWorkout });
+      if (s.workoutMinutes != null) r.push({ label:'Active minutes', value:fmtNum(s.workoutMinutes) });
+      if (s.activeEnergy != null) r.push({ label:'Active energy', value:fmtNum(s.activeEnergy)+' kcal' });
+      if (s.avgSleepHrs != null) r.push({ label:'Avg sleep', value:fmtHrs(s.avgSleepHrs) });
+      if (s.longestSleepHrs != null) r.push({ label:'Longest night', value:fmtHrs(s.longestSleepHrs) });
+      if (s.bestStepDay) r.push({ label:'Best day', value:fmtNum(s.bestStepVal), sub:fmtNum(s.bestStepVal)+' steps on '+fmtDate(s.bestStepDay) });
+      if (s.longestStreak) r.push({ label:'Longest streak', value:s.longestStreak+' days' });
+      return r;
+    }
+
+    function radial(ctx, cx, cy, r, color) {
+      const rg = ctx.createRadialGradient(cx, cy, 0, cx, cy, r);
+      rg.addColorStop(0, color);
+      rg.addColorStop(1, 'rgba(0,0,0,0)');
+      ctx.fillStyle = rg;
+      ctx.fillRect(0, 0, ctx.canvas.width, ctx.canvas.height);
+    }
+
+    function wrapText(ctx, text, x, y, maxW, lh) {
+      const words = text.split(' ');
+      let line = '';
+      for (const w of words) {
+        const test = line + w + ' ';
+        if (ctx.measureText(test).width > maxW && line) { ctx.fillText(line.trim(), x, y); line = w + ' '; y += lh; }
+        else line = test;
+      }
+      ctx.fillText(line.trim(), x, y);
+    }
+
+    function setFormat(fmt) {
+      currentFormat = fmt;
+      const on = 'px-3 py-1.5 rounded-full bg-rose-600 text-white';
+      const off = 'px-3 py-1.5 rounded-full text-slate-300 hover:text-white';
+      fmtStory.className = fmt === 'story' ? on : off;
+      fmtSquare.className = fmt === 'square' ? on : off;
+      if (yearSelect.value) drawCard(computeStats(yearSelect.value));
+    }
+    fmtStory.addEventListener('click', () => setFormat('story'));
+    fmtSquare.addEventListener('click', () => setFormat('square'));
+
+    function cardBlob() { return new Promise(res => canvas.toBlob(res, 'image/png')); }
+
+    btnDownload.addEventListener('click', async () => {
+      const blob = await cardBlob();
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'apple-health-wrapped-' + yearSelect.value + '-' + currentFormat + '.png';
+      document.body.appendChild(a); a.click(); a.remove();
+      setTimeout(() => URL.revokeObjectURL(url), 1000);
+    });
+
+    if (navigator.canShare) {
+      try {
+        const testFile = new File([new Blob()], 't.png', { type: 'image/png' });
+        if (navigator.canShare({ files: [testFile] })) btnShare.classList.remove('hidden');
+      } catch (e) {}
+    }
+    btnShare.addEventListener('click', async () => {
+      try {
+        const blob = await cardBlob();
+        const file = new File([blob], 'apple-health-wrapped-' + yearSelect.value + '.png', { type: 'image/png' });
+        await navigator.share({
+          files: [file],
+          title: 'My Apple Health ' + yearSelect.value + ' Wrapped',
+          text: 'My Apple Health ' + yearSelect.value + ' year in review 📊'
+        });
+      } catch (e) {}
+    });
+
+    btnReset.addEventListener('click', () => {
+      perYear = {};
+      fileInput.value = '';
+      results.classList.add('hidden');
+      progressWrap.classList.add('hidden');
+      dropWrap.classList.remove('hidden');
+      hideError();
+    });
+
+    if (document.fonts && document.fonts.load) {
+      document.fonts.load('800 120px "Plus Jakarta Sans"');
+    }
+
+    lucide.createIcons();
+    </script>
+</body>
+</html>

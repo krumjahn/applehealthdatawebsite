@@ -1,0 +1,583 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Apple Health Data Anonymizer — Free Online Tool | Apple Health Data</title>
+    <meta name="description" content="Anonymize your Apple Health export.xml before sharing with ChatGPT, Claude, or a doctor. Strip your name, birth date, device IDs & clinical records — free, 100% in your browser.">
+    <meta name="keywords" content="anonymize apple health data, share health data with chatgpt safely, remove personal info from apple health export, apple health export.xml anonymizer, redact apple health data, private health data tool, mask apple health device names, strip pii apple health">
+    <meta name="apple-itunes-app" content="app-id=6749297170">
+    <link rel="canonical" href="https://applehealthdata.com/apple-health-anonymizer/">
+    <meta name="robots" content="index,follow,max-image-preview:large">
+    <meta name="author" content="Keith Rumjahn">
+    <meta property="og:title" content="Apple Health Data Anonymizer — Free & Private In-Browser Tool">
+    <meta property="og:description" content="Strip personal info from your Apple Health export.xml before sharing it with ChatGPT, Claude, or your doctor. Nothing is uploaded.">
+    <meta property="og:url" content="https://applehealthdata.com/apple-health-anonymizer/">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="AppleHealthData.com">
+    <meta property="og:image" content="https://applehealthdata.com/images/iphone-app-screenshot.png">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Apple Health Data Anonymizer — Free & Private In-Browser Tool">
+    <meta name="twitter:description" content="Strip your name, birth date & device IDs from Apple Health export.xml before sharing with AI or your doctor. 100% in-browser.">
+    <meta name="twitter:image" content="https://applehealthdata.com/images/iphone-app-screenshot.png">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap">
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script defer src="https://umami.rumjahn.synology.me/script.js" data-website-id="5d7b4fa8-90b2-4191-8daf-8ea487a8d961"></script>
+    <!-- Matomo -->
+    <script>
+      var _paq = window._paq = window._paq || [];
+      _paq.push(['trackPageView']);
+      _paq.push(['enableLinkTracking']);
+      (function() {
+        var u="//shrewd-lyrebird.pikapod.net/";
+        _paq.push(['setTrackerUrl', u+'matomo.php']);
+        _paq.push(['setSiteId', '9']);
+        var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
+        g.async=true; g.src=u+'matomo.js'; s.parentNode.insertBefore(g,s);
+      })();
+    </script>
+
+    <!-- SoftwareApplication schema -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "SoftwareApplication",
+      "name": "Apple Health Data Anonymizer",
+      "applicationCategory": "HealthApplication",
+      "operatingSystem": "Any (web browser)",
+      "url": "https://applehealthdata.com/apple-health-anonymizer/",
+      "description": "Free in-browser tool that strips personally identifying information from an Apple Health export.xml file so it can be safely shared with AI chatbots, doctors, or researchers.",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      }
+    }
+    </script>
+
+    <!-- FAQPage schema -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "Is my health data uploaded anywhere?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "No. The anonymizer runs 100% in your browser using JavaScript. Your export.xml is read from your device, cleaned in memory, and saved back to your downloads folder. Nothing is ever sent to a server."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What personal information does it remove from my Apple Health export?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "By default it strips your date of birth (or reduces it to a birth year), blood type, skin type and cardio-fitness medication flags from the <Me> element, masks possessive device names like 'Keith's Apple Watch' down to 'Apple Watch', removes device hardware identifier attributes, optionally removes sourceVersion, and deletes ClinicalRecord elements that reference external FHIR files named after you."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Is anonymized Apple Health data safe to paste into ChatGPT or Claude?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Removing direct identifiers greatly reduces risk, but health data can never be guaranteed fully anonymous — patterns in your data may still be identifying. Treat the cleaned file as pseudonymized, not truly anonymous, and only share what you need. Reading a chatbot's privacy and training policies first is wise."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What is date shifting and should I use it?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Date shifting moves every date in your file by the same random number of days (for example, +37 days). Intervals and trends between readings stay identical, so analysis still works, but the data no longer lines up with the real calendar — decoupling it from your actual timeline. The tradeoff is that day-of-week and seasonal patterns shift, so leave it off if those matter to your analysis."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Does anonymizing change my health values or trends?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "No. Every heart rate, step count, sleep record and workout value is preserved exactly. Only identity fields are stripped or masked. If you enable date shifting, the values stay the same and only the calendar dates move by a constant offset, so intervals and trends are unaffected."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Why not just delete the Me element and share the rest?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "The <Me> element is the biggest source of identity, but it isn't the only one. sourceName attributes often contain your first name (from device names), device attributes carry hardware identifiers, and ClinicalRecord elements point to FHIR files named after you. A good anonymizer cleans all of these, not just the profile block."
+          }
+        }
+      ]
+    }
+    </script>
+
+    <style>
+      body { font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif; background-color:#020617; color:#f8fafc; }
+      code, .mono { font-family: 'JetBrains Mono', ui-monospace, monospace; }
+      .mesh-gradient { position: fixed; inset: 0; z-index: -1; background: radial-gradient(at 0% 0%, rgba(225,29,72,.15), transparent 50%), radial-gradient(at 100% 0%, rgba(56,189,248,.15), transparent 50%), radial-gradient(at 100% 100%, rgba(168,85,247,.15), transparent 50%); filter: blur(60px); }
+      .card { background:rgba(255,255,255,.04); border:1px solid rgba(255,255,255,.1); border-radius:1rem; }
+      .drop-zone.dragover { border-color:#e11d48; background:rgba(225,29,72,.08); }
+      .diff-add { background:rgba(34,197,94,.12); color:#86efac; }
+      .diff-del { background:rgba(225,29,72,.14); color:#fda4af; }
+      .prog-bar { transition: width .15s linear; }
+    </style>
+</head>
+<body>
+    <div class="mesh-gradient"></div>
+
+    <nav class="fixed w-full z-50 border-b border-white/10 bg-slate-950/50 backdrop-blur-xl">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8"><div class="flex justify-between items-center h-20">
+        <a href="/" class="flex items-center gap-3">
+          <div class="w-10 h-10 bg-gradient-to-tr from-rose-600 to-orange-500 rounded-xl flex items-center justify-center shadow-lg shadow-rose-500/20"><i data-lucide="activity" class="w-6 h-6 text-white"></i></div>
+          <div><span class="font-bold text-lg tracking-tight text-white block leading-none">Health Data</span><span class="text-xs text-slate-400 tracking-wider uppercase font-semibold">Export &amp; Analyze</span></div>
+        </a>
+        <a href="/tools/" class="text-slate-300 hover:text-white text-sm font-semibold">All Free Tools</a>
+      </div></div>
+    </nav>
+
+    <main class="pt-32 pb-20">
+      <div class="max-w-4xl mx-auto px-4">
+
+        <!-- 1. H1 -->
+        <header class="text-center">
+          <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/5 border border-white/10 text-xs font-semibold text-slate-300 mb-5">
+            <i data-lucide="shield-check" class="w-4 h-4 text-emerald-400"></i>
+            100% in your browser — nothing is uploaded
+          </div>
+          <h1 class="text-4xl sm:text-5xl font-extrabold tracking-tight">Apple Health Data Anonymizer</h1>
+          <p class="text-lg text-slate-400 mt-4 max-w-2xl mx-auto">Strip your name, birth date, device IDs, and clinical records from <code class="mono text-rose-300">export.xml</code> before sharing it with ChatGPT, Claude, a doctor, or a researcher. Free, private, and runs entirely in your browser — nothing is uploaded.</p>
+        </header>
+
+        <!-- 2. The tool -->
+        <section class="card p-6 sm:p-8 mt-10">
+          <div id="dropZone" class="drop-zone border-2 border-dashed border-white/20 rounded-2xl p-8 text-center cursor-pointer hover:border-rose-500/60 transition-colors">
+            <i data-lucide="upload-cloud" class="w-10 h-10 mx-auto text-slate-400"></i>
+            <p class="mt-3 font-semibold text-white">Drop your <code class="mono text-rose-300">export.xml</code> here, or click to choose</p>
+            <p class="text-sm text-slate-500 mt-1">Large files (100&nbsp;MB–1&nbsp;GB+) are fine — they are streamed in chunks, never fully loaded.</p>
+            <input id="fileInput" type="file" accept=".xml,.zip" class="hidden">
+          </div>
+          <p id="fileName" class="text-sm text-slate-400 mt-3 hidden"></p>
+
+          <div class="mt-6">
+            <h2 class="text-sm font-bold uppercase tracking-wider text-slate-300 mb-3">What to strip / mask</h2>
+            <div class="grid sm:grid-cols-2 gap-3">
+              <label class="flex items-start gap-3 p-3 rounded-xl bg-white/5 border border-white/10 cursor-pointer">
+                <input type="checkbox" id="optMe" checked class="mt-1 h-4 w-4 accent-rose-600">
+                <span><span class="font-semibold text-white">Anonymize profile (&lt;Me&gt;)</span><span class="block text-xs text-slate-400">Removes blood type, skin type &amp; cardio-fitness medication flags.</span></span>
+              </label>
+              <label class="flex items-start gap-3 p-3 rounded-xl bg-white/5 border border-white/10 cursor-pointer">
+                <input type="checkbox" id="optDobKeepYear" checked class="mt-1 h-4 w-4 accent-rose-600">
+                <span><span class="font-semibold text-white">Reduce date of birth to birth year</span><span class="block text-xs text-slate-400">e.g. <code class="mono">1990-04-12</code> → <code class="mono">1990-01-01</code>. Uncheck to blank it entirely.</span></span>
+              </label>
+              <label class="flex items-start gap-3 p-3 rounded-xl bg-white/5 border border-white/10 cursor-pointer">
+                <input type="checkbox" id="optSex" class="mt-1 h-4 w-4 accent-rose-600">
+                <span><span class="font-semibold text-white">Also remove biological sex</span><span class="block text-xs text-slate-400">Off by default — sex is often needed for meaningful analysis.</span></span>
+              </label>
+              <label class="flex items-start gap-3 p-3 rounded-xl bg-white/5 border border-white/10 cursor-pointer">
+                <input type="checkbox" id="optSourceName" checked class="mt-1 h-4 w-4 accent-rose-600">
+                <span><span class="font-semibold text-white">Mask possessive device names</span><span class="block text-xs text-slate-400"><code class="mono">Keith's Apple Watch</code> → <code class="mono">Apple Watch</code>.</span></span>
+              </label>
+              <label class="flex items-start gap-3 p-3 rounded-xl bg-white/5 border border-white/10 cursor-pointer">
+                <input type="checkbox" id="optDevice" checked class="mt-1 h-4 w-4 accent-rose-600">
+                <span><span class="font-semibold text-white">Remove device= attributes</span><span class="block text-xs text-slate-400">These contain hardware serials &amp; identifiers.</span></span>
+              </label>
+              <label class="flex items-start gap-3 p-3 rounded-xl bg-white/5 border border-white/10 cursor-pointer">
+                <input type="checkbox" id="optSourceVersion" checked class="mt-1 h-4 w-4 accent-rose-600">
+                <span><span class="font-semibold text-white">Remove sourceVersion= attributes</span><span class="block text-xs text-slate-400">App / OS build numbers. Optional.</span></span>
+              </label>
+              <label class="flex items-start gap-3 p-3 rounded-xl bg-white/5 border border-white/10 cursor-pointer">
+                <input type="checkbox" id="optClinical" checked class="mt-1 h-4 w-4 accent-rose-600">
+                <span><span class="font-semibold text-white">Remove ClinicalRecord elements</span><span class="block text-xs text-slate-400">They reference external FHIR files named after you.</span></span>
+              </label>
+              <label class="flex items-start gap-3 p-3 rounded-xl bg-white/5 border border-white/10 cursor-pointer sm:col-span-2">
+                <input type="checkbox" id="optDateShift" class="mt-1 h-4 w-4 accent-rose-600">
+                <span><span class="font-semibold text-white">Shift all dates by a random constant offset (±<span id="shiftN">180</span> days)</span><span class="block text-xs text-slate-400">Preserves every interval and trend but decouples your data from the real calendar. <span class="text-amber-300">Tradeoff:</span> day-of-week and seasonal patterns move too — leave off if those matter.</span></span>
+              </label>
+            </div>
+          </div>
+
+          <button id="runBtn" class="mt-6 w-full sm:w-auto px-6 py-3 bg-rose-600 hover:bg-rose-700 rounded-full font-bold text-white transition-colors disabled:opacity-40 disabled:cursor-not-allowed" disabled>
+            <i data-lucide="shield" class="w-4 h-4 inline -mt-0.5 mr-1"></i> Anonymize file
+          </button>
+
+          <div id="progressWrap" class="mt-6 hidden">
+            <div class="flex justify-between text-xs text-slate-400 mb-1"><span id="progressLabel">Processing…</span><span id="progressPct">0%</span></div>
+            <div class="h-2 w-full rounded-full bg-white/10 overflow-hidden"><div id="progressBar" class="prog-bar h-full w-0 bg-gradient-to-r from-rose-600 to-orange-500"></div></div>
+          </div>
+
+          <div id="result" class="mt-6 hidden">
+            <div class="p-4 rounded-xl bg-emerald-500/10 border border-emerald-500/30">
+              <div class="flex items-center gap-2 font-bold text-emerald-300"><i data-lucide="check-circle-2" class="w-5 h-5"></i> Done — your cleaned file is ready</div>
+              <div id="summary" class="mt-3 text-sm text-slate-200 space-y-1"></div>
+              <a id="downloadLink" class="inline-flex items-center gap-2 mt-4 px-5 py-2.5 bg-rose-600 hover:bg-rose-700 rounded-full font-bold text-white transition-colors" download="export-anonymized.xml">
+                <i data-lucide="download" class="w-4 h-4"></i> Download anonymized export.xml
+              </a>
+            </div>
+          </div>
+
+          <div id="diffWrap" class="mt-6 hidden">
+            <h3 class="text-sm font-bold uppercase tracking-wider text-slate-300 mb-2">Before / after preview</h3>
+            <p class="text-xs text-slate-500 mb-3">The first few lines that were changed, so you can verify what was removed before you download. Red = removed, green = replacement.</p>
+            <div id="diff" class="mono text-xs rounded-xl bg-slate-950/70 border border-white/10 p-4 overflow-x-auto space-y-2"></div>
+          </div>
+
+          <p class="text-xs text-slate-500 mt-6 flex items-start gap-2"><i data-lucide="lock" class="w-4 h-4 mt-0.5 flex-shrink-0"></i> Your file is read, transformed, and saved entirely on this device. No part of it is uploaded — you can even turn off Wi-Fi and it still works.</p>
+        </section>
+
+        <!-- 3. How to use -->
+        <section class="mt-14">
+          <h2 class="text-3xl font-bold text-white">How to anonymize your Apple Health data</h2>
+          <ol class="mt-6 space-y-4 text-lg text-slate-400 list-none">
+            <li class="flex gap-4"><span class="flex-shrink-0 w-8 h-8 rounded-full bg-rose-600/20 text-rose-300 font-bold flex items-center justify-center">1</span><span>On your iPhone, open <strong class="text-white">Health → profile photo → Export All Health Data</strong>. You'll get a ZIP. Unzip it and find <code class="mono text-rose-300">export.xml</code>.</span></li>
+            <li class="flex gap-4"><span class="flex-shrink-0 w-8 h-8 rounded-full bg-rose-600/20 text-rose-300 font-bold flex items-center justify-center">2</span><span>Drop <code class="mono text-rose-300">export.xml</code> into the box above (or click to choose it).</span></li>
+            <li class="flex gap-4"><span class="flex-shrink-0 w-8 h-8 rounded-full bg-rose-600/20 text-rose-300 font-bold flex items-center justify-center">3</span><span>Leave every box checked for maximum privacy, or fine-tune what to strip. Optionally turn on <strong class="text-white">date shifting</strong>.</span></li>
+            <li class="flex gap-4"><span class="flex-shrink-0 w-8 h-8 rounded-full bg-rose-600/20 text-rose-300 font-bold flex items-center justify-center">4</span><span>Click <strong class="text-white">Anonymize file</strong>, review the before/after preview and summary report, then <strong class="text-white">download</strong> your cleaned copy.</span></li>
+            <li class="flex gap-4"><span class="flex-shrink-0 w-8 h-8 rounded-full bg-rose-600/20 text-rose-300 font-bold flex items-center justify-center">5</span><span>Share the cleaned file with ChatGPT, Claude, your doctor, or a researcher — the original never leaves your Downloads folder.</span></li>
+          </ol>
+        </section>
+
+        <!-- 4. SEO content -->
+        <section class="mt-14 space-y-6">
+          <div>
+            <h2 class="text-3xl font-bold text-white">Why anonymize Apple Health data before sharing it with AI?</h2>
+            <p class="mt-4 text-lg text-slate-400">Pasting your Apple Health export into ChatGPT or Claude is one of the fastest ways to get plain-English insight into your heart rate, sleep, and activity. But the raw <code class="mono text-rose-300">export.xml</code> that Apple produces is not just numbers — it's a dossier. Buried inside are your exact date of birth, blood type, skin type, the names of your devices (which usually include your first name, like <em>"Keith's Apple Watch"</em>), hardware serial numbers, and even <code class="mono">ClinicalRecord</code> entries that point to medical documents named after you. Once that text is pasted into a chatbot, you no longer control where it's stored, whether it trains a future model, or who can subpoena it.</p>
+            <p class="mt-4 text-lg text-slate-400">This tool solves that in one step. It reads your export, removes or masks the identity fields, and hands you back a cleaned copy that keeps every health value intact — so the analysis still works, but the file no longer screams your name. Because everything happens in your browser, the sensitive original is never uploaded to us or anyone else.</p>
+          </div>
+
+          <div>
+            <h3 class="text-2xl font-bold text-white">What personal information is hiding in export.xml</h3>
+            <ul class="mt-4 space-y-3 text-lg text-slate-400 list-disc pl-6">
+              <li><strong class="text-white">The <code class="mono">&lt;Me&gt;</code> element</strong> — your date of birth, biological sex, blood type, Fitzpatrick skin type, and a flag for cardio-fitness medication use. This is the single most identifying block in the file.</li>
+              <li><strong class="text-white"><code class="mono">sourceName</code> attributes</strong> — the display name of each device or app that recorded data. Apple defaults these to things like <em>"Keith's iPhone"</em>, leaking your first name across tens of thousands of records.</li>
+              <li><strong class="text-white"><code class="mono">device</code> attributes</strong> — hardware model, manufacturer, and identifiers that can fingerprint your specific watch or phone.</li>
+              <li><strong class="text-white"><code class="mono">ClinicalRecord</code> elements</strong> — links to external FHIR JSON files that are frequently named after you and contain lab results, medications, and diagnoses.</li>
+            </ul>
+          </div>
+
+          <div>
+            <h3 class="text-2xl font-bold text-white">How the anonymizer works (and why it's trustworthy)</h3>
+            <p class="mt-4 text-lg text-slate-400">Apple Health exports are commonly 100&nbsp;MB to over a gigabyte, so this tool never loads the whole file into a parser — that would freeze or crash your browser tab. Instead it reads the file in small chunks, applies targeted regular-expression replacements to each chunk, and streams the cleaned text straight into a downloadable file. Your profile data is anonymized, possessive names like <code class="mono">Keith&#39;s&nbsp;Apple&nbsp;Watch</code> are collapsed to <code class="mono">Apple&nbsp;Watch</code>, <code class="mono">device</code> attributes are dropped, and <code class="mono">ClinicalRecord</code> blocks are deleted. Because the transform is line-oriented and never re-orders anything, the output stays a valid Apple Health export.</p>
+            <p class="mt-4 text-lg text-slate-400">Before you download, the tool shows you a <strong class="text-white">before/after preview of the first changed lines</strong> plus a summary report counting exactly how many device attributes were removed and how many source names were masked. Nothing is hidden — you can see precisely what changed.</p>
+          </div>
+
+          <div>
+            <h3 class="text-2xl font-bold text-white">Date shifting: preserving trends while breaking the calendar link</h3>
+            <p class="mt-4 text-lg text-slate-400">Even after names are stripped, the exact timestamps in your file can be identifying — the day you flew, the night you didn't sleep, the week you were in hospital. Optional <strong class="text-white">date shifting</strong> adds the same random number of days to every single date in the file. Because the offset is constant, the gap between any two readings is unchanged, so trends, streaks, and interval-based analysis stay perfectly accurate. What changes is that the data no longer aligns with the real calendar, decoupling it from your actual timeline. The tradeoff: day-of-week effects and seasonality shift by the same amount, so if your analysis depends on "weekends" or "summer," leave date shifting off.</p>
+          </div>
+
+          <div class="p-5 rounded-xl bg-white/5 border border-white/10">
+            <p class="text-slate-300">Want to go deeper on keeping health data private? Read <a href="/blog/private-health-data-analysis.html" class="text-rose-400 hover:text-rose-300 underline">Private Health Data Analysis: How to Keep Your Apple Health Data Yours</a> and <a href="/blog/chatgpt-health-limitations.html" class="text-rose-400 hover:text-rose-300 underline">The Limitations (and Risks) of Using ChatGPT for Health Data</a>.</p>
+          </div>
+
+          <div class="p-5 rounded-xl bg-amber-500/10 border border-amber-500/30">
+            <p class="text-sm text-amber-200"><strong>A note on "anonymous."</strong> Health data can rarely be made truly anonymous — behavioural patterns alone can sometimes re-identify a person. This tool removes direct identifiers, which meaningfully reduces risk, but treat the result as <em>pseudonymized</em> and still share thoughtfully. It is not medical or legal advice.</p>
+          </div>
+        </section>
+
+        <!-- 5. FAQ -->
+        <section class="mt-14">
+          <h2 class="text-3xl font-bold text-white">Frequently asked questions</h2>
+          <div class="mt-6 space-y-4">
+            <details class="card p-5" open><summary class="font-bold text-white cursor-pointer">Is my health data uploaded anywhere?</summary><p class="mt-3 text-slate-400">No. The anonymizer runs 100% in your browser using JavaScript. Your <code class="mono">export.xml</code> is read from your device, cleaned in memory, and saved back to your downloads folder. Nothing is ever sent to a server.</p></details>
+            <details class="card p-5"><summary class="font-bold text-white cursor-pointer">What personal information does it remove?</summary><p class="mt-3 text-slate-400">By default it strips your date of birth (or reduces it to a birth year), blood type, skin type and cardio-fitness medication flags from the <code class="mono">&lt;Me&gt;</code> element, masks possessive device names like <em>"Keith's Apple Watch"</em> down to <em>"Apple Watch"</em>, removes <code class="mono">device</code> hardware-identifier attributes, optionally removes <code class="mono">sourceVersion</code>, and deletes <code class="mono">ClinicalRecord</code> elements.</p></details>
+            <details class="card p-5"><summary class="font-bold text-white cursor-pointer">Is anonymized data safe to paste into ChatGPT or Claude?</summary><p class="mt-3 text-slate-400">Removing direct identifiers greatly reduces risk, but health data can never be guaranteed fully anonymous — patterns in your data may still be identifying. Treat the cleaned file as pseudonymized, not truly anonymous, and only share what you need.</p></details>
+            <details class="card p-5"><summary class="font-bold text-white cursor-pointer">What is date shifting and should I use it?</summary><p class="mt-3 text-slate-400">Date shifting moves every date by the same random number of days. Intervals and trends stay identical, so analysis still works, but the data no longer lines up with the real calendar. The tradeoff is that day-of-week and seasonal patterns shift, so leave it off if those matter.</p></details>
+            <details class="card p-5"><summary class="font-bold text-white cursor-pointer">Does anonymizing change my health values or trends?</summary><p class="mt-3 text-slate-400">No. Every heart rate, step count, sleep record and workout value is preserved exactly. Only identity fields are stripped or masked. With date shifting on, values stay the same and only the calendar dates move by a constant offset.</p></details>
+            <details class="card p-5"><summary class="font-bold text-white cursor-pointer">Why not just delete the Me element and share the rest?</summary><p class="mt-3 text-slate-400">The <code class="mono">&lt;Me&gt;</code> element is the biggest source of identity, but not the only one. <code class="mono">sourceName</code> attributes often contain your first name, <code class="mono">device</code> attributes carry hardware identifiers, and <code class="mono">ClinicalRecord</code> elements point to files named after you. A good anonymizer cleans all of these.</p></details>
+          </div>
+        </section>
+
+        <!-- 6. Cross-links -->
+        <section class="mt-14">
+          <h2 class="text-2xl font-bold text-white">More free Apple Health tools</h2>
+          <div class="mt-4 flex flex-wrap gap-3 text-sm">
+            <a href="/tools/" class="px-4 py-2 rounded-full bg-white/10 hover:bg-white/20 font-semibold">All free tools</a>
+            <a href="/convert-tool/" class="px-4 py-2 rounded-full bg-white/10 hover:bg-white/20 font-semibold">XML → CSV converter</a>
+            <a href="/apple-health-export-validator/" class="px-4 py-2 rounded-full bg-white/10 hover:bg-white/20 font-semibold">Export validator</a>
+            <a href="/apple-health-export-splitter/" class="px-4 py-2 rounded-full bg-white/10 hover:bg-white/20 font-semibold">Export splitter</a>
+            <a href="/apple-health-duplicate-steps-checker/" class="px-4 py-2 rounded-full bg-white/10 hover:bg-white/20 font-semibold">Duplicate steps checker</a>
+            <a href="/apple-health-to-gpx/" class="px-4 py-2 rounded-full bg-white/10 hover:bg-white/20 font-semibold">Workouts → GPX</a>
+          </div>
+        </section>
+
+        <!-- 7. CTA -->
+        <section class="card p-8 mt-14 text-center">
+          <h2 class="text-2xl font-bold text-white">Want deeper analysis?</h2>
+          <p class="text-slate-400 mt-2 max-w-xl mx-auto">Once your data is clean, get real insights into your trends, recovery, and sleep — privately.</p>
+          <div class="mt-6 flex flex-col sm:flex-row gap-3 justify-center">
+            <a href="/go/website.html?c=ah_anon" class="px-6 py-3 bg-rose-600 hover:bg-rose-700 rounded-full font-bold text-white transition-colors">Download iOS App</a>
+            <a href="https://github.com/krumjahn/applehealth" class="px-6 py-3 bg-white/10 hover:bg-white/20 rounded-full font-bold text-white transition-colors">Get Mac Analyzer</a>
+          </div>
+        </section>
+
+      </div>
+    </main>
+
+    <script>
+      // ---------- Anonymizer engine — 100% client-side, streaming chunk transform ----------
+      const fileInput = document.getElementById('fileInput');
+      const dropZone = document.getElementById('dropZone');
+      const fileNameEl = document.getElementById('fileName');
+      const runBtn = document.getElementById('runBtn');
+      const progressWrap = document.getElementById('progressWrap');
+      const progressBar = document.getElementById('progressBar');
+      const progressPct = document.getElementById('progressPct');
+      const progressLabel = document.getElementById('progressLabel');
+      const resultEl = document.getElementById('result');
+      const summaryEl = document.getElementById('summary');
+      const downloadLink = document.getElementById('downloadLink');
+      const diffWrap = document.getElementById('diffWrap');
+      const diffEl = document.getElementById('diff');
+
+      let selectedFile = null;
+
+      // Random constant date-shift offset, chosen once per page load, ±180 days (never 0).
+      const shiftDays = (() => {
+        let d = 0;
+        while (d === 0) d = Math.floor(Math.random() * 361) - 180;
+        return d;
+      })();
+      document.getElementById('shiftN').textContent = Math.abs(shiftDays);
+
+      function setFile(file) {
+        if (!file) return;
+        const name = file.name.toLowerCase();
+        if (name.endsWith('.zip')) {
+          showFileMsg('That looks like the Apple Health ZIP. Please unzip it first and select the export.xml inside.', true);
+          selectedFile = null; runBtn.disabled = true; return;
+        }
+        if (!name.endsWith('.xml')) {
+          showFileMsg('Please choose a .xml file (your Apple Health export.xml).', true);
+          selectedFile = null; runBtn.disabled = true; return;
+        }
+        selectedFile = file;
+        showFileMsg('Selected: ' + file.name + ' (' + (file.size / 1048576).toFixed(1) + ' MB)', false);
+        runBtn.disabled = false;
+        resultEl.classList.add('hidden');
+        diffWrap.classList.add('hidden');
+      }
+
+      function showFileMsg(text, warn) {
+        fileNameEl.textContent = text;
+        fileNameEl.classList.remove('hidden');
+        fileNameEl.classList.toggle('text-amber-300', !!warn);
+      }
+
+      dropZone.addEventListener('click', () => fileInput.click());
+      fileInput.addEventListener('change', (e) => setFile(e.target.files[0]));
+      dropZone.addEventListener('dragover', (e) => { e.preventDefault(); dropZone.classList.add('dragover'); });
+      dropZone.addEventListener('dragleave', () => dropZone.classList.remove('dragover'));
+      dropZone.addEventListener('drop', (e) => { e.preventDefault(); dropZone.classList.remove('dragover'); setFile(e.dataTransfer.files[0]); });
+
+      // Shift every "YYYY-MM-DD[ HH:MM:SS [+ZZZZ]]" date string by shiftDays (UTC math, keeps zone text).
+      const DATE_RE = /(\d{4})-(\d{2})-(\d{2})( \d{2}:\d{2}:\d{2}(?: [+-]\d{4})?)?/g;
+      function shiftDatesIn(text) {
+        return text.replace(DATE_RE, (m, y, mo, d, rest) => {
+          const base = new Date(Date.UTC(+y, +mo - 1, +d));
+          if (isNaN(base.getTime())) return m;
+          base.setUTCDate(base.getUTCDate() + shiftDays);
+          const ny = base.getUTCFullYear();
+          const nmo = String(base.getUTCMonth() + 1).padStart(2, '0');
+          const nd = String(base.getUTCDate()).padStart(2, '0');
+          return ny + '-' + nmo + '-' + nd + (rest || '');
+        });
+      }
+
+      // Single transform factory. Mutates the passed-in counts object so callers can read totals.
+      function makeTransform(opts, counts) {
+        return function (text) {
+          let out = text;
+
+          if (opts.clinical) {
+            out = out.replace(/<ClinicalRecord\b[^>]*\/>\s*/g, () => { counts.clinical++; return ''; });
+            out = out.replace(/<ClinicalRecord\b[\s\S]*?<\/ClinicalRecord>\s*/g, () => { counts.clinical++; return ''; });
+          }
+
+          if (opts.device) out = out.replace(/\sdevice="[^"]*"/g, () => { counts.device++; return ''; });
+          if (opts.sourceVersion) out = out.replace(/\ssourceVersion="[^"]*"/g, () => { counts.sourceVersion++; return ''; });
+          if (opts.sourceName) {
+            out = out.replace(/sourceName="([^"]*)"/g, (mm, nameVal) => {
+              const masked = nameVal.replace(/^[^\s]+['’]s\s+/, '');
+              if (masked !== nameVal) counts.sourceName++;
+              return 'sourceName="' + masked + '"';
+            });
+          }
+
+          // Date shifting runs BEFORE the <Me> pass so the year-only birth date it writes
+          // isn't shifted again by the generic date regex.
+          if (opts.dateShift) out = shiftDatesIn(out);
+
+          out = out.replace(/<Me\b[^>]*\/?>/g, (meTag) => {
+            let t = meTag;
+            counts.me++;
+            if (opts.me) {
+              t = t.replace(/\sHKCharacteristicTypeIdentifierBloodType="[^"]*"/g, ' HKCharacteristicTypeIdentifierBloodType="HKBloodTypeNotSet"');
+              t = t.replace(/\sHKCharacteristicTypeIdentifierFitzpatrickSkinType="[^"]*"/g, ' HKCharacteristicTypeIdentifierFitzpatrickSkinType="HKFitzpatrickSkinTypeNotSet"');
+              t = t.replace(/\sHKCharacteristicTypeIdentifierCardioFitnessMedicationsUse="[^"]*"/g, ' HKCharacteristicTypeIdentifierCardioFitnessMedicationsUse="None"');
+            }
+            if (opts.sex) {
+              t = t.replace(/\sHKCharacteristicTypeIdentifierBiologicalSex="[^"]*"/g, ' HKCharacteristicTypeIdentifierBiologicalSex="HKBiologicalSexNotSet"');
+            }
+            t = t.replace(/\sHKCharacteristicTypeIdentifierDateOfBirth="([^"]*)"/g, (mm, val) => {
+              if (opts.dobKeepYear) {
+                const y = (val.match(/(\d{4})/) || [])[1] || '';
+                return ' HKCharacteristicTypeIdentifierDateOfBirth="' + (y ? y + '-01-01' : '') + '"';
+              }
+              return ' HKCharacteristicTypeIdentifierDateOfBirth=""';
+            });
+            return t;
+          });
+
+          return out;
+        };
+      }
+
+      // Line-level diff collector (uses its own throwaway counts so it doesn't affect totals).
+      function collectDiffs(chunk, opts, maxLines, collected) {
+        if (collected.length >= maxLines) return;
+        const throwaway = { device:0, sourceName:0, sourceVersion:0, clinical:0, me:0 };
+        const lineTransform = makeTransform(opts, throwaway);
+        const lines = chunk.split('\n');
+        for (const line of lines) {
+          if (collected.length >= maxLines) break;
+          if (!line.trim()) continue;
+          const after = lineTransform(line);
+          if (after !== line) collected.push({ before: line.trim(), after: after.trim() });
+        }
+      }
+
+      runBtn.addEventListener('click', async () => {
+        if (!selectedFile) return;
+        const opts = {
+          me: document.getElementById('optMe').checked,
+          dobKeepYear: document.getElementById('optDobKeepYear').checked,
+          sex: document.getElementById('optSex').checked,
+          sourceName: document.getElementById('optSourceName').checked,
+          device: document.getElementById('optDevice').checked,
+          sourceVersion: document.getElementById('optSourceVersion').checked,
+          clinical: document.getElementById('optClinical').checked,
+          dateShift: document.getElementById('optDateShift').checked
+        };
+
+        runBtn.disabled = true;
+        resultEl.classList.add('hidden');
+        diffWrap.classList.add('hidden');
+        progressWrap.classList.remove('hidden');
+        progressBar.style.width = '0%';
+        progressPct.textContent = '0%';
+        progressLabel.textContent = 'Reading and cleaning your file…';
+
+        const counts = { device:0, sourceName:0, sourceVersion:0, clinical:0, me:0 };
+        const transform = makeTransform(opts, counts);
+        const diffs = [];
+
+        const CHUNK = 8 * 1024 * 1024; // 8MB
+        const decoder = new TextDecoder('utf-8');
+        const parts = [];
+        let offset = 0;
+        let carry = '';
+        const total = selectedFile.size;
+
+        try {
+          while (offset < total) {
+            const buf = await selectedFile.slice(offset, offset + CHUNK).arrayBuffer();
+            const isLast = offset + CHUNK >= total;
+            let text = carry + decoder.decode(new Uint8Array(buf), { stream: !isLast });
+
+            // Hold back the trailing partial line so a tag is never split across chunks.
+            if (!isLast) {
+              const lastNl = text.lastIndexOf('\n');
+              if (lastNl !== -1) { carry = text.slice(lastNl + 1); text = text.slice(0, lastNl + 1); }
+              else { carry = text; text = ''; }
+            } else {
+              carry = '';
+            }
+
+            if (text) {
+              collectDiffs(text, opts, 6, diffs);
+              parts.push(transform(text));
+            }
+
+            offset += CHUNK;
+            const pct = Math.min(100, Math.round((offset / total) * 100));
+            progressBar.style.width = pct + '%';
+            progressPct.textContent = pct + '%';
+            await new Promise(r => setTimeout(r, 0)); // let the progress bar paint
+          }
+
+          progressLabel.textContent = 'Building your download…';
+          const blob = new Blob(parts, { type: 'application/xml' });
+          downloadLink.href = URL.createObjectURL(blob);
+
+          renderSummary(opts, counts);
+          renderDiffs(diffs);
+
+          resultEl.classList.remove('hidden');
+          lucide.createIcons();
+        } catch (err) {
+          progressLabel.textContent = 'Something went wrong: ' + err.message + '. Try a smaller file or a different browser.';
+        } finally {
+          runBtn.disabled = false;
+        }
+      });
+
+      function summaryRow(icon, text) {
+        const wrap = document.createElement('div');
+        wrap.className = 'flex items-center gap-2';
+        const i = document.createElement('i');
+        i.setAttribute('data-lucide', icon);
+        i.className = 'w-4 h-4 text-emerald-300';
+        const span = document.createElement('span');
+        span.textContent = text;
+        wrap.append(i, span);
+        return wrap;
+      }
+
+      function renderSummary(opts, counts) {
+        summaryEl.replaceChildren();
+        const plural = (n, w) => n + ' ' + w + (n === 1 ? '' : 's');
+        summaryEl.append(summaryRow('shield', counts.me > 0 ? 'Profile (<Me>) anonymized' : 'No <Me> profile block found to anonymize'));
+        summaryEl.append(summaryRow('calendar', opts.dobKeepYear ? 'Date of birth reduced to birth year only' : 'Date of birth removed entirely'));
+        if (opts.device) summaryEl.append(summaryRow('cpu', plural(counts.device, 'device attribute') + ' removed'));
+        if (opts.sourceName) summaryEl.append(summaryRow('user', plural(counts.sourceName, 'source name') + ' masked'));
+        if (opts.sourceVersion) summaryEl.append(summaryRow('tag', plural(counts.sourceVersion, 'sourceVersion attribute') + ' removed'));
+        if (opts.clinical) summaryEl.append(summaryRow('file-x', plural(counts.clinical, 'ClinicalRecord element') + ' removed'));
+        if (opts.dateShift) summaryEl.append(summaryRow('clock', 'All dates shifted by a constant ' + (shiftDays > 0 ? '+' : '') + shiftDays + ' days'));
+      }
+
+      function renderDiffs(diffs) {
+        diffEl.replaceChildren();
+        if (!diffs.length) {
+          const p = document.createElement('div');
+          p.className = 'text-slate-400';
+          p.textContent = 'No identifying lines were found to change with the current options — your file may already be clean.';
+          diffEl.append(p);
+          diffWrap.classList.remove('hidden');
+          return;
+        }
+        for (const d of diffs) {
+          const group = document.createElement('div');
+          const del = document.createElement('div');
+          del.className = 'diff-del px-2 py-1 rounded';
+          del.textContent = '- ' + d.before;
+          const add = document.createElement('div');
+          add.className = 'diff-add px-2 py-1 rounded mt-1';
+          add.textContent = '+ ' + d.after;
+          group.append(del, add);
+          diffEl.append(group);
+        }
+        diffWrap.classList.remove('hidden');
+      }
+
+      lucide.createIcons();
+    </script>
+</body>
+</html>

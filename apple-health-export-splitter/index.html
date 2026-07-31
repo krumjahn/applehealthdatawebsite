@@ -1,0 +1,625 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Apple Health Export Splitter — Free Online Tool | Apple Health Data</title>
+    <meta name="description" content="Apple Health export too big? Split export.xml by date range or data type right in your browser. Free, private — nothing is uploaded. Get a smaller, valid XML.">
+    <meta name="keywords" content="apple health export too big, split apple health export, reduce export.xml size, apple health export splitter, trim export.xml, apple health xml too large, filter apple health export">
+    <meta name="apple-itunes-app" content="app-id=6749297170">
+    <link rel="canonical" href="https://applehealthdata.com/apple-health-export-splitter/">
+    <meta property="og:title" content="Apple Health Export Splitter — Free Online Tool">
+    <meta property="og:description" content="Split a huge Apple Health export.xml by date range or data type, in your browser. Free and private — nothing is uploaded.">
+    <meta property="og:url" content="https://applehealthdata.com/apple-health-export-splitter/">
+    <meta property="og:type" content="website">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Apple Health Export Splitter — Free Online Tool">
+    <meta name="twitter:description" content="Split a huge Apple Health export.xml by date range or data type, in your browser. Free and private — nothing is uploaded.">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preload" as="style"
+          href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;700&display=swap"
+          onload="this.onload=null;this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;700&display=swap"></noscript>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script defer src="https://umami.rumjahn.synology.me/script.js" data-website-id="5d7b4fa8-90b2-4191-8daf-8ea487a8d961"></script>
+    <!-- Matomo -->
+    <script>
+      var _paq = window._paq = window._paq || [];
+      _paq.push(['trackPageView']);
+      _paq.push(['enableLinkTracking']);
+      (function() {
+        var u="//shrewd-lyrebird.pikapod.net/";
+        _paq.push(['setTrackerUrl', u+'matomo.php']);
+        _paq.push(['setSiteId', '9']);
+        var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
+        g.async=true; g.src=u+'matomo.js'; s.parentNode.insertBefore(g,s);
+      })();
+    </script>
+
+    <style>
+      body { font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif; background-color:#020617; color:#f8fafc; }
+      code, .mono { font-family: 'JetBrains Mono', monospace; }
+      .mesh-gradient { position: fixed; inset: 0; z-index: -1; background: radial-gradient(at 0% 0%, rgba(225,29,72,.15), transparent 50%), radial-gradient(at 100% 0%, rgba(56,189,248,.15), transparent 50%), radial-gradient(at 100% 100%, rgba(168,85,247,.15), transparent 50%); filter: blur(60px); }
+      .card { background:rgba(255,255,255,.04); border:1px solid rgba(255,255,255,.1); border-radius:1rem; }
+      .dropzone.dragover { border-color:#e11d48; background:rgba(225,29,72,.08); }
+      input[type="date"]::-webkit-calendar-picker-indicator { filter: invert(1); opacity:.6; }
+      .type-row { border-bottom:1px solid rgba(255,255,255,.06); }
+      .type-row:last-child { border-bottom:none; }
+    </style>
+
+    <!-- Structured data -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "SoftwareApplication",
+      "name": "Apple Health Export Splitter",
+      "applicationCategory": "HealthApplication",
+      "operatingSystem": "Any (web browser)",
+      "url": "https://applehealthdata.com/apple-health-export-splitter/",
+      "description": "Split a large Apple Health export.xml file by date range or data type, entirely in your browser. Produces a smaller, valid Apple Health XML file.",
+      "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" }
+    }
+    </script>
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "Why is my Apple Health export.xml so big?",
+          "acceptedAnswer": { "@type": "Answer", "text": "Apple Health stores every single measurement your devices ever recorded — steps, heart rate every few seconds, workout details, and more. Over a few years this adds up to millions of Record lines, so export.xml commonly reaches hundreds of megabytes to several gigabytes. This tool trims it down by keeping only the dates and data types you actually need." }
+        },
+        {
+          "@type": "Question",
+          "name": "Is my health data uploaded anywhere?",
+          "acceptedAnswer": { "@type": "Answer", "text": "No. The Apple Health Export Splitter runs 100% in your browser using JavaScript. Your export.xml file is read locally with the File API and never sent to any server. Nothing is uploaded, stored, or logged." }
+        },
+        {
+          "@type": "Question",
+          "name": "Is the smaller file still a valid Apple Health XML?",
+          "acceptedAnswer": { "@type": "Answer", "text": "Yes. The splitter keeps the original XML header and DTD, includes the filtered Record and Workout elements you chose to keep, and closes the file with a closing HealthData tag. The result is a well-formed Apple Health-style XML you can open, convert to CSV, or feed to an AI tool." }
+        },
+        {
+          "@type": "Question",
+          "name": "Can I split by both date range and data type at once?",
+          "acceptedAnswer": { "@type": "Answer", "text": "Yes. Set a start and/or end date and check only the data types you want. A record is kept only if it matches every active filter, so you can, for example, keep just heart rate and steps from the last 90 days." }
+        },
+        {
+          "@type": "Question",
+          "name": "The file is a .zip — what do I do?",
+          "acceptedAnswer": { "@type": "Answer", "text": "Apple exports your health data as a .zip archive. Unzip it first (double-click on Mac, or Extract on Windows), then open the apple_health_export folder and select the export.xml file inside. This tool works on export.xml directly." }
+        },
+        {
+          "@type": "Question",
+          "name": "How big a file can it handle?",
+          "acceptedAnswer": { "@type": "Answer", "text": "The tool streams the file in 8 MB chunks instead of loading it all at once, so it comfortably handles multi-gigabyte exports without crashing the tab. Very large files simply take longer — a progress bar shows how far along it is." }
+        }
+      ]
+    }
+    </script>
+</head>
+<body>
+    <div class="mesh-gradient"></div>
+
+    <nav class="fixed w-full z-50 border-b border-white/10 bg-slate-950/50 backdrop-blur-xl">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8"><div class="flex justify-between items-center h-20">
+        <a href="/" class="flex items-center gap-3">
+          <div class="w-10 h-10 bg-gradient-to-tr from-rose-600 to-orange-500 rounded-xl flex items-center justify-center shadow-lg shadow-rose-500/20"><i data-lucide="activity" class="w-6 h-6 text-white"></i></div>
+          <div><span class="font-bold text-lg tracking-tight text-white block leading-none">Health Data</span><span class="text-xs text-slate-400 tracking-wider uppercase font-semibold">Export &amp; Analyze</span></div>
+        </a>
+        <a href="/tools/" class="text-slate-300 hover:text-white text-sm font-semibold">All Free Tools</a>
+      </div></div>
+    </nav>
+
+    <main class="pt-32 pb-20">
+      <div class="max-w-4xl mx-auto px-4">
+
+        <!-- Hero -->
+        <header class="text-center mb-10">
+          <h1 class="text-4xl sm:text-5xl font-extrabold tracking-tight text-white">Apple Health Export Splitter</h1>
+          <p class="mt-4 text-lg text-slate-400 max-w-2xl mx-auto">Your <code class="text-rose-300">export.xml</code> too big to open, convert, or feed to AI? Trim it by date range or data type and download a smaller, valid file. Free, private, runs entirely in your browser — nothing is uploaded.</p>
+        </header>
+
+        <!-- The tool -->
+        <section class="card p-6 sm:p-8">
+          <!-- Step 1: file -->
+          <div id="dropzone" class="dropzone border-2 border-dashed border-white/15 rounded-2xl p-8 text-center cursor-pointer transition-colors">
+            <input id="fileInput" type="file" accept=".xml,text/xml" class="hidden">
+            <i data-lucide="file-up" class="w-10 h-10 mx-auto text-rose-400"></i>
+            <p class="mt-3 font-semibold text-white">Drop your <code>export.xml</code> here</p>
+            <p class="text-sm text-slate-400 mt-1">or <span class="text-rose-400 underline">choose a file</span> — it never leaves your device</p>
+            <p id="fileName" class="mt-3 text-sm text-slate-300 font-medium hidden"></p>
+          </div>
+
+          <div id="zipWarning" class="hidden mt-4 p-4 rounded-xl bg-amber-500/10 border border-amber-500/30 text-amber-200 text-sm">
+            <b>That looks like a .zip.</b> Unzip it first, open the <code>apple_health_export</code> folder, and select <code>export.xml</code> inside. This tool works on the raw XML.
+          </div>
+
+          <!-- Scan progress -->
+          <div id="scanProgress" class="hidden mt-6">
+            <div class="flex justify-between text-sm text-slate-400 mb-1"><span id="scanLabel">Scanning…</span><span id="scanPct">0%</span></div>
+            <div class="w-full h-2 rounded-full bg-white/10 overflow-hidden"><div id="scanBar" class="h-full bg-rose-600 transition-all" style="width:0%"></div></div>
+          </div>
+
+          <!-- Filters (revealed after scan) -->
+          <div id="filters" class="hidden mt-8">
+            <h2 class="text-xl font-bold text-white mb-1">Choose what to keep</h2>
+            <p class="text-sm text-slate-400 mb-5" id="scanSummary"></p>
+
+            <!-- Date range -->
+            <div class="grid sm:grid-cols-2 gap-4 mb-6">
+              <div>
+                <label for="startDate" class="text-sm text-slate-300">Start date <span class="text-slate-500">(from)</span></label>
+                <input id="startDate" type="date" class="mt-1 w-full rounded-lg bg-slate-900 border border-white/10 p-2 text-slate-100">
+              </div>
+              <div>
+                <label for="endDate" class="text-sm text-slate-300">End date <span class="text-slate-500">(to)</span></label>
+                <input id="endDate" type="date" class="mt-1 w-full rounded-lg bg-slate-900 border border-white/10 p-2 text-slate-100">
+              </div>
+            </div>
+
+            <!-- Data types -->
+            <div class="flex items-center justify-between mb-2">
+              <label class="text-sm text-slate-300 font-semibold">Data types</label>
+              <div class="text-xs">
+                <button id="selectAll" class="text-rose-400 hover:text-rose-300 font-semibold">Select all</button>
+                <span class="text-slate-600">·</span>
+                <button id="selectNone" class="text-rose-400 hover:text-rose-300 font-semibold">None</button>
+              </div>
+            </div>
+            <div id="typeList" class="rounded-xl bg-slate-900/60 border border-white/10 max-h-72 overflow-y-auto p-1"></div>
+
+            <div id="workoutRow" class="hidden mt-4 flex items-center gap-2">
+              <input id="keepWorkouts" type="checkbox" class="h-4 w-4 accent-rose-600" checked>
+              <label for="keepWorkouts" class="text-sm text-slate-300">Keep <span id="workoutCount" class="font-semibold text-white"></span> workout entries (<code>&lt;Workout&gt;</code> blocks)</label>
+            </div>
+
+            <button id="processBtn" class="mt-6 w-full sm:w-auto px-6 py-3 rounded-full bg-rose-600 hover:bg-rose-700 font-bold text-white flex items-center gap-2 justify-center">
+              <i data-lucide="scissors" class="w-5 h-5"></i> Build smaller export
+            </button>
+          </div>
+
+          <!-- Build progress -->
+          <div id="buildProgress" class="hidden mt-6">
+            <div class="flex justify-between text-sm text-slate-400 mb-1"><span>Building filtered file…</span><span id="buildPct">0%</span></div>
+            <div class="w-full h-2 rounded-full bg-white/10 overflow-hidden"><div id="buildBar" class="h-full bg-rose-600 transition-all" style="width:0%"></div></div>
+          </div>
+
+          <!-- Result -->
+          <div id="result" class="hidden mt-6"></div>
+        </section>
+
+        <!-- How to use -->
+        <section class="mt-14">
+          <h2 class="text-3xl font-bold text-white">How to use it</h2>
+          <ol class="mt-5 space-y-3 text-lg text-slate-400 list-decimal list-inside">
+            <li>On your iPhone, open <b>Health &rarr; your profile photo &rarr; Export All Health Data</b>. You'll get a <code>.zip</code>.</li>
+            <li>Unzip it and find <code>apple_health_export/export.xml</code>. Drop that file into the box above.</li>
+            <li>The tool scans it and lists every data type with its record count and the full date range it found.</li>
+            <li>Pick a start/end date and/or tick the data types you want to keep. A record is kept only if it matches all active filters.</li>
+            <li>Click <b>Build smaller export</b>, then download your trimmed, valid <code>export.xml</code>.</li>
+          </ol>
+        </section>
+
+        <!-- SEO content -->
+        <section class="mt-14 space-y-6">
+          <h2 class="text-3xl font-bold text-white">Why Apple Health exports get so big — and how to shrink them</h2>
+          <p class="text-lg text-slate-400">If you've ever tried to open your Apple Health <code>export.xml</code> and watched your editor freeze, crash, or refuse to load it, you're not imagining it. A multi-year export routinely runs from a few hundred megabytes to several gigabytes. The reason is simple: Apple Health saves <em>every</em> data point your Apple Watch and iPhone ever recorded. Heart rate alone can be logged every few seconds, so a single year produces millions of individual <code>&lt;Record&gt;</code> lines. Add active energy, steps, distance, sleep stages, HRV, and workouts, and the file balloons far beyond what most tools — spreadsheets, text editors, CSV converters, and AI chat windows — can handle in one piece.</p>
+
+          <h3 class="text-2xl font-bold text-white">What this tool actually does</h3>
+          <p class="text-lg text-slate-400">The Apple Health Export Splitter reads your file in two passes. The first pass <b>scans</b> the whole file in small 8 MB chunks, counting how many records exist for each data type (like <code>HKQuantityTypeIdentifierStepCount</code> or <code>HKQuantityTypeIdentifierHeartRate</code>) and finding the earliest and latest dates present. The second pass <b>filters</b>: it walks the file again and copies through only the records that fall inside your chosen date range and belong to a data type you kept. It then wraps those records with the original file's header and DTD at the top and a closing <code>&lt;/HealthData&gt;</code> tag at the bottom, so the output is a genuine, well-formed Apple Health XML file — just much smaller.</p>
+
+          <h3 class="text-2xl font-bold text-white">Why stream instead of parse the whole thing?</h3>
+          <p class="text-lg text-slate-400">A normal XML parser (like the browser's <code>DOMParser</code>) tries to build the entire document in memory before you can touch it. On a 1 GB health export that means several gigabytes of RAM and, usually, a crashed tab. Instead, this tool reads the file as a stream of bytes, decodes each chunk of text, keeps a small carry-over buffer so records split across a chunk boundary aren't lost, and matches each <code>&lt;Record .../&gt;</code> line with a regular expression. That keeps memory use tiny and flat no matter how large the file is — which is exactly how the Apple Health app itself writes the file: one record per line.</p>
+
+          <h3 class="text-2xl font-bold text-white">How to read the results</h3>
+          <p class="text-lg text-slate-400">After scanning you'll see a before size and, after building, an after size and the exact record counts kept versus removed. If you only need recent data for an AI summary, try the last 90 days. If you only care about workouts and heart rate, uncheck everything else. If your filter matches zero records, the tool tells you rather than handing you an empty file — widen your date range or select more types. The trimmed file is dramatically easier to open, and it plugs straight into our <a href="/convert-tool/" class="text-rose-400 hover:text-rose-300 underline">XML-to-CSV converter</a> or any AI health analysis workflow.</p>
+
+          <h3 class="text-2xl font-bold text-white">Your data stays yours</h3>
+          <p class="text-lg text-slate-400">Everything here happens locally in your browser. Your <code>export.xml</code> is read with the browser's File API, processed in JavaScript on your own machine, and offered back to you as a download via an in-memory Blob. There is no upload, no server round-trip, and no analytics on your health content. You can even disconnect from the internet after the page loads and it will still work.</p>
+        </section>
+
+        <!-- FAQ -->
+        <section class="mt-14">
+          <h2 class="text-3xl font-bold text-white mb-6">Frequently asked questions</h2>
+          <div class="space-y-4">
+            <details class="card p-5" open>
+              <summary class="font-semibold text-white cursor-pointer">Why is my Apple Health export.xml so big?</summary>
+              <p class="mt-3 text-slate-400">Apple Health stores every single measurement your devices ever recorded — steps, heart rate every few seconds, workout details, and more. Over a few years this adds up to millions of <code>&lt;Record&gt;</code> lines, so <code>export.xml</code> commonly reaches hundreds of megabytes to several gigabytes. This tool trims it down by keeping only the dates and data types you actually need.</p>
+            </details>
+            <details class="card p-5">
+              <summary class="font-semibold text-white cursor-pointer">Is my health data uploaded anywhere?</summary>
+              <p class="mt-3 text-slate-400">No. The splitter runs 100% in your browser using JavaScript. Your <code>export.xml</code> is read locally with the File API and never sent to any server. Nothing is uploaded, stored, or logged.</p>
+            </details>
+            <details class="card p-5">
+              <summary class="font-semibold text-white cursor-pointer">Is the smaller file still a valid Apple Health XML?</summary>
+              <p class="mt-3 text-slate-400">Yes. It keeps the original XML header and DTD, includes the filtered <code>&lt;Record&gt;</code> and <code>&lt;Workout&gt;</code> elements you chose, and closes with <code>&lt;/HealthData&gt;</code>. The result is a well-formed Apple Health-style XML you can open, convert to CSV, or feed to an AI tool.</p>
+            </details>
+            <details class="card p-5">
+              <summary class="font-semibold text-white cursor-pointer">Can I split by both date range and data type at once?</summary>
+              <p class="mt-3 text-slate-400">Yes. Set a start and/or end date and check only the data types you want. A record is kept only if it matches every active filter, so you can keep just heart rate and steps from the last 90 days, for example.</p>
+            </details>
+            <details class="card p-5">
+              <summary class="font-semibold text-white cursor-pointer">The file is a .zip — what do I do?</summary>
+              <p class="mt-3 text-slate-400">Apple exports your data as a <code>.zip</code>. Unzip it first (double-click on Mac, or Extract on Windows), open the <code>apple_health_export</code> folder, and select the <code>export.xml</code> file inside. This tool works on <code>export.xml</code> directly.</p>
+            </details>
+            <details class="card p-5">
+              <summary class="font-semibold text-white cursor-pointer">How big a file can it handle?</summary>
+              <p class="mt-3 text-slate-400">The tool streams the file in 8 MB chunks instead of loading it all at once, so it comfortably handles multi-gigabyte exports without crashing the tab. Very large files simply take longer — the progress bar shows how far along it is.</p>
+            </details>
+          </div>
+        </section>
+
+        <!-- Cross-links -->
+        <section class="mt-14">
+          <h2 class="text-2xl font-bold text-white mb-4">More free tools</h2>
+          <div class="flex flex-wrap gap-3 text-sm">
+            <a href="/tools/" class="px-4 py-2 rounded-full bg-white/10 hover:bg-white/20 text-slate-200 font-medium">All Free Tools</a>
+            <a href="/convert-tool/" class="px-4 py-2 rounded-full bg-white/10 hover:bg-white/20 text-slate-200 font-medium">XML &rarr; CSV Converter</a>
+            <a href="/apple-health-export-validator/" class="px-4 py-2 rounded-full bg-white/10 hover:bg-white/20 text-slate-200 font-medium">Export Validator</a>
+            <a href="/apple-health-duplicate-steps-checker/" class="px-4 py-2 rounded-full bg-white/10 hover:bg-white/20 text-slate-200 font-medium">Duplicate Steps Checker</a>
+            <a href="/apple-health-to-gpx/" class="px-4 py-2 rounded-full bg-white/10 hover:bg-white/20 text-slate-200 font-medium">Health &rarr; GPX</a>
+            <a href="/apple-health-anonymizer/" class="px-4 py-2 rounded-full bg-white/10 hover:bg-white/20 text-slate-200 font-medium">Anonymizer</a>
+          </div>
+        </section>
+
+        <!-- CTA -->
+        <section class="card p-8 mt-14 text-center">
+          <h2 class="text-2xl font-bold text-white">Want deeper analysis?</h2>
+          <p class="mt-2 text-slate-400 max-w-xl mx-auto">Turn your trimmed export into trends, scores, and AI-powered insights — on your iPhone or Mac.</p>
+          <div class="mt-6 flex flex-wrap gap-3 justify-center">
+            <a href="/go/website.html?c=ah_splitter" class="px-6 py-3 rounded-full bg-rose-600 hover:bg-rose-700 font-bold text-white">Download iOS App</a>
+            <a href="https://github.com/krumjahn/applehealth" class="px-6 py-3 rounded-full bg-white/10 hover:bg-white/20 font-bold text-slate-100">Get Mac Analyzer</a>
+          </div>
+        </section>
+
+      </div>
+    </main>
+
+    <script>
+    (function () {
+      var CHUNK = 8 * 1024 * 1024; // 8 MB
+      var recordRe = /<Record\b[^>]*\/>/g;
+      var typeAttrRe = /\btype="([^"]*)"/;
+      var startDateAttrRe = /\bstartDate="([^"]*)"/;
+
+      var selectedFile = null;
+      var scanResult = null;
+
+      function $(id){ return document.getElementById(id); }
+      var dropzone = $('dropzone'), fileInput = $('fileInput'), fileNameEl = $('fileName');
+
+      function fmtBytes(b){
+        if (b < 1024) return b + ' B';
+        if (b < 1048576) return (b/1024).toFixed(1) + ' KB';
+        if (b < 1073741824) return (b/1048576).toFixed(1) + ' MB';
+        return (b/1073741824).toFixed(2) + ' GB';
+      }
+      function fmtNum(n){ return n.toLocaleString('en-US'); }
+
+      // Apple dates look like "2024-01-01 08:00:00 +0800". Take the YYYY-MM-DD prefix.
+      function dateKey(appleDate){
+        return appleDate && appleDate.length >= 10 ? appleDate.slice(0, 10) : '';
+      }
+
+      // ---- File selection ----
+      dropzone.addEventListener('click', function(){ fileInput.click(); });
+      dropzone.addEventListener('dragover', function(e){ e.preventDefault(); dropzone.classList.add('dragover'); });
+      dropzone.addEventListener('dragleave', function(){ dropzone.classList.remove('dragover'); });
+      dropzone.addEventListener('drop', function(e){
+        e.preventDefault(); dropzone.classList.remove('dragover');
+        if (e.dataTransfer.files.length) handleFile(e.dataTransfer.files[0]);
+      });
+      fileInput.addEventListener('change', function(){ if (fileInput.files.length) handleFile(fileInput.files[0]); });
+
+      function handleFile(file){
+        $('zipWarning').classList.add('hidden');
+        $('filters').classList.add('hidden');
+        $('result').classList.add('hidden');
+        $('buildProgress').classList.add('hidden');
+
+        if (file.name.toLowerCase().slice(-4) === '.zip') {
+          $('zipWarning').classList.remove('hidden');
+          fileNameEl.classList.add('hidden');
+          selectedFile = null;
+          return;
+        }
+        selectedFile = file;
+        fileNameEl.textContent = file.name + '  ·  ' + fmtBytes(file.size);
+        fileNameEl.classList.remove('hidden');
+        scanFile(file);
+      }
+
+      // ---- Pass 1: scan ----
+      async function scanFile(file){
+        $('scanProgress').classList.remove('hidden');
+        $('scanLabel').textContent = 'Scanning ' + file.name + '…';
+        setBar('scanBar', 'scanPct', 0);
+
+        var types = Object.create(null);
+        var workoutCount = 0, totalRecords = 0;
+        var minDate = '', maxDate = '';
+        var headerText = null;
+        var sawFirstRecord = false;
+        var carry = '';
+        var offset = 0;
+        var decoder = new TextDecoder('utf-8');
+
+        while (offset < file.size) {
+          var slice = file.slice(offset, offset + CHUNK);
+          var buf = await slice.arrayBuffer();
+          var isLast = offset + CHUNK >= file.size;
+          var text = carry + decoder.decode(buf, { stream: !isLast });
+
+          if (!sawFirstRecord) {
+            var firstRec = text.indexOf('<Record');
+            if (firstRec !== -1) { headerText = text.slice(0, firstRec); sawFirstRecord = true; }
+          }
+
+          recordRe.lastIndex = 0;
+          var m;
+          while ((m = recordRe.exec(text)) !== null) {
+            var rec = m[0];
+            totalRecords++;
+            var t = typeAttrRe.exec(rec);
+            if (t) types[t[1]] = (types[t[1]] || 0) + 1;
+            var sd = startDateAttrRe.exec(rec);
+            if (sd) {
+              var k = dateKey(sd[1]);
+              if (k) {
+                if (!minDate || k < minDate) minDate = k;
+                if (!maxDate || k > maxDate) maxDate = k;
+              }
+            }
+          }
+
+          var wIdx = 0;
+          while (true) {
+            var found = text.indexOf('<Workout ', wIdx);
+            if (found === -1) break;
+            workoutCount++; wIdx = found + 8;
+          }
+
+          // Carry only a trailing partial tag so we never double-count a record.
+          if (!isLast) {
+            var lastLt = text.lastIndexOf('<');
+            var lastGt = text.lastIndexOf('>');
+            carry = (lastLt > lastGt) ? text.slice(lastLt) : '';
+          } else {
+            carry = '';
+          }
+
+          offset += CHUNK;
+          setBar('scanBar', 'scanPct', Math.min(100, (offset / file.size) * 100));
+          await yieldToUI();
+        }
+
+        if (headerText === null) {
+          $('scanProgress').classList.add('hidden');
+          showError('No &lt;Record&gt; elements found. Make sure this is the <code>export.xml</code> from your Apple Health export, not another file.');
+          return;
+        }
+
+        scanResult = { headerText: headerText, types: types, workoutCount: workoutCount, minDate: minDate, maxDate: maxDate, totalRecords: totalRecords, fileSize: file.size };
+        $('scanProgress').classList.add('hidden');
+        renderFilters();
+      }
+
+      // ---- Render filter UI ----
+      function renderFilters(){
+        var r = scanResult;
+        $('scanSummary').innerHTML =
+          'Found <b class="text-white">' + fmtNum(r.totalRecords) + '</b> records across <b class="text-white">' +
+          Object.keys(r.types).length + '</b> types' +
+          (r.minDate ? ', from <b class="text-white">' + r.minDate + '</b> to <b class="text-white">' + r.maxDate + '</b>' : '') +
+          '. Original size <b class="text-white">' + fmtBytes(r.fileSize) + '</b>.';
+
+        if (r.minDate) { $('startDate').value = r.minDate; $('startDate').min = r.minDate; $('startDate').max = r.maxDate; }
+        if (r.maxDate) { $('endDate').value = r.maxDate; $('endDate').min = r.minDate; $('endDate').max = r.maxDate; }
+
+        var entries = Object.keys(r.types).map(function(k){ return [k, r.types[k]]; }).sort(function(a,b){ return b[1]-a[1]; });
+        var list = $('typeList');
+        list.innerHTML = '';
+        entries.forEach(function(pair){
+          var name = pair[0], count = pair[1];
+          var short = name.replace(/^HKQuantityTypeIdentifier|^HKCategoryTypeIdentifier|^HKDataTypeIdentifier|^HKCorrelationTypeIdentifier/, '');
+          var row = document.createElement('label');
+          row.className = 'type-row flex items-center justify-between gap-3 px-3 py-2 cursor-pointer hover:bg-white/5';
+          row.innerHTML =
+            '<span class="flex items-center gap-3 min-w-0">' +
+              '<input type="checkbox" class="type-cb h-4 w-4 accent-rose-600 shrink-0" data-type="' + escAttr(name) + '" checked>' +
+              '<span class="truncate"><span class="text-slate-100 font-medium">' + escHtml(short) + '</span>' +
+              '<span class="block text-xs text-slate-500 truncate mono">' + escHtml(name) + '</span></span>' +
+            '</span>' +
+            '<span class="text-sm text-slate-400 shrink-0">' + fmtNum(count) + '</span>';
+          list.appendChild(row);
+        });
+
+        if (r.workoutCount > 0) {
+          $('workoutRow').classList.remove('hidden');
+          $('workoutCount').textContent = fmtNum(r.workoutCount);
+        } else {
+          $('workoutRow').classList.add('hidden');
+        }
+
+        $('filters').classList.remove('hidden');
+        lucide.createIcons();
+      }
+
+      $('selectAll').addEventListener('click', function(e){ e.preventDefault(); document.querySelectorAll('.type-cb').forEach(function(c){ c.checked = true; }); });
+      $('selectNone').addEventListener('click', function(e){ e.preventDefault(); document.querySelectorAll('.type-cb').forEach(function(c){ c.checked = false; }); });
+
+      // ---- Pass 2: filter + build ----
+      $('processBtn').addEventListener('click', processFile);
+
+      async function processFile(){
+        var r = scanResult;
+        if (!r || !selectedFile) return;
+
+        var keepTypes = new Set();
+        document.querySelectorAll('.type-cb').forEach(function(c){ if (c.checked) keepTypes.add(c.dataset.type); });
+        var keepWorkouts = r.workoutCount > 0 && $('keepWorkouts').checked;
+        var startVal = $('startDate').value || '';
+        var endVal = $('endDate').value || '';
+
+        if (keepTypes.size === 0 && !keepWorkouts) {
+          showError('Nothing selected. Check at least one data type (or keep workouts) before building.');
+          return;
+        }
+
+        $('result').classList.add('hidden');
+        $('buildProgress').classList.remove('hidden');
+        setBar('buildBar', 'buildPct', 0);
+
+        var parts = [r.headerText];
+        var keptRecords = 0, keptWorkouts = 0, removedRecords = 0;
+
+        var carry = '';
+        var offset = 0;
+        var inWorkout = false;
+        var currentWorkoutKept = false;
+        var workoutBuffer = '';
+        var decoder = new TextDecoder('utf-8');
+
+        while (offset < selectedFile.size) {
+          var slice = selectedFile.slice(offset, offset + CHUNK);
+          var buf = await slice.arrayBuffer();
+          var isLast = offset + CHUNK >= selectedFile.size;
+          var text = carry + decoder.decode(buf, { stream: !isLast });
+
+          // Keep any trailing partial tag for next round (unless we're mid-workout,
+          // which carries its own buffer).
+          var processEnd = text.length;
+          if (!isLast && !inWorkout) {
+            var lastLt = text.lastIndexOf('<');
+            var lastGt = text.lastIndexOf('>');
+            if (lastLt > lastGt) processEnd = lastLt;
+          }
+          var work = text.slice(0, processEnd);
+          carry = text.slice(processEnd);
+
+          var out = [];
+          var i = 0;
+          while (i < work.length) {
+            if (inWorkout) {
+              var close0 = work.indexOf('</Workout>', i);
+              if (close0 === -1) { workoutBuffer += work.slice(i); i = work.length; break; }
+              workoutBuffer += work.slice(i, close0 + 10);
+              if (currentWorkoutKept) { out.push(workoutBuffer); out.push('\n'); keptWorkouts++; }
+              inWorkout = false; workoutBuffer = ''; currentWorkoutKept = false;
+              i = close0 + 10;
+              continue;
+            }
+
+            var lt = work.indexOf('<', i);
+            if (lt === -1) break;
+
+            if (work.substr(lt, 7) === '<Record') {
+              var end = work.indexOf('/>', lt);
+              if (end === -1) { carry = work.slice(lt) + carry; i = work.length; break; }
+              var rec = work.slice(lt, end + 2);
+              if (recordPasses(rec, keepTypes, startVal, endVal)) { out.push(rec); out.push('\n'); keptRecords++; }
+              else removedRecords++;
+              i = end + 2;
+              continue;
+            }
+
+            if (work.substr(lt, 9) === '<Workout ') {
+              var close = work.indexOf('</Workout>', lt);
+              if (close === -1) {
+                inWorkout = true; currentWorkoutKept = keepWorkouts; workoutBuffer = work.slice(lt);
+                i = work.length; break;
+              }
+              if (keepWorkouts) { out.push(work.slice(lt, close + 10)); out.push('\n'); keptWorkouts++; }
+              i = close + 10;
+              continue;
+            }
+
+            i = lt + 1;
+          }
+
+          if (out.length) parts.push(out.join(''));
+          offset += CHUNK;
+          setBar('buildBar', 'buildPct', Math.min(100, (offset / selectedFile.size) * 100));
+          await yieldToUI();
+        }
+
+        parts.push('\n</HealthData>\n');
+
+        if (keptRecords === 0 && keptWorkouts === 0) {
+          $('buildProgress').classList.add('hidden');
+          showError('Your filters matched <b>zero records</b>. Widen the date range or select more data types, then build again.');
+          return;
+        }
+
+        var blob = new Blob(parts, { type: 'application/xml' });
+        $('buildProgress').classList.add('hidden');
+        showResult(blob, keptRecords, keptWorkouts, removedRecords);
+      }
+
+      function recordPasses(rec, keepTypes, startVal, endVal){
+        var t = typeAttrRe.exec(rec);
+        if (!t || !keepTypes.has(t[1])) return false;
+        if (startVal || endVal) {
+          var sd = startDateAttrRe.exec(rec);
+          var k = sd ? dateKey(sd[1]) : '';
+          if (!k) return false;
+          if (startVal && k < startVal) return false;
+          if (endVal && k > endVal) return false;
+        }
+        return true;
+      }
+
+      // ---- Results ----
+      function showResult(blob, keptRecords, keptWorkouts, removedRecords){
+        var r = scanResult;
+        var url = URL.createObjectURL(blob);
+        var reduction = r.fileSize > 0 ? Math.max(0, (1 - blob.size / r.fileSize) * 100) : 0;
+        var el = $('result');
+        el.innerHTML =
+          '<div class="p-5 rounded-xl bg-emerald-500/10 border border-emerald-500/30">' +
+            '<div class="flex items-center gap-2 text-emerald-300 font-bold text-lg"><i data-lucide="check-circle-2" class="w-5 h-5"></i> Done — your smaller export is ready</div>' +
+            '<div class="grid sm:grid-cols-3 gap-4 mt-4 text-center">' +
+              '<div class="rounded-lg bg-slate-900/60 p-3"><div class="text-xs text-slate-400 uppercase tracking-wide">Before</div><div class="text-xl font-bold text-white">' + fmtBytes(r.fileSize) + '</div></div>' +
+              '<div class="rounded-lg bg-slate-900/60 p-3"><div class="text-xs text-slate-400 uppercase tracking-wide">After</div><div class="text-xl font-bold text-white">' + fmtBytes(blob.size) + '</div></div>' +
+              '<div class="rounded-lg bg-slate-900/60 p-3"><div class="text-xs text-slate-400 uppercase tracking-wide">Smaller by</div><div class="text-xl font-bold text-rose-400">' + reduction.toFixed(1) + '%</div></div>' +
+            '</div>' +
+            '<p class="mt-4 text-sm text-slate-300">Kept <b class="text-white">' + fmtNum(keptRecords) + '</b> records' +
+              (keptWorkouts ? ' and <b class="text-white">' + fmtNum(keptWorkouts) + '</b> workouts' : '') +
+              '. Removed <b class="text-white">' + fmtNum(removedRecords) + '</b> records.</p>' +
+            '<a href="' + url + '" download="export-filtered.xml" class="mt-4 inline-flex items-center gap-2 px-6 py-3 rounded-full bg-rose-600 hover:bg-rose-700 font-bold text-white">' +
+              '<i data-lucide="download" class="w-5 h-5"></i> Download export-filtered.xml</a>' +
+          '</div>';
+        el.classList.remove('hidden');
+        lucide.createIcons();
+        el.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      }
+
+      function showError(html){
+        var el = $('result');
+        el.innerHTML = '<div class="p-4 rounded-xl bg-rose-500/10 border border-rose-500/30 text-rose-200 flex items-start gap-2">' +
+          '<i data-lucide="alert-triangle" class="w-5 h-5 shrink-0 mt-0.5"></i><div>' + html + '</div></div>';
+        el.classList.remove('hidden');
+        lucide.createIcons();
+      }
+
+      // ---- helpers ----
+      function setBar(barId, pctId, pct){
+        var p = Math.round(pct);
+        $(barId).style.width = p + '%';
+        $(pctId).textContent = p + '%';
+      }
+      function yieldToUI(){ return new Promise(function(r){ setTimeout(r, 0); }); }
+      function escHtml(s){ return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+      function escAttr(s){ return s.replace(/&/g,'&amp;').replace(/"/g,'&quot;'); }
+    })();
+
+    lucide.createIcons();
+    </script>
+</body>
+</html>

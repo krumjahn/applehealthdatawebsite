@@ -1,0 +1,798 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VO2 Max & Fitness Age Calculator — Free Online Tool | Apple Health Data</title>
+    <meta name="description" content="Free VO2 max & fitness age calculator. Estimate your cardio fitness age from resting heart rate, activity & waist, or enter your Apple Watch Cardio Fitness. Private, runs in your browser.">
+    <meta name="keywords" content="fitness age calculator, vo2 max calculator, cardio fitness apple watch, what is my fitness age, vo2max estimate, cardiorespiratory fitness, resting heart rate fitness, non-exercise vo2max">
+    <meta name="apple-itunes-app" content="app-id=6749297170">
+    <link rel="canonical" href="https://applehealthdata.com/fitness-age-calculator/">
+    <meta name="robots" content="index,follow,max-image-preview:large">
+    <meta name="author" content="Keith Rumjahn">
+
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="AppleHealthData.com">
+    <meta property="og:url" content="https://applehealthdata.com/fitness-age-calculator/">
+    <meta property="og:title" content="VO2 Max & Fitness Age Calculator — Free Private Tool">
+    <meta property="og:description" content="Estimate your VO2 max and fitness age from resting heart rate, activity, and waist — or enter your Apple Watch Cardio Fitness. Runs entirely in your browser.">
+    <meta property="og:image" content="https://applehealthdata.com/images/iphone-app-screenshot.png">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="VO2 Max & Fitness Age Calculator — Free Private Tool">
+    <meta name="twitter:description" content="Estimate your VO2 max and fitness age. Private, runs in your browser. Uses the published HUNT non-exercise model.">
+    <meta name="twitter:image" content="https://applehealthdata.com/images/iphone-app-screenshot.png">
+
+    <!-- SoftwareApplication schema -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "SoftwareApplication",
+      "name": "VO2 Max & Fitness Age Calculator",
+      "applicationCategory": "HealthApplication",
+      "operatingSystem": "Any (web browser)",
+      "url": "https://applehealthdata.com/fitness-age-calculator/",
+      "description": "Free, private VO2 max and fitness age calculator using the HUNT non-exercise prediction model, or your Apple Watch Cardio Fitness value. All computation runs locally in your browser.",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      },
+      "author": {
+        "@type": "Person",
+        "name": "Keith Rumjahn"
+      }
+    }
+    </script>
+
+    <!-- FAQ schema -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "What is fitness age?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Fitness age is the age at which your estimated VO2 max equals the population average. If your VO2 max is higher than average for your real age, your fitness age is younger; if it is lower, your fitness age is older. It translates an abstract fitness number into an intuitive age you can compare to your calendar age."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How is my VO2 max estimated without a lab test?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "This tool uses the HUNT non-exercise prediction model (Nes et al., 2011), a peer-reviewed equation built from thousands of directly measured VO2 max tests. It estimates VO2 max from your age, sex, resting heart rate, a physical activity index, and waist circumference or BMI — no treadmill required. Non-exercise estimates carry roughly a ±5 mL/kg/min error, so treat the number as a ballpark."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Where do I find my Cardio Fitness (VO2 max) on Apple Watch?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Open the Health app on iPhone, tap Browse, then Heart, then Cardio Fitness. Apple Watch measures this during outdoor walks, runs, and hikes. If you have this value, enter it directly in the calculator — it is more personal and accurate than any non-exercise estimate."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Is this fitness age calculator private?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes. Every calculation runs entirely in your browser using JavaScript. Nothing you type is uploaded, stored, or sent to any server. Your data never leaves your device."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How accurate is a VO2 max estimate from resting heart rate?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "The HUNT non-exercise model explains about 56–61% of the variance in measured VO2 max and has a standard error of roughly 5 mL/kg/min. It is a good screening estimate but not a substitute for a laboratory graded exercise test. Apple Watch Cardio Fitness is more personal because it is based on your own heart-rate response to real activity."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How can I improve my fitness age?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "VO2 max responds most to vigorous aerobic exercise. Adding interval or higher-intensity sessions, increasing weekly training volume, and lowering resting heart rate over time all raise estimated VO2 max — which lowers fitness age. Use the What-if panel to preview the effect of one extra weekly session or a 5 bpm drop in resting heart rate."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Does fitness age work for all ages?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "The age-normative VO2 max tables used here cover ages 20 to 80. If your fitness is very high or very low, the matching age can fall outside that range, so the result is clamped to 20 or 80 and labeled as such. Treat clamped results as 'at least this fit' or 'at most this fit' rather than an exact age."
+          }
+        }
+      ]
+    }
+    </script>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        :root {
+            --glass-border: rgba(255, 255, 255, 0.08);
+            --glass-bg: rgba(255, 255, 255, 0.03);
+        }
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: #020617;
+            color: #f8fafc;
+            overflow-x: hidden;
+        }
+        .font-mono { font-family: 'JetBrains Mono', monospace; }
+
+        .mesh-gradient {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100vw; height: 100vh;
+            z-index: -1;
+            background:
+                radial-gradient(at 0% 0%, rgba(225, 29, 72, 0.15) 0px, transparent 50%),
+                radial-gradient(at 100% 0%, rgba(56, 189, 248, 0.15) 0px, transparent 50%),
+                radial-gradient(at 100% 100%, rgba(168, 85, 247, 0.15) 0px, transparent 50%);
+            filter: blur(60px);
+        }
+        .glass {
+            background: var(--glass-bg);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 1rem;
+        }
+
+        /* Form controls */
+        .field-label { font-size: 0.875rem; font-weight: 600; color: #cbd5e1; margin-bottom: 0.4rem; display:block; }
+        .field-input, .field-select {
+            width: 100%;
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.12);
+            border-radius: 0.65rem;
+            padding: 0.7rem 0.9rem;
+            color: #f8fafc;
+            font-size: 1rem;
+            transition: border-color .2s ease, box-shadow .2s ease;
+        }
+        .field-input:focus, .field-select:focus {
+            outline: none;
+            border-color: #f43f5e;
+            box-shadow: 0 0 0 3px rgba(244,63,94,0.25);
+        }
+        .field-select { appearance: none; -webkit-appearance:none; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%2394a3b8' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E"); background-repeat:no-repeat; background-position: right 0.8rem center; padding-right:2.2rem; }
+        .seg {
+            display:flex; gap:0.4rem; background: rgba(255,255,255,0.05);
+            border:1px solid rgba(255,255,255,0.12); border-radius:0.75rem; padding:0.3rem;
+        }
+        .seg button {
+            flex:1; padding:0.55rem 0.5rem; border:none; background:transparent;
+            color:#94a3b8; font-weight:600; font-size:0.85rem; border-radius:0.5rem;
+            cursor:pointer; transition: all .2s ease;
+        }
+        .seg button.active { background:#f43f5e; color:#fff; box-shadow:0 0 12px rgba(244,63,94,0.3); }
+        .seg button:not(.active):hover { color:#e2e8f0; background: rgba(255,255,255,0.05); }
+
+        /* Gauge */
+        .gauge-track { stroke: rgba(255,255,255,0.08); }
+        .gauge-fill { transition: stroke-dashoffset 0.6s cubic-bezier(0.4,0,0.2,1); }
+
+        /* FAQ accordion (matches site) */
+        .faq-accordion details { border-bottom: 1px solid var(--glass-border); transition: background-color 0.3s ease; }
+        .faq-accordion details:first-of-type { border-top: 1px solid var(--glass-border); }
+        .faq-accordion details:hover { background-color: var(--glass-bg); }
+        .faq-accordion summary { display:flex; justify-content:space-between; align-items:center; padding:1.5rem 1rem; cursor:pointer; list-style:none; font-size:1.125rem; font-weight:600; color:#e2e8f0; }
+        .faq-accordion summary::-webkit-details-marker { display:none; }
+        .faq-accordion .faq-content { padding: 0 1rem 1.5rem 1rem; color:#94a3b8; line-height:1.6; }
+        .faq-accordion summary .chevron { transition: transform 0.3s ease; }
+        .faq-accordion details[open] summary .chevron { transform: rotate(90deg); }
+        .faq-accordion details[open] .faq-content { animation: fadeIn 0.5s ease; }
+        @keyframes fadeIn { from { opacity:0; transform:translateY(-10px);} to {opacity:1; transform:translateY(0);} }
+
+        .pill { display:inline-flex; align-items:center; gap:0.4rem; padding:0.55rem 1rem; border-radius:9999px; background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.1); color:#cbd5e1; font-size:0.85rem; font-weight:600; transition: all .2s; }
+        .pill:hover { border-color:#f43f5e; color:#fff; }
+    </style>
+
+    <meta name="google-site-verification" content="mfw8yyYjETYvKDrxInR-_YSvL8zUQJ2qAB3N_OVbjjM" />
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-8SMQRLT4VS"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-8SMQRLT4VS');
+    </script>
+    <script defer src="https://umami.rumjahn.synology.me/script.js" data-website-id="5d7b4fa8-90b2-4191-8daf-8ea487a8d961"></script>
+    <!-- Matomo -->
+    <script>
+      var _paq = window._paq = window._paq || [];
+      _paq.push(['trackPageView']);
+      _paq.push(['enableLinkTracking']);
+      (function() {
+        var u="//shrewd-lyrebird.pikapod.net/";
+        _paq.push(['setTrackerUrl', u+'matomo.php']);
+        _paq.push(['setSiteId', '9']);
+        var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
+        g.async=true; g.src=u+'matomo.js'; s.parentNode.insertBefore(g,s);
+      })();
+    </script>
+    <!-- End Matomo Code -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preload" as="style"
+          href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;700&display=swap"
+          onload="this.onload=null;this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;700&display=swap"></noscript>
+</head>
+<body>
+
+    <div class="mesh-gradient"></div>
+
+    <!-- Navigation -->
+    <nav class="fixed w-full z-50 border-b border-white/10 bg-slate-950/50 backdrop-blur-xl">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-20">
+                <a href="/" class="flex items-center gap-3">
+                    <div class="w-10 h-10 bg-gradient-to-tr from-rose-600 to-orange-500 rounded-xl flex items-center justify-center shadow-lg shadow-rose-500/20">
+                        <i data-lucide="activity" class="w-6 h-6 text-white"></i>
+                    </div>
+                    <div>
+                        <span class="font-bold text-lg tracking-tight text-white block leading-none">Health Data</span>
+                        <span class="text-xs text-slate-400 tracking-wider uppercase font-semibold">Export &amp; Analyze</span>
+                    </div>
+                </a>
+                <a href="/tools/" class="text-slate-300 hover:text-white text-sm font-semibold">All Free Tools</a>
+            </div>
+        </div>
+    </nav>
+
+    <main class="pt-32 pb-20">
+        <div class="max-w-4xl mx-auto px-4">
+
+            <!-- H1 -->
+            <div class="text-center mb-10">
+                <h1 class="text-4xl lg:text-5xl font-bold text-white mb-4">VO2 Max &amp; Fitness Age Calculator</h1>
+                <p class="text-lg text-slate-400 max-w-2xl mx-auto">Find out how old your heart and lungs really are. Free, private, and runs entirely in your browser — nothing is uploaded.</p>
+            </div>
+
+            <!-- TOOL -->
+            <div class="glass p-6 md:p-8 mb-8">
+                <div class="grid md:grid-cols-2 gap-8">
+
+                    <!-- Inputs column -->
+                    <div>
+                        <h2 class="text-xl font-bold text-white mb-5 flex items-center gap-2"><i data-lucide="sliders-horizontal" class="w-5 h-5 text-rose-400"></i> Your details</h2>
+
+                        <!-- Apple Watch direct entry -->
+                        <div class="mb-5 p-4 rounded-xl bg-rose-500/10 border border-rose-400/20">
+                            <label class="field-label flex items-center gap-2 text-rose-200" for="watchVo2"><i data-lucide="watch" class="w-4 h-4"></i> Know your VO2 max from Apple Watch?</label>
+                            <p class="text-xs text-slate-400 mb-2">Health app &rarr; Browse &rarr; Heart &rarr; Cardio Fitness. Enter it here to skip the estimate — it's more accurate than any calculator.</p>
+                            <input type="number" id="watchVo2" class="field-input" placeholder="e.g. 42.5 (mL/kg/min) — optional" min="10" max="90" step="0.1">
+                        </div>
+
+                        <div class="space-y-4" id="estimateInputs">
+                            <div class="grid grid-cols-2 gap-4">
+                                <div>
+                                    <label class="field-label" for="age">Age</label>
+                                    <input type="number" id="age" class="field-input" value="35" min="20" max="90">
+                                </div>
+                                <div>
+                                    <label class="field-label" for="rhr">Resting HR (bpm)</label>
+                                    <input type="number" id="rhr" class="field-input" value="60" min="30" max="120">
+                                </div>
+                            </div>
+
+                            <div>
+                                <label class="field-label">Sex (for population norms)</label>
+                                <div class="seg" id="sexSeg">
+                                    <button type="button" data-sex="male" class="active">Male</button>
+                                    <button type="button" data-sex="female">Female</button>
+                                    <button type="button" data-sex="neutral">Prefer not to say</button>
+                                </div>
+                            </div>
+
+                            <div>
+                                <label class="field-label" for="freq">How often do you exercise?</label>
+                                <select id="freq" class="field-select">
+                                    <option value="0">Almost never</option>
+                                    <option value="1">Less than once a week</option>
+                                    <option value="2">Once a week</option>
+                                    <option value="3" selected>2–3 times a week</option>
+                                    <option value="4">Almost every day</option>
+                                </select>
+                            </div>
+
+                            <div>
+                                <label class="field-label" for="dur">How long is a typical session?</label>
+                                <select id="dur" class="field-select">
+                                    <option value="1">Under 15 minutes</option>
+                                    <option value="2" selected>15–30 minutes</option>
+                                    <option value="3">30–60 minutes</option>
+                                    <option value="4">Over 60 minutes</option>
+                                </select>
+                            </div>
+
+                            <div>
+                                <label class="field-label" for="intensity">How intense is it?</label>
+                                <select id="intensity" class="field-select">
+                                    <option value="1">Easy — no sweat, can chat freely</option>
+                                    <option value="2" selected>Moderate — breathing harder, light sweat</option>
+                                    <option value="3">Vigorous — hard breathing, heavy sweat</option>
+                                </select>
+                            </div>
+
+                            <div>
+                                <label class="field-label">Body measurement</label>
+                                <div class="seg mb-3" id="bodyModeSeg">
+                                    <button type="button" data-mode="waist" class="active">Waist</button>
+                                    <button type="button" data-mode="bmi">BMI</button>
+                                    <button type="button" data-mode="skip">Skip</button>
+                                </div>
+                                <div id="waistWrap">
+                                    <div class="grid grid-cols-[1fr_auto] gap-2">
+                                        <input type="number" id="waist" class="field-input" value="34" min="20" max="70" aria-label="Waist measurement">
+                                        <select id="waistUnit" class="field-select" style="width:auto" aria-label="Waist unit">
+                                            <option value="in" selected>inches</option>
+                                            <option value="cm">cm</option>
+                                        </select>
+                                    </div>
+                                    <p class="text-xs text-slate-500 mt-1">Measure around the navel, relaxed.</p>
+                                </div>
+                                <div id="bmiWrap" class="hidden">
+                                    <input type="number" id="bmi" class="field-input" value="24" min="14" max="50" step="0.1" aria-label="Body Mass Index">
+                                    <p class="text-xs text-slate-500 mt-1">Body Mass Index (kg/m²).</p>
+                                </div>
+                                <div id="skipWrap" class="hidden">
+                                    <p class="text-xs text-slate-500">Using a population-average waistline for your sex. Add a measurement for a sharper estimate.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Results column -->
+                    <div>
+                        <h2 class="text-xl font-bold text-white mb-5 flex items-center gap-2"><i data-lucide="gauge" class="w-5 h-5 text-rose-400"></i> Your result</h2>
+
+                        <!-- Fitness age hero -->
+                        <div class="rounded-2xl p-6 text-center mb-5" style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.1)">
+                            <p class="text-sm uppercase tracking-wider text-slate-400 font-semibold mb-1">Your fitness age</p>
+                            <div class="flex items-end justify-center gap-2">
+                                <span id="fitAge" class="text-7xl font-extrabold text-white leading-none">34</span>
+                                <span id="fitAgeClamp" class="text-sm text-slate-500 mb-2 hidden"></span>
+                            </div>
+                            <p id="ageDelta" class="mt-3 text-base font-semibold text-slate-300">—</p>
+                            <p id="ageDeltaClamp" class="text-xs text-slate-500 mt-1 hidden">(clamped to the 20–80 table range)</p>
+                        </div>
+
+                        <!-- VO2 max gauge -->
+                        <div class="rounded-2xl p-5 mb-5" style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.1)">
+                            <div class="flex items-center justify-between mb-2">
+                                <p class="text-sm font-semibold text-slate-300">Estimated VO2 max</p>
+                                <p><span id="vo2val" class="text-2xl font-bold text-white">—</span><span class="text-sm text-slate-400"> mL/kg/min</span></p>
+                            </div>
+                            <div class="flex justify-center my-2">
+                                <svg width="220" height="120" viewBox="0 0 220 120" aria-hidden="true">
+                                    <path class="gauge-track" d="M 20 110 A 90 90 0 0 1 200 110" fill="none" stroke-width="14" stroke-linecap="round"/>
+                                    <path id="gaugeFill" class="gauge-fill" d="M 20 110 A 90 90 0 0 1 200 110" fill="none" stroke-width="14" stroke-linecap="round" stroke="#f43f5e" stroke-dasharray="283" stroke-dashoffset="283"/>
+                                </svg>
+                            </div>
+                            <div class="text-center -mt-6">
+                                <span id="bandLabel" class="inline-block px-3 py-1 rounded-full text-sm font-bold">—</span>
+                            </div>
+                            <p class="text-sm text-slate-400 text-center mt-3">Around the <strong id="pctVal" class="text-slate-200">—</strong> percentile for <span id="pctCohort">your cohort</span>.</p>
+                        </div>
+
+                        <!-- What-if -->
+                        <div class="rounded-2xl p-5" style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.1)">
+                            <p class="text-sm font-semibold text-slate-300 mb-3 flex items-center gap-2"><i data-lucide="wand-2" class="w-4 h-4 text-sky-400"></i> What if…</p>
+                            <div class="space-y-2 text-sm">
+                                <div class="flex items-center justify-between p-2 rounded-lg bg-white/5">
+                                    <span class="text-slate-300">Resting HR was 5 bpm lower</span>
+                                    <span id="whatifRhr" class="font-bold text-emerald-400 font-mono">—</span>
+                                </div>
+                                <div class="flex items-center justify-between p-2 rounded-lg bg-white/5">
+                                    <span class="text-slate-300">One extra training session / week</span>
+                                    <span id="whatifTrain" class="font-bold text-emerald-400 font-mono">—</span>
+                                </div>
+                            </div>
+                            <p id="whatifNote" class="text-xs text-slate-500 mt-3"></p>
+                        </div>
+
+                        <p id="sourceNote" class="text-xs text-slate-500 mt-4"></p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Limitations -->
+            <div class="glass p-6 mb-12">
+                <h2 class="text-lg font-bold text-white mb-2 flex items-center gap-2"><i data-lucide="info" class="w-5 h-5 text-amber-400"></i> An honest word on accuracy</h2>
+                <p class="text-slate-400 leading-relaxed">Non-exercise VO2 max estimates like this one carry a standard error of roughly <strong class="text-slate-200">±5 mL/kg/min</strong> — the model explains about 56–61% of the variation in lab-measured fitness. It's a genuinely useful screening number, but it is not a laboratory test. If you own an Apple Watch, its <strong class="text-slate-200">Cardio Fitness</strong> reading is more personal because it's built from your own heart-rate response during real walks, runs, and hikes. When you enter that value above, we use it directly instead of estimating. Fitness age itself is a translation of VO2 max onto age-normative tables, so it inherits the same uncertainty — treat a two- or three-year difference as noise, and a ten-year difference as a real signal.</p>
+            </div>
+
+            <!-- How to use -->
+            <section class="mb-14">
+                <h2 class="text-3xl font-bold text-white mb-6">How to use it</h2>
+                <ol class="space-y-4">
+                    <li class="flex gap-4"><span class="flex-shrink-0 w-8 h-8 rounded-full bg-rose-600 text-white font-bold flex items-center justify-center">1</span><p class="text-lg text-slate-400 pt-0.5"><strong class="text-slate-200">Best option:</strong> if you have an Apple Watch, open Health &rarr; Browse &rarr; Heart &rarr; Cardio Fitness and type that VO2 max number into the top field. Done — the rest is optional.</p></li>
+                    <li class="flex gap-4"><span class="flex-shrink-0 w-8 h-8 rounded-full bg-rose-600 text-white font-bold flex items-center justify-center">2</span><p class="text-lg text-slate-400 pt-0.5">No watch? Enter your <strong class="text-slate-200">age, sex, and resting heart rate</strong>. Check resting HR first thing in the morning, or read it from your Health app.</p></li>
+                    <li class="flex gap-4"><span class="flex-shrink-0 w-8 h-8 rounded-full bg-rose-600 text-white font-bold flex items-center justify-center">3</span><p class="text-lg text-slate-400 pt-0.5">Describe your <strong class="text-slate-200">exercise</strong> — how often, how long, and how hard. Intensity matters most.</p></li>
+                    <li class="flex gap-4"><span class="flex-shrink-0 w-8 h-8 rounded-full bg-rose-600 text-white font-bold flex items-center justify-center">4</span><p class="text-lg text-slate-400 pt-0.5">Add your <strong class="text-slate-200">waist or BMI</strong> for a sharper estimate, or skip it.</p></li>
+                    <li class="flex gap-4"><span class="flex-shrink-0 w-8 h-8 rounded-full bg-rose-600 text-white font-bold flex items-center justify-center">5</span><p class="text-lg text-slate-400 pt-0.5">Everything recomputes live. Watch the <strong class="text-slate-200">What-if</strong> panel to see how small changes move your fitness age.</p></li>
+                </ol>
+            </section>
+
+            <!-- SEO content -->
+            <section class="mb-14 space-y-6">
+                <h2 class="text-3xl font-bold text-white">What is fitness age, and why does it matter?</h2>
+                <p class="text-lg text-slate-400 leading-relaxed">Your <strong class="text-slate-200">fitness age</strong> answers a question a raw VO2 max number can't: <em>how old is my cardiovascular system, really?</em> If you're 45 but your aerobic fitness matches the average 35-year-old, your fitness age is 35 — a nine-year head start that research links to lower all-cause mortality. It's the single most intuitive way to turn cardiorespiratory fitness into something you can act on.</p>
+                <p class="text-lg text-slate-400 leading-relaxed">The engine underneath is <strong class="text-slate-200">VO2 max</strong> — the maximum volume of oxygen your body can use per kilogram of body weight per minute (mL/kg/min). It's the gold-standard measure of aerobic fitness, and it declines with age at roughly 1% per year after 30 unless you train to slow it down. A proper VO2 max test means a mask, a treadmill, and a lab. Most people never get one, which is exactly the gap this calculator fills.</p>
+
+                <h3 class="text-2xl font-bold text-white mt-8">How the estimate is calculated</h3>
+                <p class="text-lg text-slate-400 leading-relaxed">When you don't enter an Apple Watch value, this tool uses the <strong class="text-slate-200">HUNT non-exercise prediction model</strong> published by Nes and colleagues in 2011 (<em>Medicine &amp; Science in Sports &amp; Exercise</em>). It was built from direct treadmill VO2 max tests on more than 4,600 healthy Norwegian adults, and it predicts fitness from five everyday inputs: age, sex, resting heart rate, a physical-activity index, and waist circumference (or BMI). The sex-specific equations take the general form:</p>
+                <div class="glass p-4 font-mono text-sm text-slate-300 overflow-x-auto">VO2max = intercept − (a × age) + (b × activity index) − (c × waist) − (d × resting HR)</div>
+                <p class="text-lg text-slate-400 leading-relaxed">The <strong class="text-slate-200">physical-activity index</strong> combines how often you exercise, how long each session lasts, and how hard you push, weighted so that intensity counts the most — mirroring the HUNT questionnaire the model was trained on. A lower resting heart rate and a smaller waist both push the estimate up, which is why endurance-trained people score so well. The models explain 61% of the variance in measured fitness for men and 56% for women, with a standard error near 5 mL/kg/min.</p>
+
+                <h3 class="text-2xl font-bold text-white mt-8">How fitness age is derived</h3>
+                <p class="text-lg text-slate-400 leading-relaxed">Once we have your VO2 max, we compare it against <strong class="text-slate-200">age-normative reference tables</strong> (based on the Shvartz &amp; Reibold population norms). We walk down the table to find the age at which your VO2 max would be exactly average — that age is your fitness age. If your fitness is so high or low that the match falls outside the 20–80 range the tables cover, we clamp the result to that boundary and label it, since extrapolating beyond the data would be guessing.</p>
+
+                <h3 class="text-2xl font-bold text-white mt-8">Reading your percentile and rating</h3>
+                <p class="text-lg text-slate-400 leading-relaxed">The <strong class="text-slate-200">percentile</strong> compares you to others of your same age and sex, and the rating band — <em>poor, fair, good, excellent,</em> or <em>superior</em> — follows the Cooper Institute style of fitness classification. A "good" 50-year-old and a "good" 25-year-old have very different absolute VO2 max values, because the bands are age-adjusted. That's the point: fitness is always relative to where you are in life.</p>
+                <p class="text-lg text-slate-400 leading-relaxed">The most actionable insight lives in the <strong class="text-slate-200">What-if</strong> panel. VO2 max is one of the most trainable numbers in your body. Dropping your resting heart rate by 5 bpm through consistent aerobic work, or adding a single higher-intensity session each week, can visibly shave years off your fitness age — the panel shows you exactly how much before you've done a single workout.</p>
+            </section>
+
+            <!-- FAQ -->
+            <section class="mb-14">
+                <h2 class="text-3xl font-bold text-white text-center mb-8">Frequently asked questions</h2>
+                <div class="faq-accordion">
+                    <details open>
+                        <summary><span>What is fitness age?</span><i data-lucide="chevron-right" class="chevron w-6 h-6 text-rose-400"></i></summary>
+                        <div class="faq-content"><p>Fitness age is the age at which your estimated VO2 max equals the population average. Higher-than-average fitness for your real age makes your fitness age younger; lower makes it older. It turns an abstract fitness number into an age you can instantly compare to your calendar age.</p></div>
+                    </details>
+                    <details>
+                        <summary><span>How is my VO2 max estimated without a lab test?</span><i data-lucide="chevron-right" class="chevron w-6 h-6 text-rose-400"></i></summary>
+                        <div class="faq-content"><p>Using the peer-reviewed HUNT non-exercise model (Nes et al., 2011), built from thousands of directly measured tests. It estimates VO2 max from age, sex, resting heart rate, a physical-activity index, and waist or BMI — no treadmill needed. Expect roughly ±5 mL/kg/min of error, so treat it as a ballpark.</p></div>
+                    </details>
+                    <details>
+                        <summary><span>Where do I find Cardio Fitness (VO2 max) on Apple Watch?</span><i data-lucide="chevron-right" class="chevron w-6 h-6 text-rose-400"></i></summary>
+                        <div class="faq-content"><p>Open the Health app on iPhone, tap <strong>Browse &rarr; Heart &rarr; Cardio Fitness</strong>. Apple Watch records this during outdoor walks, runs, and hikes. If you have it, enter it directly here — it beats any non-exercise estimate.</p></div>
+                    </details>
+                    <details>
+                        <summary><span>Is this fitness age calculator private?</span><i data-lucide="chevron-right" class="chevron w-6 h-6 text-rose-400"></i></summary>
+                        <div class="faq-content"><p>Completely. Every calculation runs in your browser with JavaScript. Nothing you type is uploaded, stored, or sent anywhere. Your data never leaves your device.</p></div>
+                    </details>
+                    <details>
+                        <summary><span>How accurate is a VO2 max estimate from resting heart rate?</span><i data-lucide="chevron-right" class="chevron w-6 h-6 text-rose-400"></i></summary>
+                        <div class="faq-content"><p>The HUNT model explains about 56–61% of the variance in measured VO2 max with a standard error near 5 mL/kg/min. Good for screening, not a replacement for a lab graded-exercise test. Apple Watch Cardio Fitness is more personal because it reflects your own heart-rate response to real activity.</p></div>
+                    </details>
+                    <details>
+                        <summary><span>How can I improve my fitness age?</span><i data-lucide="chevron-right" class="chevron w-6 h-6 text-rose-400"></i></summary>
+                        <div class="faq-content"><p>VO2 max responds most to vigorous aerobic exercise. Adding intervals, increasing weekly volume, and lowering resting heart rate over time all raise estimated VO2 max — which lowers fitness age. Use the What-if panel to preview one extra session or a 5 bpm drop in resting heart rate.</p></div>
+                    </details>
+                    <details>
+                        <summary><span>Does fitness age work for all ages?</span><i data-lucide="chevron-right" class="chevron w-6 h-6 text-rose-400"></i></summary>
+                        <div class="faq-content"><p>The reference tables cover ages 20 to 80. If your fitness is very high or very low, the matching age can fall outside that range, so we clamp to 20 or 80 and say so. Read a clamped result as "at least this fit" or "at most this fit" rather than an exact age.</p></div>
+                    </details>
+                </div>
+            </section>
+
+            <!-- Cross-links -->
+            <section class="mb-14">
+                <h2 class="text-2xl font-bold text-white mb-5">More free tools</h2>
+                <div class="flex flex-wrap gap-3">
+                    <a href="/tools/" class="pill"><i data-lucide="layout-grid" class="w-4 h-4"></i> All Tools</a>
+                    <a href="/convert-tool/" class="pill"><i data-lucide="file-spreadsheet" class="w-4 h-4"></i> XML → CSV Converter</a>
+                    <a href="/apple-health-export-validator/" class="pill"><i data-lucide="badge-check" class="w-4 h-4"></i> Export Validator</a>
+                    <a href="/heart-rate-zone-calculator/" class="pill"><i data-lucide="heart-pulse" class="w-4 h-4"></i> Heart Rate Zones</a>
+                    <a href="/recovery-score-calculator/" class="pill"><i data-lucide="battery-charging" class="w-4 h-4"></i> Recovery Score</a>
+                    <a href="/sleep-debt-calculator/" class="pill"><i data-lucide="moon" class="w-4 h-4"></i> Sleep Debt</a>
+                </div>
+            </section>
+
+            <!-- CTA -->
+            <section class="glass p-8 text-center">
+                <h2 class="text-3xl font-bold text-white mb-3">Want deeper analysis?</h2>
+                <p class="text-lg text-slate-400 max-w-2xl mx-auto mb-8">Track your real VO2 max, resting heart rate, and fitness trends over time — and get private AI insights on your Apple Health data, all without uploading it to a cloud.</p>
+                <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
+                    <a href="/go/website.html?c=ah_fitnessage" target="_blank" rel="noopener" data-cta-location="cta_footer" class="inline-flex items-center gap-2 bg-rose-600 hover:bg-rose-700 text-white font-bold py-4 px-8 rounded-full transition-all shadow-lg shadow-rose-600/20">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/6/67/App_Store_%28iOS%29.svg" class="w-5 h-5 filter invert" alt="">
+                        Download iOS App
+                    </a>
+                    <a href="https://github.com/krumjahn/applehealth" class="inline-flex items-center gap-2 bg-white/10 hover:bg-white/20 text-white font-bold py-4 px-8 rounded-full transition-all">
+                        <i data-lucide="github" class="w-5 h-5"></i>
+                        Get Mac Analyzer
+                    </a>
+                </div>
+            </section>
+
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-black border-t border-slate-900 pt-16 pb-8">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <div class="inline-flex items-center gap-2 mb-6">
+                <i data-lucide="activity" class="w-6 h-6 text-rose-600"></i>
+                <span class="font-bold text-xl text-white">Health Data Export</span>
+            </div>
+            <div class="flex justify-center gap-8 mb-8">
+                <a href="/support/" class="text-slate-500 hover:text-white transition-colors">Support</a>
+                <a href="/privacy/" class="text-slate-500 hover:text-white transition-colors">Privacy Policy</a>
+                <a href="https://www.apple.com/legal/internet-services/itunes/dev/stdeula/" class="text-slate-500 hover:text-white transition-colors">Terms</a>
+            </div>
+            <p class="text-slate-600 text-sm">&copy; 2025 Keith Rumjahn. Crafted for the Health Tech Community.</p>
+        </div>
+    </footer>
+
+    <script>
+    (function () {
+        'use strict';
+
+        // ---------- State ----------
+        let sex = 'male';       // male | female | neutral
+        let bodyMode = 'waist'; // waist | bmi | skip
+
+        // ---------- Element refs ----------
+        const $ = (id) => document.getElementById(id);
+        const els = {
+            watchVo2: $('watchVo2'), age: $('age'), rhr: $('rhr'),
+            freq: $('freq'), dur: $('dur'), intensity: $('intensity'),
+            waist: $('waist'), waistUnit: $('waistUnit'), bmi: $('bmi'),
+            waistWrap: $('waistWrap'), bmiWrap: $('bmiWrap'), skipWrap: $('skipWrap'),
+            fitAge: $('fitAge'), fitAgeClamp: $('fitAgeClamp'),
+            ageDelta: $('ageDelta'), ageDeltaClamp: $('ageDeltaClamp'),
+            vo2val: $('vo2val'), gaugeFill: $('gaugeFill'), bandLabel: $('bandLabel'),
+            pctVal: $('pctVal'), pctCohort: $('pctCohort'),
+            whatifRhr: $('whatifRhr'), whatifTrain: $('whatifTrain'), whatifNote: $('whatifNote'),
+            sourceNote: $('sourceNote')
+        };
+
+        // ---------- Physical activity index (HUNT-style, 0–15) ----------
+        // Frequency, duration and intensity combined with intensity weighted heaviest,
+        // scaled to the 0–15 index range used by the HUNT non-exercise model.
+        function activityIndex(freq, dur, intensity) {
+            if (freq === 0) return 0;                        // essentially inactive
+            const base = (freq + dur) / 8;                   // 0..1 roughly
+            const intensityFactor = [0, 0.6, 0.85, 1.15][intensity]; // easy/mod/vigorous
+            const raw = base * intensityFactor * 15;
+            return Math.max(0, Math.min(15, raw));
+        }
+
+        // ---------- Waist handling (returns cm) ----------
+        function sexWaistAvg() {
+            if (sex === 'female') return 84;   // cm, adult average
+            if (sex === 'male') return 94;
+            return 89;                         // neutral midpoint
+        }
+        function waistCm() {
+            if (bodyMode === 'waist') {
+                const v = parseFloat(els.waist.value);
+                if (!isFinite(v) || v <= 0) return sexWaistAvg();
+                return els.waistUnit.value === 'in' ? v * 2.54 : v;
+            }
+            if (bodyMode === 'bmi') {
+                const b = parseFloat(els.bmi.value);
+                if (!isFinite(b) || b <= 0) return sexWaistAvg();
+                // Approximate waist (cm) from BMI via population regression (sex-specific).
+                return sex === 'female' ? (2.52 * b + 20.6) : (2.60 * b + 21.0);
+            }
+            return sexWaistAvg();
+        }
+
+        // ---------- HUNT non-exercise VO2max model (Nes et al. 2011) ----------
+        // Sex-specific published form (waist in cm, RHR in bpm, PA index 0–15).
+        // Neutral = average of male and female predictions.
+        // Intercepts are anchored to the age-norm reference tables below so an
+        // average-input person maps to their real age; slopes are the published HUNT values.
+        function huntVo2(sexKey, age, paIndex, waist, rhr) {
+            const male   = 95.75 - 0.296 * age + 0.226 * paIndex - 0.369 * waist - 0.155 * rhr;
+            const female = 72.05 - 0.247 * age + 0.198 * paIndex - 0.259 * waist - 0.114 * rhr;
+            if (sexKey === 'male') return male;
+            if (sexKey === 'female') return female;
+            return (male + female) / 2;
+        }
+
+        // ---------- Age-normative VO2max tables (Shvartz & Reibold style) ----------
+        // Average (50th percentile) VO2max by age, mL/kg/min.
+        const NORMS = {
+            male:   { 20:48, 25:47, 30:45, 35:43, 40:41, 45:39, 50:37, 55:35, 60:33, 65:31, 70:29, 75:27, 80:25 },
+            female: { 20:41, 25:40, 30:38, 35:36, 40:34, 45:33, 50:31, 55:29, 60:28, 65:26, 70:24, 75:23, 80:21 }
+        };
+        function interpNorm(table, age) {
+            const a = Math.max(20, Math.min(80, age));
+            const lo = Math.floor((a - 20) / 5) * 5 + 20;
+            const hi = Math.min(80, lo + 5);
+            if (lo === hi) return table[lo];
+            const t = (a - lo) / (hi - lo);
+            return table[lo] + t * (table[hi] - table[lo]);
+        }
+        function normAvg(sexKey, age) {
+            if (sexKey === 'female') return interpNorm(NORMS.female, age);
+            if (sexKey === 'male') return interpNorm(NORMS.male, age);
+            return (interpNorm(NORMS.male, age) + interpNorm(NORMS.female, age)) / 2;
+        }
+
+        // Fitness age: age whose average VO2max equals the user's VO2max.
+        function fitnessAge(sexKey, vo2) {
+            let best = 20, bestDiff = Infinity;
+            for (let a = 20; a <= 80; a += 0.5) {
+                const diff = Math.abs(normAvg(sexKey, a) - vo2);
+                if (diff < bestDiff) { bestDiff = diff; best = a; }
+            }
+            const vMin = normAvg(sexKey, 80); // lowest average (oldest)
+            const vMax = normAvg(sexKey, 20); // highest average (youngest)
+            let clamped = null;
+            if (vo2 >= vMax) clamped = 'low';   // fitter than the youngest average
+            if (vo2 <= vMin) clamped = 'high';  // less fit than the oldest average
+            return { age: Math.round(best), clamped: clamped };
+        }
+
+        // ---------- Cooper Institute style bands + percentile ----------
+        function ratingBand(pct) {
+            if (pct >= 80) return { label: 'Superior',  color: '#22c55e', bg: 'rgba(34,197,94,0.15)' };
+            if (pct >= 60) return { label: 'Excellent', color: '#4ade80', bg: 'rgba(74,222,128,0.15)' };
+            if (pct >= 40) return { label: 'Good',      color: '#fbbf24', bg: 'rgba(251,191,36,0.15)' };
+            if (pct >= 20) return { label: 'Fair',      color: '#fb923c', bg: 'rgba(251,146,60,0.15)' };
+            return                 { label: 'Poor',      color: '#f87171', bg: 'rgba(248,113,113,0.15)' };
+        }
+        function percentile(sexKey, age, vo2) {
+            const avg = normAvg(sexKey, age);
+            const z = (vo2 - avg) / 7;                 // ~1 SD of adult VO2max ≈ 7 mL/kg/min
+            const p = 100 / (1 + Math.exp(-1.702 * z)); // logistic approx. of normal CDF
+            return Math.max(1, Math.min(99, Math.round(p)));
+        }
+        function ordinal(n) {
+            const s = n % 100;
+            if (s >= 11 && s <= 13) return n + 'th';
+            switch (n % 10) { case 1: return n + 'st'; case 2: return n + 'nd'; case 3: return n + 'rd'; default: return n + 'th'; }
+        }
+
+        // ---------- Gauge (VO2 15..60 mapped onto the arc) ----------
+        const ARC = 283;
+        function setGauge(vo2) {
+            const t = Math.max(0, Math.min(1, (vo2 - 15) / (60 - 15)));
+            els.gaugeFill.style.strokeDashoffset = (ARC * (1 - t)).toFixed(1);
+        }
+
+        // ---------- Input reading ----------
+        function clampNum(v, lo, hi, dflt) {
+            const n = parseFloat(v);
+            if (!isFinite(n)) return dflt;
+            return Math.max(lo, Math.min(hi, n));
+        }
+        function readVo2() {
+            const watch = parseFloat(els.watchVo2.value);
+            if (isFinite(watch) && watch > 0) {
+                return { vo2: Math.max(10, Math.min(90, watch)), source: 'watch' };
+            }
+            const age = clampNum(els.age.value, 20, 90, 35);
+            const rhr = clampNum(els.rhr.value, 30, 120, 60);
+            const pa  = activityIndex(+els.freq.value, +els.dur.value, +els.intensity.value);
+            const w   = waistCm();
+            const vo2 = huntVo2(sex, age, pa, w, rhr);
+            return { vo2: Math.max(10, vo2), source: 'estimate', age: age, rhr: rhr, pa: pa, w: w };
+        }
+
+        // ---------- Main recompute ----------
+        function recompute() {
+            const r = readVo2();
+            const vo2 = r.vo2;
+            const realAge = clampNum(els.age.value, 20, 90, 35);
+
+            // VO2 value + gauge + band
+            els.vo2val.textContent = vo2.toFixed(1);
+            setGauge(vo2);
+
+            const pct = percentile(sex, realAge, vo2);
+            const band = ratingBand(pct);
+            els.gaugeFill.setAttribute('stroke', band.color);
+            els.bandLabel.textContent = band.label;
+            els.bandLabel.style.color = band.color;
+            els.bandLabel.style.background = band.bg;
+
+            const sexWord = sex === 'neutral' ? 'people' : (sex === 'female' ? 'women' : 'men');
+            els.pctVal.textContent = ordinal(pct);
+            els.pctCohort.textContent = sexWord + ' aged ' + Math.round(realAge);
+
+            // Fitness age
+            const fa = fitnessAge(sex, vo2);
+            els.fitAge.textContent = String(fa.age);
+            if (fa.clamped === 'low') {
+                els.fitAgeClamp.textContent = 'or younger';
+                els.fitAgeClamp.classList.remove('hidden');
+            } else if (fa.clamped === 'high') {
+                els.fitAgeClamp.textContent = 'or older';
+                els.fitAgeClamp.classList.remove('hidden');
+            } else {
+                els.fitAgeClamp.classList.add('hidden');
+            }
+            els.ageDeltaClamp.classList.toggle('hidden', !fa.clamped);
+
+            const delta = Math.round(realAge) - fa.age;
+            if (delta > 0) {
+                els.ageDelta.textContent = delta + ' year' + (delta === 1 ? '' : 's') + ' younger than your real age';
+                els.ageDelta.style.color = '#22c55e';
+                els.fitAge.style.color = '#4ade80';
+            } else if (delta < 0) {
+                const yr = Math.abs(delta);
+                els.ageDelta.textContent = yr + ' year' + (yr === 1 ? '' : 's') + ' older than your real age';
+                els.ageDelta.style.color = '#fbbf24';
+                els.fitAge.style.color = '#fbbf24';
+            } else {
+                els.ageDelta.textContent = 'Right on your real age';
+                els.ageDelta.style.color = '#e2e8f0';
+                els.fitAge.style.color = '#f8fafc';
+            }
+
+            // What-if panel
+            if (r.source === 'estimate') {
+                els.whatifNote.textContent = 'Estimates from the HUNT model, holding everything else fixed.';
+                const vRhr = Math.max(10, huntVo2(sex, r.age, r.pa, r.w, Math.max(30, r.rhr - 5)));
+                els.whatifRhr.textContent = '+' + (vRhr - vo2).toFixed(1) + ' VO2 → age ' + fitnessAge(sex, vRhr).age;
+                const freqUp = Math.min(4, (+els.freq.value) + 1);
+                const paUp = activityIndex(freqUp, +els.dur.value, +els.intensity.value);
+                const vTrain = Math.max(10, huntVo2(sex, r.age, paUp, r.w, r.rhr));
+                els.whatifTrain.textContent = '+' + (vTrain - vo2).toFixed(1) + ' VO2 → age ' + fitnessAge(sex, vTrain).age;
+            } else {
+                els.whatifRhr.textContent = 'n/a';
+                els.whatifTrain.textContent = 'n/a';
+                els.whatifNote.textContent = 'Using your Apple Watch value directly — what-if scenarios apply to the estimate path.';
+            }
+
+            // Source note
+            if (r.source === 'watch') {
+                els.sourceNote.textContent = 'Source: your entered Apple Watch Cardio Fitness value. Fitness age from Shvartz & Reibold age norms.';
+            } else {
+                els.sourceNote.textContent = 'Source: HUNT non-exercise model (Nes et al., 2011). Fitness age from Shvartz & Reibold age norms. ±5 mL/kg/min typical error.';
+            }
+        }
+
+        // ---------- Wiring ----------
+        document.querySelectorAll('#sexSeg button').forEach(function (b) {
+            b.addEventListener('click', function () {
+                document.querySelectorAll('#sexSeg button').forEach(function (x) { x.classList.remove('active'); });
+                b.classList.add('active');
+                sex = b.dataset.sex;
+                recompute();
+            });
+        });
+        document.querySelectorAll('#bodyModeSeg button').forEach(function (b) {
+            b.addEventListener('click', function () {
+                document.querySelectorAll('#bodyModeSeg button').forEach(function (x) { x.classList.remove('active'); });
+                b.classList.add('active');
+                bodyMode = b.dataset.mode;
+                els.waistWrap.classList.toggle('hidden', bodyMode !== 'waist');
+                els.bmiWrap.classList.toggle('hidden', bodyMode !== 'bmi');
+                els.skipWrap.classList.toggle('hidden', bodyMode !== 'skip');
+                recompute();
+            });
+        });
+        ['watchVo2','age','rhr','freq','dur','intensity','waist','waistUnit','bmi'].forEach(function (id) {
+            const el = $(id);
+            el.addEventListener('input', recompute);
+            el.addEventListener('change', recompute);
+        });
+
+        recompute();
+        lucide.createIcons();
+
+        // ---------- App Store outbound click tracking (GA4) ----------
+        (function () {
+            var links = document.querySelectorAll('a[href^="/go/website.html"]');
+            links.forEach(function (a) {
+                a.addEventListener('click', function () {
+                    try {
+                        if (typeof gtag === 'function') {
+                            gtag('event', 'app_store_click', {
+                                link_url: a.href,
+                                cta_location: a.dataset.ctaLocation || 'unknown',
+                                page_path: window.location.pathname
+                            });
+                        }
+                    } catch (e) {}
+                }, { capture: true });
+            });
+        })();
+    })();
+    </script>
+</body>
+</html>

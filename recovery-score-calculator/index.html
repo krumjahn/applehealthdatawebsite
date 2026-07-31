@@ -1,0 +1,551 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recovery Score Calculator — Free WHOOP-Style HRV Recovery Score | Apple Health Data</title>
+    <meta name="description" content="Free recovery score calculator. Turn your Apple Watch HRV, resting heart rate & sleep into a 0-100 WHOOP-style recovery score. 100% private, runs in your browser.">
+    <meta name="keywords" content="recovery score calculator, hrv recovery calculator, whoop recovery score without whoop, apple watch recovery score, apple health readiness score, hrv baseline calculator">
+    <meta name="apple-itunes-app" content="app-id=6749297170">
+    <link rel="canonical" href="https://applehealthdata.com/recovery-score-calculator/">
+    <meta property="og:title" content="Recovery Score Calculator — Free WHOOP-Style HRV Recovery Score">
+    <meta property="og:description" content="Turn your Apple Watch HRV, resting heart rate & sleep into a 0-100 recovery score. Free, private, runs entirely in your browser.">
+    <meta property="og:url" content="https://applehealthdata.com/recovery-score-calculator/">
+    <meta property="og:type" content="website">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Recovery Score Calculator — Free WHOOP-Style HRV Recovery Score">
+    <meta name="twitter:description" content="Turn your Apple Watch HRV, resting heart rate & sleep into a 0-100 recovery score. Free, private, runs entirely in your browser.">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;700&display=swap" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;700&display=swap"></noscript>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script defer src="https://umami.rumjahn.synology.me/script.js" data-website-id="5d7b4fa8-90b2-4191-8daf-8ea487a8d961"></script>
+    <!-- Matomo -->
+    <script>
+      var _paq = window._paq = window._paq || [];
+      _paq.push(['trackPageView']);
+      _paq.push(['enableLinkTracking']);
+      (function() {
+        var u="//shrewd-lyrebird.pikapod.net/";
+        _paq.push(['setTrackerUrl', u+'matomo.php']);
+        _paq.push(['setSiteId', '9']);
+        var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
+        g.async=true; g.src=u+'matomo.js'; s.parentNode.insertBefore(g,s);
+      })();
+    </script>
+
+    <style>
+        body {
+            font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+            background-color: #020617;
+            color: #f8fafc;
+            overflow-x: hidden;
+        }
+        .mesh-gradient {
+            position: fixed;
+            inset: 0;
+            z-index: -1;
+            background:
+                radial-gradient(at 0% 0%, rgba(225,29,72,.15), transparent 50%),
+                radial-gradient(at 100% 0%, rgba(56,189,248,.15), transparent 50%),
+                radial-gradient(at 100% 100%, rgba(168,85,247,.15), transparent 50%);
+            filter: blur(60px);
+        }
+        .glass {
+            background: rgba(255,255,255,.04);
+            border: 1px solid rgba(255,255,255,.1);
+            border-radius: 1rem;
+        }
+        .field-label { font-size: .875rem; color: #cbd5e1; font-weight: 600; }
+        .field-hint { font-size: .75rem; color: #64748b; }
+        input[type="number"], select {
+            background: #0f172a;
+            border: 1px solid rgba(255,255,255,.1);
+            border-radius: .625rem;
+            padding: .625rem .75rem;
+            width: 100%;
+            color: #f8fafc;
+            font-size: 1rem;
+        }
+        input[type="number"]:focus, select:focus {
+            outline: none;
+            border-color: #e11d48;
+            box-shadow: 0 0 0 3px rgba(225,29,72,.2);
+        }
+        input[type="range"] { accent-color: #e11d48; width: 100%; }
+        code { font-family: 'JetBrains Mono', monospace; font-size: .85em; color: #fda4af; }
+        .dial-arc { transition: stroke-dashoffset 1s cubic-bezier(.4,0,.2,1), stroke 0.6s ease; }
+        .factor-bar-fill { transition: width 0.8s cubic-bezier(.4,0,.2,1), background-color 0.4s ease; }
+        article h2 { font-size: 1.875rem; font-weight: 700; margin-top: 2.5rem; margin-bottom: 1rem; color: #f8fafc; }
+        article h3 { font-size: 1.25rem; font-weight: 600; margin-top: 1.75rem; margin-bottom: .5rem; color: #e2e8f0; }
+        article p { margin-bottom: 1rem; line-height: 1.75; color: #94a3b8; font-size: 1.075rem; }
+        article ul { margin: 0 0 1.25rem 1.5rem; list-style: disc; }
+        article li { margin-bottom: .5rem; line-height: 1.7; color: #94a3b8; }
+        article strong { color: #f8fafc; font-weight: 600; }
+        .formula-box {
+            background: rgba(15,23,42,.7);
+            border: 1px solid rgba(255,255,255,.08);
+            border-radius: .75rem;
+            padding: 1rem 1.25rem;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: .85rem;
+            color: #cbd5e1;
+            line-height: 1.7;
+            overflow-x: auto;
+        }
+        details > summary { cursor: pointer; list-style: none; }
+        details > summary::-webkit-details-marker { display: none; }
+        details[open] .faq-chevron { transform: rotate(180deg); }
+    </style>
+
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "SoftwareApplication",
+      "name": "Recovery Score Calculator",
+      "applicationCategory": "HealthApplication",
+      "operatingSystem": "Any (web browser)",
+      "description": "Free WHOOP-style recovery score calculator. Converts Apple Watch HRV, resting heart rate and sleep into a 0-100 recovery score, entirely in your browser.",
+      "url": "https://applehealthdata.com/recovery-score-calculator/",
+      "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" }
+    }
+    </script>
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "What is a good recovery score?",
+          "acceptedAnswer": { "@type": "Answer", "text": "A recovery score of 67 or above is green (\"primed\") — your nervous system has bounced back and you can train hard. 34–66 is yellow (\"moderate\") — a normal training day, but don't chase a personal record. Below 34 is red (\"rest day\") — your body is under load and will benefit more from active recovery or rest. These bands mirror the WHOOP-style thresholds most athletes already recognize." }
+        },
+        {
+          "@type": "Question",
+          "name": "How is the recovery score calculated?",
+          "acceptedAnswer": { "@type": "Answer", "text": "The score is a weighted blend of four factors: HRV versus your baseline (~40%, log-scaled because HRV is naturally skewed), resting heart rate deviation (~25%, an elevated morning RHR is penalized), sleep fulfillment versus your sleep need (~25%), and yesterday's training strain (~10% modifier). Each factor produces a 0–100 sub-score; they are combined into a single 0–100 recovery score. The full formula is shown transparently on this page." }
+        },
+        {
+          "@type": "Question",
+          "name": "Can I get a WHOOP recovery score without WHOOP?",
+          "acceptedAnswer": { "@type": "Answer", "text": "Yes. WHOOP's recovery score is built primarily from overnight HRV and resting heart rate — two metrics your Apple Watch already records. This calculator uses the same physiological inputs to estimate a comparable 0–100 recovery score for free. It is an estimate, not a clinical device, but for day-to-day training decisions it is more than sufficient for most people who already own an Apple Watch." }
+        },
+        {
+          "@type": "Question",
+          "name": "Where do I find my HRV and resting heart rate in Apple Health?",
+          "acceptedAnswer": { "@type": "Answer", "text": "Open the Health app and go to Browse → Heart → Heart Rate Variability for HRV (shown as SDNN in milliseconds), and Browse → Heart → Resting Heart Rate for RHR. For your baselines, tap a metric and switch to the Week or Month view to eyeball your typical average. Sleep duration is under Browse → Sleep." }
+        },
+        {
+          "@type": "Question",
+          "name": "Is my health data uploaded anywhere?",
+          "acceptedAnswer": { "@type": "Answer", "text": "No. This calculator runs 100% in your browser using JavaScript. The numbers you type are never sent to a server, never stored, and never leave your device. You can even disconnect from the internet after the page loads and it will still work." }
+        },
+        {
+          "@type": "Question",
+          "name": "How accurate is this compared to WHOOP, Oura, or Athlytic?",
+          "acceptedAnswer": { "@type": "Answer", "text": "WHOOP, Oura and Athlytic compute recovery from continuous overnight HRV sampling and their own multi-year baselines, so they capture more data points than a few numbers typed in by hand. This calculator gives you a transparent, honest estimate from the same core inputs. Trends matter more than any single number — if you feed it consistent morning readings, it tracks your readiness well." }
+        }
+      ]
+    }
+    </script>
+</head>
+<body>
+    <div class="mesh-gradient"></div>
+
+    <!-- Navigation -->
+    <nav class="fixed w-full z-50 border-b border-white/10 bg-slate-950/50 backdrop-blur-xl">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8"><div class="flex justify-between items-center h-20">
+        <a href="/" class="flex items-center gap-3">
+          <div class="w-10 h-10 bg-gradient-to-tr from-rose-600 to-orange-500 rounded-xl flex items-center justify-center shadow-lg shadow-rose-500/20"><i data-lucide="activity" class="w-6 h-6 text-white"></i></div>
+          <div><span class="font-bold text-lg tracking-tight text-white block leading-none">Health Data</span><span class="text-xs text-slate-400 tracking-wider uppercase font-semibold">Export &amp; Analyze</span></div>
+        </a>
+        <a href="/tools/" class="text-slate-300 hover:text-white text-sm font-semibold">All Free Tools</a>
+      </div></div>
+    </nav>
+
+    <main class="pt-32 pb-20">
+      <div class="max-w-4xl mx-auto px-4">
+
+        <!-- Hero / H1 -->
+        <header class="text-center mb-10">
+          <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-rose-500/10 border border-rose-500/20 text-rose-300 text-xs font-semibold mb-5">
+            <i data-lucide="shield-check" class="w-3.5 h-3.5"></i>
+            100% private · runs in your browser · nothing uploaded
+          </div>
+          <h1 class="text-4xl md:text-5xl font-extrabold tracking-tight mb-4">
+            Recovery Score Calculator
+          </h1>
+          <p class="text-lg text-slate-400 max-w-2xl mx-auto">
+            Turn your Apple Watch HRV, resting heart rate and sleep into a WHOOP-style <strong class="text-slate-200">0–100 recovery score</strong>. Free, private, and computed live as you type — nothing is ever uploaded.
+          </p>
+        </header>
+
+        <!-- THE TOOL -->
+        <section class="glass p-5 sm:p-8">
+          <div class="grid lg:grid-cols-2 gap-8">
+
+            <!-- Inputs -->
+            <div>
+              <h2 class="text-lg font-bold mb-1 flex items-center gap-2"><i data-lucide="sliders-horizontal" class="w-5 h-5 text-rose-400"></i> Your numbers</h2>
+              <p class="text-xs text-slate-500 mb-5">Find these in the Apple Health app. Exact locations noted under each field.</p>
+
+              <div class="space-y-5">
+                <!-- HRV -->
+                <div>
+                  <div class="flex items-baseline justify-between">
+                    <label class="field-label" for="hrv">Last night's HRV (SDNN, ms)</label>
+                  </div>
+                  <input id="hrv" type="number" min="1" max="300" step="1" value="52">
+                  <p class="field-hint mt-1">Health app → Browse → Heart → <strong>Heart Rate Variability</strong></p>
+                </div>
+                <div>
+                  <label class="field-label" for="hrvBase">Your typical / baseline HRV (ms)</label>
+                  <input id="hrvBase" type="number" min="1" max="300" step="1" value="55">
+                  <p class="field-hint mt-1">Tap HRV → switch to <strong>Month</strong> view for your average</p>
+                </div>
+
+                <!-- RHR -->
+                <div>
+                  <label class="field-label" for="rhr">This morning's resting heart rate (bpm)</label>
+                  <input id="rhr" type="number" min="25" max="150" step="1" value="54">
+                  <p class="field-hint mt-1">Health app → Browse → Heart → <strong>Resting Heart Rate</strong></p>
+                </div>
+                <div>
+                  <label class="field-label" for="rhrBase">Your typical / baseline RHR (bpm)</label>
+                  <input id="rhrBase" type="number" min="25" max="150" step="1" value="53">
+                  <p class="field-hint mt-1">Tap Resting Heart Rate → <strong>Month</strong> view average</p>
+                </div>
+
+                <!-- Sleep -->
+                <div>
+                  <label class="field-label" for="sleep">Sleep duration last night (hours)</label>
+                  <input id="sleep" type="number" min="0" max="16" step="0.25" value="7">
+                  <p class="field-hint mt-1">Health app → Browse → <strong>Sleep</strong> (total asleep, not time in bed)</p>
+                </div>
+                <div>
+                  <label class="field-label" for="sleepNeed">Your sleep need (hours)</label>
+                  <input id="sleepNeed" type="number" min="4" max="12" step="0.25" value="8">
+                  <p class="field-hint mt-1">Default 8h — adjust to your personal target</p>
+                </div>
+
+                <!-- Strain -->
+                <div>
+                  <div class="flex items-baseline justify-between">
+                    <label class="field-label" for="strain">Yesterday's training strain <span class="text-slate-500 font-normal">(optional)</span></label>
+                    <span id="strainVal" class="text-xs font-mono text-rose-300">3 / 10</span>
+                  </div>
+                  <input id="strain" type="range" min="0" max="10" step="1" value="3" class="mt-3">
+                  <div class="flex justify-between field-hint mt-1"><span>Rest day</span><span>Moderate</span><span>All-out</span></div>
+                  <p class="field-hint mt-1">Rough RPE (perceived effort) or how hard yesterday was. Leave at 0 for a rest day.</p>
+                </div>
+              </div>
+            </div>
+
+            <!-- Output -->
+            <div>
+              <h2 class="text-lg font-bold mb-4 flex items-center gap-2"><i data-lucide="gauge" class="w-5 h-5 text-rose-400"></i> Your recovery today</h2>
+
+              <!-- Dial -->
+              <div class="flex flex-col items-center">
+                <div class="relative w-56 h-56">
+                  <svg viewBox="0 0 200 200" class="w-full h-full">
+                    <!-- 270° arc, radius 80, gap centered at the bottom -->
+                    <path d="M 43.431 156.569 A 80 80 0 1 1 156.569 156.569" fill="none" stroke="rgba(255,255,255,.08)" stroke-width="16" stroke-linecap="round"/>
+                    <path id="dialArc" d="M 43.431 156.569 A 80 80 0 1 1 156.569 156.569" fill="none" stroke="#22c55e" stroke-width="16" stroke-linecap="round"
+                          class="dial-arc" stroke-dasharray="1" stroke-dashoffset="1"/>
+                  </svg>
+                  <div class="absolute inset-0 flex flex-col items-center justify-center">
+                    <div id="scoreNum" class="text-6xl font-extrabold tracking-tight leading-none">--</div>
+                    <div class="text-xs text-slate-500 uppercase tracking-widest mt-1">Recovery</div>
+                  </div>
+                </div>
+
+                <!-- Band label -->
+                <div id="bandLabel" class="mt-4 px-4 py-1.5 rounded-full text-sm font-bold">—</div>
+                <!-- Recommendation -->
+                <p id="recommendation" class="text-center text-sm text-slate-400 mt-3 min-h-[3rem] px-2"></p>
+              </div>
+
+              <!-- Factor breakdown -->
+              <div class="mt-6 pt-6 border-t border-white/10">
+                <h3 class="text-sm font-bold text-slate-300 mb-4">What's driving your score</h3>
+                <div class="space-y-4" id="factors">
+                  <!-- HRV -->
+                  <div>
+                    <div class="flex justify-between text-xs mb-1"><span class="text-slate-400 flex items-center gap-1.5"><i data-lucide="heart-pulse" class="w-3.5 h-3.5"></i> HRV vs baseline <span class="text-slate-600">(40%)</span></span><span id="fHrvTxt" class="font-mono text-slate-300">—</span></div>
+                    <div class="h-2 rounded-full bg-white/5 overflow-hidden"><div id="fHrvBar" class="factor-bar-fill h-full rounded-full" style="width:0%"></div></div>
+                  </div>
+                  <!-- RHR -->
+                  <div>
+                    <div class="flex justify-between text-xs mb-1"><span class="text-slate-400 flex items-center gap-1.5"><i data-lucide="activity" class="w-3.5 h-3.5"></i> Resting HR <span class="text-slate-600">(25%)</span></span><span id="fRhrTxt" class="font-mono text-slate-300">—</span></div>
+                    <div class="h-2 rounded-full bg-white/5 overflow-hidden"><div id="fRhrBar" class="factor-bar-fill h-full rounded-full" style="width:0%"></div></div>
+                  </div>
+                  <!-- Sleep -->
+                  <div>
+                    <div class="flex justify-between text-xs mb-1"><span class="text-slate-400 flex items-center gap-1.5"><i data-lucide="moon" class="w-3.5 h-3.5"></i> Sleep fulfillment <span class="text-slate-600">(25%)</span></span><span id="fSleepTxt" class="font-mono text-slate-300">—</span></div>
+                    <div class="h-2 rounded-full bg-white/5 overflow-hidden"><div id="fSleepBar" class="factor-bar-fill h-full rounded-full" style="width:0%"></div></div>
+                  </div>
+                  <!-- Strain -->
+                  <div>
+                    <div class="flex justify-between text-xs mb-1"><span class="text-slate-400 flex items-center gap-1.5"><i data-lucide="flame" class="w-3.5 h-3.5"></i> Strain modifier <span class="text-slate-600">(10%)</span></span><span id="fStrainTxt" class="font-mono text-slate-300">—</span></div>
+                    <div class="h-2 rounded-full bg-white/5 overflow-hidden"><div id="fStrainBar" class="factor-bar-fill h-full rounded-full" style="width:0%"></div></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <p class="text-center text-xs text-slate-600 mt-6 flex items-center justify-center gap-1.5">
+            <i data-lucide="lock" class="w-3 h-3"></i> Every calculation happens locally in your browser. Your data never leaves your device.
+          </p>
+        </section>
+
+        <!-- How to use -->
+        <section class="mt-14">
+          <h2 class="text-2xl font-bold mb-5">How to use this calculator</h2>
+          <ol class="space-y-4">
+            <li class="glass p-4 flex gap-4"><span class="flex-shrink-0 w-8 h-8 rounded-full bg-rose-600 flex items-center justify-center font-bold text-sm">1</span><div><strong class="text-white">Open the Health app on your iPhone.</strong> <span class="text-slate-400">Tap the <em>Browse</em> tab at the bottom.</span></div></li>
+            <li class="glass p-4 flex gap-4"><span class="flex-shrink-0 w-8 h-8 rounded-full bg-rose-600 flex items-center justify-center font-bold text-sm">2</span><div><strong class="text-white">Grab last night's HRV and this morning's resting heart rate.</strong> <span class="text-slate-400">Go to <em>Heart → Heart Rate Variability</em> and <em>Heart → Resting Heart Rate</em>. Switch each to the Month view to read off your typical baseline too.</span></div></li>
+            <li class="glass p-4 flex gap-4"><span class="flex-shrink-0 w-8 h-8 rounded-full bg-rose-600 flex items-center justify-center font-bold text-sm">3</span><div><strong class="text-white">Check last night's sleep.</strong> <span class="text-slate-400">Under <em>Browse → Sleep</em>, read your total time <em>asleep</em> (not time in bed).</span></div></li>
+            <li class="glass p-4 flex gap-4"><span class="flex-shrink-0 w-8 h-8 rounded-full bg-rose-600 flex items-center justify-center font-bold text-sm">4</span><div><strong class="text-white">Type the numbers in above.</strong> <span class="text-slate-400">Your recovery score, band and per-factor breakdown update instantly — nothing is sent anywhere.</span></div></li>
+          </ol>
+        </section>
+
+        <!-- Cross-link to article -->
+        <section class="mt-10">
+          <a href="/blog/apple-health-recovery-score.html" class="glass p-6 flex items-start gap-4 group hover:border-white/25 transition-colors block">
+            <div class="flex-shrink-0 w-11 h-11 rounded-xl bg-gradient-to-tr from-teal-500 to-emerald-500 flex items-center justify-center"><i data-lucide="book-open" class="w-5 h-5 text-white"></i></div>
+            <div>
+              <p class="text-xs uppercase tracking-wider text-teal-400 font-semibold mb-1">The companion guide</p>
+              <p class="font-bold text-white group-hover:text-teal-300 transition-colors">Your Apple Watch Already Does What WHOOP Does — Here's How to Get the Scores</p>
+              <p class="text-sm text-slate-400 mt-1">The full walkthrough of Strain, Sleep and Recovery scores from Apple Health, plus an honest WHOOP/Oura comparison. This calculator is its interactive companion.</p>
+            </div>
+          </a>
+        </section>
+
+        <!-- SEO content -->
+        <article class="mt-6">
+          <h2>What this recovery score calculator does</h2>
+          <p>Your Apple Watch already records the two most validated markers of overnight recovery — <strong>heart rate variability (HRV)</strong> and <strong>resting heart rate (RHR)</strong> — alongside your sleep. What it doesn't give you is the single number WHOOP built a business on: an answer to "should I push hard today, or take it easy?" This <strong>recovery score calculator</strong> closes that gap. Type in a handful of numbers you can read straight off the Health app and it returns a 0–100 recovery score, a plain-language band, and a breakdown of exactly which factor helped or hurt.</p>
+          <p>It is the interactive companion to our guide on <a href="/blog/apple-health-recovery-score.html" class="text-rose-400 hover:text-rose-300 underline">getting WHOOP-style scores from Apple Health</a>. Everything runs in your browser — this is the whole point of the site's privacy promise: <strong>your data never leaves your device.</strong></p>
+
+          <h2>Why "recovery" is worth a number</h2>
+          <p>Raw HRV and RHR values are noisy and hard to interpret in isolation. A HRV of 48 ms means nothing until you know whether 48 is high or low <em>for you</em>. Recovery scoring solves that by comparing today against your own baseline: a HRV above your typical average and a resting heart rate at or below your norm are the classic signatures of a well-recovered autonomic nervous system. Layer in whether you actually slept enough and how hard you trained yesterday, and you get a readiness signal that is far more actionable than any single metric.</p>
+
+          <h2>How the recovery score is calculated</h2>
+          <p>The score is a transparent weighted blend of four sub-scores, each normalized to 0–100. We deliberately publish the formula so you can sanity-check it — nothing here is a black box.</p>
+
+          <h3>1. HRV vs baseline — ~40% weight (log-scaled)</h3>
+          <p>HRV is the strongest single input, so it carries the most weight. Because HRV is naturally right-skewed (big upward swings are common, big downward ones less so), we compare it on a log scale rather than a raw ratio — this matches how WHOOP and the HRV research literature treat it.</p>
+          <div class="formula-box">ratio = HRV_today / HRV_baseline<br>hrvScore = clamp( 50 + 60 &times; log2(ratio), 0, 100 )</div>
+          <p>At baseline (ratio = 1) you score 50. A HRV that is double your baseline pins you near 100; half your baseline drops you toward 0.</p>
+
+          <h3>2. Resting heart rate deviation — ~25% weight</h3>
+          <p>An elevated morning resting heart rate is one of the earliest signs of accumulated fatigue, illness or under-recovery, so a RHR above baseline is penalized while a RHR at or below baseline is rewarded.</p>
+          <div class="formula-box">delta = RHR_today &minus; RHR_baseline   (bpm)<br>rhrScore = clamp( 80 &minus; delta &times; 7, 0, 100 )</div>
+          <p>Sitting right at your baseline scores 80. Every beat per minute above baseline costs ~7 points; being a couple of beats below baseline pushes you to 100.</p>
+
+          <h3>3. Sleep fulfillment — ~25% weight</h3>
+          <p>Sleep is the input you most directly control. This sub-score is simply how much of your personal sleep need you actually met last night, with a small bonus for banking extra.</p>
+          <div class="formula-box">sleepScore = clamp( (sleep_hours / sleep_need) &times; 100, 0, 105 )<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;then capped at 100</div>
+          <p>Hitting your full need scores 100; sleeping six hours against an eight-hour need scores 75.</p>
+
+          <h3>4. Strain modifier — ~10% weight</h3>
+          <p>Yesterday's training load doesn't change how recovered you physiologically are this morning, but it does inform the recommendation: a hard session yesterday means today's "moderate" reading deserves more caution. A rest day (strain 0) is neutral; an all-out day (strain 10) applies a modest downward nudge.</p>
+          <div class="formula-box">strainScore = clamp( 100 &minus; strain &times; 5, 50, 100 )</div>
+
+          <h3>Combining them</h3>
+          <div class="formula-box">recovery = round(<br>&nbsp;&nbsp;0.40 &times; hrvScore +<br>&nbsp;&nbsp;0.25 &times; rhrScore +<br>&nbsp;&nbsp;0.25 &times; sleepScore +<br>&nbsp;&nbsp;0.10 &times; strainScore )</div>
+
+          <h2>Reading your recovery bands</h2>
+          <p>The result maps to three bands most athletes already recognize from WHOOP:</p>
+          <ul>
+            <li><strong class="text-green-400">67–100 · Green · "Primed"</strong> — your nervous system has bounced back. Green light to train hard or chase a personal record.</li>
+            <li><strong class="text-yellow-400">34–66 · Yellow · "Moderate"</strong> — a normal day. Train, but keep intensity sensible and listen to your body.</li>
+            <li><strong class="text-red-400">0–33 · Red · "Rest day"</strong> — your body is under load. Active recovery, a walk, mobility or full rest will pay off more than pushing.</li>
+          </ul>
+
+          <h2>How this compares to WHOOP, Oura and Athlytic</h2>
+          <p>Being honest matters here. WHOOP, Oura and Athlytic compute recovery from <strong>continuous overnight HRV sampling</strong> — hundreds of data points captured while you sleep — blended against their own multi-year, personalized baselines and, in WHOOP's case, published proprietary algorithms. This calculator works from a few numbers you type in by hand, so it necessarily captures less nuance than a device sampling you all night.</p>
+          <p>What it gives you in return is <strong>transparency and zero cost</strong>: you can see the entire formula above, it runs privately in your browser, and it uses the exact same physiological inputs (HRV, RHR, sleep) that the paid platforms lean on most heavily. Treat the number as a well-grounded estimate rather than a medical readout. As with every recovery platform, the <strong>trend over a week matters more than any single morning</strong> — feed it consistent readings and it will track your readiness reliably.</p>
+        </article>
+
+        <!-- FAQ -->
+        <section class="mt-6">
+          <h2 class="text-2xl font-bold mb-5">Frequently asked questions</h2>
+          <div class="space-y-3">
+            <details class="glass p-5" open>
+              <summary class="flex justify-between items-center font-semibold text-white"><span>What is a good recovery score?</span><i data-lucide="chevron-down" class="faq-chevron w-5 h-5 text-slate-400 transition-transform"></i></summary>
+              <p class="text-slate-400 mt-3 leading-relaxed">67 or above is green ("primed") — you can train hard. 34–66 is yellow ("moderate") — a normal day, but don't chase a PR. Below 34 is red ("rest day") — your body will benefit more from active recovery. These thresholds mirror the WHOOP-style bands most athletes already recognize.</p>
+            </details>
+            <details class="glass p-5">
+              <summary class="flex justify-between items-center font-semibold text-white"><span>How is the recovery score calculated?</span><i data-lucide="chevron-down" class="faq-chevron w-5 h-5 text-slate-400 transition-transform"></i></summary>
+              <p class="text-slate-400 mt-3 leading-relaxed">A weighted blend of four factors: HRV vs baseline (~40%, log-scaled), resting heart rate deviation (~25%, elevated RHR penalized), sleep fulfillment vs your sleep need (~25%), and yesterday's training strain (~10%). Each produces a 0–100 sub-score, combined into one recovery score. The full formula is shown transparently above.</p>
+            </details>
+            <details class="glass p-5">
+              <summary class="flex justify-between items-center font-semibold text-white"><span>Can I get a WHOOP recovery score without WHOOP?</span><i data-lucide="chevron-down" class="faq-chevron w-5 h-5 text-slate-400 transition-transform"></i></summary>
+              <p class="text-slate-400 mt-3 leading-relaxed">Yes. WHOOP's recovery score is built primarily from overnight HRV and resting heart rate — two metrics your Apple Watch already records. This calculator uses the same physiological inputs to estimate a comparable 0–100 score for free. It's an estimate, not a clinical device, but for day-to-day training decisions it's more than enough for most Apple Watch owners.</p>
+            </details>
+            <details class="glass p-5">
+              <summary class="flex justify-between items-center font-semibold text-white"><span>Where do I find my HRV and resting heart rate in Apple Health?</span><i data-lucide="chevron-down" class="faq-chevron w-5 h-5 text-slate-400 transition-transform"></i></summary>
+              <p class="text-slate-400 mt-3 leading-relaxed">Health app → <strong>Browse → Heart → Heart Rate Variability</strong> for HRV (shown as SDNN in ms), and <strong>Browse → Heart → Resting Heart Rate</strong> for RHR. For baselines, tap a metric and switch to Week or Month view to read your typical average. Sleep is under <strong>Browse → Sleep</strong>.</p>
+            </details>
+            <details class="glass p-5">
+              <summary class="flex justify-between items-center font-semibold text-white"><span>Is my health data uploaded anywhere?</span><i data-lucide="chevron-down" class="faq-chevron w-5 h-5 text-slate-400 transition-transform"></i></summary>
+              <p class="text-slate-400 mt-3 leading-relaxed">No. This calculator runs 100% in your browser. The numbers you type are never sent to a server, never stored, and never leave your device. You can disconnect from the internet after the page loads and it still works.</p>
+            </details>
+            <details class="glass p-5">
+              <summary class="flex justify-between items-center font-semibold text-white"><span>How accurate is this compared to WHOOP, Oura, or Athlytic?</span><i data-lucide="chevron-down" class="faq-chevron w-5 h-5 text-slate-400 transition-transform"></i></summary>
+              <p class="text-slate-400 mt-3 leading-relaxed">Those devices compute recovery from continuous overnight HRV sampling and their own multi-year baselines, so they capture more data than a few typed numbers. This calculator gives a transparent, honest estimate from the same core inputs. Trends matter more than any single reading — feed it consistent morning numbers and it tracks your readiness well.</p>
+            </details>
+          </div>
+        </section>
+
+        <!-- Cross-links -->
+        <section class="mt-14">
+          <h2 class="text-2xl font-bold mb-2">More free tools</h2>
+          <p class="text-slate-400 mb-5 text-sm">All private, all in-browser — no upload, no signup.</p>
+          <div class="flex flex-wrap gap-3">
+            <a href="/tools/" class="px-4 py-2 rounded-full bg-white/10 hover:bg-white/20 text-sm font-semibold transition-colors">All Free Tools</a>
+            <a href="/convert-tool/" class="px-4 py-2 rounded-full bg-white/10 hover:bg-white/20 text-sm font-semibold transition-colors">XML → CSV Converter</a>
+            <a href="/apple-health-export-validator/" class="px-4 py-2 rounded-full bg-white/10 hover:bg-white/20 text-sm font-semibold transition-colors">Export Validator</a>
+            <a href="/apple-health-sleep-report/" class="px-4 py-2 rounded-full bg-white/10 hover:bg-white/20 text-sm font-semibold transition-colors">Sleep Report</a>
+            <a href="/heart-rate-zone-calculator/" class="px-4 py-2 rounded-full bg-white/10 hover:bg-white/20 text-sm font-semibold transition-colors">Heart Rate Zone Calculator</a>
+            <a href="/export-apple-health-hrv-data/" class="px-4 py-2 rounded-full bg-white/10 hover:bg-white/20 text-sm font-semibold transition-colors">Export HRV Data</a>
+          </div>
+        </section>
+
+        <!-- CTA -->
+        <section class="mt-10">
+          <div class="glass p-8 text-center bg-gradient-to-br from-rose-900/20 via-purple-900/20 to-slate-900/20 border-rose-500/25">
+            <h2 class="text-2xl font-bold mb-3">Want deeper analysis?</h2>
+            <p class="text-slate-300 mb-6 max-w-xl mx-auto">This calculator works from a single morning's numbers. To track recovery, strain and sleep across your entire Apple Health history — with automatic daily scores and 7-day trends — get the app.</p>
+            <div class="flex flex-wrap gap-4 justify-center">
+              <a href="/go/website.html?c=ah_recovery" class="px-6 py-3 bg-rose-600 hover:bg-rose-700 rounded-full font-bold transition-colors flex items-center gap-2"><i data-lucide="smartphone" class="w-5 h-5"></i> Download iOS App</a>
+              <a href="https://github.com/krumjahn/applehealth" class="px-6 py-3 bg-white/10 hover:bg-white/20 rounded-full font-bold transition-colors flex items-center gap-2"><i data-lucide="github" class="w-5 h-5"></i> Get Mac Analyzer</a>
+            </div>
+          </div>
+        </section>
+
+      </div>
+    </main>
+
+    <script>
+      // ---- Recovery score engine (all client-side) ----
+      const $ = (id) => document.getElementById(id);
+      const clamp = (v, lo, hi) => Math.max(lo, Math.min(hi, v));
+
+      const bands = {
+        green:  { min: 67, label: 'Primed',    color: '#22c55e', bg: 'rgba(34,197,94,.15)',  text: '#4ade80',
+                  rec: 'Your nervous system has bounced back. Green light — train hard or chase a personal record today.' },
+        yellow: { min: 34, label: 'Moderate',  color: '#eab308', bg: 'rgba(234,179,8,.15)',  text: '#facc15',
+                  rec: 'A normal training day. Train, but keep intensity sensible and listen to how your body responds.' },
+        red:    { min: 0,  label: 'Rest day',  color: '#ef4444', bg: 'rgba(239,68,68,.15)',  text: '#f87171',
+                  rec: 'Your body is under load. Active recovery, a walk, mobility work or full rest will pay off more than pushing today.' }
+      };
+
+      function bandFor(score) {
+        if (score >= 67) return bands.green;
+        if (score >= 34) return bands.yellow;
+        return bands.red;
+      }
+      // color for individual factor bars (sub-score based)
+      function subColor(v) {
+        if (v >= 67) return '#22c55e';
+        if (v >= 34) return '#eab308';
+        return '#ef4444';
+      }
+
+      // SVG arc geometry: 270° sweep. Full path length for r=80.
+      const ARC_LEN = 2 * Math.PI * 80 * (270 / 360); // ≈ 376.99
+      const dialArc = $('dialArc');
+      dialArc.setAttribute('stroke-dasharray', ARC_LEN);
+      dialArc.setAttribute('stroke-dashoffset', ARC_LEN);
+
+      function compute() {
+        const hrv      = parseFloat($('hrv').value);
+        const hrvBase  = parseFloat($('hrvBase').value);
+        const rhr      = parseFloat($('rhr').value);
+        const rhrBase  = parseFloat($('rhrBase').value);
+        const sleep    = parseFloat($('sleep').value);
+        const sleepNeed= parseFloat($('sleepNeed').value);
+        const strain   = parseFloat($('strain').value);
+
+        $('strainVal').textContent = (isNaN(strain) ? 0 : strain) + ' / 10';
+
+        // Guard: need the core four to be valid & positive
+        const valid = [hrv, hrvBase, rhr, rhrBase, sleep, sleepNeed].every(v => !isNaN(v)) &&
+                      hrv > 0 && hrvBase > 0 && rhr > 0 && rhrBase > 0 && sleepNeed > 0 && sleep >= 0;
+
+        if (!valid) {
+          $('scoreNum').textContent = '--';
+          $('bandLabel').textContent = 'Enter your numbers';
+          $('bandLabel').style.background = 'rgba(255,255,255,.06)';
+          $('bandLabel').style.color = '#94a3b8';
+          $('recommendation').textContent = 'Fill in your HRV, resting heart rate and sleep to see your recovery score.';
+          dialArc.style.strokeDashoffset = ARC_LEN;
+          dialArc.style.stroke = 'rgba(255,255,255,.08)';
+          ['fHrv','fRhr','fSleep','fStrain'].forEach(k => {
+            $(k+'Bar').style.width = '0%';
+            $(k+'Txt').textContent = '—';
+          });
+          return;
+        }
+
+        // --- Sub-scores ---
+        const ratio = hrv / hrvBase;
+        const hrvScore = clamp(50 + 60 * Math.log2(ratio), 0, 100);
+
+        const rhrDelta = rhr - rhrBase;
+        const rhrScore = clamp(80 - rhrDelta * 7, 0, 100);
+
+        const sleepScore = clamp((sleep / sleepNeed) * 100, 0, 100);
+
+        const s = isNaN(strain) ? 0 : strain;
+        const strainScore = clamp(100 - s * 5, 50, 100);
+
+        const recovery = Math.round(
+          0.40 * hrvScore +
+          0.25 * rhrScore +
+          0.25 * sleepScore +
+          0.10 * strainScore
+        );
+        const score = clamp(recovery, 0, 100);
+        const band = bandFor(score);
+
+        // --- Dial ---
+        $('scoreNum').textContent = score;
+        dialArc.style.stroke = band.color;
+        dialArc.style.strokeDashoffset = ARC_LEN * (1 - score / 100);
+
+        $('bandLabel').textContent = band.label;
+        $('bandLabel').style.background = band.bg;
+        $('bandLabel').style.color = band.text;
+        $('recommendation').textContent = band.rec;
+
+        // --- Factor bars (show each sub-score 0-100) ---
+        const setBar = (key, val, txt) => {
+          $(key+'Bar').style.width = clamp(val, 0, 100) + '%';
+          $(key+'Bar').style.backgroundColor = subColor(val);
+          $(key+'Txt').textContent = txt;
+        };
+        setBar('fHrv',   hrvScore,   Math.round(hrvScore) + ' · ' + (ratio >= 1 ? '+' : '') + Math.round((ratio - 1) * 100) + '% vs base');
+        setBar('fRhr',   rhrScore,   Math.round(rhrScore) + ' · ' + (rhrDelta > 0 ? '+' : '') + rhrDelta.toFixed(0) + ' bpm');
+        setBar('fSleep', sleepScore, Math.round(sleepScore) + ' · ' + sleep + 'h / ' + sleepNeed + 'h');
+        setBar('fStrain',strainScore, s === 0 ? 'rest day' : 'strain ' + s + '/10');
+      }
+
+      // Live recompute on every input
+      ['hrv','hrvBase','rhr','rhrBase','sleep','sleepNeed','strain'].forEach(id => {
+        $(id).addEventListener('input', compute);
+      });
+
+      compute();
+      lucide.createIcons();
+    </script>
+</body>
+</html>

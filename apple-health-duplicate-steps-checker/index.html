@@ -1,0 +1,688 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Apple Health Duplicate Steps Checker — Free Online Tool | Apple Health Data</title>
+    <meta name="description" content="Is Apple Health counting your steps twice? Free, private tool that finds iPhone + Apple Watch duplicate step records and shows your real deduplicated daily totals. Runs 100% in your browser.">
+    <meta name="keywords" content="apple health counting steps twice, iphone apple watch duplicate steps, apple health step count wrong, apple health double counting steps, deduplicate apple health steps, apple watch iphone step count difference, apple health step totals inflated">
+    <meta name="apple-itunes-app" content="app-id=6749297170">
+    <link rel="canonical" href="https://applehealthdata.com/apple-health-duplicate-steps-checker/">
+    <meta property="og:title" content="Apple Health Duplicate Steps Checker — Free Online Tool">
+    <meta property="og:description" content="Find iPhone + Apple Watch duplicate step records and see your real deduplicated daily totals. Runs entirely in your browser — nothing is uploaded.">
+    <meta property="og:url" content="https://applehealthdata.com/apple-health-duplicate-steps-checker/">
+    <meta property="og:type" content="website">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Apple Health Duplicate Steps Checker — Free Online Tool">
+    <meta name="twitter:description" content="Find iPhone + Apple Watch duplicate step records and see your real deduplicated daily totals. Private, in-browser, free.">
+
+    <!-- Fonts: preconnect + preload -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preload" as="style"
+          href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;700&display=swap"
+          onload="this.onload=null;this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;700&display=swap"></noscript>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script defer src="https://umami.rumjahn.synology.me/script.js" data-website-id="5d7b4fa8-90b2-4191-8daf-8ea487a8d961"></script>
+    <!-- Matomo -->
+    <script>
+      var _paq = window._paq = window._paq || [];
+      _paq.push(['trackPageView']);
+      _paq.push(['enableLinkTracking']);
+      (function() {
+        var u="//shrewd-lyrebird.pikapod.net/";
+        _paq.push(['setTrackerUrl', u+'matomo.php']);
+        _paq.push(['setSiteId', '9']);
+        var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
+        g.async=true; g.src=u+'matomo.js'; s.parentNode.insertBefore(g,s);
+      })();
+    </script>
+
+    <style>
+        body { font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif; background-color:#020617; color:#f8fafc; }
+        code, .mono { font-family: 'JetBrains Mono', monospace; }
+        .mesh-gradient {
+            position: fixed; inset: 0; z-index: -1;
+            background: radial-gradient(at 0% 0%, rgba(225,29,72,.15), transparent 50%),
+                        radial-gradient(at 100% 0%, rgba(56,189,248,.15), transparent 50%),
+                        radial-gradient(at 100% 100%, rgba(168,85,247,.15), transparent 50%);
+            filter: blur(60px);
+        }
+        .card { background:rgba(255,255,255,.04); border:1px solid rgba(255,255,255,.1); border-radius:1rem; }
+        .dropzone { transition: border-color .15s ease, background-color .15s ease; }
+        .dropzone.drag { border-color:#e11d48; background:rgba(225,29,72,.08); }
+    </style>
+
+    <!-- Structured data -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "SoftwareApplication",
+      "name": "Apple Health Duplicate Steps Checker",
+      "applicationCategory": "HealthApplication",
+      "operatingSystem": "Any (web browser)",
+      "url": "https://applehealthdata.com/apple-health-duplicate-steps-checker/",
+      "description": "Free in-browser tool that detects duplicate step records from iPhone and Apple Watch in an Apple Health export and reports your real deduplicated daily step totals.",
+      "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" }
+    }
+    </script>
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "Is Apple Health really counting my steps twice?",
+          "acceptedAnswer": { "@type": "Answer", "text": "Not on screen. The Health app already deduplicates overlapping step records from your iPhone and Apple Watch before it shows you a daily total. The double counting only appears when you export the raw export.xml file and add up every Record row yourself, for example in a spreadsheet, because the raw file keeps every source's records separately. This tool applies the same kind of source-priority merge Apple uses so you get the corrected number." }
+        },
+        {
+          "@type": "Question",
+          "name": "Why do my iPhone and Apple Watch record the same steps?",
+          "acceptedAnswer": { "@type": "Answer", "text": "When you carry your iPhone while wearing your Apple Watch, both devices independently detect motion and each writes its own StepCount records to Health. Their time intervals overlap, so a naive sum of both sources roughly doubles the steps for the periods you had both devices with you." }
+        },
+        {
+          "@type": "Question",
+          "name": "How does the deduplication work?",
+          "acceptedAnswer": { "@type": "Answer", "text": "For each day we sort every step record by start time and walk through them in order. When records from different sources overlap in time, we count only the single larger contributor for that overlapping span instead of adding them together. Non-overlapping records are always kept. This approximates Apple's priority-source merging and gives a realistic corrected total." }
+        },
+        {
+          "@type": "Question",
+          "name": "Does my health data leave my browser?",
+          "acceptedAnswer": { "@type": "Answer", "text": "No. The entire analysis runs locally in your browser using JavaScript. Your export.xml file is never uploaded to any server. You can even disconnect from the internet after the page loads and it will still work." }
+        },
+        {
+          "@type": "Question",
+          "name": "My export.xml is huge. Will this crash my browser?",
+          "acceptedAnswer": { "@type": "Answer", "text": "No. The tool streams the file in small chunks and only extracts StepCount records, skipping everything else. Files of several hundred megabytes are processed with a live progress bar. Parsing typically takes 10 to 60 seconds depending on file size and device." }
+        },
+        {
+          "@type": "Question",
+          "name": "Which number should I trust, naive or deduplicated?",
+          "acceptedAnswer": { "@type": "Answer", "text": "Trust the deduplicated total. It is the closest match to what the Health app shows and to your true step count. The naive sum is only useful for seeing how much a raw spreadsheet export inflates your numbers." }
+        }
+      ]
+    }
+    </script>
+</head>
+<body>
+    <div class="mesh-gradient"></div>
+
+    <!-- Nav -->
+    <nav class="fixed w-full z-50 border-b border-white/10 bg-slate-950/50 backdrop-blur-xl">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8"><div class="flex justify-between items-center h-20">
+        <a href="/" class="flex items-center gap-3">
+          <div class="w-10 h-10 bg-gradient-to-tr from-rose-600 to-orange-500 rounded-xl flex items-center justify-center shadow-lg shadow-rose-500/20"><i data-lucide="activity" class="w-6 h-6 text-white"></i></div>
+          <div><span class="font-bold text-lg tracking-tight text-white block leading-none">Health Data</span><span class="text-xs text-slate-400 tracking-wider uppercase font-semibold">Export &amp; Analyze</span></div>
+        </a>
+        <a href="/tools/" class="text-slate-300 hover:text-white text-sm font-semibold">All Free Tools</a>
+      </div></div>
+    </nav>
+
+    <main class="pt-32 pb-20">
+      <div class="max-w-4xl mx-auto px-4">
+
+        <!-- H1 -->
+        <header class="text-center mb-10">
+          <h1 class="text-4xl sm:text-5xl font-extrabold tracking-tight text-white">Apple Health Duplicate Steps Checker</h1>
+          <p class="mt-4 text-lg text-slate-400 max-w-2xl mx-auto">Is Apple Health counting your steps twice? Find overlapping iPhone and Apple Watch step records and see your real, deduplicated daily totals. Free, private, runs entirely in your browser — nothing is uploaded.</p>
+        </header>
+
+        <!-- Tool -->
+        <section class="card p-6 sm:p-8">
+          <div class="flex items-center gap-2 text-emerald-400 text-sm font-semibold mb-4">
+            <i data-lucide="shield-check" class="w-4 h-4"></i>
+            <span>Your data never leaves your browser</span>
+          </div>
+
+          <!-- Dropzone -->
+          <div id="dropzone" class="dropzone border-2 border-dashed border-white/15 rounded-2xl p-8 sm:p-10 text-center cursor-pointer bg-white/5">
+            <i data-lucide="upload-cloud" class="w-10 h-10 mx-auto text-slate-300"></i>
+            <p class="mt-3 font-semibold text-white">Drop your <code class="mono text-rose-400">export.xml</code> here</p>
+            <p class="text-sm text-slate-400 mt-1">or click to choose a file</p>
+            <input id="fileInput" type="file" accept=".xml,text/xml,application/xml" class="hidden">
+            <p class="text-xs text-slate-500 mt-4">Nothing is uploaded. All processing happens on your device.</p>
+          </div>
+
+          <!-- Progress -->
+          <div id="progressWrap" class="hidden mt-6">
+            <div class="flex justify-between text-sm text-slate-300 mb-2">
+              <span id="progressLabel">Reading file…</span>
+              <span id="progressPct" class="mono">0%</span>
+            </div>
+            <div class="w-full h-2.5 rounded-full bg-slate-800 overflow-hidden">
+              <div id="progressBar" class="h-full bg-rose-600 w-0 transition-all duration-150"></div>
+            </div>
+            <p id="progressStats" class="text-xs text-slate-500 mt-2 mono"></p>
+          </div>
+
+          <!-- Error / notice -->
+          <div id="notice" class="hidden mt-6 p-4 rounded-xl border border-amber-500/30 bg-amber-500/10 text-amber-200 text-sm"></div>
+
+          <!-- Results -->
+          <div id="results" class="hidden mt-8">
+            <!-- Summary cards -->
+            <div class="grid grid-cols-2 lg:grid-cols-4 gap-4">
+              <div class="card p-4">
+                <div class="text-xs uppercase tracking-wide text-slate-400 font-semibold">Days analyzed</div>
+                <div id="statDays" class="mt-1 text-2xl font-extrabold text-white mono">—</div>
+              </div>
+              <div class="card p-4">
+                <div class="text-xs uppercase tracking-wide text-slate-400 font-semibold">Naive total (raw sum)</div>
+                <div id="statNaive" class="mt-1 text-2xl font-extrabold text-sky-300 mono">—</div>
+              </div>
+              <div class="card p-4">
+                <div class="text-xs uppercase tracking-wide text-slate-400 font-semibold">Deduplicated total</div>
+                <div id="statDedup" class="mt-1 text-2xl font-extrabold text-emerald-300 mono">—</div>
+              </div>
+              <div class="card p-4">
+                <div class="text-xs uppercase tracking-wide text-slate-400 font-semibold">Inflation</div>
+                <div id="statInflation" class="mt-1 text-2xl font-extrabold text-rose-400 mono">—</div>
+              </div>
+            </div>
+
+            <p id="verdict" class="mt-5 text-slate-300"></p>
+
+            <!-- Chart -->
+            <div class="card p-4 sm:p-6 mt-6">
+              <h3 class="text-lg font-bold text-white mb-1">Naive vs deduplicated steps by month</h3>
+              <p class="text-xs text-slate-500 mb-4">Blue = raw sum of every record. Green = corrected total after removing overlaps.</p>
+              <canvas id="chart" class="w-full" height="220"></canvas>
+            </div>
+
+            <!-- Most inflated days -->
+            <div class="card p-4 sm:p-6 mt-6 overflow-x-auto">
+              <h3 class="text-lg font-bold text-white mb-4">10 most double-counted days</h3>
+              <table class="w-full text-sm">
+                <thead>
+                  <tr class="text-left text-slate-400 border-b border-white/10">
+                    <th class="py-2 pr-4 font-semibold">Date</th>
+                    <th class="py-2 pr-4 font-semibold text-right">Naive</th>
+                    <th class="py-2 pr-4 font-semibold text-right">Deduped</th>
+                    <th class="py-2 pr-4 font-semibold text-right">Double-counted</th>
+                    <th class="py-2 font-semibold text-right">Inflation</th>
+                  </tr>
+                </thead>
+                <tbody id="daysBody" class="mono text-slate-200"></tbody>
+              </table>
+            </div>
+
+            <!-- Per-source breakdown -->
+            <div class="card p-4 sm:p-6 mt-6 overflow-x-auto">
+              <h3 class="text-lg font-bold text-white mb-1">Where your steps come from</h3>
+              <p class="text-xs text-slate-500 mb-4">Raw recorded steps per source, before deduplication. Overlap between the top two sources is usually where double counting happens.</p>
+              <table class="w-full text-sm">
+                <thead>
+                  <tr class="text-left text-slate-400 border-b border-white/10">
+                    <th class="py-2 pr-4 font-semibold">Source</th>
+                    <th class="py-2 pr-4 font-semibold text-right">Records</th>
+                    <th class="py-2 pr-4 font-semibold text-right">Raw steps</th>
+                    <th class="py-2 font-semibold text-right">Share</th>
+                  </tr>
+                </thead>
+                <tbody id="sourceBody" class="mono text-slate-200"></tbody>
+              </table>
+              <p id="overlapNote" class="text-sm text-slate-400 mt-4"></p>
+            </div>
+
+            <div class="mt-6 flex flex-wrap gap-3">
+              <button id="downloadBtn" class="px-4 py-2 rounded-full bg-rose-600 hover:bg-rose-700 font-bold text-sm">Download full report (CSV)</button>
+              <button id="resetBtn" class="px-4 py-2 rounded-full bg-white/10 hover:bg-white/20 font-semibold text-sm">Check another file</button>
+            </div>
+          </div>
+        </section>
+
+        <!-- How to use -->
+        <section class="mt-14">
+          <h2 class="text-3xl font-bold text-white">How to use it</h2>
+          <ol class="mt-5 space-y-4 text-lg text-slate-400 list-decimal list-inside">
+            <li>On your iPhone open the <strong class="text-slate-200">Health</strong> app, tap your profile picture, then <strong class="text-slate-200">Export All Health Data</strong>. You'll get an <code class="mono text-rose-400">export.zip</code>.</li>
+            <li>Unzip it on your computer. Inside the <code class="mono text-rose-400">apple_health_export</code> folder you'll find <code class="mono text-rose-400">export.xml</code>.</li>
+            <li>Drag that <code class="mono text-rose-400">export.xml</code> onto the box above (or click to select it).</li>
+            <li>Wait for the progress bar — large exports take 10–60 seconds. Only step records are read; everything else is skipped.</li>
+            <li>Review your naive vs deduplicated totals, the most inflated days, and which sources overlap. Download the CSV if you want the full day-by-day breakdown.</li>
+          </ol>
+        </section>
+
+        <!-- SEO content -->
+        <section class="mt-14 space-y-6">
+          <h2 class="text-3xl font-bold text-white">Why Apple Health looks like it's counting your steps twice</h2>
+          <p class="text-lg text-slate-400">If you wear an Apple Watch and carry your iPhone, both devices detect your movement independently and each one writes its own step records into Apple Health. When you glance at the Health app, you see a single sensible daily number — because the Health app quietly deduplicates those overlapping records behind the scenes, giving priority to one source at a time so the same steps aren't added twice.</p>
+          <p class="text-lg text-slate-400">The trouble starts when you <strong class="text-slate-200">export</strong> your data. The raw <code class="mono text-rose-400">export.xml</code> file keeps every single record from every source, exactly as it was written. So the moment you load it into a spreadsheet and write <code class="mono">=SUM()</code> over the step column, you add the iPhone's steps and the Watch's steps together for every minute you had both devices with you. The result can look almost twice as high as reality. This is the single most common reason people believe "Apple Health step count is wrong" — the numbers aren't wrong, the raw export just isn't deduplicated for you.</p>
+
+          <h3 class="text-2xl font-bold text-white mt-8">What this tool actually does</h3>
+          <p class="text-lg text-slate-400">It streams your <code class="mono text-rose-400">export.xml</code>, pulls out only <code class="mono">HKQuantityTypeIdentifierStepCount</code> records, and groups them by calendar day and by source (your iPhone, your Apple Watch, and any third-party apps like a treadmill or a pedometer app). Then it computes two numbers for every day:</p>
+          <ul class="text-lg text-slate-400 list-disc list-inside space-y-2">
+            <li><strong class="text-slate-200">Naive total</strong> — the raw sum of every step record, the same number you'd get from a spreadsheet. This is the inflated figure.</li>
+            <li><strong class="text-slate-200">Deduplicated total</strong> — a corrected number that removes the double counting from overlapping sources.</li>
+          </ul>
+
+          <h3 class="text-2xl font-bold text-white mt-8">How the deduplication is calculated</h3>
+          <p class="text-lg text-slate-400">For each day the tool sorts every step record by its start time and walks through them in order, keeping track of the latest point in time already accounted for. Each record covers a time interval from its <code class="mono">startDate</code> to its <code class="mono">endDate</code>. When a record's interval overlaps one that's already been counted <em>and comes from a different source</em>, the tool treats it as a duplicate of that span: rather than adding both, it keeps only the single larger contributor for the overlapping period. Records that don't overlap anything are always counted in full.</p>
+          <p class="text-lg text-slate-400">This is a transparent approximation of the source-priority merging Apple itself performs. It's not a perfect reconstruction of Apple's internal algorithm — Apple weighs device priority and sampling in ways it doesn't publish — but it reliably strips out the roughly-double inflation caused by two devices recording the same walk, which is exactly what you care about. The <strong class="text-slate-200">double-counted</strong> figure you see per day is simply <code class="mono">naive − deduplicated</code>, and the inflation percentage is <code class="mono">(naive − deduplicated) ÷ deduplicated × 100</code>.</p>
+
+          <h3 class="text-2xl font-bold text-white mt-8">How to read your results</h3>
+          <p class="text-lg text-slate-400">A low inflation percentage (under ~10%) usually means you mostly rely on one device, or you rarely carried your phone and watch together. A large inflation percentage (50–100%) is the classic signature of an iPhone and Apple Watch both logging your daily walks. Look at the per-source breakdown: if two sources each contribute a large share of raw steps, that overlap is your double counting. The deduplicated total is the number to trust — it should line up closely with what the Health app shows you on screen.</p>
+          <p class="text-lg text-slate-400"><strong class="text-slate-200">Reassurance:</strong> you don't have a broken watch or a buggy phone, and you don't need to delete a data source. The Health app is already showing you correct, deduplicated numbers day to day. This tool simply gives you those corrected numbers for the raw export so your spreadsheets, dashboards and analyses aren't thrown off.</p>
+        </section>
+
+        <!-- FAQ -->
+        <section class="mt-14">
+          <h2 class="text-3xl font-bold text-white mb-6">Frequently asked questions</h2>
+          <div class="space-y-4">
+            <div class="card p-5">
+              <h3 class="font-bold text-white">Is Apple Health really counting my steps twice?</h3>
+              <p class="mt-2 text-slate-400">Not on screen. The Health app already deduplicates overlapping step records from your iPhone and Apple Watch before it shows you a daily total. The double counting only appears when you export the raw <code class="mono">export.xml</code> file and add up every record yourself, because the raw file keeps every source's records separately. This tool applies the same kind of source-priority merge Apple uses so you get the corrected number.</p>
+            </div>
+            <div class="card p-5">
+              <h3 class="font-bold text-white">Why do my iPhone and Apple Watch record the same steps?</h3>
+              <p class="mt-2 text-slate-400">When you carry your iPhone while wearing your Apple Watch, both devices independently detect motion and each writes its own step records to Health. Their time intervals overlap, so a naive sum of both sources roughly doubles the steps for the periods you had both devices with you.</p>
+            </div>
+            <div class="card p-5">
+              <h3 class="font-bold text-white">How does the deduplication work?</h3>
+              <p class="mt-2 text-slate-400">For each day we sort every step record by start time and walk through them in order. When records from different sources overlap in time, we count only the single larger contributor for that overlapping span instead of adding them together. Non-overlapping records are always kept. This approximates Apple's priority-source merging and gives a realistic corrected total.</p>
+            </div>
+            <div class="card p-5">
+              <h3 class="font-bold text-white">Does my health data leave my browser?</h3>
+              <p class="mt-2 text-slate-400">No. The entire analysis runs locally in your browser using JavaScript. Your <code class="mono">export.xml</code> file is never uploaded to any server. You can even disconnect from the internet after the page loads and it will still work.</p>
+            </div>
+            <div class="card p-5">
+              <h3 class="font-bold text-white">My export.xml is huge. Will this crash my browser?</h3>
+              <p class="mt-2 text-slate-400">No. The tool streams the file in small chunks and only extracts step records, skipping everything else. Files of several hundred megabytes are processed with a live progress bar. Parsing typically takes 10 to 60 seconds depending on file size and device.</p>
+            </div>
+            <div class="card p-5">
+              <h3 class="font-bold text-white">Which number should I trust, naive or deduplicated?</h3>
+              <p class="mt-2 text-slate-400">Trust the deduplicated total. It is the closest match to what the Health app shows and to your true step count. The naive sum is only useful for seeing how much a raw spreadsheet export inflates your numbers.</p>
+            </div>
+          </div>
+        </section>
+
+        <!-- Cross-links -->
+        <section class="mt-14">
+          <h2 class="text-3xl font-bold text-white mb-5">More free tools</h2>
+          <div class="flex flex-wrap gap-3 text-sm font-semibold">
+            <a href="/tools/" class="px-4 py-2 rounded-full bg-white/10 hover:bg-white/20 text-slate-200">All Free Tools</a>
+            <a href="/convert-tool/" class="px-4 py-2 rounded-full bg-white/10 hover:bg-white/20 text-slate-200">XML → CSV Converter</a>
+            <a href="/apple-health-export-validator/" class="px-4 py-2 rounded-full bg-white/10 hover:bg-white/20 text-slate-200">Export Validator</a>
+            <a href="/apple-health-export-splitter/" class="px-4 py-2 rounded-full bg-white/10 hover:bg-white/20 text-slate-200">Export Splitter</a>
+            <a href="/apple-health-to-gpx/" class="px-4 py-2 rounded-full bg-white/10 hover:bg-white/20 text-slate-200">Workouts → GPX</a>
+            <a href="/apple-health-wrapped/" class="px-4 py-2 rounded-full bg-white/10 hover:bg-white/20 text-slate-200">Apple Health Wrapped</a>
+          </div>
+        </section>
+
+        <!-- CTA -->
+        <section class="card p-8 mt-14 text-center">
+          <h2 class="text-2xl sm:text-3xl font-bold text-white">Want deeper analysis?</h2>
+          <p class="mt-3 text-slate-400 max-w-xl mx-auto">Turn your full Apple Health export into trends, charts and AI insights — steps, sleep, heart rate, workouts and more.</p>
+          <div class="mt-6 flex flex-wrap gap-3 justify-center">
+            <a href="/go/website.html?c=ah_dupes" class="px-6 py-3 rounded-full bg-rose-600 hover:bg-rose-700 font-bold">Download iOS App</a>
+            <a href="https://github.com/krumjahn/applehealth" class="px-6 py-3 rounded-full bg-white/10 hover:bg-white/20 font-semibold">Get Mac Analyzer</a>
+          </div>
+        </section>
+
+      </div>
+    </main>
+
+    <script>
+    (function () {
+      const CHUNK = 8 * 1024 * 1024; // 8MB
+      const $ = (id) => document.getElementById(id);
+
+      const dropzone = $('dropzone');
+      const fileInput = $('fileInput');
+      const progressWrap = $('progressWrap');
+      const progressBar = $('progressBar');
+      const progressPct = $('progressPct');
+      const progressLabel = $('progressLabel');
+      const progressStats = $('progressStats');
+      const notice = $('notice');
+      const results = $('results');
+
+      let dayMap;          // Map<'YYYY-MM-DD', Array<{start,end,value,source}>>
+      let sourceTotals;    // Map<source, {count, steps}>
+      let reportRows;      // per-day computed results
+
+      function showNotice(msg) { notice.textContent = msg; notice.classList.remove('hidden'); }
+      function hideNotice() { notice.classList.add('hidden'); }
+      function fmt(n) { return Math.round(n).toLocaleString('en-US'); }
+
+      // "2024-01-01 08:00:00 +0800" -> ms since epoch
+      function parseAppleDate(s) {
+        if (!s) return NaN;
+        const m = s.match(/^(\d{4})-(\d{2})-(\d{2}) (\d{2}):(\d{2}):(\d{2}) ([+-]\d{2})(\d{2})$/);
+        if (m) return Date.parse(`${m[1]}-${m[2]}-${m[3]}T${m[4]}:${m[5]}:${m[6]}${m[7]}:${m[8]}`);
+        return Date.parse(s);
+      }
+
+      // Local calendar day taken from the front of the startDate string (wall-clock time).
+      function dayKeyFromStart(startStr) {
+        const m = startStr && startStr.match(/^(\d{4}-\d{2}-\d{2})/);
+        return m ? m[1] : null;
+      }
+
+      const reSource = /sourceName="([^"]*)"/;
+      const reStart = /startDate="([^"]*)"/;
+      const reEnd = /endDate="([^"]*)"/;
+      const reValue = /value="([^"]*)"/;
+
+      // Returns true if a StepCount record was consumed (for the found-count).
+      function handleRecordLine(line) {
+        if (line.indexOf('HKQuantityTypeIdentifierStepCount') === -1) return false;
+        const stm = reStart.exec(line);
+        const vm = reValue.exec(line);
+        if (!stm || !vm) return false;
+        const value = parseFloat(vm[1]);
+        if (!isFinite(value) || value <= 0) return false;
+
+        const sm = reSource.exec(line);
+        const em = reEnd.exec(line);
+        const source = sm ? sm[1] : 'Unknown';
+        const startStr = stm[1];
+        const start = parseAppleDate(startStr);
+        let end = parseAppleDate(em ? em[1] : startStr);
+        if (!isFinite(start)) return false;
+        if (!isFinite(end) || end < start) end = start;
+
+        const key = dayKeyFromStart(startStr);
+        if (!key) return false;
+
+        let arr = dayMap.get(key);
+        if (!arr) { arr = []; dayMap.set(key, arr); }
+        arr.push({ start, end, value, source });
+
+        let st = sourceTotals.get(source);
+        if (!st) { st = { count: 0, steps: 0 }; sourceTotals.set(source, st); }
+        st.count++; st.steps += value;
+        return true;
+      }
+
+      // Sweep one day's records sorted by start time.
+      // Track the furthest end already covered and how many steps the covering record
+      // contributed. When a later record from a DIFFERENT source overlaps that covered
+      // span, we keep only the larger contributor for the overlap (top up if bigger),
+      // rather than summing both — this approximates Apple's source-priority merge.
+      function dedupDay(records) {
+        let naive = 0;
+        for (const r of records) naive += r.value;
+        if (records.length === 1) return { naive, dedup: naive };
+
+        records.sort((a, b) => a.start - b.start || a.end - b.end);
+
+        let dedup = 0;
+        let coveredUntil = -Infinity;
+        let coveredSource = null;
+        let coveredContribution = 0; // steps the current covering record contributed
+
+        for (const r of records) {
+          const dur = Math.max(r.end - r.start, 1);
+          if (r.start >= coveredUntil) {
+            // No overlap: count in full.
+            dedup += r.value;
+            coveredUntil = r.end;
+            coveredSource = r.source;
+            coveredContribution = r.value;
+            continue;
+          }
+
+          // Overlaps the covered region.
+          const overlapEnd = Math.min(r.end, coveredUntil);
+          const overlapFrac = Math.min(Math.max(overlapEnd - r.start, 0) / dur, 1);
+          const overlappingSteps = r.value * overlapFrac;
+          const nonOverlapSteps = r.value - overlappingSteps;
+
+          // The part beyond the covered region is always new.
+          dedup += nonOverlapSteps;
+
+          if (r.source === coveredSource) {
+            // Same source overlapping (uncommon) — treat as genuine, count it.
+            dedup += overlappingSteps;
+          } else if (overlappingSteps > coveredContribution) {
+            // Different source contributes MORE over the shared span: top up to the larger.
+            dedup += (overlappingSteps - coveredContribution);
+          }
+          // else: incumbent already covered the larger contribution for this span; add nothing.
+
+          if (r.end > coveredUntil) {
+            coveredUntil = r.end;
+            coveredSource = r.source;
+            coveredContribution = r.value;
+          }
+        }
+        dedup = Math.min(dedup, naive);
+        return { naive, dedup };
+      }
+
+      function computeResults() {
+        reportRows = [];
+        let naiveTotal = 0, dedupTotal = 0;
+        for (const [day, records] of dayMap.entries()) {
+          const { naive, dedup } = dedupDay(records);
+          naiveTotal += naive;
+          dedupTotal += dedup;
+          const doubleCounted = Math.max(naive - dedup, 0);
+          const inflation = dedup > 0 ? (doubleCounted / dedup) * 100 : 0;
+          reportRows.push({ day, naive, dedup, doubleCounted, inflation });
+        }
+        reportRows.sort((a, b) => a.day.localeCompare(b.day));
+        return { naiveTotal, dedupTotal };
+      }
+
+      function escapeHtml(s) {
+        return String(s).replace(/[&<>"']/g, c => ({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;' }[c]));
+      }
+
+      function renderResults(naiveTotal, dedupTotal) {
+        const days = reportRows.length;
+        const doubleCounted = Math.max(naiveTotal - dedupTotal, 0);
+        const inflation = dedupTotal > 0 ? (doubleCounted / dedupTotal) * 100 : 0;
+
+        $('statDays').textContent = fmt(days);
+        $('statNaive').textContent = fmt(naiveTotal);
+        $('statDedup').textContent = fmt(dedupTotal);
+        $('statInflation').textContent = inflation.toFixed(1) + '%';
+
+        let verdict;
+        if (inflation < 5) {
+          verdict = `Good news — your raw export is barely inflated (${inflation.toFixed(1)}%). You mostly rely on a single step source, so summing the raw records gives roughly the right number.`;
+        } else if (inflation < 25) {
+          verdict = `Your raw export is inflated by ${inflation.toFixed(1)}%. Some overlap between your devices is double counting steps, but it's moderate. Use the deduplicated total (${fmt(dedupTotal)}) for accurate numbers.`;
+        } else {
+          verdict = `Your raw export is inflated by ${inflation.toFixed(1)}% — a classic sign that your iPhone and Apple Watch are both logging the same walks. The Health app already corrects this on screen; use the deduplicated total (${fmt(dedupTotal)}) instead of the raw sum (${fmt(naiveTotal)}).`;
+        }
+        $('verdict').textContent = verdict;
+
+        const top = reportRows.slice().sort((a, b) => b.doubleCounted - a.doubleCounted).slice(0, 10);
+        $('daysBody').innerHTML = top.map(r => `
+          <tr class="border-b border-white/5">
+            <td class="py-2 pr-4">${r.day}</td>
+            <td class="py-2 pr-4 text-right text-sky-300">${fmt(r.naive)}</td>
+            <td class="py-2 pr-4 text-right text-emerald-300">${fmt(r.dedup)}</td>
+            <td class="py-2 pr-4 text-right text-rose-400">${fmt(r.doubleCounted)}</td>
+            <td class="py-2 text-right">${r.inflation.toFixed(0)}%</td>
+          </tr>`).join('') || '<tr><td class="py-3 text-slate-400" colspan="5">No overlapping days found.</td></tr>';
+
+        const sources = [...sourceTotals.entries()].sort((a, b) => b[1].steps - a[1].steps);
+        const rawSum = sources.reduce((s, [, v]) => s + v.steps, 0) || 1;
+        $('sourceBody').innerHTML = sources.map(([name, v]) => `
+          <tr class="border-b border-white/5">
+            <td class="py-2 pr-4">${escapeHtml(name)}</td>
+            <td class="py-2 pr-4 text-right">${fmt(v.count)}</td>
+            <td class="py-2 pr-4 text-right">${fmt(v.steps)}</td>
+            <td class="py-2 text-right">${((v.steps / rawSum) * 100).toFixed(1)}%</td>
+          </tr>`).join('');
+
+        if (sources.length >= 2) {
+          $('overlapNote').textContent = `Your two biggest sources are "${sources[0][0]}" (${((sources[0][1].steps/rawSum)*100).toFixed(0)}% of raw steps) and "${sources[1][0]}" (${((sources[1][1].steps/rawSum)*100).toFixed(0)}%). Where their recordings overlap in time is where most of the double counting comes from.`;
+        } else {
+          $('overlapNote').textContent = 'Only one step source was found, so there is essentially no cross-source double counting in your data.';
+        }
+
+        drawChart();
+        results.classList.remove('hidden');
+        lucide.createIcons();
+      }
+
+      // Compact monthly bar chart: naive (sky) vs dedup (emerald).
+      function drawChart() {
+        const canvas = $('chart');
+        const ctx = canvas.getContext('2d');
+        const dpr = window.devicePixelRatio || 1;
+        const cssW = canvas.clientWidth || 600;
+        const cssH = 220;
+        canvas.width = cssW * dpr;
+        canvas.height = cssH * dpr;
+        ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+        ctx.clearRect(0, 0, cssW, cssH);
+
+        const byMonth = new Map();
+        for (const r of reportRows) {
+          const mk = r.day.slice(0, 7);
+          let o = byMonth.get(mk);
+          if (!o) { o = { naive: 0, dedup: 0 }; byMonth.set(mk, o); }
+          o.naive += r.naive; o.dedup += r.dedup;
+        }
+        let months = [...byMonth.entries()].sort((a, b) => a[0].localeCompare(b[0]));
+        if (months.length > 18) months = months.slice(months.length - 18);
+        if (!months.length) return;
+
+        const maxVal = Math.max(...months.map(([, o]) => o.naive)) || 1;
+        const padL = 8, padR = 8, padT = 10, padB = 28;
+        const plotW = cssW - padL - padR;
+        const plotH = cssH - padT - padB;
+        const groupW = plotW / months.length;
+        const barW = Math.max(Math.min(groupW * 0.36, 22), 3);
+
+        ctx.font = '10px JetBrains Mono, monospace';
+        ctx.textAlign = 'center';
+
+        months.forEach(([mk, o], i) => {
+          const cx = padL + groupW * i + groupW / 2;
+          const nH = (o.naive / maxVal) * plotH;
+          const dH = (o.dedup / maxVal) * plotH;
+          ctx.fillStyle = 'rgba(56,189,248,0.85)';
+          ctx.fillRect(cx - barW, padT + plotH - nH, barW, nH);
+          ctx.fillStyle = 'rgba(16,185,129,0.9)';
+          ctx.fillRect(cx + 1, padT + plotH - dH, barW, dH);
+          if (months.length <= 8 || i % Math.ceil(months.length / 8) === 0) {
+            ctx.fillStyle = '#64748b';
+            ctx.fillText(mk.slice(2), cx, cssH - 10);
+          }
+        });
+      }
+
+      function downloadCSV() {
+        const lines = ['date,naive_steps,deduplicated_steps,double_counted_steps,inflation_percent'];
+        for (const r of reportRows) {
+          lines.push([r.day, Math.round(r.naive), Math.round(r.dedup), Math.round(r.doubleCounted), r.inflation.toFixed(1)].join(','));
+        }
+        const blob = new Blob([lines.join('\n')], { type: 'text/csv' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = 'apple-health-duplicate-steps-report.csv';
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+      }
+
+      async function processFile(file) {
+        hideNotice();
+        results.classList.add('hidden');
+
+        if (/\.zip$/i.test(file.name)) {
+          showNotice('That looks like the export.zip. Please unzip it first and select the export.xml file inside the apple_health_export folder.');
+          return;
+        }
+        if (!/\.xml$/i.test(file.name) && file.type.indexOf('xml') === -1) {
+          showNotice('Please select the export.xml file from your Apple Health export.');
+          return;
+        }
+
+        dayMap = new Map();
+        sourceTotals = new Map();
+
+        progressWrap.classList.remove('hidden');
+        progressBar.style.width = '0%';
+        progressPct.textContent = '0%';
+        progressLabel.textContent = 'Scanning step records…';
+        progressStats.textContent = '';
+
+        const decoder = new TextDecoder('utf-8');
+        const total = file.size;
+        let offset = 0;
+        let carry = '';
+        let recordCount = 0;
+
+        try {
+          while (offset < total) {
+            const buf = await file.slice(offset, offset + CHUNK).arrayBuffer();
+            const text = carry + decoder.decode(buf, { stream: true });
+
+            // Keep any trailing partial tag for the next chunk.
+            const lastGt = text.lastIndexOf('>');
+            let processable;
+            if (lastGt === -1) { processable = ''; carry = text; }
+            else { processable = text.slice(0, lastGt + 1); carry = text.slice(lastGt + 1); }
+
+            let idx = 0;
+            while (true) {
+              const rs = processable.indexOf('<Record ', idx);
+              if (rs === -1) break;
+              const re = processable.indexOf('>', rs);
+              if (re === -1) break;
+              if (handleRecordLine(processable.slice(rs, re + 1))) recordCount++;
+              idx = re + 1;
+            }
+
+            offset += CHUNK;
+            const pct = Math.min((offset / total) * 100, 100);
+            progressBar.style.width = pct.toFixed(1) + '%';
+            progressPct.textContent = pct.toFixed(0) + '%';
+            progressStats.textContent = `${(Math.min(offset, total) / 1048576).toFixed(0)} MB / ${(total / 1048576).toFixed(0)} MB · ${recordCount.toLocaleString()} step records found`;
+            await new Promise(r => setTimeout(r, 0));
+          }
+
+          progressLabel.textContent = 'Deduplicating…';
+          await new Promise(r => setTimeout(r, 30));
+
+          if (dayMap.size === 0) {
+            progressWrap.classList.add('hidden');
+            showNotice('No step count records were found in this file. Make sure you selected export.xml (not export_cda.xml) from an iPhone that tracks steps.');
+            return;
+          }
+
+          const { naiveTotal, dedupTotal } = computeResults();
+          progressWrap.classList.add('hidden');
+          renderResults(naiveTotal, dedupTotal);
+          results.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        } catch (err) {
+          progressWrap.classList.add('hidden');
+          showNotice('Something went wrong reading the file: ' + err.message);
+        }
+      }
+
+      dropzone.addEventListener('click', () => fileInput.click());
+      fileInput.addEventListener('change', (e) => { if (e.target.files[0]) processFile(e.target.files[0]); });
+
+      ['dragover', 'dragenter'].forEach(ev => dropzone.addEventListener(ev, (e) => { e.preventDefault(); dropzone.classList.add('drag'); }));
+      ['dragleave', 'dragend', 'drop'].forEach(ev => dropzone.addEventListener(ev, (e) => { e.preventDefault(); dropzone.classList.remove('drag'); }));
+      dropzone.addEventListener('drop', (e) => { const f = e.dataTransfer.files[0]; if (f) processFile(f); });
+
+      $('downloadBtn').addEventListener('click', downloadCSV);
+      $('resetBtn').addEventListener('click', () => {
+        results.classList.add('hidden');
+        fileInput.value = '';
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      });
+
+      window.addEventListener('resize', () => { if (!results.classList.contains('hidden')) drawChart(); });
+    })();
+    </script>
+
+    <script>lucide.createIcons();</script>
+</body>
+</html>

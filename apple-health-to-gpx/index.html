@@ -1,0 +1,736 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Export Apple Health Workouts to Strava &amp; Garmin (GPX/TCX) — Free Online Tool | Apple Health Data</title>
+    <meta name="description" content="Free, private tool to export Apple Health workouts to Strava, Garmin Connect &amp; TrainingPeaks. Convert Apple Watch workouts to TCX with heart rate — runs 100% in your browser, nothing uploaded.">
+    <meta name="keywords" content="export apple health workouts to strava, apple health to gpx, apple watch workout to garmin, apple health tcx export, healthkit workout export, apple health workout converter, upload apple watch workout to strava, apple health to trainingpeaks">
+    <meta name="apple-itunes-app" content="app-id=6749297170">
+    <link rel="canonical" href="https://applehealthdata.com/apple-health-to-gpx/">
+    <meta property="og:title" content="Export Apple Health Workouts to Strava &amp; Garmin (GPX/TCX)">
+    <meta property="og:description" content="Convert Apple Watch workouts to TCX with heart rate for Strava, Garmin &amp; TrainingPeaks. Free, private, runs entirely in your browser.">
+    <meta property="og:url" content="https://applehealthdata.com/apple-health-to-gpx/">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="AppleHealthData.com">
+    <meta property="og:image" content="https://applehealthdata.com/images/iphone-app-screenshot.png">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Export Apple Health Workouts to Strava &amp; Garmin (GPX/TCX)">
+    <meta name="twitter:description" content="Convert Apple Watch workouts to TCX with heart rate for Strava, Garmin &amp; TrainingPeaks. Free, private, in-browser.">
+    <meta name="twitter:image" content="https://applehealthdata.com/images/iphone-app-screenshot.png">
+    <meta name="robots" content="index,follow,max-image-preview:large">
+    <meta name="author" content="Keith Rumjahn">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap">
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script defer src="https://umami.rumjahn.synology.me/script.js" data-website-id="5d7b4fa8-90b2-4191-8daf-8ea487a8d961"></script>
+    <!-- Matomo -->
+    <script>
+      var _paq = window._paq = window._paq || [];
+      _paq.push(['trackPageView']);
+      _paq.push(['enableLinkTracking']);
+      (function() {
+        var u="//shrewd-lyrebird.pikapod.net/";
+        _paq.push(['setTrackerUrl', u+'matomo.php']);
+        _paq.push(['setSiteId', '9']);
+        var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
+        g.async=true; g.src=u+'matomo.js'; s.parentNode.insertBefore(g,s);
+      })();
+    </script>
+
+    <!-- Structured data: SoftwareApplication -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "SoftwareApplication",
+      "name": "Apple Health Workout to GPX/TCX Exporter",
+      "applicationCategory": "HealthApplication",
+      "operatingSystem": "Any (web browser)",
+      "description": "Free browser-based tool that converts Apple Health / Apple Watch workouts into TCX files (with heart rate) you can upload to Strava, Garmin Connect, or TrainingPeaks. All processing is local, nothing is uploaded.",
+      "url": "https://applehealthdata.com/apple-health-to-gpx/",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      }
+    }
+    </script>
+
+    <!-- Structured data: FAQPage -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "How do I export Apple Health workouts to Strava?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Export your data from the iPhone Health app (Profile then Export All Health Data), unzip it, and load export.xml into this tool. It lists every workout; select the ones you want and download each as a TCX file. In Strava, use Upload Activity then File and choose the TCX. Strava reads TCX time, distance, calories, and heart-rate data."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Why TCX instead of GPX?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "GPX is built for GPS tracks (latitude/longitude points). TCX (Training Center XML) is designed for workouts and carries heart rate, calories, distance, and lap data even when there is no GPS route. Apple's export.xml stores workout summaries and heart-rate samples but not GPS coordinates, so TCX preserves more of your data. Strava, Garmin Connect, and TrainingPeaks all accept TCX."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Where are my GPS routes for outdoor runs and rides?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "GPS routes are not in export.xml. They live in the export ZIP under workout-routes/ as individual .gpx files (for example route_2024-01-01_8.00am.gpx). You can upload those .gpx files to Strava or Garmin directly, no conversion needed. This tool is for the many workouts that have no route file: indoor rides, treadmill runs, pool swims, strength and gym sessions."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Is my health data uploaded anywhere?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "No. The entire tool runs in your browser using JavaScript. Your export.xml is read locally with the File API, parsed in chunks, and the TCX files are generated on your device. Nothing is sent to any server."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Will my heart rate show up in Strava or Garmin?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes. The tool matches every heart-rate sample that falls inside each workout's start and end time and writes them as Trackpoints with HeartRateBpm in the TCX. Strava and Garmin display the heart-rate graph and average/max HR from that data."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "My export.xml is huge, will this crash my browser?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "No. Apple Health exports are often 100 MB to over 1 GB. Instead of loading the whole file at once, this tool streams it in 8 MB chunks and extracts only workouts and heart-rate records, so memory stays low and a progress bar shows how far along it is."
+          }
+        }
+      ]
+    }
+    </script>
+
+    <style>
+      body { font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif; background-color:#020617; color:#f8fafc; }
+      code, .mono { font-family: 'JetBrains Mono', monospace; }
+      .mesh-gradient { position: fixed; inset: 0; z-index: -1; background: radial-gradient(at 0% 0%, rgba(225,29,72,.15), transparent 50%), radial-gradient(at 100% 0%, rgba(56,189,248,.15), transparent 50%), radial-gradient(at 100% 100%, rgba(168,85,247,.15), transparent 50%); filter: blur(60px); }
+      .glass { background:rgba(255,255,255,.04); border:1px solid rgba(255,255,255,.1); border-radius:1rem; }
+      .drop-active { border-color:rgba(244,63,94,.7) !important; background:rgba(244,63,94,.08) !important; }
+      #wkTable tbody tr:hover { background:rgba(255,255,255,.03); }
+      .prog-bar { transition: width .15s linear; }
+    </style>
+</head>
+<body>
+    <div class="mesh-gradient"></div>
+
+    <nav class="fixed w-full z-50 border-b border-white/10 bg-slate-950/50 backdrop-blur-xl">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8"><div class="flex justify-between items-center h-20">
+        <a href="/" class="flex items-center gap-3">
+          <div class="w-10 h-10 bg-gradient-to-tr from-rose-600 to-orange-500 rounded-xl flex items-center justify-center shadow-lg shadow-rose-500/20"><i data-lucide="activity" class="w-6 h-6 text-white"></i></div>
+          <div><span class="font-bold text-lg tracking-tight text-white block leading-none">Health Data</span><span class="text-xs text-slate-400 tracking-wider uppercase font-semibold">Export &amp; Analyze</span></div>
+        </a>
+        <a href="/tools/" class="text-slate-300 hover:text-white text-sm font-semibold">All Free Tools</a>
+      </div></div>
+    </nav>
+
+    <main class="pt-32 pb-20">
+      <div class="max-w-4xl mx-auto px-4">
+
+        <!-- Hero / H1 -->
+        <header class="text-center mb-10">
+          <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/5 border border-white/10 text-xs font-semibold text-slate-300 mb-5">
+            <i data-lucide="shield-check" class="w-4 h-4 text-emerald-400"></i>
+            Your data never leaves your browser
+          </div>
+          <h1 class="text-4xl sm:text-5xl font-extrabold tracking-tight leading-tight">Export Apple Health Workouts to Strava &amp; Garmin</h1>
+          <p class="text-lg text-slate-400 mt-4 max-w-2xl mx-auto">Turn Apple Watch workouts into TCX files with heart rate for Strava, Garmin Connect, and TrainingPeaks. Free, private, and runs entirely in your browser, nothing is uploaded.</p>
+        </header>
+
+        <!-- THE TOOL -->
+        <section class="glass p-6 sm:p-8">
+          <!-- Drop zone -->
+          <div id="dropZone" class="border-2 border-dashed border-white/15 rounded-2xl p-8 text-center cursor-pointer transition-colors hover:border-white/30">
+            <input id="fileInput" type="file" accept=".xml" class="hidden" />
+            <div class="w-14 h-14 mx-auto mb-4 rounded-2xl bg-rose-600/15 flex items-center justify-center">
+              <i data-lucide="upload-cloud" class="w-7 h-7 text-rose-400"></i>
+            </div>
+            <p class="font-semibold text-white">Drop your <code class="text-rose-300">export.xml</code> here, or click to choose</p>
+            <p class="text-sm text-slate-400 mt-1">Everything is processed locally. Nothing is uploaded.</p>
+          </div>
+
+          <!-- Progress -->
+          <div id="progressWrap" class="hidden mt-6">
+            <div class="flex justify-between text-sm text-slate-400 mb-2">
+              <span id="progressLabel">Parsing...</span>
+              <span id="progressPct" class="mono">0%</span>
+            </div>
+            <div class="w-full h-2 rounded-full bg-white/10 overflow-hidden">
+              <div id="progressBar" class="prog-bar h-full bg-gradient-to-r from-rose-600 to-orange-500" style="width:0%"></div>
+            </div>
+            <p id="progressStats" class="text-xs text-slate-500 mt-2 mono"></p>
+          </div>
+
+          <!-- Status / errors -->
+          <div id="status" class="hidden mt-5 text-sm"></div>
+
+          <!-- Results -->
+          <div id="results" class="hidden mt-6">
+            <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 mb-4">
+              <div>
+                <p id="resultCount" class="font-semibold text-white"></p>
+                <p class="text-xs text-slate-400 mt-0.5">Select workouts, then download as TCX for Strava / Garmin / TrainingPeaks.</p>
+              </div>
+              <div class="flex flex-wrap gap-2">
+                <button id="selectAll" class="px-3 py-2 rounded-full bg-white/10 hover:bg-white/20 text-sm font-semibold">Select all</button>
+                <button id="selectNone" class="px-3 py-2 rounded-full bg-white/10 hover:bg-white/20 text-sm font-semibold">Clear</button>
+                <button id="downloadSelected" class="px-4 py-2 rounded-full bg-rose-600 hover:bg-rose-700 text-sm font-bold flex items-center gap-2">
+                  <i data-lucide="download" class="w-4 h-4"></i> Download selected (TCX)
+                </button>
+              </div>
+            </div>
+
+            <div class="overflow-x-auto rounded-xl border border-white/10">
+              <table id="wkTable" class="w-full text-sm text-left">
+                <thead class="bg-white/5 text-slate-300 uppercase text-xs tracking-wider">
+                  <tr>
+                    <th class="p-3 w-10"><input id="headCheck" type="checkbox" class="h-4 w-4 align-middle" checked /></th>
+                    <th class="p-3">Activity</th>
+                    <th class="p-3">Date</th>
+                    <th class="p-3 text-right">Duration</th>
+                    <th class="p-3 text-right">Distance</th>
+                    <th class="p-3 text-right">Energy</th>
+                    <th class="p-3 text-right">HR pts</th>
+                    <th class="p-3 text-right">TCX</th>
+                  </tr>
+                </thead>
+                <tbody></tbody>
+              </table>
+            </div>
+          </div>
+
+          <p class="text-xs text-slate-500 mt-4 flex items-start gap-2">
+            <i data-lucide="lock" class="w-3.5 h-3.5 mt-0.5 shrink-0 text-emerald-400"></i>
+            100% client-side. Your <code>export.xml</code> is read with the browser File API, parsed in 8&nbsp;MB chunks, and TCX files are built on your device. No server, no account, no tracking of your health data.
+          </p>
+        </section>
+
+        <!-- GPS route honesty note -->
+        <section class="glass p-6 mt-6 border-l-2 border-l-sky-500/50">
+          <h2 class="text-lg font-bold text-white flex items-center gap-2"><i data-lucide="map-pin" class="w-5 h-5 text-sky-400"></i> Have outdoor runs or rides with a GPS map?</h2>
+          <p class="text-slate-400 mt-2 text-[15px] leading-relaxed">
+            GPS routes are <strong class="text-slate-200">not</strong> stored in <code>export.xml</code>. In your export ZIP, look in the
+            <code class="text-sky-300">workout-routes/</code> folder, each outdoor workout has its own <code>.gpx</code> file
+            (like <code>route_2024-01-01_8.00am.gpx</code>). Those files already contain latitude/longitude, so you can
+            <strong class="text-slate-200">upload them straight to Strava or Garmin</strong> with no conversion.
+          </p>
+          <p class="text-slate-400 mt-3 text-[15px] leading-relaxed">
+            This tool handles everything else, the workouts that have no route file: <strong class="text-slate-200">indoor cycling, treadmill runs, pool swims, strength &amp; gym sessions, yoga, HIIT</strong>. It builds a TCX carrying their time, heart rate, calories, and distance.
+          </p>
+        </section>
+
+        <!-- How to use -->
+        <section class="mt-14">
+          <h2 class="text-3xl font-bold text-white">How to use it</h2>
+          <ol class="mt-6 space-y-4">
+            <li class="flex gap-4">
+              <span class="shrink-0 w-8 h-8 rounded-full bg-rose-600/20 text-rose-300 font-bold flex items-center justify-center">1</span>
+              <p class="text-lg text-slate-400">On your iPhone, open the <strong class="text-slate-200">Health app, then your profile photo, then Export All Health Data</strong>. Save the ZIP and transfer it to your computer.</p>
+            </li>
+            <li class="flex gap-4">
+              <span class="shrink-0 w-8 h-8 rounded-full bg-rose-600/20 text-rose-300 font-bold flex items-center justify-center">2</span>
+              <p class="text-lg text-slate-400">Unzip it. You'll get an <code class="text-rose-300">apple_health_export</code> folder containing <code>export.xml</code> (and, for outdoor activities, a <code>workout-routes/</code> folder of <code>.gpx</code> files).</p>
+            </li>
+            <li class="flex gap-4">
+              <span class="shrink-0 w-8 h-8 rounded-full bg-rose-600/20 text-rose-300 font-bold flex items-center justify-center">3</span>
+              <p class="text-lg text-slate-400">Drop <code>export.xml</code> into the box above. The tool streams the file and lists every workout it finds.</p>
+            </li>
+            <li class="flex gap-4">
+              <span class="shrink-0 w-8 h-8 rounded-full bg-rose-600/20 text-rose-300 font-bold flex items-center justify-center">4</span>
+              <p class="text-lg text-slate-400">Tick the workouts you want and click <strong class="text-slate-200">Download selected</strong> (or use the per-row button). Each becomes a <code>.tcx</code> file.</p>
+            </li>
+            <li class="flex gap-4">
+              <span class="shrink-0 w-8 h-8 rounded-full bg-rose-600/20 text-rose-300 font-bold flex items-center justify-center">5</span>
+              <p class="text-lg text-slate-400">In <strong class="text-slate-200">Strava</strong> use <em>Upload, then File</em>; in <strong class="text-slate-200">Garmin Connect</strong> use <em>Import Data</em>; in <strong class="text-slate-200">TrainingPeaks</strong> use <em>Upload</em>. Select the TCX and you're done.</p>
+            </li>
+          </ol>
+        </section>
+
+        <!-- SEO content -->
+        <section class="mt-14 space-y-6">
+          <h2 class="text-3xl font-bold text-white">Moving Apple Watch workouts into Strava, Garmin, and TrainingPeaks</h2>
+          <p class="text-lg text-slate-400 leading-relaxed">
+            The Apple Watch is a superb activity tracker, but Apple Health keeps your workouts in its own walled garden. If you're switching to a Garmin, coaching in TrainingPeaks, or you simply want your full training history on Strava, you need a way to get those sessions out. Apple's <strong class="text-slate-200">Export All Health Data</strong> gives you a ZIP with an <code>export.xml</code> file, but that file is raw HealthKit XML, not something Strava or Garmin can read. This tool bridges that gap entirely in your browser.
+          </p>
+
+          <h3 class="text-2xl font-bold text-white">What the tool actually does</h3>
+          <p class="text-lg text-slate-400 leading-relaxed">
+            It reads <code>export.xml</code> in 8&nbsp;MB chunks (these files are routinely 100&nbsp;MB to over 1&nbsp;GB, so loading the whole thing at once would crash the tab). As it streams, it collects two things: every <code>&lt;Workout&gt;</code> block, its activity type, start and end time, duration, distance, and active energy, plus every <code>HKQuantityTypeIdentifierHeartRate</code> sample. For each workout you export, it pulls the heart-rate samples that fall inside that workout's time window and writes them into the file. If a workout's own attributes are missing a distance total, it sums the matching <code>DistanceWalkingRunning</code> or <code>DistanceCycling</code> records inside the same window instead.
+          </p>
+
+          <h3 class="text-2xl font-bold text-white">Why TCX, not GPX</h3>
+          <p class="text-lg text-slate-400 leading-relaxed">
+            GPX is a GPS-track format: its whole job is to store latitude/longitude points. TCX (Garmin's Training Center XML) is built for <em>workouts</em>, it carries laps, total time, distance, calories, and, crucially, <strong class="text-slate-200">heart-rate samples</strong>, even when there's no GPS trace. Apple's <code>export.xml</code> stores workout summaries and heart-rate readings but not coordinates, so TCX is the format that preserves the most of your data. Strava, Garmin Connect, and TrainingPeaks all import TCX natively, which is why this tool produces TCX rather than an empty GPX.
+          </p>
+
+          <h3 class="text-2xl font-bold text-white">A note on GPS routes</h3>
+          <p class="text-lg text-slate-400 leading-relaxed">
+            If you did an outdoor run or ride, its GPS route isn't in <code>export.xml</code> at all, Apple stores it separately in the <code>workout-routes/</code> folder of your export ZIP as a ready-to-use <code>.gpx</code> file. You can upload those directly to Strava or Garmin without any conversion. This tool deliberately focuses on the large category of workouts that have <em>no</em> route: indoor bike sessions, treadmill runs, pool and open-water swims logged without GPS, strength training, yoga, HIIT, and gym classes. For those, a TCX with time, heart rate, calories, and distance is exactly what you want.
+          </p>
+
+          <h3 class="text-2xl font-bold text-white">How the generated TCX is built</h3>
+          <p class="text-lg text-slate-400 leading-relaxed">
+            Each file is a valid <code>TrainingCenterDatabase</code> document. The workout's <code>HKWorkoutActivityType</code> is mapped to a TCX <code>Sport</code> (Running, Biking, or Other), and the session becomes one <code>Activity</code> with a single <code>Lap</code> holding <code>TotalTimeSeconds</code>, <code>DistanceMeters</code>, and <code>Calories</code>. Inside the lap, a <code>Track</code> lists each in-window heart-rate reading as a <code>Trackpoint</code> with a <code>Time</code> and a <code>HeartRateBpm</code> value. When Strava or Garmin ingest the file, that's what produces your heart-rate graph and your average and max HR.
+          </p>
+
+          <h3 class="text-2xl font-bold text-white">Reading the results table</h3>
+          <p class="text-lg text-slate-400 leading-relaxed">
+            Every workout in your export is listed with its activity, date, duration, distance, energy burned, and how many heart-rate points were matched to it. A workout showing <code>0</code> HR points simply means Apple didn't log heart rate for that session (common for very short or manually-added workouts), the TCX is still valid and will import with its time, distance, and calories. Everything you see is computed from your real data; nothing is estimated or faked.
+          </p>
+        </section>
+
+        <!-- FAQ -->
+        <section class="mt-14">
+          <h2 class="text-3xl font-bold text-white">Frequently asked questions</h2>
+          <div class="mt-6 space-y-4">
+            <details class="glass p-5" open>
+              <summary class="font-semibold text-white cursor-pointer">How do I export Apple Health workouts to Strava?</summary>
+              <p class="text-slate-400 mt-3">Export your data from the iPhone Health app (Profile, then Export All Health Data), unzip it, and load <code>export.xml</code> into this tool. It lists every workout; select the ones you want and download each as a TCX file. In Strava, use <em>Upload Activity, then File</em> and choose the TCX. Strava reads TCX time, distance, calories, and heart-rate data.</p>
+            </details>
+            <details class="glass p-5">
+              <summary class="font-semibold text-white cursor-pointer">Why TCX instead of GPX?</summary>
+              <p class="text-slate-400 mt-3">GPX is built for GPS tracks (latitude/longitude points). TCX is designed for workouts and carries heart rate, calories, distance, and lap data even when there is no GPS route. Apple's <code>export.xml</code> stores workout summaries and heart-rate samples but not coordinates, so TCX preserves more of your data. Strava, Garmin Connect, and TrainingPeaks all accept TCX.</p>
+            </details>
+            <details class="glass p-5">
+              <summary class="font-semibold text-white cursor-pointer">Where are my GPS routes for outdoor runs and rides?</summary>
+              <p class="text-slate-400 mt-3">GPS routes are not in <code>export.xml</code>. They live in the export ZIP under <code>workout-routes/</code> as individual <code>.gpx</code> files. You can upload those <code>.gpx</code> files to Strava or Garmin directly, no conversion needed. This tool is for the many workouts that have no route file: indoor rides, treadmill runs, pool swims, strength, and gym sessions.</p>
+            </details>
+            <details class="glass p-5">
+              <summary class="font-semibold text-white cursor-pointer">Is my health data uploaded anywhere?</summary>
+              <p class="text-slate-400 mt-3">No. The entire tool runs in your browser using JavaScript. Your <code>export.xml</code> is read locally with the File API, parsed in chunks, and the TCX files are generated on your device. Nothing is sent to any server.</p>
+            </details>
+            <details class="glass p-5">
+              <summary class="font-semibold text-white cursor-pointer">Will my heart rate show up in Strava or Garmin?</summary>
+              <p class="text-slate-400 mt-3">Yes. The tool matches every heart-rate sample that falls inside each workout's start and end time and writes them as Trackpoints with <code>HeartRateBpm</code> in the TCX. Strava and Garmin display the heart-rate graph and average/max HR from that data.</p>
+            </details>
+            <details class="glass p-5">
+              <summary class="font-semibold text-white cursor-pointer">My export.xml is huge, will this crash my browser?</summary>
+              <p class="text-slate-400 mt-3">No. Apple Health exports are often 100&nbsp;MB to over 1&nbsp;GB. Instead of loading the whole file at once, this tool streams it in 8&nbsp;MB chunks and extracts only workouts and heart-rate records, so memory stays low and a progress bar shows how far along it is.</p>
+            </details>
+          </div>
+        </section>
+
+        <!-- Cross-links -->
+        <section class="mt-14">
+          <h2 class="text-xl font-bold text-white mb-4">More free tools</h2>
+          <div class="flex flex-wrap gap-3 text-sm">
+            <a href="/tools/" class="px-4 py-2 rounded-full bg-white/10 hover:bg-white/20 font-semibold">All free tools</a>
+            <a href="/convert-tool/" class="px-4 py-2 rounded-full bg-white/10 hover:bg-white/20 font-semibold">XML to CSV Converter</a>
+            <a href="/apple-health-export-validator/" class="px-4 py-2 rounded-full bg-white/10 hover:bg-white/20 font-semibold">Export Validator</a>
+            <a href="/apple-health-export-splitter/" class="px-4 py-2 rounded-full bg-white/10 hover:bg-white/20 font-semibold">Export Splitter</a>
+            <a href="/heart-rate-zone-calculator/" class="px-4 py-2 rounded-full bg-white/10 hover:bg-white/20 font-semibold">Heart Rate Zones</a>
+            <a href="/fitness-age-calculator/" class="px-4 py-2 rounded-full bg-white/10 hover:bg-white/20 font-semibold">Fitness Age</a>
+          </div>
+        </section>
+
+        <!-- CTA -->
+        <section class="glass p-8 mt-14 text-center">
+          <h2 class="text-2xl font-bold text-white">Want deeper analysis?</h2>
+          <p class="text-slate-400 mt-2 max-w-xl mx-auto">Get trends, charts, and AI insights across every metric in your Apple Health export: steps, sleep, HRV, workouts, and more.</p>
+          <div class="mt-6 flex flex-wrap justify-center gap-3">
+            <a href="/go/website.html?c=ah_gpx" data-cta-location="cta_block" class="px-6 py-3 rounded-full bg-rose-600 hover:bg-rose-700 font-bold flex items-center gap-2">
+              <i data-lucide="smartphone" class="w-5 h-5"></i> Download iOS App
+            </a>
+            <a href="https://github.com/krumjahn/applehealth" class="px-6 py-3 rounded-full bg-white/10 hover:bg-white/20 font-bold flex items-center gap-2">
+              <i data-lucide="github" class="w-5 h-5"></i> Get Mac Analyzer
+            </a>
+          </div>
+        </section>
+
+      </div>
+    </main>
+
+    <script>
+    (function () {
+      const CHUNK = 8 * 1024 * 1024;   // 8MB read window
+
+      const fileInput = document.getElementById('fileInput');
+      const dropZone = document.getElementById('dropZone');
+      const progressWrap = document.getElementById('progressWrap');
+      const progressBar = document.getElementById('progressBar');
+      const progressPct = document.getElementById('progressPct');
+      const progressLabel = document.getElementById('progressLabel');
+      const progressStats = document.getElementById('progressStats');
+      const statusEl = document.getElementById('status');
+      const resultsEl = document.getElementById('results');
+      const resultCount = document.getElementById('resultCount');
+      const tbody = document.querySelector('#wkTable tbody');
+
+      let workouts = [];
+      let hrSamples = [];
+      let distSamples = [];
+
+      function showStatus(msg, kind) {
+        statusEl.classList.remove('hidden');
+        const color = kind === 'error' ? 'text-rose-300 bg-rose-500/10 border-rose-500/30'
+                    : kind === 'warn'  ? 'text-amber-300 bg-amber-500/10 border-amber-500/30'
+                    : 'text-slate-300 bg-white/5 border-white/10';
+        statusEl.className = 'mt-5 text-sm p-3 rounded-lg border ' + color;
+        statusEl.innerHTML = msg;
+      }
+
+      // Apple dates look like "2024-01-01 08:00:00 +0800".
+      function parseAppleDate(s) {
+        if (!s) return NaN;
+        const m = s.match(/^(\d{4}-\d{2}-\d{2}) (\d{2}:\d{2}:\d{2})\s*([+-]\d{2})(\d{2})$/);
+        if (m) return Date.parse(m[1] + 'T' + m[2] + m[3] + ':' + m[4]);
+        return Date.parse(s.replace(' ', 'T'));
+      }
+      function toTcxTime(ms) { return new Date(ms).toISOString(); }
+
+      function getAttr(fragment, name) {
+        const m = fragment.match(new RegExp('\\b' + name + '="([^"]*)"'));
+        return m ? m[1] : '';
+      }
+
+      const SPORT_MAP = {
+        HKWorkoutActivityTypeRunning: 'Running',
+        HKWorkoutActivityTypeWalking: 'Running',
+        HKWorkoutActivityTypeHiking: 'Running',
+        HKWorkoutActivityTypeCycling: 'Biking',
+        HKWorkoutActivityTypeIndoorCycling: 'Biking',
+        HKWorkoutActivityTypeHandCycling: 'Biking'
+      };
+      function toSport(t) { return SPORT_MAP[t] || 'Other'; }
+
+      function activityLabel(t) {
+        const s = (t || '').replace(/^HKWorkoutActivityType/, '');
+        return s.replace(/([a-z0-9])([A-Z])/g, '$1 $2') || 'Workout';
+      }
+
+      function xmlEscape(s) {
+        return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+      }
+
+      // Single forward scanner: consume complete <Workout>...</Workout> / <Workout .../>
+      // blocks and <Record .../> tokens from the front of the buffer. Returns the index up
+      // to which text is fully processed, so the caller can trim exactly there. Because we
+      // only ever advance past complete tokens, nothing is scanned twice or dropped, even
+      // when a tag straddles a chunk boundary.
+      function scanBuffer(text) {
+        let consumed = 0;
+        const len = text.length;
+        while (consumed < len) {
+          const lt = text.indexOf('<', consumed);
+          if (lt === -1) { consumed = len; break; }
+          if (text.startsWith('<Workout', lt)) {
+            const openEnd = text.indexOf('>', lt);
+            if (openEnd === -1) break; // opening tag split across chunks; wait
+            const selfClose = text[openEnd - 1] === '/';
+            let end;
+            if (selfClose) {
+              end = openEnd + 1;
+            } else {
+              const close = text.indexOf('</Workout>', openEnd);
+              if (close === -1) break; // closing tag not here yet; wait
+              end = close + '</Workout>'.length;
+            }
+            handleWorkoutBlock(text.slice(lt, end));
+            consumed = end;
+          } else if (text.startsWith('<Record', lt)) {
+            const end = text.indexOf('/>', lt);
+            if (end === -1) break; // record line split across chunks; wait
+            collectRecord(text.slice(lt, end + 2));
+            consumed = end + 2;
+          } else {
+            const gt = text.indexOf('>', lt);
+            if (gt === -1) break; // some other tag split across chunks; wait
+            consumed = gt + 1;
+          }
+        }
+        return consumed;
+      }
+
+      function collectRecord(rec) {
+        if (rec.indexOf('HKQuantityTypeIdentifierHeartRate') !== -1) {
+          const t = parseAppleDate(getAttr(rec, 'startDate'));
+          const bpm = parseFloat(getAttr(rec, 'value'));
+          if (!isNaN(t) && !isNaN(bpm)) hrSamples.push({ t, bpm });
+        } else if (rec.indexOf('HKQuantityTypeIdentifierDistanceWalkingRunning') !== -1 ||
+                   rec.indexOf('HKQuantityTypeIdentifierDistanceCycling') !== -1) {
+          const t = parseAppleDate(getAttr(rec, 'startDate'));
+          const val = parseFloat(getAttr(rec, 'value'));
+          const unit = getAttr(rec, 'unit');
+          if (!isNaN(t) && !isNaN(val)) {
+            const meters = unit === 'mi' ? val * 1609.344 : (unit === 'm' ? val : val * 1000);
+            distSamples.push({ t, meters });
+          }
+        }
+      }
+
+      function handleWorkoutBlock(block) {
+        const activityType = getAttr(block, 'workoutActivityType');
+        const start = parseAppleDate(getAttr(block, 'startDate'));
+        const end = parseAppleDate(getAttr(block, 'endDate'));
+        if (isNaN(start) || isNaN(end)) return;
+
+        let durationSec = end > start ? (end - start) / 1000 : 0;
+        const durAttr = parseFloat(getAttr(block, 'duration'));
+        const durUnit = getAttr(block, 'durationUnit');
+        if (!isNaN(durAttr) && durAttr > 0) {
+          durationSec = durUnit === 'min' ? durAttr * 60 : (durUnit === 'hr' ? durAttr * 3600 : durAttr * 60);
+        }
+
+        let distanceMeters = 0, hasOwnDistance = false;
+        const totalDist = parseFloat(getAttr(block, 'totalDistance'));
+        const distUnit = getAttr(block, 'totalDistanceUnit');
+        if (!isNaN(totalDist) && totalDist > 0) {
+          distanceMeters = distUnit === 'mi' ? totalDist * 1609.344 : (distUnit === 'm' ? totalDist : totalDist * 1000);
+          hasOwnDistance = true;
+        }
+
+        let energyKcal = 0;
+        const totalEnergy = parseFloat(getAttr(block, 'totalEnergyBurned'));
+        if (!isNaN(totalEnergy) && totalEnergy > 0) energyKcal = totalEnergy;
+
+        workouts.push({
+          activityType,
+          label: activityLabel(activityType),
+          sport: toSport(activityType),
+          start, end, durationSec,
+          distanceMeters, hasOwnDistance,
+          energyKcal,
+          hr: []
+        });
+      }
+
+      async function parseFile(file) {
+        const name = (file.name || '').toLowerCase();
+        if (name.endsWith('.zip')) {
+          showStatus('That looks like the export <b>.zip</b>. Please unzip it first and select the <code>export.xml</code> inside the <code>apple_health_export</code> folder.', 'warn');
+          return;
+        }
+        if (!name.endsWith('.xml')) {
+          showStatus('Please select your Apple Health <code>export.xml</code> file.', 'warn');
+          return;
+        }
+
+        workouts = []; hrSamples = []; distSamples = [];
+        resultsEl.classList.add('hidden');
+        tbody.innerHTML = '';
+        statusEl.classList.add('hidden');
+        progressWrap.classList.remove('hidden');
+        progressLabel.textContent = 'Parsing your export...';
+        progressBar.style.width = '0%';
+        progressPct.textContent = '0%';
+
+        const decoder = new TextDecoder('utf-8');
+        const total = file.size;
+        let offset = 0;
+        let carry = '';
+
+        try {
+          while (offset < total) {
+            const buf = await file.slice(offset, offset + CHUNK).arrayBuffer();
+            offset += CHUNK;
+            const isLast = offset >= total;
+            carry += decoder.decode(buf, { stream: !isLast });
+
+            const consumed = scanBuffer(carry);
+            carry = carry.slice(consumed);
+
+            const pct = Math.min(100, Math.round((Math.min(offset, total) / total) * 100));
+            progressBar.style.width = pct + '%';
+            progressPct.textContent = pct + '%';
+            progressStats.textContent = workouts.length + ' workouts · ' + hrSamples.length.toLocaleString() +
+              ' HR samples · ' + (Math.min(offset, total) / 1048576).toFixed(0) + '/' + (total / 1048576).toFixed(0) + ' MB';
+            await new Promise(r => setTimeout(r, 0));
+          }
+          scanBuffer(carry); // flush any trailing complete tokens
+          finalize();
+        } catch (err) {
+          progressWrap.classList.add('hidden');
+          showStatus('Something went wrong while reading the file: ' + xmlEscape(err.message || String(err)), 'error');
+        }
+      }
+
+      function finalize() {
+        progressLabel.textContent = 'Matching heart rate to workouts...';
+        hrSamples.sort((a, b) => a.t - b.t);
+        distSamples.sort((a, b) => a.t - b.t);
+
+        for (const w of workouts) {
+          w.hr = hrSamples.filter(s => s.t >= w.start && s.t <= w.end);
+          if (!w.hasOwnDistance) {
+            const dm = distSamples.filter(s => s.t >= w.start && s.t <= w.end)
+                                  .reduce((sum, s) => sum + s.meters, 0);
+            if (dm > 0) w.distanceMeters = dm;
+          }
+        }
+
+        workouts.sort((a, b) => b.start - a.start);
+        progressWrap.classList.add('hidden');
+
+        if (workouts.length === 0) {
+          showStatus('No <code>&lt;Workout&gt;</code> entries were found. Double-check that you selected <code>export.xml</code> (not export_cda.xml) and that you have logged workouts on your Apple Watch or iPhone.', 'warn');
+          return;
+        }
+
+        renderTable();
+        resultsEl.classList.remove('hidden');
+        resultCount.textContent = workouts.length + ' workout' + (workouts.length === 1 ? '' : 's') + ' found';
+        lucide.createIcons();
+      }
+
+      function fmtDate(ms) {
+        const d = new Date(ms);
+        return d.toLocaleDateString(undefined, { year: 'numeric', month: 'short', day: 'numeric' }) +
+               ' ' + d.toLocaleTimeString(undefined, { hour: '2-digit', minute: '2-digit' });
+      }
+      function fmtDur(sec) {
+        const h = Math.floor(sec / 3600), m = Math.floor((sec % 3600) / 60), s = Math.round(sec % 60);
+        return h > 0 ? (h + 'h ' + m + 'm') : (m > 0 ? (m + 'm ' + s + 's') : (s + 's'));
+      }
+      function fmtDist(m) { return m > 0 ? (m / 1000).toFixed(2) + ' km' : '—'; }
+      function fmtEnergy(k) { return k > 0 ? Math.round(k) + ' kcal' : '—'; }
+
+      function renderTable() {
+        tbody.innerHTML = '';
+        workouts.forEach((w, i) => {
+          const tr = document.createElement('tr');
+          tr.className = 'border-t border-white/5';
+          tr.innerHTML =
+            '<td class="p-3"><input type="checkbox" class="rowCheck h-4 w-4 align-middle" data-i="' + i + '" checked></td>' +
+            '<td class="p-3 font-semibold text-white">' + xmlEscape(w.label) + '</td>' +
+            '<td class="p-3 text-slate-400">' + fmtDate(w.start) + '</td>' +
+            '<td class="p-3 text-right text-slate-300 mono">' + fmtDur(w.durationSec) + '</td>' +
+            '<td class="p-3 text-right text-slate-300 mono">' + fmtDist(w.distanceMeters) + '</td>' +
+            '<td class="p-3 text-right text-slate-300 mono">' + fmtEnergy(w.energyKcal) + '</td>' +
+            '<td class="p-3 text-right text-slate-300 mono">' + (w.hr.length ? w.hr.length.toLocaleString() : '<span class="text-slate-600">0</span>') + '</td>' +
+            '<td class="p-3 text-right"><button class="rowDl px-3 py-1.5 rounded-full bg-white/10 hover:bg-white/20 text-xs font-semibold" data-i="' + i + '">Download</button></td>';
+          tbody.appendChild(tr);
+        });
+        tbody.querySelectorAll('.rowDl').forEach(btn => {
+          btn.addEventListener('click', () => downloadOne(parseInt(btn.dataset.i, 10)));
+        });
+      }
+
+      function buildTcx(w) {
+        const startIso = toTcxTime(w.start);
+        let trackpoints = '';
+        if (w.hr.length) {
+          for (const s of w.hr) {
+            trackpoints +=
+              '        <Trackpoint>\n' +
+              '          <Time>' + toTcxTime(s.t) + '</Time>\n' +
+              '          <HeartRateBpm><Value>' + Math.round(s.bpm) + '</Value></HeartRateBpm>\n' +
+              '        </Trackpoint>\n';
+          }
+        } else {
+          trackpoints =
+            '        <Trackpoint><Time>' + startIso + '</Time></Trackpoint>\n' +
+            '        <Trackpoint><Time>' + toTcxTime(w.end) + '</Time></Trackpoint>\n';
+        }
+
+        return '<?xml version="1.0" encoding="UTF-8"?>\n' +
+'<TrainingCenterDatabase\n' +
+'  xmlns="http://www.garmin.com/xmlschemas/TrainingCenterDatabase/v2"\n' +
+'  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"\n' +
+'  xmlns:ns3="http://www.garmin.com/xmlschemas/ActivityExtension/v2"\n' +
+'  xsi:schemaLocation="http://www.garmin.com/xmlschemas/TrainingCenterDatabase/v2 http://www.garmin.com/xmlschemas/TrainingCenterDatabasev2.xsd">\n' +
+'  <Activities>\n' +
+'    <Activity Sport="' + w.sport + '">\n' +
+'      <Id>' + startIso + '</Id>\n' +
+'      <Lap StartTime="' + startIso + '">\n' +
+'        <TotalTimeSeconds>' + w.durationSec.toFixed(1) + '</TotalTimeSeconds>\n' +
+'        <DistanceMeters>' + w.distanceMeters.toFixed(1) + '</DistanceMeters>\n' +
+'        <Calories>' + Math.round(w.energyKcal) + '</Calories>\n' +
+'        <Intensity>Active</Intensity>\n' +
+'        <TriggerMethod>Manual</TriggerMethod>\n' +
+'        <Track>\n' +
+trackpoints +
+'        </Track>\n' +
+'      </Lap>\n' +
+'      <Creator xsi:type="Device_t">\n' +
+'        <Name>Apple Health (via applehealthdata.com)</Name>\n' +
+'      </Creator>\n' +
+'    </Activity>\n' +
+'  </Activities>\n' +
+'  <Author xsi:type="Application_t">\n' +
+'    <Name>Apple Health to GPX/TCX Exporter</Name>\n' +
+'    <Build><Version><VersionMajor>1</VersionMajor><VersionMinor>0</VersionMinor></Version></Build>\n' +
+'    <LangID>en</LangID>\n' +
+'  </Author>\n' +
+'</TrainingCenterDatabase>\n';
+      }
+
+      function filenameFor(w) {
+        const d = new Date(w.start);
+        const pad = n => String(n).padStart(2, '0');
+        const stamp = d.getFullYear() + '-' + pad(d.getMonth() + 1) + '-' + pad(d.getDate()) + '_' + pad(d.getHours()) + pad(d.getMinutes());
+        const slug = w.label.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '') || 'workout';
+        return slug + '_' + stamp + '.tcx';
+      }
+
+      function triggerDownload(blob, filename) {
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = filename;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        setTimeout(() => URL.revokeObjectURL(url), 4000);
+      }
+
+      function downloadOne(i) {
+        const w = workouts[i];
+        const blob = new Blob([buildTcx(w)], { type: 'application/vnd.garmin.tcx+xml' });
+        triggerDownload(blob, filenameFor(w));
+      }
+
+      async function downloadSelected() {
+        const idxs = [].slice.call(tbody.querySelectorAll('.rowCheck:checked')).map(c => parseInt(c.dataset.i, 10));
+        if (idxs.length === 0) { showStatus('Select at least one workout first.', 'warn'); return; }
+        for (const i of idxs) {
+          downloadOne(i);
+          await new Promise(r => setTimeout(r, 400));
+        }
+      }
+
+      dropZone.addEventListener('click', () => fileInput.click());
+      dropZone.addEventListener('dragover', e => { e.preventDefault(); dropZone.classList.add('drop-active'); });
+      dropZone.addEventListener('dragleave', () => dropZone.classList.remove('drop-active'));
+      dropZone.addEventListener('drop', e => {
+        e.preventDefault();
+        dropZone.classList.remove('drop-active');
+        if (e.dataTransfer.files.length) parseFile(e.dataTransfer.files[0]);
+      });
+      fileInput.addEventListener('change', e => { if (e.target.files.length) parseFile(e.target.files[0]); });
+
+      document.getElementById('downloadSelected').addEventListener('click', downloadSelected);
+      document.getElementById('selectAll').addEventListener('click', () => {
+        tbody.querySelectorAll('.rowCheck').forEach(c => c.checked = true);
+        document.getElementById('headCheck').checked = true;
+      });
+      document.getElementById('selectNone').addEventListener('click', () => {
+        tbody.querySelectorAll('.rowCheck').forEach(c => c.checked = false);
+        document.getElementById('headCheck').checked = false;
+      });
+      document.getElementById('headCheck').addEventListener('change', e => {
+        tbody.querySelectorAll('.rowCheck').forEach(c => c.checked = e.target.checked);
+      });
+    })();
+
+    lucide.createIcons();
+    </script>
+</body>
+</html>
