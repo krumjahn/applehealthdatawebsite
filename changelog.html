@@ -57,10 +57,61 @@
     <section class="bento-card p-6 md:p-8 mt-3">
       <h1 class="text-3xl md:text-4xl font-extrabold tracking-tight">Recent App Improvements</h1>
       <p class="mt-3 text-slate-300">A plain-language timeline of what changed in our iOS and Mac app.</p>
-      <p class="mt-2 text-xs text-slate-400">Showing 22 updates since 2026-01-17 (app updates only).</p>
+      <p class="mt-2 text-xs text-slate-400">Showing 29 updates since 2026-01-17 (app updates only).</p>
     </section>
     <section class="bento-card p-6 md:p-8 mt-5">
       <div class="timeline space-y-6">
+        <div class="day">
+          <h2 class="text-lg font-bold text-white">2026-07-31</h2>
+          <ul class="mt-2 space-y-2 list-disc pl-5">
+            <li class="text-slate-200 leading-relaxed"><strong class="text-white">Mac 1.996 — the accuracy release.</strong> Walking/running distance recorded in miles is now converted correctly (it was displayed as kilometers), and step and distance totals from an iPhone and Apple Watch worn together are de-duplicated by time overlap instead of double-counted — daily numbers now match the Apple Health app.</li>
+            <li class="text-slate-200 leading-relaxed"><strong class="text-white">Real sleep tracking</strong> — sleep duration now counts time actually asleep rather than time in bed, so nightly totals and trends are realistic. The sleep chart shows true stacked stages (Deep, Core, REM, Awake) with a legend.</li>
+            <li class="text-slate-200 leading-relaxed"><strong class="text-white">One date control for every chart</strong> — pick a week, month, quarter, or year on any chart and every other chart follows. You can step back through earlier periods on every metric, including HRV.</li>
+            <li class="text-slate-200 leading-relaxed"><strong class="text-white">Smarter iPhone sync</strong> — automatic syncs from the iPhone app now build one continuous "Synced Health Data" dataset on the Mac instead of saving each tiny sync as a separate history entry, so your synced history shows real charts.</li>
+            <li class="text-slate-200 leading-relaxed"><strong class="text-white">Cleaner AI insights</strong> — tables and lists in AI analysis now render properly, and numbers use your region's formatting.</li>
+          </ul>
+        </div>
+        <div class="day">
+          <h2 class="text-lg font-bold text-white">2026-07-24</h2>
+          <ul class="mt-2 space-y-2 list-disc pl-5">
+            <li class="text-slate-200 leading-relaxed"><strong class="text-white">Mac 1.995 — smoother imports.</strong> Clearer guidance when an Apple Health export file is empty or not the expected XML/JSON file, and the import screen now asks for <code class="font-mono bg-white/10 px-1.5 py-0.5 rounded text-cyan-200 text-sm">export.xml</code> after unzipping the export archive.</li>
+            <li class="text-slate-200 leading-relaxed"><strong class="text-white">Fixed the 40% stall</strong> — Mac analysis could stop making progress around 40% on some exports; it now completes reliably.</li>
+            <li class="text-slate-200 leading-relaxed">Support emails now include your actual app version and build number, so we can help faster.</li>
+          </ul>
+        </div>
+        <div class="day">
+          <h2 class="text-lg font-bold text-white">2026-07-04</h2>
+          <ul class="mt-2 space-y-2 list-disc pl-5">
+            <li class="text-slate-200 leading-relaxed"><strong class="text-white">iPhone export reliability</strong> — an optional or newly unavailable data type no longer stops an entire XML, CSV, or JSON export.</li>
+            <li class="text-slate-200 leading-relaxed"><strong class="text-white">Locked-iPhone syncs handled gracefully</strong> — if iOS blocks background access to protected health data, the app now asks you to unlock and retry instead of showing a raw HealthKit error.</li>
+            <li class="text-slate-200 leading-relaxed">Improved iCloud sync reliability for first syncs, 90-day syncs, and daily automations.</li>
+          </ul>
+        </div>
+        <div class="day">
+          <h2 class="text-lg font-bold text-white">2026-06-26</h2>
+          <ul class="mt-2 space-y-2 list-disc pl-5">
+            <li class="text-slate-200 leading-relaxed"><strong class="text-white">Mac 1.993 — first pass at multi-device accuracy.</strong> Overlapping step samples from more than one source are no longer added together and inflated, and heart-rate readings synced twice are no longer counted twice. The heart-rate average is clearly labelled as covering all readings (including workouts) so it isn't mistaken for your resting rate.</li>
+          </ul>
+        </div>
+        <div class="day">
+          <h2 class="text-lg font-bold text-white">2026-06-13</h2>
+          <ul class="mt-2 space-y-2 list-disc pl-5">
+            <li class="text-slate-200 leading-relaxed"><strong class="text-white">Mac 1.992 / iPhone 1.097 — big-library exports.</strong> Exporting your full health history no longer stalls or fails on large libraries, export errors state the actual reason (like low storage), and saved exports no longer vanish from History when the system clears temporary files.</li>
+            <li class="text-slate-200 leading-relaxed">A refreshed, more consistent look across the app with full dark-mode support.</li>
+          </ul>
+        </div>
+        <div class="day">
+          <h2 class="text-lg font-bold text-white">2026-05-19</h2>
+          <ul class="mt-2 space-y-2 list-disc pl-5">
+            <li class="text-slate-200 leading-relaxed"><strong class="text-white">iPhone 1.096 — CSV export fix.</strong> Fixed a daily-aggregate CSV export failure on recent iOS versions, added a fallback path so HealthKit statistics errors don't stop the whole export, and made AI data-sharing disclosures clearer.</li>
+          </ul>
+        </div>
+        <div class="day">
+          <h2 class="text-lg font-bold text-white">2026-05-14</h2>
+          <ul class="mt-2 space-y-2 list-disc pl-5">
+            <li class="text-slate-200 leading-relaxed"><strong class="text-white">Daily Scores — Strain, Sleep & Recovery</strong> — the Mac app's new Overview tab shows three computed scores (0–100) calculated directly from your Apple Health data: Strain (physical load from workouts and active energy), Sleep (quality from sleep hours and estimated efficiency), and Recovery (readiness from HRV and resting heart rate). Each score shows a 7-day average, a trend vs. the prior 7 days, and a plain-language label such as "Light day", "Solid", or "Steady". No wearable subscription needed — powered entirely by your existing Apple Watch data.</li>
+          </ul>
+        </div>
         <div class="day">
           <h2 class="text-lg font-bold text-white">2026-05-10</h2>
           <ul class="mt-2 space-y-2 list-disc pl-5">

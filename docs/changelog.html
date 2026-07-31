@@ -277,6 +277,57 @@
                 <div class="space-y-8 mt-8">
 
                     <div class="changelog-entry">
+                        <div class="changelog-date">2026-07-31</div>
+                        <ul>
+                            <li><strong>Mac 1.996 — the accuracy release.</strong> Walking/running distance recorded in miles is now converted correctly (it was being displayed as kilometers), and step and distance totals from an iPhone and Apple Watch worn together are de-duplicated by time overlap instead of double-counted &mdash; daily numbers now match the Apple Health app.</li>
+                            <li><strong>Improved</strong> real sleep tracking &mdash; sleep duration now counts time actually asleep rather than time in bed, so nightly totals and trends are realistic. The sleep chart shows true stacked stages (Deep, Core, REM, Awake) with a legend.</li>
+                            <li><strong>Added</strong> one date control for every chart &mdash; pick a day, week, month, quarter, or year on any chart and every other chart follows. You can step back through earlier periods on every metric, including HRV.</li>
+                            <li><strong>Improved</strong> iPhone sync &mdash; automatic syncs now build one continuous "Synced Health Data" dataset on the Mac instead of saving each tiny sync as a separate history entry, so your synced history shows real charts.</li>
+                            <li><strong>Improved</strong> AI insights &mdash; tables and lists now render properly instead of raw pipe characters, and numbers use your region's formatting.</li>
+                        </ul>
+                    </div>
+
+                    <div class="changelog-entry">
+                        <div class="changelog-date">2026-07-24</div>
+                        <ul>
+                            <li><strong>Mac 1.995 — smoother imports.</strong> Clearer guidance when an Apple Health export file is empty or is not the expected XML/JSON file, and the import screen now asks for <code>export.xml</code> after unzipping the export archive.</li>
+                            <li><strong>Fixed</strong> the 40% stall &mdash; Mac analysis could stop making progress around 40% on some exports; it now completes reliably.</li>
+                            <li><strong>Improved</strong> support emails to include your actual app version and build number, so we can help faster.</li>
+                        </ul>
+                    </div>
+
+                    <div class="changelog-entry">
+                        <div class="changelog-date">2026-07-04</div>
+                        <ul>
+                            <li><strong>Improved</strong> iPhone export reliability &mdash; an optional or newly unavailable data type no longer stops an entire XML, CSV, or JSON export.</li>
+                            <li><strong>Improved</strong> handling of locked-iPhone syncs &mdash; if iOS blocks background access to protected health data, the app now asks you to unlock and retry instead of showing a raw HealthKit error.</li>
+                            <li><strong>Improved</strong> iCloud sync reliability for first syncs, 90-day syncs, and daily automations.</li>
+                        </ul>
+                    </div>
+
+                    <div class="changelog-entry">
+                        <div class="changelog-date">2026-06-26</div>
+                        <ul>
+                            <li><strong>Mac 1.993 — first pass at multi-device accuracy.</strong> Overlapping step samples from more than one source are no longer added together and inflated, and heart-rate readings synced twice are no longer counted twice. The heart-rate average is clearly labelled as covering all readings (including workouts) so it isn't mistaken for your resting rate.</li>
+                        </ul>
+                    </div>
+
+                    <div class="changelog-entry">
+                        <div class="changelog-date">2026-06-13</div>
+                        <ul>
+                            <li><strong>Mac 1.992 / iPhone 1.097 — big-library exports.</strong> Exporting your full health history no longer stalls or fails on large libraries, export errors state the actual reason (like low storage), and saved exports no longer vanish from History when the system clears temporary files.</li>
+                            <li><strong>Improved</strong> the overall look with a refreshed, more consistent design and full dark-mode support.</li>
+                        </ul>
+                    </div>
+
+                    <div class="changelog-entry">
+                        <div class="changelog-date">2026-05-19</div>
+                        <ul>
+                            <li><strong>iPhone 1.096 — CSV export fix.</strong> Fixed a daily-aggregate CSV export failure on recent iOS versions, added a fallback path so HealthKit statistics errors don't stop the whole export, and made AI data-sharing disclosures clearer.</li>
+                        </ul>
+                    </div>
+
+                    <div class="changelog-entry">
                         <div class="changelog-date">2026-04-13</div>
                         <ul>
                             <li><strong>Added</strong> Dropbox sync &mdash; export health data directly to a Dropbox folder using a personal access token.</li>
