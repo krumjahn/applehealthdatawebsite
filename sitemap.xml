@@ -331,9 +331,15 @@
   </url>
   <url>
     <loc>https://applehealthdata.com/llms.txt</loc>
-    <lastmod>2026-06-12</lastmod>
+    <lastmod>2026-08-06</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://applehealthdata.com/pricing.md</loc>
+    <lastmod>2026-08-06</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
   </url>
 
 
