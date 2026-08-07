@@ -1,5 +1,13 @@
 [
   {
+    "timestamp": "2026-08-07T01:00:00Z",
+    "action_type": "title_meta_alignment+freshness",
+    "description": "Aligned the AI health comparison hub title, Open Graph title, H1, and Article headline around the exact Apple Health AI Analysis query family with Copilot, Perplexity, and ChatGPT named in the primary title; refreshed visible and schema modified dates.",
+    "file_changed": "ai-health-analysis/index.html",
+    "expected_impact": "Improves query/title matching and AI extractability for Apple Health AI analysis, Copilot Health Apple Health, Perplexity Health Apple Health, and ChatGPT Apple Health comparison queries while the new AI health cluster is still too new to show page-level GA4 traffic.",
+    "ga4_event_name": "page_view"
+  },
+  {
     "timestamp": "2026-08-05T01:14:18Z",
     "action_type": "answer_first+internal_link+freshness",
     "description": "Added a sourced answer-first paragraph to the homepage Build your export workflow module and replaced the self-link with a direct /ai-health-analysis/ path for users comparing Copilot Health, Perplexity Health, ChatGPT, Claude, and Gemini Apple Health workflows; refreshed homepage Article dateModified.",
