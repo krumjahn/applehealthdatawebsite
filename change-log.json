@@ -1,5 +1,13 @@
 [
   {
+    "timestamp": "2026-08-08T01:02:51Z",
+    "action_type": "answer_first+freshness+sitemap",
+    "description": "Upgraded the Apple Health + AI local API page to include sourced answer-first blocks for the Useful endpoints and Security model sections, using IETF RFC 1122 loopback context; refreshed Article dateModified and sitemap lastmod.",
+    "file_changed": "apple-health-ai/index.html, sitemap.xml",
+    "expected_impact": "Improves AI extractability and citation readiness for Apple Health local API, private AI health analysis, Apple Health to ChatGPT/Claude/Gemini, and localhost health data workflow queries while the new AI health cluster is still waiting for page-level GA4 traffic.",
+    "ga4_event_name": "page_view"
+  },
+  {
     "timestamp": "2026-08-07T01:00:00Z",
     "action_type": "title_meta_alignment+freshness",
     "description": "Aligned the AI health comparison hub title, Open Graph title, H1, and Article headline around the exact Apple Health AI Analysis query family with Copilot, Perplexity, and ChatGPT named in the primary title; refreshed visible and schema modified dates.",

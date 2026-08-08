@@ -91,7 +91,7 @@
     "headline": "Apple Health + AI: Chat With Your Health Data (Local API)",
     "description": "A local-first Apple Health AI workflow for querying sleep, steps, workouts, and heart-rate metrics before sending compact summaries to Claude, ChatGPT, or Gemini.",
     "datePublished": "2026-03-27",
-    "dateModified": "2026-06-23",
+    "dateModified": "2026-08-08",
     "author": {
       "@type": "Person",
       "name": "Keith Rumjahn",
@@ -250,6 +250,7 @@
       </ol>
 
       <h2>Useful endpoints (examples)</h2>
+      <p>According to <a href="https://www.rfc-editor.org/rfc/rfc1122" target="_blank" rel="noopener">IETF RFC 1122</a>, the 127.0.0.0/8 block is reserved for host loopback. These local endpoints let an AI workflow request only the Apple Health slice it needs instead of uploading a full export.</p>
       <ul>
         <li><code>GET /metrics</code> - available metric types</li>
         <li><code>GET /summary?start=YYYY-MM-DD&amp;end=YYYY-MM-DD</code> - compact overall summary</li>
@@ -261,6 +262,7 @@
       </ul>
 
       <h2>Security model</h2>
+      <p>According to <a href="https://www.rfc-editor.org/rfc/rfc1122" target="_blank" rel="noopener">IETF RFC 1122</a>, 127.0.0.1 points back to the same machine. The security model is local-first: keep the API on localhost, require a token for write-capable routes, and share only selected summaries with external AI tools.</p>
       <p>Most routes require:</p>
       <pre><code>X-Health-Analyzer-Token: &lt;token&gt;</code></pre>
       <p>You can discover the token file path via <code>GET /status</code>.</p>
