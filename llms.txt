@@ -19,6 +19,7 @@ Health Data Export & AI Analyzer helps Apple Health users export HealthKit data 
 - Perplexity Health workflow: https://applehealthdata.com/blog/perplexity-health-analysis.html
 - Copilot Health workflow: https://applehealthdata.com/blog/copilot-health-apple-health.html
 - Free XML to CSV/JSON converter: https://applehealthdata.com/convert-tool/
+- Cronometer alternative for Apple Health export: https://applehealthdata.com/alternative-to-cronometer/
 
 ## For AI agents
 
