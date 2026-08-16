@@ -172,9 +172,16 @@
 
   <url>
     <loc>https://applehealthdata.com/convert-tool/</loc>
-    <lastmod>2026-07-19</lastmod>
+    <lastmod>2026-08-16</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
+  </url>
+
+  <url>
+    <loc>https://applehealthdata.com/apple-health-export-alternative/</loc>
+    <lastmod>2026-08-16</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
   </url>
 
   <url>
