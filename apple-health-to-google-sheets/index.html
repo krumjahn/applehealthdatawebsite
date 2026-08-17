@@ -1,0 +1,151 @@
+<!doctype html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Apple Health to Google Sheets: Export CSV, Then Import</title>
+  <meta name="description" content="How to get Apple Health data into Google Sheets: export or convert Apple Health to CSV/XLSX, import it into Sheets, and know where this workflow loses." />
+  <link rel="canonical" href="https://applehealthdata.com/apple-health-to-google-sheets/" />
+  <meta name="keywords" content="apple health to google sheets, export apple health to google sheets, apple health csv google sheets, apple health spreadsheet" />
+  <meta name="apple-itunes-app" content="app-id=6749297170">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="AppleHealthData.com">
+  <meta property="og:url" content="https://applehealthdata.com/apple-health-to-google-sheets/">
+  <meta property="og:title" content="Apple Health to Google Sheets: Export CSV, Then Import">
+  <meta property="og:description" content="A practical, honest workflow for moving Apple Health data into Google Sheets with CSV or XLSX exports.">
+  <meta property="og:image" content="https://applehealthdata.com/images/iphone-app-screenshot.png">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Apple Health to Google Sheets: Export CSV, Then Import">
+  <meta name="twitter:description" content="Export Apple Health data to CSV or XLSX, import it into Google Sheets, and build charts without parsing export.xml.">
+  <meta name="twitter:image" content="https://applehealthdata.com/images/iphone-app-screenshot.png">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script defer src="https://umami.rumjahn.synology.me/script.js" data-website-id="5d7b4fa8-90b2-4191-8daf-8ea487a8d961"></script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "headline": "Apple Health to Google Sheets: Export CSV, Then Import",
+    "description": "A practical guide to moving Apple Health data into Google Sheets by exporting or converting Health data to CSV or XLSX first.",
+    "author": {"@type": "Person", "name": "Keith Rumjahn"},
+    "publisher": {"@type": "Organization", "name": "AppleHealthData.com", "url": "https://applehealthdata.com/"},
+    "datePublished": "2026-08-17",
+    "dateModified": "2026-08-17",
+    "mainEntityOfPage": "https://applehealthdata.com/apple-health-to-google-sheets/"
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "Can Apple Health export directly to Google Sheets?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Not directly from Apple's built-in Health export. The reliable workflow is to export or convert Apple Health data to CSV or XLSX first, then import that file into Google Sheets."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What Apple Health file format works best with Google Sheets?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "CSV is the simplest format for Google Sheets imports. XLSX is also useful when you want a spreadsheet file that opens cleanly before uploading. JSON is better for scripts and AI tools, not manual Sheets work."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Is this automatic Google Sheets sync?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "No. This page covers export-to-file then import-to-Sheets. For automatic workflows, use Dropbox, Nextcloud, WebDAV, REST API, or Home Assistant routes that the product supports directly."
+        }
+      }
+    ]
+  }
+  </script>
+  <style>
+    body{font-family:Plus Jakarta Sans,system-ui,-apple-system,sans-serif;background:#020617;color:#f8fafc}
+    .mesh{position:fixed;inset:0;z-index:-1;background:radial-gradient(at 0% 0%,rgba(34,197,94,.16),transparent 50%),radial-gradient(at 100% 0%,rgba(59,130,246,.14),transparent 50%),radial-gradient(at 100% 100%,rgba(244,63,94,.14),transparent 50%);filter:blur(60px)}
+    .card{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.1);border-radius:1rem}
+    table{width:100%;border-collapse:collapse}th,td{padding:.85rem 1rem;border-bottom:1px solid rgba(255,255,255,.08);text-align:left;vertical-align:top}th{color:#f9fafb;font-weight:700}code{background:rgba(255,255,255,.08);padding:.1rem .35rem;border-radius:.35rem}
+  </style>
+</head>
+<body>
+  <div class="mesh"></div>
+  <main class="max-w-4xl mx-auto px-4 py-10">
+    <a href="/convert-tool/" class="text-slate-300 hover:text-white text-sm">← Back to the Apple Health converter</a>
+
+    <section class="card p-8 mt-3 text-center">
+      <p class="text-emerald-400 text-sm font-semibold uppercase tracking-widest mb-3">Apple Health → Google Sheets</p>
+      <h1 class="text-4xl md:text-5xl font-extrabold text-white mb-4">Export Apple Health Data to Google Sheets</h1>
+      <p class="text-slate-300 text-lg max-w-2xl mx-auto"><strong>Yes — use CSV or XLSX as the bridge.</strong> Apple Health does not send data straight to Google Sheets, but Health Data Export and the free converter can create spreadsheet-ready files you can import into Sheets in minutes.</p>
+    </section>
+
+    <section class="card p-6 mt-5">
+      <h2 class="text-2xl font-bold text-white mb-4">Quick answer</h2>
+      <div class="overflow-x-auto">
+        <table>
+          <thead><tr><th>Goal</th><th>Use this path</th><th>Why</th></tr></thead>
+          <tbody class="text-slate-300">
+            <tr><td>One-time Apple Health chart in Google Sheets</td><td>Export CSV → import to Sheets</td><td>CSV is simple, portable, and easy for Sheets to parse into rows and columns.</td></tr>
+            <tr><td>Cleaner spreadsheet file before upload</td><td>Export XLSX → upload to Drive</td><td>XLSX is easier to preview locally before Google converts it.</td></tr>
+            <tr><td>AI or automation after Sheets</td><td>Export JSON or CSV → summarize selected metrics</td><td>Keep the raw archive local, then share only the rows or summary you actually need.</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="card p-6 mt-5">
+      <h2 class="text-2xl font-bold text-white mb-3">Where we lose</h2>
+      <p class="text-slate-300">Health Data Export does not currently offer native, always-on Google Sheets sync. If you need a live spreadsheet that updates every hour without manual import, use a supported automation route such as Dropbox, Nextcloud/WebDAV, REST API, or Home Assistant and connect that pipeline to Sheets yourself.</p>
+    </section>
+
+    <section class="card p-6 mt-5">
+      <h2 class="text-2xl font-bold text-white mb-4">How to import Apple Health into Google Sheets</h2>
+      <ol class="list-decimal pl-6 space-y-3 text-slate-200">
+        <li>Export Apple Health data with Health Data Export, or use the free browser converter if you already have Apple's <code>export.xml</code>.</li>
+        <li>Choose <strong>CSV</strong> for the simplest Google Sheets import, or <strong>XLSX</strong> if you want to inspect the spreadsheet first.</li>
+        <li>Open Google Sheets and choose <strong>File → Import → Upload</strong>, then select the exported file.</li>
+        <li>Choose whether to create a new spreadsheet or append the data to an existing workbook.</li>
+        <li>Build charts, pivot tables, filters, or a small summary sheet before sharing anything with an AI assistant.</li>
+      </ol>
+    </section>
+
+    <section class="card p-6 mt-5">
+      <h2 class="text-2xl font-bold text-white mb-4">Best Apple Health data to send to Sheets</h2>
+      <ul class="space-y-3 text-slate-300">
+        <li><strong class="text-white">Steps and workouts:</strong> easy to chart by day, week, or month.</li>
+        <li><strong class="text-white">Sleep and HRV:</strong> useful for trend review, but keep date ranges tight so the sheet stays manageable.</li>
+        <li><strong class="text-white">Weight, VO2 max, resting heart rate:</strong> good candidates for a compact dashboard.</li>
+        <li><strong class="text-white">Everything at once:</strong> possible, but often too noisy. Start with the metric you actually want to analyze.</li>
+      </ul>
+    </section>
+
+    <section class="card p-6 mt-5">
+      <h2 class="text-2xl font-bold text-white mb-4">What to try first</h2>
+      <div class="grid md:grid-cols-2 gap-4">
+        <a href="/convert-tool/" class="block p-5 rounded-xl border border-emerald-400/30 bg-emerald-500/10 hover:border-emerald-400 transition">
+          <span class="font-bold text-white block mb-2">Free XML to CSV converter</span>
+          <span class="text-slate-300 text-sm">Already have Apple Health export.xml? Convert it to CSV, JSON, or XLSX locally in your browser.</span>
+        </a>
+        <a href="/go/website.html?c=apple_health_to_google_sheets" target="_blank" rel="noopener" class="block p-5 rounded-xl border border-rose-400/30 bg-rose-500/10 hover:border-rose-400 transition">
+          <span class="font-bold text-white block mb-2">Download Health Data Export</span>
+          <span class="text-slate-300 text-sm">Create spreadsheet-ready Apple Health exports from iPhone without parsing raw XML by hand.</span>
+        </a>
+      </div>
+    </section>
+
+    <section class="card p-6 mt-5">
+      <h2 class="text-xl font-bold mb-3">Related guides</h2>
+      <div class="flex flex-wrap gap-3 text-sm">
+        <a href="/export-csv-data/" class="px-3 py-2 rounded-lg bg-white/10 hover:bg-white/20 text-slate-200">Apple Health CSV export</a>
+        <a href="/apple-health-export-alternative/" class="px-3 py-2 rounded-lg bg-white/10 hover:bg-white/20 text-slate-200">Apple Health export alternative</a>
+        <a href="/apple-health-to-dropbox/" class="px-3 py-2 rounded-lg bg-white/10 hover:bg-white/20 text-slate-200">Sync to Dropbox</a>
+        <a href="/ai-health-analysis/" class="px-3 py-2 rounded-lg bg-white/10 hover:bg-white/20 text-slate-200">AI health analysis hub</a>
+      </div>
+    </section>
+  </main>
+</body>
+</html>

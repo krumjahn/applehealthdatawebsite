@@ -23,6 +23,7 @@ Health Data Export & AI Analyzer helps Apple Health users export HealthKit data 
 - Cronometer alternative for Apple Health export: https://applehealthdata.com/alternative-to-cronometer/
 - Gyroscope alternative for Apple Health export: https://applehealthdata.com/alternative-to-gyroscope/
 - Free Athlytic alternative for Apple Watch recovery scores: https://applehealthdata.com/free-alternative-to-athlytic/
+- Apple Health to Google Sheets via CSV/XLSX export: https://applehealthdata.com/apple-health-to-google-sheets/
 
 ## For AI agents
 
