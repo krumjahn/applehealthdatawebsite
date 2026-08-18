@@ -1,0 +1,164 @@
+<!doctype html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Apple Health to Obsidian: Export CSV/JSON, Then Save to Your Vault</title>
+  <meta name="description" content="How to bring Apple Health data into Obsidian: export CSV or JSON, store it in your vault, and turn selected metrics into Markdown notes without claiming native sync." />
+  <link rel="canonical" href="https://applehealthdata.com/apple-health-to-obsidian/" />
+  <meta name="keywords" content="apple health to obsidian, export apple health to obsidian, apple health markdown, apple health csv obsidian, apple health json obsidian" />
+  <meta name="apple-itunes-app" content="app-id=6749297170">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="AppleHealthData.com">
+  <meta property="og:url" content="https://applehealthdata.com/apple-health-to-obsidian/">
+  <meta property="og:title" content="Apple Health to Obsidian: Export CSV/JSON, Then Save to Your Vault">
+  <meta property="og:description" content="A practical, honest workflow for keeping Apple Health exports and AI-ready health summaries in an Obsidian vault.">
+  <meta property="og:image" content="https://applehealthdata.com/images/iphone-app-screenshot.png">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Apple Health to Obsidian: Export CSV/JSON, Then Save to Your Vault">
+  <meta name="twitter:description" content="Export Apple Health data to CSV or JSON, save it in Obsidian, and create Markdown summaries for weekly health reviews.">
+  <meta name="twitter:image" content="https://applehealthdata.com/images/iphone-app-screenshot.png">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script defer src="https://umami.rumjahn.synology.me/script.js" data-website-id="5d7b4fa8-90b2-4191-8daf-8ea487a8d961"></script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "headline": "Apple Health to Obsidian: Export CSV/JSON, Then Save to Your Vault",
+    "description": "A practical guide to moving Apple Health data into Obsidian by exporting Health data to CSV or JSON, storing it in a vault, and turning selected metrics into Markdown summaries.",
+    "author": {"@type": "Person", "name": "Keith Rumjahn"},
+    "publisher": {"@type": "Organization", "name": "AppleHealthData.com", "url": "https://applehealthdata.com/"},
+    "datePublished": "2026-08-18",
+    "dateModified": "2026-08-18",
+    "mainEntityOfPage": "https://applehealthdata.com/apple-health-to-obsidian/"
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "Can Apple Health export directly to Obsidian?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Not directly. The reliable workflow is to export Apple Health data to CSV or JSON, save the file inside your Obsidian vault, and create Markdown summaries from the metrics you want to review."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What Apple Health format works best with Obsidian?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "JSON is useful for scripts and AI assistants. CSV is better when you want to inspect rows in a spreadsheet first. Markdown is best for the final human-readable note, not the raw Apple Health export."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Is this automatic Obsidian sync?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "No. This is an export-to-file workflow for privacy-first users who want health files and summaries in their vault. Health Data Export supports direct automation paths such as Dropbox, Nextcloud, WebDAV, REST API, and Home Assistant, but not native Obsidian sync."
+        }
+      }
+    ]
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "HowTo",
+    "name": "How to move Apple Health data into Obsidian",
+    "description": "Export Apple Health data, store it in an Obsidian vault, and create a Markdown health review note.",
+    "step": [
+      {"@type": "HowToStep", "name": "Export", "text": "Export Apple Health data as CSV or JSON with Health Data Export, or convert Apple's export.xml in the browser."},
+      {"@type": "HowToStep", "name": "Save", "text": "Place the exported file in an Obsidian vault folder such as Health Data or Attachments."},
+      {"@type": "HowToStep", "name": "Summarize", "text": "Review selected metrics locally and write a Markdown note with weekly trends, caveats, and questions for follow-up."}
+    ]
+  }
+  </script>
+  <style>
+    body{font-family:Plus Jakarta Sans,system-ui,-apple-system,sans-serif;background:#020617;color:#f8fafc}
+    .mesh{position:fixed;inset:0;z-index:-1;background:radial-gradient(at 0% 0%,rgba(34,197,94,.16),transparent 50%),radial-gradient(at 100% 0%,rgba(168,85,247,.14),transparent 50%),radial-gradient(at 100% 100%,rgba(244,63,94,.14),transparent 50%);filter:blur(60px)}
+    .card{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.1);border-radius:1rem}
+    table{width:100%;border-collapse:collapse}th,td{padding:.85rem 1rem;border-bottom:1px solid rgba(255,255,255,.08);text-align:left;vertical-align:top}th{color:#f9fafb;font-weight:700}code{background:rgba(255,255,255,.08);padding:.1rem .35rem;border-radius:.35rem}
+  </style>
+</head>
+<body>
+  <div class="mesh"></div>
+  <main class="max-w-4xl mx-auto px-4 py-10">
+    <a href="/convert-tool/" class="text-slate-300 hover:text-white text-sm">← Back to the Apple Health converter</a>
+
+    <section class="card p-8 mt-3 text-center">
+      <p class="text-purple-300 text-sm font-semibold uppercase tracking-widest mb-3">Apple Health → Obsidian</p>
+      <h1 class="text-4xl md:text-5xl font-extrabold text-white mb-4">Export Apple Health Data to Obsidian</h1>
+      <p class="text-slate-300 text-lg max-w-2xl mx-auto"><strong>Yes — use CSV or JSON as the bridge.</strong> Obsidian does not read Apple Health directly, but Health Data Export and the free converter can create local files you keep in your vault, then summarize into Markdown notes.</p>
+    </section>
+
+    <section class="card p-6 mt-5">
+      <h2 class="text-2xl font-bold text-white mb-4">Quick answer</h2>
+      <div class="overflow-x-auto">
+        <table>
+          <thead><tr><th>Goal</th><th>Use this path</th><th>Why</th></tr></thead>
+          <tbody class="text-slate-300">
+            <tr><td>Keep raw Apple Health history in a vault</td><td>Export CSV or JSON → save under <code>/Health Data/</code></td><td>The file stays local, portable, and separate from polished notes.</td></tr>
+            <tr><td>Write a weekly health note</td><td>Export selected metrics → summarize into Markdown</td><td>Markdown is easier to read in Obsidian than thousands of raw rows.</td></tr>
+            <tr><td>Ask an AI assistant about trends</td><td>Review locally → share only a compact summary</td><td>You avoid pasting an entire health archive into a cloud chat.</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="card p-6 mt-5">
+      <h2 class="text-2xl font-bold text-white mb-3">Where we lose</h2>
+      <p class="text-slate-300">Health Data Export does not currently offer native Obsidian sync, Dataview table generation, or an official Obsidian plugin. If you need automatic notes created every day inside your vault, export through a supported automation route first, then let your own script or Obsidian workflow turn the file into Markdown.</p>
+    </section>
+
+    <section class="card p-6 mt-5">
+      <h2 class="text-2xl font-bold text-white mb-4">How to build an Obsidian health vault workflow</h2>
+      <ol class="list-decimal pl-6 space-y-3 text-slate-200">
+        <li>Export Apple Health data with Health Data Export, or use the free browser converter if you already have Apple's <code>export.xml</code>.</li>
+        <li>Choose <strong>JSON</strong> for scripts and AI tooling, or <strong>CSV</strong> if you want to inspect the data in a spreadsheet first.</li>
+        <li>Create a vault folder such as <code>Health Data</code> or <code>Attachments/Apple Health</code>, then save the export there.</li>
+        <li>Make a short Markdown note for the period you care about: sleep, HRV, workouts, steps, weight, or resting heart rate.</li>
+        <li>When using AI, paste only the selected rows or a local summary, not your entire health history.</li>
+      </ol>
+    </section>
+
+    <section class="card p-6 mt-5">
+      <h2 class="text-2xl font-bold text-white mb-4">Good Obsidian note prompts</h2>
+      <ul class="space-y-3 text-slate-300">
+        <li><strong class="text-white">Weekly recovery note:</strong> sleep duration, HRV, resting heart rate, workouts, and one human-written interpretation.</li>
+        <li><strong class="text-white">Training block review:</strong> workouts, step count, sleep, and soreness notes in one Markdown file.</li>
+        <li><strong class="text-white">Doctor prep:</strong> a concise trend summary plus the export file kept locally for reference.</li>
+        <li><strong class="text-white">AI question list:</strong> questions you want Claude, ChatGPT, Gemini, or Perplexity to answer from a small metric subset.</li>
+      </ul>
+    </section>
+
+    <section class="card p-6 mt-5">
+      <h2 class="text-2xl font-bold text-white mb-4">What to try first</h2>
+      <div class="grid md:grid-cols-2 gap-4">
+        <a href="/convert-tool/" class="block p-5 rounded-xl border border-emerald-400/30 bg-emerald-500/10 hover:border-emerald-400 transition">
+          <span class="font-bold text-white block mb-2">Free XML to CSV/JSON converter</span>
+          <span class="text-slate-300 text-sm">Already have Apple Health export.xml? Convert it to CSV, JSON, or XLSX locally in your browser.</span>
+        </a>
+        <a href="/go/website.html?c=apple_health_to_obsidian" target="_blank" rel="noopener" class="block p-5 rounded-xl border border-rose-400/30 bg-rose-500/10 hover:border-rose-400 transition">
+          <span class="font-bold text-white block mb-2">Download Health Data Export</span>
+          <span class="text-slate-300 text-sm">Create local Apple Health exports you can store, analyze, and summarize before adding anything to your vault.</span>
+        </a>
+      </div>
+    </section>
+
+    <section class="card p-6 mt-5">
+      <h2 class="text-xl font-bold mb-3">Related guides</h2>
+      <div class="flex flex-wrap gap-3 text-sm">
+        <a href="/apple-health-to-google-sheets/" class="px-3 py-2 rounded-lg bg-white/10 hover:bg-white/20 text-slate-200">Apple Health to Google Sheets</a>
+        <a href="/export-csv-data/" class="px-3 py-2 rounded-lg bg-white/10 hover:bg-white/20 text-slate-200">Apple Health CSV export</a>
+        <a href="/apple-health-export-alternative/" class="px-3 py-2 rounded-lg bg-white/10 hover:bg-white/20 text-slate-200">Apple Health export alternative</a>
+        <a href="/ai-health-analysis/" class="px-3 py-2 rounded-lg bg-white/10 hover:bg-white/20 text-slate-200">AI health analysis hub</a>
+      </div>
+    </section>
+  </main>
+</body>
+</html>
