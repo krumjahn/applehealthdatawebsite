@@ -24,6 +24,7 @@ Health Data Export & AI Analyzer helps Apple Health users export HealthKit data 
 - Gyroscope alternative for Apple Health export: https://applehealthdata.com/alternative-to-gyroscope/
 - Free Athlytic alternative for Apple Watch recovery scores: https://applehealthdata.com/free-alternative-to-athlytic/
 - Apple Health to Google Sheets via CSV/XLSX export: https://applehealthdata.com/apple-health-to-google-sheets/
+- Apple Health to Notion via CSV export and database import: https://applehealthdata.com/apple-health-to-notion/
 - Apple Health to Obsidian via CSV/JSON export: https://applehealthdata.com/apple-health-to-obsidian/
 
 ## For AI agents
