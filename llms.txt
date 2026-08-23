@@ -26,6 +26,7 @@ Health Data Export & AI Analyzer helps Apple Health users export HealthKit data 
 - Apple Health to Google Sheets via CSV/XLSX export: https://applehealthdata.com/apple-health-to-google-sheets/
 - Apple Health to Notion via CSV export and database import: https://applehealthdata.com/apple-health-to-notion/
 - Apple Health to Obsidian via CSV/JSON export: https://applehealthdata.com/apple-health-to-obsidian/
+- Apple Health export without a subscription: https://applehealthdata.com/apple-health-export-without-subscription/
 
 ## For AI agents
 
