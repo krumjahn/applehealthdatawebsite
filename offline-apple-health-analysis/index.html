@@ -1,0 +1,160 @@
+<!doctype html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Offline Apple Health Analysis: Local Mac Workflow</title>
+  <meta name="description" content="Analyze Apple Health data offline: export from iPhone, convert locally, sync to Mac over local WiFi, and keep raw health history out of cloud AI tools." />
+  <link rel="canonical" href="https://applehealthdata.com/offline-apple-health-analysis/" />
+  <meta name="keywords" content="offline apple health analysis, analyze apple health offline, private apple health analysis, local apple health AI, no cloud health data analysis" />
+  <meta name="apple-itunes-app" content="app-id=6749297170">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="AppleHealthData.com">
+  <meta property="og:url" content="https://applehealthdata.com/offline-apple-health-analysis/">
+  <meta property="og:title" content="Offline Apple Health Analysis: Local Mac Workflow">
+  <meta property="og:description" content="A practical offline-first workflow for Apple Health export, local conversion, Mac analysis, and AI-ready summaries without uploading raw health history.">
+  <meta property="og:image" content="https://applehealthdata.com/images/mac-app-screenshot-1.png">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Offline Apple Health Analysis: Local Mac Workflow">
+  <meta name="twitter:description" content="Export, convert, and analyze Apple Health data locally before sharing only selected summaries with AI tools.">
+  <meta name="twitter:image" content="https://applehealthdata.com/images/mac-app-screenshot-1.png">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script defer src="https://umami.rumjahn.synology.me/script.js" data-website-id="5d7b4fa8-90b2-4191-8daf-8ea487a8d961"></script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "headline": "Offline Apple Health Analysis: Local Mac Workflow",
+    "description": "A practical offline-first Apple Health analysis workflow using local export, local browser conversion, direct Mac sync, and AI-ready summaries.",
+    "author": {
+      "@type": "Person",
+      "name": "Keith Rumjahn"
+    },
+    "publisher": {
+      "@type": "Organization",
+      "name": "AppleHealthData.com",
+      "url": "https://applehealthdata.com/"
+    },
+    "datePublished": "2026-08-24",
+    "dateModified": "2026-08-24",
+    "mainEntityOfPage": "https://applehealthdata.com/offline-apple-health-analysis/"
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "Can I analyze Apple Health data offline?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Yes. Export Apple Health data from iPhone, convert export.xml locally in your browser, or sync to the Mac app over your local network. Then review charts and summaries before deciding whether to share a small excerpt with any cloud AI tool."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Does offline Apple Health analysis require iCloud?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "No. You can use Apple's export file path, the local browser converter, or Direct to Mac sync over local WiFi. The offline-first workflow does not require iCloud Drive or a cloud storage account."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Is the AI analysis itself fully offline?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "The export, conversion, Mac analysis, and local API workflow can stay on your devices. If you choose ChatGPT, Claude, Gemini, Perplexity, or another cloud assistant, only send a selected summary rather than the full raw Apple Health archive."
+        }
+      }
+    ]
+  }
+  </script>
+  <style>
+    body{font-family:Plus Jakarta Sans,system-ui,-apple-system,sans-serif;background:#020617;color:#f8fafc}
+    .mesh{position:fixed;inset:0;z-index:-1;background:radial-gradient(at 0% 0%,rgba(20,184,166,.18),transparent 50%),radial-gradient(at 100% 0%,rgba(59,130,246,.14),transparent 50%),radial-gradient(at 100% 100%,rgba(244,63,94,.14),transparent 50%);filter:blur(60px)}
+    .card{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.1);border-radius:1rem}
+    table{width:100%;border-collapse:collapse}th,td{padding:.85rem 1rem;border-bottom:1px solid rgba(255,255,255,.08);text-align:left;vertical-align:top}th{color:#f9fafb;font-weight:700}code{background:rgba(255,255,255,.08);padding:.1rem .35rem;border-radius:.35rem}
+  </style>
+</head>
+<body>
+  <div class="mesh"></div>
+  <main class="max-w-4xl mx-auto px-4 py-10">
+    <a href="/convert-tool/" class="text-slate-300 hover:text-white text-sm">← Back to the free Apple Health converter</a>
+
+    <section class="card p-8 mt-3 text-center">
+      <p class="text-teal-400 text-sm font-semibold uppercase tracking-widest mb-3">Offline-first Apple Health analysis</p>
+      <h1 class="text-4xl md:text-5xl font-extrabold text-white mb-4">Offline Apple Health Analysis</h1>
+      <p class="text-slate-300 text-lg max-w-2xl mx-auto"><strong>Yes — you can analyze Apple Health data offline-first.</strong> Export from iPhone, convert <code>export.xml</code> locally, or sync to the Mac app over local WiFi, then review private summaries before sharing anything with cloud AI tools.</p>
+    </section>
+
+    <section class="card p-6 mt-5">
+      <h2 class="text-2xl font-bold text-white mb-4">Quick decision</h2>
+      <div class="overflow-x-auto">
+        <table>
+          <thead><tr><th>Goal</th><th>Offline-first path</th><th>What stays local</th></tr></thead>
+          <tbody class="text-slate-300">
+            <tr><td>One-time archive review</td><td>Apple Health export → local browser converter</td><td>The raw <code>export.xml</code> file is read by your browser on your own device.</td></tr>
+            <tr><td>Mac trend analysis</td><td>Direct to Mac local sync</td><td>iPhone and Mac communicate over your local network without iCloud or a cloud storage hop.</td></tr>
+            <tr><td>AI-ready health summary</td><td>Local charts and selected CSV/JSON slices first</td><td>You choose the small summary or date range before using ChatGPT, Claude, Gemini, or Perplexity.</td></tr>
+            <tr><td>Agent or local API workflow</td><td>Mac app local API on <code>127.0.0.1</code></td><td>Tools on the same Mac can read prepared metrics without uploading the full archive.</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="card p-6 mt-5">
+      <h2 class="text-2xl font-bold text-white mb-3">Where we lose</h2>
+      <p class="text-slate-300">This is an offline-first analysis workflow, not a medical diagnosis service and not a promise that every AI step is offline. If you use a cloud AI assistant, that assistant may process what you paste or upload. The safer workflow is to create a local summary first and only share the minimum needed for the question.</p>
+    </section>
+
+    <section class="card p-6 mt-5">
+      <h2 class="text-2xl font-bold text-white mb-4">The offline Apple Health workflow</h2>
+      <ol class="list-decimal pl-6 space-y-3 text-slate-200">
+        <li>Export Apple Health from iPhone, or use Direct to Mac sync when you want a no-cloud transfer.</li>
+        <li>Convert <code>export.xml</code> to CSV, JSON, or Excel in the browser if you already have Apple's raw export.</li>
+        <li>Review sleep, steps, workouts, heart rate, HRV, and other trends locally on your Mac before involving any external AI.</li>
+        <li>Create a small summary file or paste only the relevant rows into your AI assistant if you want explanation or research context.</li>
+      </ol>
+    </section>
+
+    <section class="card p-6 mt-5">
+      <h2 class="text-2xl font-bold text-white mb-4">What makes this page different from the AI hub?</h2>
+      <p class="text-slate-300">The AI hub compares assistants. This page is for the privacy constraint: people who specifically want to keep Apple Health export, conversion, transfer, and first-pass analysis on their own devices. The commercial path is also different: start with the free converter, then upgrade to the app when local sync and repeat Mac analysis are worth the setup.</p>
+    </section>
+
+    <section class="card p-6 mt-5">
+      <h2 class="text-2xl font-bold text-white mb-4">What to try first</h2>
+      <div class="grid md:grid-cols-2 gap-4">
+        <a href="/convert-tool/" class="block p-5 rounded-xl border border-teal-400/30 bg-teal-500/10 hover:border-teal-400 transition">
+          <span class="font-bold text-white block mb-2">Use the free local converter</span>
+          <span class="text-slate-300 text-sm">Already have Apple Health export.xml? Convert it to CSV, JSON, or Excel locally in your browser.</span>
+        </a>
+        <a href="/go/website.html?c=offline_apple_health_analysis" target="_blank" rel="noopener" class="block p-5 rounded-xl border border-rose-400/30 bg-rose-500/10 hover:border-rose-400 transition">
+          <span class="font-bold text-white block mb-2">Download Health Data Export</span>
+          <span class="text-slate-300 text-sm">Use the app when you want repeat exports, Direct to Mac sync, and private Mac analysis.</span>
+        </a>
+      </div>
+    </section>
+
+    <section class="card p-8 mt-5 text-center" style="background:linear-gradient(135deg,rgba(20,184,166,.3) 0%,rgba(2,6,23,1) 100%)">
+      <h2 class="text-2xl font-bold text-white mb-3">Keep the raw archive local</h2>
+      <p class="text-slate-300 mb-6 max-w-xl mx-auto">Use the free converter for one-off analysis. Use the app when offline-first Apple Health review becomes part of your routine.</p>
+      <a href="/convert-tool/" class="inline-block bg-teal-600 text-white font-bold py-4 px-8 rounded-full text-lg hover:bg-teal-700 transition-all">Convert Apple Health XML Locally</a>
+      <p class="mt-3 text-xs text-slate-500">CSV / JSON / Excel · Local browser conversion · Direct-to-Mac path available</p>
+    </section>
+
+    <section class="card p-6 mt-5">
+      <h2 class="text-xl font-bold mb-3">Related guides</h2>
+      <div class="flex flex-wrap gap-3 text-sm">
+        <a href="/sync-apple-health-to-mac/" class="px-3 py-2 rounded-lg bg-white/10 hover:bg-white/20 text-slate-200">Apple Health without iCloud</a>
+        <a href="/ai-health-analysis/" class="px-3 py-2 rounded-lg bg-white/10 hover:bg-white/20 text-slate-200">AI health analysis hub</a>
+        <a href="/apple-health-ai/" class="px-3 py-2 rounded-lg bg-white/10 hover:bg-white/20 text-slate-200">Apple Health local API</a>
+        <a href="/apple-health-export-without-subscription/" class="px-3 py-2 rounded-lg bg-white/10 hover:bg-white/20 text-slate-200">Apple Health without subscription</a>
+      </div>
+    </section>
+  </main>
+</body>
+</html>

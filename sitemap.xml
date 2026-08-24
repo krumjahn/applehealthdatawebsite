@@ -172,7 +172,7 @@
 
   <url>
     <loc>https://applehealthdata.com/convert-tool/</loc>
-    <lastmod>2026-08-21</lastmod>
+    <lastmod>2026-08-24</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
@@ -352,7 +352,7 @@
   </url>
   <url>
     <loc>https://applehealthdata.com/llms.txt</loc>
-    <lastmod>2026-08-06</lastmod>
+    <lastmod>2026-08-24</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
@@ -465,6 +465,12 @@
   <url>
     <loc>https://applehealthdata.com/apple-health-export-without-subscription/</loc>
     <lastmod>2026-08-23</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://applehealthdata.com/offline-apple-health-analysis/</loc>
+    <lastmod>2026-08-24</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
