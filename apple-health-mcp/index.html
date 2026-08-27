@@ -94,6 +94,14 @@
       },
       {
         "@type": "Question",
+        "name": "Can Claude connect directly to Apple Health through MCP?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Claude Desktop can connect to Apple Health through this local MCP server after you install the Health Data AI Analyzer Mac app and add the health-analyzer-mcp server to Claude's config. The MCP server does not read HealthKit by itself: it calls the Mac app's localhost API, then returns only the metric slice Claude requested."
+        }
+      },
+      {
+        "@type": "Question",
         "name": "Which MCP clients are supported?",
         "acceptedAnswer": {
           "@type": "Answer",
@@ -131,7 +139,7 @@
     "description": "MCP server that exposes Apple Health data to Claude, Cursor, and other MCP clients via the Health Data AI Analyzer Mac app. All data stays local.",
     "url": "https://applehealthdata.com/apple-health-mcp/",
     "softwareVersion": "1.1.0",
-    "dateModified": "2026-06-07",
+    "dateModified": "2026-08-27",
     "author": {"@type": "Person", "name": "Keith Rumjahn", "url": "https://applehealthdata.com/"},
     "publisher": {"@type": "Organization", "name": "Health Data Export", "url": "https://applehealthdata.com/"},
     "license": "https://opensource.org/licenses/MIT",
@@ -147,7 +155,7 @@
     "headline": "Apple Health MCP Server: Connect Claude, Cursor & AI Tools to HealthKit",
     "description": "The open-source Apple Health MCP server. Lets Claude Desktop, Cursor, and any MCP client query your steps, sleep, HRV, workouts and more — all locally, no cloud upload.",
     "datePublished": "2026-05-20",
-    "dateModified": "2026-06-07",
+    "dateModified": "2026-08-27",
     "author": {"@type": "Person", "name": "Keith Rumjahn", "url": "https://applehealthdata.com/"},
     "publisher": {"@type": "Organization", "name": "Health Data Export", "url": "https://applehealthdata.com/", "logo": {"@type": "ImageObject", "url": "https://applehealthdata.com/images/logo.png"}},
     "mainEntityOfPage": "https://applehealthdata.com/apple-health-mcp/",
@@ -245,8 +253,19 @@
         </div>
       </div>
 
+      <section class="glass p-6 mt-10 border-sky-500/20">
+        <p class="text-xs uppercase tracking-[0.25em] text-sky-300 font-bold mb-3">Quick answer</p>
+        <h2 class="!mt-0 !pt-0 !border-t-0">Can Claude connect directly to Apple Health through MCP?</h2>
+        <p>Yes — with one important constraint: Claude Desktop connects to Apple Health through the <code>health-analyzer-mcp</code> server, and that MCP server talks to the Health Data AI Analyzer Mac app running on <code>localhost:8765</code>. Claude does not get a blanket copy of your HealthKit history; it calls read-only tools such as <code>get_steps</code>, <code>get_sleep</code>, or <code>get_hrv</code> and receives only the requested slice.</p>
+        <ul>
+          <li><strong class="text-white">Use this page</strong> when you want the MCP setup for Claude Desktop, Cursor, Cline, or other MCP clients.</li>
+          <li><strong class="text-white">Use the <a href="/apple-health-claude/">Apple Health + Claude guide</a></strong> when you want to query the local API manually and paste compact results into Claude instead.</li>
+          <li><strong class="text-white">Privacy boundary:</strong> the server is local and read-only, but any analysis text you ask Claude to reason over is still sent to your configured AI provider.</li>
+        </ul>
+      </section>
+
       <h2>What is an Apple Health MCP server?</h2>
-      <p class="text-slate-500 text-sm"><i data-lucide="clock" class="w-3 h-3 inline"></i> <time datetime="2026-06-07">Last updated: June 7, 2026</time> · Reviewed by Keith Rumjahn</p>
+      <p class="text-slate-500 text-sm"><i data-lucide="clock" class="w-3 h-3 inline"></i> <time datetime="2026-08-27">Last updated: August 27, 2026</time> · Reviewed by Keith Rumjahn</p>
       <p>Anthropic introduced the <strong>Model Context Protocol</strong> in November 2024 and open-sourced the spec to let AI assistants discover and call tools on your behalf — by 2026 the protocol was already shipping natively in Claude Desktop, Cursor, Cline, and OpenClaw ([Anthropic announcement](https://www.anthropic.com/news/model-context-protocol) <span title="Search-summary, Tier 1 source — Anthropic official">[S]</span>). An <strong>Apple Health MCP server</strong> is a small program that translates between MCP and your HealthKit data — instead of pasting JSON into a chat, your AI assistant can call the server directly: "what were my step counts last week?" → the server hits the local API → returns a compact answer.</p>
 
       <h2>How it works (and why nothing leaves your Mac)</h2>
