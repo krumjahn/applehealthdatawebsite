@@ -60,6 +60,13 @@
     .content-section code { font-family: 'JetBrains Mono', monospace; color: #38bdf8; font-size: 0.875rem; }
     .glass { background: rgba(255, 255, 255, 0.03); border: 1px solid var(--glass-border); border-radius: 1rem; }
     .tool-badge { display: inline-block; background: rgba(56, 189, 248, 0.1); border: 1px solid rgba(56, 189, 248, 0.25); color: #38bdf8; font-family: 'JetBrains Mono', monospace; font-size: 0.8rem; padding: 0.25rem 0.65rem; border-radius: 0.5rem; margin: 0.2rem 0.2rem 0.2rem 0; }
+
+    .client-tab { display:inline-flex; align-items:center; gap:.5rem; padding:.65rem 1rem; border:1px solid rgba(148,163,184,.28); border-radius:999px; color:#e2e8f0; background:rgba(255,255,255,.035); font-weight:700; transition:.2s ease; }
+    .client-tab:hover { border-color:rgba(103,232,249,.55); transform:translateY(-1px); }
+    .client-tab[aria-selected="true"] { color:#fff; border-color:#67e8f9; background:rgba(14,116,144,.5); box-shadow:0 0 0 4px rgba(34,211,238,.12); }
+    .client-dot { width:.45rem; height:.45rem; border-radius:999px; background:#f59e0b; }
+    .demo-window { background:linear-gradient(180deg,rgba(15,23,42,.98),rgba(2,6,23,.98)); border:1px solid rgba(148,163,184,.2); border-top:2px solid #fb923c; border-radius:1rem; overflow:hidden; box-shadow:0 30px 80px rgba(0,0,0,.38); }
+    .demo-terminal { min-height:19rem; white-space:pre-wrap; overflow-wrap:anywhere; color:#cbd5e1; font:500 .9rem/1.75 'JetBrains Mono',monospace; }
   </style>
 
   <!-- FAQ Schema -->
@@ -245,6 +252,23 @@
         </div>
       </div>
 
+
+      <section id="client-demo" class="my-20 text-center" aria-labelledby="client-demo-title">
+        <h2 id="client-demo-title" class="!border-0 !mt-0 !pt-0 text-3xl sm:text-5xl">Watch it set up &amp; answer in your client.</h2>
+        <p class="max-w-2xl mx-auto">Eleven AI clients people actually use. Pick yours to see its setup and the same read-only Apple Health question answered.</p>
+        <div id="client-tabs" class="flex flex-wrap justify-center gap-3 my-8" role="tablist" aria-label="MCP clients"></div>
+        <div class="demo-window text-left">
+          <div class="flex flex-wrap items-center gap-3 px-5 py-4 border-b border-white/10 bg-slate-900/70">
+            <span class="w-3 h-3 rounded-full bg-red-400"></span><span class="w-3 h-3 rounded-full bg-amber-300"></span><span class="w-3 h-3 rounded-full bg-green-400"></span>
+            <strong id="demo-client" class="text-orange-300 ml-2"></strong>
+            <span id="demo-method" class="font-mono text-sm text-cyan-300"></span>
+            <button id="demo-replay" class="ml-auto inline-flex items-center gap-2 px-4 py-2 rounded-xl border border-cyan-400/30 bg-cyan-950/50 text-cyan-200 font-mono text-sm hover:bg-cyan-900/60" type="button">↻ Replay</button>
+          </div>
+          <pre class="demo-terminal !m-0 !border-0 !rounded-none p-6"><code id="demo-output"></code></pre>
+        </div>
+        <p class="mt-4 text-sm text-slate-500">The exact UI varies by client. Each example connects to the same local, read-only <code>health-analyzer-mcp</code> server.</p>
+      </section>
+
       <h2>What is an Apple Health MCP server?</h2>
       <p class="text-slate-500 text-sm"><i data-lucide="clock" class="w-3 h-3 inline"></i> <time datetime="2026-06-07">Last updated: June 7, 2026</time> · Reviewed by Keith Rumjahn</p>
       <p>Anthropic introduced the <strong>Model Context Protocol</strong> in November 2024 and open-sourced the spec to let AI assistants discover and call tools on your behalf — by 2026 the protocol was already shipping natively in Claude Desktop, Cursor, Cline, and OpenClaw ([Anthropic announcement](https://www.anthropic.com/news/model-context-protocol) <span title="Search-summary, Tier 1 source — Anthropic official">[S]</span>). An <strong>Apple Health MCP server</strong> is a small program that translates between MCP and your HealthKit data — instead of pasting JSON into a chat, your AI assistant can call the server directly: "what were my step counts last week?" → the server hits the local API → returns a compact answer.</p>
@@ -348,6 +372,29 @@ for the coming week based on what you see.</code></pre>
 
   <script>
     lucide.createIcons();
+
+    const clients = [
+      {name:'Claude Desktop', icon:'✳', method:'JSON · stdio', setup:'Open Claude Settings → Developer → Edit Config\nAdd: { "command": "npx", "args": ["-y", "health-analyzer-mcp"] }\nRestart Claude Desktop'},
+      {name:'Claude Code', icon:'✳', method:'claude mcp add · stdio', setup:'$ claude mcp add health-analyzer -- npx -y health-analyzer-mcp\nAdded stdio MCP server health-analyzer\n$ claude mcp list → health-analyzer  ✓ Connected'},
+      {name:'Cursor', icon:'◆', method:'mcp.json · stdio', setup:'Open Cursor Settings → Tools & Integrations → MCP\nAdd: { "health-analyzer": { "command": "npx", "args": ["-y", "health-analyzer-mcp"] } }\nhealth-analyzer  ✓ Enabled'},
+      {name:'VS Code', icon:'◉', method:'MCP: Add Server', setup:'Run “MCP: Add Server” from the Command Palette\nChoose Command (stdio): npx -y health-analyzer-mcp\nName it health-analyzer, then Start'},
+      {name:'opencode', icon:'▣', method:'opencode.json · local', setup:'Add health-analyzer to opencode.json\n{ "type": "local", "command": ["npx", "-y", "health-analyzer-mcp"] }\nRestart opencode'},
+      {name:'OpenClaw', icon:'✹', method:'MCP · stdio', setup:'Add a local stdio MCP server named health-analyzer\nCommand: npx -y health-analyzer-mcp\nEnable it for your OpenClaw agent'},
+      {name:'Cline', icon:'♟', method:'MCP Servers · stdio', setup:'Open Cline → MCP Servers → Configure\nAdd command: npx, args: -y health-analyzer-mcp\nSave → health-analyzer connected'},
+      {name:'ChatGPT', icon:'◉', method:'Developer mode · remote only', setup:'ChatGPT connectors require a remote HTTPS MCP endpoint.\nThis package is local stdio by design, so use another listed client\nto keep the Apple Health connection on your Mac.'},
+      {name:'Gemini', icon:'✦', method:'gemini settings · stdio', setup:'Add health-analyzer under mcpServers in Gemini CLI settings\nCommand: npx; args: ["-y", "health-analyzer-mcp"]\nRestart Gemini CLI'},
+      {name:'n8n', icon:'⌘', method:'MCP Client node · remote only', setup:'n8n’s MCP Client node expects an SSE or streamable-HTTP URL.\nThe local stdio package does not expose a remote URL by default.\nKeep it local with a stdio client unless you operate a secure bridge.'},
+      {name:'Hermes', icon:'♞', method:'MCP config · stdio', setup:'Add a local MCP server to Hermes configuration\nCommand: npx -y health-analyzer-mcp\nRestart the Hermes session and verify the 11 tools'}
+    ];
+    const tabs=document.getElementById('client-tabs'), output=document.getElementById('demo-output');
+    let active=1, timer;
+    const answer='\n\n· then ask ·\n› Compare my recovery signals over the last 30 days.\n\n✓ Called get_hrv, get_heart_rate, get_sleep and get_workouts\nRecovery snapshot: HRV and resting heart rate moved in a favorable direction while sleep consistency stayed stable. This is a trend summary, not a diagnosis.';
+    function typeDemo(text){ clearInterval(timer); output.textContent=''; let i=0; timer=setInterval(()=>{ output.textContent=text.slice(0,++i); if(i>=text.length) clearInterval(timer); },6); }
+    function selectClient(index){ active=index; const c=clients[index]; document.getElementById('demo-client').textContent=c.icon+'  '+c.name; document.getElementById('demo-method').textContent=c.method; [...tabs.children].forEach((b,i)=>b.setAttribute('aria-selected',i===index)); typeDemo('· connect ·\n'+c.setup+answer); }
+    clients.forEach((c,i)=>{ const b=document.createElement('button'); b.type='button'; b.className='client-tab'; b.setAttribute('role','tab'); b.innerHTML='<span aria-hidden="true">'+c.icon+'</span><span>'+c.name+'</span>'+((c.name==='Cursor'||c.name==='VS Code'||c.name==='Cline'||c.name==='ChatGPT'||c.name==='Gemini'||c.name==='n8n')?'<span class="client-dot" title="Setup limitation noted"></span>':''); b.onclick=()=>selectClient(i); tabs.appendChild(b); });
+    document.getElementById('demo-replay').onclick=()=>selectClient(active);
+    selectClient(active);
+
   </script>
 </body>
 </html>
