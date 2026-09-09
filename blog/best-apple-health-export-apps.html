@@ -138,6 +138,14 @@
             "@type": "Answer",
             "text": "Health Data Export & AI Analyzer is currently the only Apple Health export app that also supports Oura Ring and Samsung Galaxy Ring data, letting you consolidate all your health data in one export."
           }
+        },
+        {
+          "@type": "Question",
+          "name": "Is Health Auto Export better than Health Data Export & AI Analyzer?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Use Health Auto Export if you need automated pushes to REST APIs, MQTT, Home Assistant, or Grafana. Use Health Data Export & AI Analyzer if you want a local iPhone-to-Mac workflow for CSV/JSON export and AI analysis without building an automation stack."
+          }
         }
       ]
     }
@@ -239,6 +247,14 @@
                         <p class="text-sm">Can't feed directly to ChatGPT, Claude, or any AI</p>
                     </div>
                 </div>
+            </div>
+
+            <!-- Answer-first comparison for Health Auto Export searchers -->
+            <div class="bento-card p-8 mb-12 border-sky-500/30 bg-sky-950/20">
+                <p class="text-xs font-semibold uppercase tracking-[0.2em] text-sky-300 mb-3">Health Auto Export comparison</p>
+                <h2 class="text-2xl font-bold mb-4 text-white">Is Health Auto Export the best Apple Health export app?</h2>
+                <p class="text-slate-300 mb-4">Health Auto Export is the better fit if your goal is automatic Apple Health export into REST APIs, MQTT, Home Assistant, or Grafana. Its own product page describes it as an automation-first tool for people who want Apple Health data flowing into custom dashboards and integrations.</p>
+                <p class="text-slate-300 mb-0">Health Data Export &amp; AI Analyzer is the better fit if your goal is a local iPhone-to-Mac workflow for CSV or JSON export, private Mac analysis, and AI-ready files without building an automation stack. If you want both, choose by the workflow you will actually run every week: automation endpoints for Health Auto Export, or local export and AI analysis for Health Data Export &amp; AI Analyzer.</p>
             </div>
         </div>
     </section>
