@@ -1,3 +1,5 @@
+import { handleRetentionMessage, RETENTION_PATH } from './retention.js';
+
 // Cloudflare Worker for applehealthdata.com
 // - Serves /commits as a GitHub API proxy (existing behavior)
 // - Proxies everything else to the GitHub Pages origin
@@ -17,6 +19,7 @@ const LINK_HEADER = [
 export default {
   async fetch(request, env, ctx) {
     const url = new URL(request.url);
+    if (url.pathname === RETENTION_PATH) return handleRetentionMessage(request);
     if (url.pathname === '/commits') return handleCommits(request, url, env);
     return handleProxy(request, url);
   }
