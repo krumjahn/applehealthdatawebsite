@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Home Assistant Sync — Health Data Export Docs</title>
-    <meta name="description" content="Push Apple Health metrics directly to Home Assistant as sensor states. Use your health data in dashboards, automations, and Lovelace cards.">
+    <title>Apple Health to Home Assistant Sync — Health Data Export Docs</title>
+    <meta name="description" content="Sync Apple Health to Home Assistant as sensor states using Health Data Export. Set up the iPhone app, Home Assistant URL, token, entity prefix, and Auto-Sync.">
     <link rel="canonical" href="https://applehealthdata.com/docs/sync-home-assistant.html">
     <meta name="apple-itunes-app" content="app-id=6749297170">
     <meta name="robots" content="index,follow">
@@ -12,8 +12,8 @@
     <meta property="og:type" content="website">
     <meta property="og:site_name" content="Health Data Export & Analyze">
     <meta property="og:url" content="https://applehealthdata.com/docs/sync-home-assistant.html">
-    <meta property="og:title" content="Home Assistant Sync — Health Data Export Docs">
-    <meta property="og:description" content="Push Apple Health metrics directly to Home Assistant as sensor states. Use your health data in dashboards, automations, and Lovelace cards.">
+    <meta property="og:title" content="Apple Health to Home Assistant Sync — Health Data Export Docs">
+    <meta property="og:description" content="Sync Apple Health to Home Assistant as sensor states using Health Data Export. Set up the iPhone app, Home Assistant URL, token, entity prefix, and Auto-Sync.">
     <meta property="og:image" content="https://applehealthdata.com/images/mac-app-screenshot-1.png">
 
     <script src="https://cdn.tailwindcss.com"></script>
@@ -246,8 +246,12 @@
     <main class="docs-main">
         <div class="max-w-3xl mx-auto px-6 py-16">
             <div class="doc-content">
-                <h1>Sync to Home Assistant</h1>
-                <p>Push Apple Health metrics directly to Home Assistant as sensor states. Each metric becomes a <code>sensor.&lt;prefix&gt;_&lt;metric&gt;</code> entity you can use in dashboards, automations, and Lovelace cards.</p>
+                <h1>Sync Apple Health to Home Assistant</h1>
+                <p>Use Health Data Export to push Apple Health metrics from your iPhone into Home Assistant as sensor states. Each metric becomes a <code>sensor.&lt;prefix&gt;_&lt;metric&gt;</code> entity you can use in dashboards, automations, and Lovelace cards.</p>
+
+                <blockquote>
+                    <p><strong>Quick answer:</strong> yes, you can connect Apple Health to Home Assistant without a cloud health account. In Health Data Export, choose Home Assistant as the sync destination, enter a Home Assistant URL that your iPhone can reach, paste a long-lived access token, set an entity prefix, then enable Auto-Sync. Use your local network URL at home or a Nabu Casa URL when the iPhone needs remote access.</p>
+                </blockquote>
 
                 <h2>Prerequisites</h2>
                 <ul>
