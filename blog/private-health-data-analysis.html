@@ -217,7 +217,7 @@
         "name": "Keith Rumjahn"
       },
       "datePublished": "2026-01-31",
-      "dateModified": "2026-05-31"
+      "dateModified": "2026-09-19"
     }
     </script>
 
@@ -265,6 +265,14 @@
           "acceptedAnswer": {
             "@type": "Answer",
             "text": "No. Everything runs locally. You export from iPhone, import into the Mac app, and OpenClaw reads from a localhost API on your machine. No cloud upload required."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Should I test the local API with curl http://127.0.0.1:8765/health?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Use curl http://127.0.0.1:8765/openclaw/status for OpenClaw readiness, or curl http://127.0.0.1:8765/status for the general local API status. The documented OpenClaw health check is /openclaw/status, not /health."
           }
         }
       ]
@@ -330,7 +338,7 @@
             <header class="mb-12">
                 <div class="flex items-center space-x-2 text-sm text-slate-400 mb-4">
                     <i data-lucide="calendar" class="w-4 h-4"></i>
-                    <time datetime="2026-05-31">Updated: May 2026</time>
+                    <time datetime="2026-09-19">Updated: September 2026</time>
                     <span class="mx-2">|</span>
                     <span>5 min read</span>
                 </div>
@@ -524,6 +532,12 @@
                 <p>You can also test the API directly with <code>curl</code>:</p>
                 <pre><code>curl http://127.0.0.1:8765/openclaw/status
 curl "http://127.0.0.1:8765/openclaw/daily-brief?date=2026-03-27"</code></pre>
+
+                <div class="info-box">
+                    <h3 class="mt-0">If you saw <code>curl http://127.0.0.1:8765/health</code>, use the status endpoint instead</h3>
+                    <p>The documented OpenClaw readiness check is <code>curl http://127.0.0.1:8765/openclaw/status</code>. For the general local API status, use <code>curl http://127.0.0.1:8765/status</code>. Those status endpoints tell you whether the Mac app is running, whether a dataset is loaded, and which metrics are available.</p>
+                    <p class="mb-0">A plain <code>/health</code> URL is easy to guess, but it is not the endpoint shown in the current Apple Health Local API docs. If OpenClaw cannot connect, test <code>/openclaw/status</code> first, then make sure the Health Data AI Analyzer Mac app is open and your export has been imported.</p>
+                </div>
             </section>
 
             <!-- Why Privacy Matters -->
