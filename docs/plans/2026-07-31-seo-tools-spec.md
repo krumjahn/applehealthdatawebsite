@@ -24,6 +24,14 @@ Build one self-contained static tool page: a single `index.html` in the assigned
     <meta name="twitter:description" content="...">
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
+    <!-- Google tag (gtag.js) — AHD GA4 property -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-8SMQRLT4VS"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-8SMQRLT4VS');
+    </script>
 </head>
 ```
 

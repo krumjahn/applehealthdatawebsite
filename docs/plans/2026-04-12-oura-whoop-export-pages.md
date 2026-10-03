@@ -37,6 +37,14 @@ Use the card pattern from `export-apple-health-sleep-data/index.html` as the bas
   <meta name="keywords" content="export oura data, oura ring csv export, oura to apple health, oura ring data analysis, oura hrv export" />
   <meta name="apple-itunes-app" content="app-id=6749297170">
   <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Google tag (gtag.js) — AHD GA4 property -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-8SMQRLT4VS"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-8SMQRLT4VS');
+  </script>
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -208,6 +216,14 @@ Same card pattern, WHOOP-specific content:
   <meta name="keywords" content="export whoop data, whoop csv export, whoop apple health sync, whoop data analysis, whoop strain recovery export" />
   <meta name="apple-itunes-app" content="app-id=6749297170">
   <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Google tag (gtag.js) — AHD GA4 property -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-8SMQRLT4VS"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-8SMQRLT4VS');
+  </script>
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
