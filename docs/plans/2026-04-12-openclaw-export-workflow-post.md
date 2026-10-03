@@ -32,7 +32,7 @@
 ### Step 1: Read the reference file
 
 Read `blog/openclaw-apple-health-guide.html` in full. Copy:
-- Full `<head>` block including all CSS, fonts, analytics (GA G-8SMQRLT4VS, Umami, Matomo)
+- Full `<head>` block including all CSS, fonts, analytics (GA4 G-8SMQRLT4VS)
 - Nav bar HTML
 - Footer HTML
 - Open Graph and Twitter Card meta tags (update values)

@@ -28,20 +28,6 @@
 
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
-    <script defer src="https://umami.rumjahn.synology.me/script.js" data-website-id="5d7b4fa8-90b2-4191-8daf-8ea487a8d961"></script>
-    <!-- Matomo -->
-    <script>
-      var _paq = window._paq = window._paq || [];
-      _paq.push(['trackPageView']);
-      _paq.push(['enableLinkTracking']);
-      (function() {
-        var u="//shrewd-lyrebird.pikapod.net/";
-        _paq.push(['setTrackerUrl', u+'matomo.php']);
-        _paq.push(['setSiteId', '9']);
-        var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
-        g.async=true; g.src=u+'matomo.js'; s.parentNode.insertBefore(g,s);
-      })();
-    </script>
 
     <!-- Structured data: SoftwareApplication -->
     <script type="application/ld+json">
@@ -128,6 +114,14 @@
       #wkTable tbody tr:hover { background:rgba(255,255,255,.03); }
       .prog-bar { transition: width .15s linear; }
     </style>
+  <!-- Google tag (gtag.js) — AHD GA4 property -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-8SMQRLT4VS"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-8SMQRLT4VS');
+  </script>
 </head>
 <body>
     <div class="mesh-gradient"></div>
