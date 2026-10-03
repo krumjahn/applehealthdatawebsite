@@ -6,7 +6,7 @@
 
 **Architecture:** Two new static HTML pages matching the existing site design system (Plus Jakarta Sans, JetBrains Mono, slate-950 bg, glass cards, rose/sky/purple mesh gradient). Landing page targets awareness/concept keywords, blog guide targets how-to keywords. Homepage gets OpenCLaw mentions woven in. Sitemap updated.
 
-**Tech Stack:** Static HTML, Tailwind CDN, Lucide icons, Matomo analytics (site ID 9)
+**Tech Stack:** Static HTML, Tailwind CDN, Lucide icons, Google Analytics 4
 
 ---
 

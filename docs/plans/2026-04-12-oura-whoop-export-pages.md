@@ -6,7 +6,7 @@
 
 **Architecture:** Two standalone `index.html` files following the lightweight card-based pattern used in `export-apple-health-sleep-data/index.html`. Each page has: hero → video → native export steps → Apple Health sync section → comparison table → AI prompts → CTA. Both pages added to `sitemap.xml` and linked from the homepage/nav where relevant.
 
-**Tech Stack:** HTML, Tailwind CDN, Plus Jakarta Sans, existing `ExportToCSV.mp4` (reused), Matomo + Umami analytics snippets copied from sibling pages.
+**Tech Stack:** HTML, Tailwind CDN, Plus Jakarta Sans, existing `ExportToCSV.mp4` (reused), GA4 analytics snippet copied from sibling pages.
 
 ---
 
@@ -37,18 +37,13 @@ Use the card pattern from `export-apple-health-sleep-data/index.html` as the bas
   <meta name="keywords" content="export oura data, oura ring csv export, oura to apple health, oura ring data analysis, oura hrv export" />
   <meta name="apple-itunes-app" content="app-id=6749297170">
   <script src="https://cdn.tailwindcss.com"></script>
-  <script defer src="https://umami.rumjahn.synology.me/script.js" data-website-id="5d7b4fa8-90b2-4191-8daf-8ea487a8d961"></script>
+  <!-- Google tag (gtag.js) — AHD GA4 property -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-8SMQRLT4VS"></script>
   <script>
-    var _paq = window._paq = window._paq || [];
-    _paq.push(['trackPageView']);
-    _paq.push(['enableLinkTracking']);
-    (function() {
-      var u="//shrewd-lyrebird.pikapod.net/";
-      _paq.push(['setTrackerUrl', u+'matomo.php']);
-      _paq.push(['setSiteId', '9']);
-      var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
-      g.async=true; g.src=u+'matomo.js'; s.parentNode.insertBefore(g,s);
-    })();
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-8SMQRLT4VS');
   </script>
   <script type="application/ld+json">
   {
@@ -221,18 +216,13 @@ Same card pattern, WHOOP-specific content:
   <meta name="keywords" content="export whoop data, whoop csv export, whoop apple health sync, whoop data analysis, whoop strain recovery export" />
   <meta name="apple-itunes-app" content="app-id=6749297170">
   <script src="https://cdn.tailwindcss.com"></script>
-  <script defer src="https://umami.rumjahn.synology.me/script.js" data-website-id="5d7b4fa8-90b2-4191-8daf-8ea487a8d961"></script>
+  <!-- Google tag (gtag.js) — AHD GA4 property -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-8SMQRLT4VS"></script>
   <script>
-    var _paq = window._paq = window._paq || [];
-    _paq.push(['trackPageView']);
-    _paq.push(['enableLinkTracking']);
-    (function() {
-      var u="//shrewd-lyrebird.pikapod.net/";
-      _paq.push(['setTrackerUrl', u+'matomo.php']);
-      _paq.push(['setSiteId', '9']);
-      var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
-      g.async=true; g.src=u+'matomo.js'; s.parentNode.insertBefore(g,s);
-    })();
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-8SMQRLT4VS');
   </script>
   <script type="application/ld+json">
   {
@@ -447,5 +437,5 @@ git push
 - `/export-oura-data/` loads at applehealthdata.com/export-oura-data/
 - `/export-whoop-data/` loads at applehealthdata.com/export-whoop-data/
 - Both pages appear in sitemap.xml
-- Both pages have: HowTo JSON-LD schema, canonical URL, Matomo + Umami tracking, video embed, comparison table, AI prompts, CTA
+- Both pages have: HowTo JSON-LD schema, canonical URL, GA4 tracking, video embed, comparison table, AI prompts, CTA
 - Wearable quiz links to both new pages
