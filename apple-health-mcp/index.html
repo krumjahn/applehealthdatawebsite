@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Apple Health MCP Server: Connect Claude, Cursor & AI Tools to HealthKit</title>
-  <meta name="description" content="The open-source Apple Health MCP server. Lets Claude Desktop, Cursor, and any MCP client query your steps, sleep, HRV, workouts and more — all locally, no cloud upload.">
+  <title>Apple Health MCP: Connect Claude to Apple Health on Your Mac</title>
+  <meta name="description" content="How to connect Claude to Apple Health: install the Mac app, add one npx line to Claude Desktop, Claude Code or Cursor, then ask about steps, sleep, HRV and workouts. 100% local.">
   <meta name="keywords" content="apple health mcp, apple health data mcp, mcp server apple health, claude apple health mcp, healthkit mcp, model context protocol apple health, cursor apple health, mcp health data">
   <meta name="author" content="Keith Rumjahn">
   <link rel="canonical" href="https://applehealthdata.com/apple-health-mcp/">
@@ -12,7 +12,7 @@
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="Health Data Export & Analyze">
   <meta property="og:url" content="https://applehealthdata.com/apple-health-mcp/">
-  <meta property="og:title" content="Apple Health MCP Server: Connect Claude, Cursor & AI Tools to HealthKit">
+  <meta property="og:title" content="Apple Health MCP: Connect Claude to Apple Health on Your Mac">
   <meta property="og:description" content="Plug Apple Health into Claude Desktop, Cursor, and any MCP client — 100% local on your Mac.">
   <meta property="og:image" content="https://applehealthdata.com/images/apple-health-mcp-poster.png">
   <meta property="og:image:width" content="1920">
@@ -22,7 +22,7 @@
   <meta property="og:video:width" content="1920">
   <meta property="og:video:height" content="1080">
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="Apple Health MCP Server">
+  <meta name="twitter:title" content="Apple Health MCP: Connect Claude to Apple Health">
   <meta name="twitter:description" content="Plug Apple Health into Claude Desktop, Cursor, and any MCP client — 100% local.">
   <meta name="twitter:image" content="https://applehealthdata.com/images/apple-health-mcp-poster.png">
 
@@ -61,6 +61,14 @@
     "@context": "https://schema.org",
     "@type": "FAQPage",
     "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "How do I connect Claude to Apple Health?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Install the Health Data AI Analyzer Mac app (it hosts the local API at http://localhost:8765), add the health-analyzer-mcp server to Claude Desktop (Settings → Developer → Edit Config) or run claude mcp add health-analyzer -- npx -y health-analyzer-mcp in Claude Code, then restart Claude. Claude can then call 11 read-only tools such as get_steps, get_sleep, get_hrv and get_workouts. The MCP server runs locally on your Mac."
+        }
+      },
       {
         "@type": "Question",
         "name": "What is an Apple Health MCP server?",
@@ -124,7 +132,7 @@
     "description": "MCP server that exposes Apple Health data to Claude, Cursor, and other MCP clients via the Health Data AI Analyzer Mac app. All data stays local.",
     "url": "https://applehealthdata.com/apple-health-mcp/",
     "softwareVersion": "1.1.0",
-    "dateModified": "2026-06-07",
+    "dateModified": "2026-10-06",
     "author": {"@type": "Person", "name": "Keith Rumjahn", "url": "https://applehealthdata.com/"},
     "publisher": {"@type": "Organization", "name": "Health Data Export", "url": "https://applehealthdata.com/"},
     "license": "https://opensource.org/licenses/MIT",
@@ -137,10 +145,10 @@
   {
     "@context": "https://schema.org",
     "@type": "Article",
-    "headline": "Apple Health MCP Server: Connect Claude, Cursor & AI Tools to HealthKit",
+    "headline": "Apple Health MCP: Connect Claude to Apple Health on Your Mac",
     "description": "The open-source Apple Health MCP server. Lets Claude Desktop, Cursor, and any MCP client query your steps, sleep, HRV, workouts and more — all locally, no cloud upload.",
     "datePublished": "2026-05-20",
-    "dateModified": "2026-06-07",
+    "dateModified": "2026-10-06",
     "author": {"@type": "Person", "name": "Keith Rumjahn", "url": "https://applehealthdata.com/"},
     "publisher": {"@type": "Organization", "name": "Health Data Export", "url": "https://applehealthdata.com/", "logo": {"@type": "ImageObject", "url": "https://applehealthdata.com/images/logo.png"}},
     "mainEntityOfPage": "https://applehealthdata.com/apple-health-mcp/",
@@ -247,6 +255,20 @@
       </div>
 
 
+      <section id="connect-claude" class="glass p-6 mt-10" aria-labelledby="connect-claude-title">
+        <p class="text-xs uppercase tracking-[0.25em] text-sky-300 font-bold mb-3">Quick answer</p>
+        <h2 id="connect-claude-title" class="!mt-0 !pt-0 !border-t-0">How to connect Claude to Apple Health (3 steps)</h2>
+        <ol class="list-decimal">
+          <li style="list-style-type: decimal;"><strong class="text-white">Install the Health Data AI Analyzer Mac app.</strong> It hosts the local API on <code>localhost:8765</code> that the MCP server reads from.</li>
+          <li style="list-style-type: decimal;"><strong class="text-white">Add the MCP server to Claude.</strong> Claude Desktop: Settings → Developer → Edit Config and add <code>"command": "npx", "args": ["-y", "health-analyzer-mcp"]</code>. Claude Code: <code>claude mcp add health-analyzer -- npx -y health-analyzer-mcp</code>.</li>
+          <li style="list-style-type: decimal;"><strong class="text-white">Restart Claude and ask.</strong> For example: <em>"What were my step counts and sleep duration for the last 14 days?"</em> Claude calls read-only tools like <code>get_steps</code>, <code>get_sleep</code> and <code>get_hrv</code> and gets back only the slice it asked for.</li>
+        </ol>
+        <p class="text-sm">Prefer pasting compact summaries into Claude instead of setting up MCP? Use the <a href="/apple-health-claude/">Apple Health + Claude local API guide</a>.</p>
+        <a href="/go/website.html?c=ah_mcp_quick_answer" data-cta-location="quick_answer" class="inline-flex justify-center items-center gap-2 bg-rose-600 text-white font-bold py-3 px-6 rounded-xl hover:bg-rose-700 transition-all shadow-lg shadow-rose-600/20" style="color:#fff;border-bottom:0;">
+          <i data-lucide="download" class="w-5 h-5"></i> Step 1: Get the Mac app
+        </a>
+      </section>
+
       <section id="client-demo" class="my-20 text-center" aria-labelledby="client-demo-title">
         <h2 id="client-demo-title" class="!border-0 !mt-0 !pt-0 text-3xl sm:text-5xl">Watch it set up &amp; answer in your client.</h2>
         <p class="max-w-2xl mx-auto">Eleven AI clients people actually use. Pick yours to see its setup and the same read-only Apple Health question answered.</p>
@@ -264,7 +286,7 @@
       </section>
 
       <h2>What is an Apple Health MCP server?</h2>
-      <p class="text-slate-500 text-sm"><i data-lucide="clock" class="w-3 h-3 inline"></i> <time datetime="2026-06-07">Last updated: June 7, 2026</time> · Reviewed by Keith Rumjahn</p>
+      <p class="text-slate-500 text-sm"><i data-lucide="clock" class="w-3 h-3 inline"></i> <time datetime="2026-10-06">Last updated: October 6, 2026</time> · Reviewed by Keith Rumjahn</p>
       <p>Anthropic introduced the <strong>Model Context Protocol</strong> in November 2024 and open-sourced the spec to let AI assistants discover and call tools on your behalf — by 2026 the protocol was already shipping natively in Claude Desktop, Cursor, Cline, and OpenClaw ([Anthropic announcement](https://www.anthropic.com/news/model-context-protocol) <span title="Search-summary, Tier 1 source — Anthropic official">[S]</span>). An <strong>Apple Health MCP server</strong> is a small program that translates between MCP and your HealthKit data — instead of pasting JSON into a chat, your AI assistant can call the server directly: "what were my step counts last week?" → the server hits the local API → returns a compact answer.</p>
 
       <h2>How it works (and why nothing leaves your Mac)</h2>
