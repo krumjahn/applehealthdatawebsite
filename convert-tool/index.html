@@ -493,6 +493,13 @@
                     <input type="file" id="file-upload" class="hidden" accept=".xml">
                     <p id="status" class="text-slate-400 mt-4">... or drop your <code>export.xml</code> file here</p>
                     <a id="download-link" class="hidden w-full mt-6 download-button text-white font-bold py-3 px-8 rounded-lg hover:bg-green-600 transition-all text-center">Download CSV</a>
+                    <div id="convert-success-card" class="hidden w-full mt-4 text-left rounded-2xl border border-white/10 bg-slate-950/80 p-4">
+                        <p class="text-sm text-slate-300 leading-snug mb-3">Your file is ready. Want AI insights on sleep, HRV, workouts, and heart trends too? Get the companion app.</p>
+                        <a href="/go/website.html?c=convert_tool_success" target="_blank" rel="noopener" data-cta-location="convert_success" class="inline-flex w-full sm:w-auto items-center justify-center gap-2 bg-rose-600 text-white font-bold py-3 px-5 sm:px-8 rounded-full hover:bg-rose-700 transition-all shadow-lg shadow-rose-600/20 text-sm sm:text-base">
+                            <img src="https://upload.wikimedia.org/wikipedia/commons/6/67/App_Store_%28iOS%29.svg" class="w-5 h-5 filter invert shrink-0" alt="">
+                            <span class="min-w-0 leading-tight">Download Health Data AI Analyzer</span>
+                        </a>
+                    </div>
                 </div>
             </div>
 
@@ -814,6 +821,7 @@
         const fileInput = document.getElementById('file-upload');
         const statusDiv = document.getElementById('status');
         const downloadLink = document.getElementById('download-link');
+        const convertSuccessCard = document.getElementById('convert-success-card');
         const formatBtns = document.querySelectorAll('.format-btn');
 
         let selectedFormat = 'csv';
@@ -826,6 +834,7 @@
                 btn.classList.add('active');
                 selectedFormat = btn.dataset.format;
                 downloadLink.classList.add('hidden');
+                convertSuccessCard.classList.add('hidden');
                 statusDiv.textContent = '... or drop your export.xml file here';
             });
         });
@@ -857,7 +866,12 @@
             }
         });
 
-        // Make the dropzone clickable
+        // Make the dropzone clickable. The success card lives inside the zone;
+        // clicks on it must not reopen the file picker.
+        convertSuccessCard.addEventListener('click', (event) => {
+            event.stopPropagation();
+        });
+
         dropZone.addEventListener('click', () => {
             fileInput.click();
         });
@@ -916,6 +930,7 @@
 
             statusDiv.textContent = 'Reading file...';
             downloadLink.classList.add('hidden');
+            convertSuccessCard.classList.add('hidden');
 
             const reader = new FileReader();
 
@@ -953,7 +968,16 @@
                     downloadLink.setAttribute('download', 'converted-health-data' + formatExtensions[selectedFormat]);
                     downloadLink.textContent = `Download ${formatLabels[selectedFormat]}`;
                     downloadLink.classList.remove('hidden');
+                    convertSuccessCard.classList.remove('hidden');
                     statusDiv.innerHTML = `Success! Converted ${data.length.toLocaleString()} records to ${formatLabels[selectedFormat]}.`;
+                    try {
+                        if (typeof gtag === 'function') {
+                            gtag('event', 'convert_success', {
+                                format: selectedFormat,
+                                record_count: data.length
+                            });
+                        }
+                    } catch (e) {}
 
                     // --- DASHBOARD INTEGRATION ---
                     try {
