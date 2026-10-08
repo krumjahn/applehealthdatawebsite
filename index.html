@@ -294,33 +294,26 @@
     {
       "@context": "https://schema.org",
       "@type": "SoftwareApplication",
-      "name": "Health Data Export & AI Analyzer",
+      "name": "Health Data AI Analyzer",
       "applicationCategory": "HealthApplication",
-      "operatingSystem": "iOS 18+, macOS",
+      "operatingSystem": "iOS 18.5+, macOS 15.5+",
       "offers": {
-        "@type": "Offer",
-        "price": "0",
-        "priceCurrency": "USD"
+            "@type": "Offer",
+            "price": "4.99",
+            "priceCurrency": "USD",
+            "url": "https://apps.apple.com/us/app/health-data-ai-analyzer/id6749297170"
       },
-      "description": "Local-first ChatGPT Health and Claude Health alternative. Export Apple Health data on-device in CSV, JSON, or XML and analyze it on Mac.",
+      "description": "Export Apple Health data locally on iPhone for your AI tool, spreadsheet, or Mac. Optional Pro adds built-in cloud AI and sync.",
       "featureList": [
-        "Privacy-first Apple Health, Oura, and Whoop data export",
-        "ChatGPT Health alternative with local processing",
-        "Oura and Whoop analysis via Apple Health sync",
-        "Export to CSV, JSON, and XML formats",
-        "Apple Health analysis on Mac",
-        "Works with any AI tool (ChatGPT, Claude, Gemini, local LLMs)",
-        "One-time purchase, no subscription",
-        "Offline-capable workflow",
-        "Compatible with LM Studio and Ollama"
+            "CSV, JSON, and XML exports on iPhone",
+            "JSON summaries for AI tools",
+            "XML import and analysis on Mac",
+            "On-device iPhone answers and weekly brief",
+            "One-time base app with optional Pro subscription",
+            "Optional sharing and sync"
       ],
-      "aggregateRating": {
-        "@type": "AggregateRating",
-        "ratingValue": "4.8",
-        "ratingCount": "282"
-      },
       "keywords": "ChatGPT Health alternative, Claude Health alternative, privacy-first health analysis, local Apple Health AI analysis, export Apple Health data, Apple Health data backup, own your health data"
-    }
+}
     </script>
 
     <!-- Article Schema: Homepage E-E-A-T -->
@@ -461,7 +454,7 @@
     <div class="mesh-gradient"></div>
 
     <!-- Navigation -->
-    <nav class="fixed w-full z-50 border-b border-white/10 bg-slate-950/50 backdrop-blur-xl">
+    <nav style="width: 100vw; left: 0;" class="fixed z-50 border-b border-white/10 bg-slate-950/50 backdrop-blur-xl">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between items-center h-20">
                 <div class="flex items-center gap-3">
@@ -470,11 +463,11 @@
                     </div>
                     <div>
                         <span class="font-bold text-lg tracking-tight text-white block leading-none">Health Data</span>
-                        <span class="text-xs text-slate-400 tracking-wider uppercase font-semibold">Export & Analyze</span>
+                        <span class="hidden min-[400px]:block text-xs text-slate-400 tracking-wider uppercase font-semibold">Export & Analyze</span>
                     </div>
                 </div>
                 <!-- Desktop nav -->
-                <div class="hidden md:flex items-center space-x-1">
+                <div class="hidden xl:flex items-center space-x-1">
                     <a href="/dashboard/" class="px-4 py-2 text-sm font-medium text-slate-300 hover:text-white transition-colors rounded-lg hover:bg-white/5">Dashboard</a>
                     <a href="/convert-tool/" class="px-4 py-2 text-sm font-medium text-slate-300 hover:text-white transition-colors rounded-lg hover:bg-white/5">Convert Tool</a>
                     <a href="/tools/" class="px-4 py-2 text-sm font-medium text-slate-300 hover:text-white transition-colors rounded-lg hover:bg-white/5">Free Tools</a>
@@ -544,7 +537,7 @@
                     </a>
                 </div>
                 <!-- Mobile: Get App + Hamburger -->
-                <div class="flex md:hidden items-center gap-3">
+                <div class="flex xl:hidden shrink-0 items-center gap-1">
                     <a href="/go/website.html?c=homepage" target="_blank" rel="noopener" class="bg-white text-black px-4 py-2 rounded-full text-sm font-bold">Get App</a>
                     <button id="mobile-menu-btn" aria-label="Toggle menu" aria-expanded="false" class="p-2 rounded-lg text-slate-300 hover:text-white hover:bg-white/10 transition-colors">
                         <svg id="mobile-icon-open" xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
@@ -554,7 +547,7 @@
             </div>
         </div>
         <!-- Mobile dropdown -->
-        <div id="mobile-menu" class="hidden md:hidden border-t border-white/10 bg-slate-950/95 backdrop-blur-xl">
+        <div id="mobile-menu" class="hidden xl:hidden border-t border-white/10 bg-slate-950/95 backdrop-blur-xl">
             <div class="px-4 py-4 flex flex-col gap-1">
                 <a href="/dashboard/" class="px-4 py-3 text-sm font-medium text-slate-300 hover:text-white hover:bg-white/5 rounded-lg transition-colors">Dashboard</a>
                 <a href="/convert-tool/" class="px-4 py-3 text-sm font-medium text-slate-300 hover:text-white hover:bg-white/5 rounded-lg transition-colors">Convert Tool</a>
@@ -615,143 +608,60 @@
                 
                 <!-- Hero Text -->
                 <div class="lg:w-3/5 z-10">
-                    <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/5 border border-white/10 text-rose-400 text-sm font-medium mb-8">
-                        <span class="relative flex h-2 w-2">
-                          <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-rose-400 opacity-75"></span>
-                          <span class="relative inline-flex rounded-full h-2 w-2 bg-rose-500"></span>
-                        </span>
-                        New on iPhone: AI answers, Weekly Health Brief & Universal AI Connect
-                        <div class="flex items-center gap-2 mt-2">
-                            <img src="images/lm-studio-logo.png" alt="LM Studio Logo" class="h-5 w-5 rounded-full">
-                            <img src="images/ollama-logo.jpg" alt="Ollama Logo" class="h-5 w-5 rounded-full">
-                        </div>
-                    </div>
-                    <h1 class="text-5xl sm:text-6xl lg:text-7xl font-bold text-white tracking-tight leading-[1.1] mb-4">
-                        <span class="text-transparent bg-clip-text bg-gradient-to-r from-rose-500 via-orange-400 to-rose-500 animate-gradient bg-300% text-glow">Understand Apple Health</span>
-                        privately on your iPhone.
+                    <p class="text-rose-400 text-sm font-semibold mb-6">HEALTH DATA AI ANALYZER · iPHONE + MAC</p>
+                    <h1 class="text-4xl sm:text-5xl lg:text-6xl font-bold text-white tracking-tight leading-[1.1] mb-6">
+                        Your Apple Health data.<br><span class="text-rose-400">Ready for your next step.</span>
                     </h1>
-                    <p class="text-xl sm:text-2xl text-slate-300 mb-8 font-semibold">
-                        Private answers on-device. Your data, your choice of AI.
-                    </p>
-                    <p class="text-lg sm:text-xl text-slate-400 mb-10 max-w-2xl leading-relaxed">
-                        Ask about sleep, HRV, resting heart rate, steps, and workout load with metric and date provenance. Review a private weekly brief, or create a clean JSON export for ChatGPT, Claude, Gemini, OpenClaw, Hermes, Cursor, and more—only when you choose to share it.
-                    </p>
-                    
-                    <div class="flex flex-col sm:flex-row items-center gap-6">
-                        <a href="/go/website.html?c=homepage_hero_button" target="_blank" rel="noopener" data-cta-location="hero_button" id="cta-hero-appstore" class="group relative inline-flex items-center justify-center px-8 py-4 font-bold text-white transition-all duration-200 bg-rose-600 font-pj rounded-full focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-900">
-                            <div class="absolute -inset-3 rounded-full bg-rose-600 opacity-20 group-hover:opacity-40 blur-lg transition-opacity duration-200" style="animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;"></div>
-                            <span class="relative flex items-center gap-2">
-                                <img src="https://upload.wikimedia.org/wikipedia/commons/6/67/App_Store_%28iOS%29.svg" class="w-5 h-5 filter invert" alt="">
-                                Download on App Store
-                            </span>
-                        </a>
-                        <a href="/convert-tool/" data-cta-location="hero_converter" class="group relative inline-flex items-center justify-center px-8 py-4 font-bold text-white transition-all duration-200 bg-slate-800 font-pj rounded-full hover:bg-slate-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-900">
-                            <span class="relative">Convert export.xml → CSV (Free)</span>
-                        </a>
-                        <div class="flex items-center gap-4 text-sm text-slate-500">
-                            <div class="h-px w-8 bg-slate-700"></div>
-                            <span>No uploads • Runs in your browser</span>
-                        </div>
+                    <p class="text-xl text-slate-300 mb-6 leading-relaxed">Create a JSON summary for your AI tool, export XML for Mac analysis, or keep a CSV for your own spreadsheet.</p>
+                    <p class="text-base text-slate-400 mb-8">Export on your iPhone. Choose where the file goes. Prefer to stay on-device? Explore answers and a weekly brief on your iPhone.</p>
+                    <div class="flex flex-col sm:flex-row gap-4 items-start">
+                        <a href="/go/website.html?c=homepage_hero_button" target="_blank" rel="noopener" data-cta-location="hero_button" id="cta-hero-appstore" class="inline-flex items-center justify-center px-7 py-4 font-bold text-white bg-rose-600 rounded-full hover:bg-rose-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4">Get the app</a>
+                        <a href="#choose-workflow" class="inline-flex items-center justify-center px-7 py-4 font-semibold text-white border border-white/20 rounded-full hover:bg-white/10">See how it works</a>
                     </div>
-                    <div class="mt-4 flex flex-col sm:flex-row sm:items-center gap-3 text-sm">
-                        <a href="/ai-health-analysis/" data-cta-location="hero_ai_health_hub" class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-rose-500/5 border border-rose-500/20 text-rose-300 hover:bg-rose-500/10 hover:border-rose-400/40 transition-colors font-semibold">
-                            <i data-lucide="stethoscope" class="w-3.5 h-3.5"></i>
-                            Compare Copilot Health, Perplexity, ChatGPT, Claude &amp; Gemini workflows →
-                        </a>
-                    </div>
-                    <!-- Dev chip: CLI install -->
-                    <div class="mt-3">
-                        <a href="/apple-health-cli/" data-cta-location="hero_cli" class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-cyan-500/5 border border-cyan-500/20 text-cyan-300 hover:bg-cyan-500/10 hover:border-cyan-400/40 transition-colors text-sm font-mono">
-                            <i data-lucide="terminal" class="w-3.5 h-3.5"></i>
-                            <span><span class="text-slate-500 select-none">$</span> pipx install healthai</span>
-                            <span class="text-slate-500 font-sans not-italic">— prefer the terminal? Try the CLI →</span>
-                        </a>
-                    </div>
-                    <!-- Price + trust strip with urgency -->
-                    <div class="flex flex-wrap items-center gap-x-4 gap-y-1 mt-3 text-sm text-slate-400">
-                        <span><span class="text-white font-semibold">$4.99</span> base app</span>
-                        <span class="text-slate-700">·</span>
-                        <span>Pro from <span class="text-white font-semibold">$1.99/mo</span> for GPT-4 &amp; Claude</span>
-                        <span class="text-slate-700">·</span>
-                        <span><span class="text-rose-400 font-semibold">566+</span> downloads this month</span>
-                        <span class="text-slate-700">·</span>
-                        <span>No surprise charges</span>
-                    </div>
-                    <!-- Urgency CTA strip -->
-                    <div id="hero-urgency-strip" class="flex items-center gap-2 mt-3 px-3 py-2 bg-rose-950/40 border border-rose-500/30 rounded-xl text-sm w-fit">
-                        <span class="relative flex h-2 w-2 shrink-0">
-                            <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-rose-400 opacity-75"></span>
-                            <span class="relative inline-flex rounded-full h-2 w-2 bg-rose-500"></span>
-                        </span>
-                        <span class="text-rose-300 font-semibold">🔥 <span id="hero-recent-count">12</span> people downloaded in the last hour</span>
-                        <span class="text-slate-500">·</span>
-                        <span class="text-amber-400 font-semibold">Pro 20% off this week</span>
-                    </div>
-                    <!-- App Store Badge CTA -->
-                    <div class="flex flex-col sm:flex-row items-center gap-4 mt-8 p-4 bg-white/5 border border-white/10 rounded-2xl backdrop-blur-sm">
-                        <div class="flex -space-x-2">
-                            <div class="w-8 h-8 rounded-full border-2 border-slate-900 overflow-hidden bg-slate-800">
-                                <img src="/images/user-face-1.jpeg" alt="Health Data app user portrait" class="w-full h-full object-cover" loading="lazy">
-                            </div>
-                            <div class="w-8 h-8 rounded-full border-2 border-slate-900 overflow-hidden bg-slate-800">
-                                <img src="/images/user-face-2.jpeg" alt="Health Data app user portrait" class="w-full h-full object-cover" loading="lazy">
-                            </div>
-                            <div class="w-8 h-8 rounded-full border-2 border-slate-900 overflow-hidden bg-slate-800">
-                                <img src="/images/user-face-3.jpeg" alt="Health Data app user portrait" class="w-full h-full object-cover" loading="lazy">
-                            </div>
-                        </div>
-                        <div class="text-sm">
-                            <span class="text-white font-bold">Join 566 users</span>
-                            <span class="text-slate-400">taking control of their health data.</span>
-                        </div>
-                        <a href="/go/website.html?c=homepage_hero_badge" target="_blank" rel="noopener" data-cta-location="hero_badge" id="cta-badge-appstore" class="sm:ml-auto">
-                            <img src="https://tools.applemediaservices.com/api/badges/download-on-the-app-store/black/en-us?size=250x83&amp;releaseDate=1738108800" alt="Download on the App Store" class="h-10">
-                        </a>
-                    </div>
-                    <div class="mt-8 p-6 bg-slate-900/70 border border-white/10 rounded-2xl">
-                        <h2 class="text-2xl font-bold text-white mb-3">AI-ready prompts for your Apple Health exports</h2>
-                        <p class="text-slate-400 mb-4">Copy one of these after you export Apple Health data to CSV or JSON:</p>
-                        <div class="space-y-3 text-left">
-                            <div class="p-3 rounded-xl bg-black/30 border border-white/10 text-slate-300 font-mono text-sm">"I exported Apple Health data for the last 90 days. Summarize sleep consistency, resting heart rate trend, and weekly activity changes."</div>
-                            <div class="p-3 rounded-xl bg-black/30 border border-white/10 text-slate-300 font-mono text-sm">"Find correlations between sleep duration, HRV, and workout load. Flag unusual recovery days and suggest simple experiments for next week."</div>
-                            <div class="p-3 rounded-xl bg-black/30 border border-white/10 text-slate-300 font-mono text-sm">"Create a simple weekly scorecard from this export: sleep consistency, recovery trend, and activity momentum with 3 actions for next week."</div>
-                        </div>
-                    </div>
-
-                    <div class="mt-6 p-6 bg-slate-900/70 border border-white/10 rounded-2xl">
-                        <h2 class="text-2xl font-bold text-white mb-3">Build your export workflow</h2>
-                        <p class="text-slate-400 mb-4 text-sm leading-relaxed">Apple says <a href="https://support.apple.com/en-us/102651" target="_blank" rel="noopener" class="underline hover:text-white">15 iCloud data categories, including Health, are end-to-end encrypted by default</a>. The safest Apple Health AI workflow is export locally, convert to CSV/JSON, analyze on your Mac, then share only a focused summary with Copilot, Perplexity, ChatGPT, Claude, or Gemini.</p>
-                        <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-3 text-sm">
-                            <a href="/export-apple-health-data/" class="p-3 rounded-xl border border-white/10 bg-white/5 text-slate-200 hover:border-rose-400 transition">How to export Apple Health data</a>
-                            <a href="/convert-tool/" class="p-3 rounded-xl border border-white/10 bg-white/5 text-slate-200 hover:border-rose-400 transition">Convert Apple Health XML to CSV</a>
-                            <a href="/ai-health-analysis/" class="p-3 rounded-xl border border-white/10 bg-white/5 text-slate-200 hover:border-rose-400 transition">Compare AI health analysis tools</a>
-                            <a href="/apple-health-cli/" class="p-3 rounded-xl border border-white/10 bg-white/5 text-slate-200 hover:border-cyan-400 transition">Apple Health CLI (open source)</a>
-                        </div>
-                    </div>
-
-                    <div class="mt-6 p-6 bg-slate-900/70 border border-white/10 rounded-2xl">
-                        <h2 class="text-2xl font-bold text-white mb-3">Take a 2-minute quiz</h2>
-                        <p class="text-slate-400 mb-4">Get a device recommendation or a starter plan — then import Apple Health into the app.</p>
-                        <div class="grid sm:grid-cols-2 gap-3 text-sm">
-                            <a href="/quiz/wearable/" class="p-3 rounded-xl border border-white/10 bg-white/5 text-slate-200 hover:border-rose-400 transition">Quiz: Which wearable should you buy?</a>
-                            <a href="/quiz/what-to-track/" class="p-3 rounded-xl border border-white/10 bg-white/5 text-slate-200 hover:border-rose-400 transition">Quiz: What should you track first?</a>
-                        </div>
-                    </div>
-
-                    <div class="flex flex-col sm:flex-row items-center gap-6 mt-4">
-                        <a href="https://github.com/krumjahn/applehealth" target="_blank" class="group relative inline-flex items-center justify-center px-8 py-4 font-bold text-white transition-all duration-200 bg-slate-800 font-pj rounded-full focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-900">
-                            <span class="relative flex items-center gap-2">
-                                <i data-lucide="star" class="w-5 h-5 fill-current"></i>
-                                354 Stars on GitHub
-                            </span>
-                        </a>
-                    </div>
+                    <p class="text-sm text-slate-400 mt-6 leading-relaxed"><strong class="text-white">US $4.99 one-time base app.</strong> Optional Pro: $3.99/month or $24.99/year for built-in cloud AI and sync. Prices vary by country; confirm in the App Store.</p>
+                    <p class="text-sm text-slate-400 mt-4">Local export processing. External AI and sync only when you choose them. <a href="#pricing" class="underline underline-offset-4 text-slate-200">See what’s included</a>.</p>
                 </div>
                 <!-- Hero Visualization -->
                 <div class="lg:w-2/5 relative flex justify-center">
                     <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-gradient-to-tr from-cyan-500/20 to-purple-500/20 rounded-full filter blur-3xl"></div>
                     <img src="/images/iphone-ai/01-Connect-Any-AI.png" alt="Health Data Export iPhone app connecting Apple Health data to any AI" class="relative w-[300px] sm:w-[340px] rounded-[2.8rem] shadow-2xl shadow-cyan-950/50 border border-white/10" width="1320" height="2868">
                 </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="choose-workflow" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-20 scroll-mt-24">
+        <h2 class="text-3xl md:text-4xl font-bold mb-4">Start with what you want to do.</h2>
+        <p class="text-slate-400 mb-8 max-w-3xl">The same data can support different jobs. Pick the file and next step that fit yours.</p>
+        <div class="grid md:grid-cols-3 gap-6">
+            <article class="bento-card p-6">
+                <p class="text-rose-400 text-sm font-semibold mb-3">01 · USE AN AI TOOL</p>
+                <h3 class="text-2xl font-bold mb-3">Bring a summary to your AI.</h3>
+                <ol class="list-decimal pl-5 space-y-2 text-slate-300"><li>Open AI Health → Connect on iPhone.</li><li>Choose a tool and create a 90-day JSON summary.</li><li>Share the JSON and README, then attach the file in your chosen tool.</li></ol>
+                <p class="text-sm text-slate-400 mt-4">This creates a file; it does not connect an AI account or set up an MCP server. The receiving tool’s limits and privacy terms apply.</p>
+            </article>
+            <article class="bento-card p-6">
+                <p class="text-rose-400 text-sm font-semibold mb-3">02 · ANALYZE ON MAC</p>
+                <h3 class="text-2xl font-bold mb-3">See your history on a bigger screen.</h3>
+                <ol class="list-decimal pl-5 space-y-2 text-slate-300"><li>Choose XML in the iPhone Export tab.</li><li>AirDrop the file to your Mac.</li><li>Import it into Health Data AI Analyzer to explore reports and trends.</li></ol>
+                <p class="text-sm text-slate-400 mt-4">Mac import uses XML. XML exports cover all available history. CSV and JSON support date-range choices.</p>
+            </article>
+            <article class="bento-card p-6">
+                <p class="text-rose-400 text-sm font-semibold mb-3">03 · KEEP IT ON iPHONE</p>
+                <h3 class="text-2xl font-bold mb-3">Understand the numbers you already have.</h3>
+                <ol class="list-decimal pl-5 space-y-2 text-slate-300"><li>Allow the Apple Health categories you want to use.</li><li>Open AI Health → Ask or Weekly.</li><li>Read the calculation, date range, and sample count behind the answer.</li></ol>
+                <p class="text-sm text-slate-400 mt-4">These answers are calculated on-device. Available results depend on your records and Health permissions.</p>
+            </article>
+        </div>
+        <div class="mt-8 grid md:grid-cols-2 gap-6 items-start">
+            <figure class="bento-card p-6"><img src="/images/mac-app-screenshot-1.png" alt="Health Data AI Analyzer reports on Mac" width="1440" class="w-full rounded-xl" loading="lazy"><figcaption class="text-sm text-slate-400 mt-4">Explore an imported XML export on Mac. Your reports depend on the data you choose to import.</figcaption></figure>
+            <div id="pricing" class="bento-card p-6 scroll-mt-24">
+                <h3 class="text-2xl font-bold mb-4">Choose the tools you need.</h3>
+                <p class="text-slate-300 mb-4"><strong class="text-white">Base app · US $4.99 once</strong><br>Local CSV, JSON and XML exports, manual file sharing, on-device iPhone answers, and Mac analysis. Bring your own AI tool; its fees are separate.</p>
+                <p class="text-slate-300 mb-4"><strong class="text-white">Optional Pro · US $3.99/month or $24.99/year</strong><br>Built-in cloud AI and sync workflows. Check the in-app plan for included features before subscribing.</p>
+                <p class="text-sm text-slate-400 mb-6">US storefront prices checked October 7, 2026. Local prices and taxes may differ. The App Store shows your purchase and renewal terms.</p>
+                <a href="/go/website.html?c=homepage_pricing" data-cta-location="pricing" class="inline-flex px-6 py-3 rounded-full bg-rose-600 hover:bg-rose-500 font-semibold">View on the App Store</a>
+                <p class="text-sm text-slate-400 mt-6">Already have export.xml? <a href="/convert-tool/" class="underline text-slate-200">Try the free browser converter</a>. Prefer code? <a href="/apple-health-cli/" class="underline text-slate-200">Explore the CLI</a>.</p>
             </div>
         </div>
     </section>
@@ -1090,7 +1000,7 @@
                                 <td class="p-4 text-center">
                                     <div class="flex flex-col items-center gap-1">
                                         <i data-lucide="laptop" class="w-5 h-5 text-green-400"></i>
-                                        <span class="text-xs font-semibold text-green-400">100% Local</span>
+                                        <span class="text-xs font-semibold text-green-400">Local option</span>
                                     </div>
                                 </td>
                             </tr>
@@ -1154,7 +1064,7 @@
         <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
             <h2 class="text-3xl md:text-4xl font-bold text-white mb-6">What is Health Data Export & AI Analyzer?</h2>
             <p class="text-lg text-slate-400 leading-relaxed mb-4">
-                Healthcare data breaches cost an average of <strong class="text-white">$9.8 million per incident</strong> in 2024 — the highest of any industry for 14 consecutive years (<a href="https://www.ibm.com/reports/data-breach" target="_blank" rel="noopener" class="underline hover:text-white">[V]</a>). This toolkit supports Apple Health export and analysis in a privacy-first architecture where your data never leaves your device. Use the iOS app to create local exports, then run Mac-side analysis with your preferred AI tooling and data workflow.
+                Healthcare data breaches cost an average of <strong class="text-white">$9.8 million per incident</strong> in 2024 — the highest of any industry for 14 consecutive years (<a href="https://www.ibm.com/reports/data-breach" target="_blank" rel="noopener" class="underline hover:text-white">[V]</a>). This toolkit supports Apple Health export and analysis in a privacy-first architecture where you choose when data leaves your device. Use the iOS app to create local exports, then run Mac-side analysis with your preferred AI tooling and data workflow.
             </p>
             <p class="text-lg text-slate-400 leading-relaxed">
                 It supports <strong class="text-white">Apple Health, Oura, and Whoop backup</strong>, <strong class="text-white">health data csv export</strong> for spreadsheet analysis, and <strong class="text-white">DeepSeek-R1 local AI analysis</strong>. The target users are builders, researchers, athletes, and developers who need repeatable, inspectable outputs.
@@ -1184,7 +1094,7 @@
             <div class="text-center mb-12">
                 <div class="inline-flex items-center gap-2 text-sm text-cyan-300 mb-3"><i data-lucide="sparkles" class="w-4 h-4"></i> New AI features on iPhone</div>
                 <h2 class="text-3xl md:text-5xl font-bold text-white mb-6">From raw health records to <span class="text-cyan-400">answers you can verify</span></h2>
-                <p class="text-slate-400 max-w-3xl mx-auto text-lg">Calculations run on your iPhone and show the metric, date range, and sample count behind each answer. The app is informational—not a diagnosis—and never uploads your health data automatically.</p>
+                <p class="text-slate-400 max-w-3xl mx-auto text-lg">Calculations run on your iPhone and show the metric, date range, and sample count behind each answer. The app is informational, not a diagnosis. On-device answers do not require cloud AI; optional sync can upload to your chosen provider when enabled.</p>
             </div>
             <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6 items-start">
                 <img src="/images/iphone-ai/02-Ask-On-iPhone.png" alt="Private Apple Health answers calculated on iPhone" class="rounded-2xl shadow-2xl" loading="lazy" width="1320" height="2868">
@@ -1206,7 +1116,7 @@
             <div class="text-center mb-16">
                 <h2 class="text-3xl md:text-5xl font-bold text-white mb-6">Analyze Apple Health Data on Mac: <br><span class="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-blue-400">Local AI and Reproducible Reports.</span></h2>
                 <p class="text-slate-400 max-w-2xl mx-auto text-lg">
-                    After export, move data to your Mac for local analysis. The Python tooling converts Apple Health exports into charts, summaries, and model-ready datasets, including support for local LLM runtimes such as LM Studio and Ollama.
+                    AirDrop an XML export to your Mac and open it in Health Data AI Analyzer. Explore reports locally, or choose an AI provider for a summary. Local models such as LM Studio and Ollama are available; cloud AI requires consent.
                 </p>
             </div>
 
@@ -1219,7 +1129,7 @@
                     </p>
                     <ul class="list-disc list-inside text-slate-400 space-y-2">
                         <li>Transform <strong class="text-white">Apple Health XML to CSV</strong> or other formats for easy manipulation.</li>
-                        <li>Gain actionable insights through local <strong class="text-white">AI-powered reports</strong> and visualizations (<span class="inline-flex items-center gap-1"><img src="images/lm-studio-logo.png" alt="LM Studio Logo" class="h-4 w-4 rounded-full"> LM Studio, <img src="images/ollama-logo.jpg" alt="Ollama Logo" class="h-4 w-4 rounded-full"> Ollama</span> compatible).</li>
+                        <li>Gain actionable insights through <strong class="text-white">reports and optional local AI</strong> and visualizations (<span class="inline-flex items-center gap-1"><img src="images/lm-studio-logo.png" alt="LM Studio Logo" class="h-4 w-4 rounded-full"> LM Studio, <img src="images/ollama-logo.jpg" alt="Ollama Logo" class="h-4 w-4 rounded-full"> Ollama</span> compatible).</li>
                         <li>Identify trends, correlations, and anomalies in your health metrics over time.</li>
                     </ul>
                 </div>
@@ -1239,10 +1149,8 @@
     <section id="features" class="py-20">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="mb-16">
-                <h2 class="text-3xl md:text-5xl font-bold text-white mb-6">In December 2025, a Federal Court Ruling Confirmed: Cloud Health Data Can Be Subpoenaed</h2>
-                <p class="text-slate-400 max-w-2xl mx-auto text-lg mb-8">
-                    <strong class="text-white">In December 2025, a federal court ruling ordered a cloud-based health platform to turn over user health data to law enforcement</strong> (<a href="https://www.reuters.com/business/healthcare-pharmaceuticals/us-judge-orders-hims-partners-hand-over-health-data-prosecutors-2025-12-19/" class="underline hover:text-white" target="_blank" rel="noopener" rel="noopener">[V]</a>). Cloud-stored health data can be subpoenaed without your knowledge. Local-first export and analysis eliminates that exposure — your data stays on your devices.
-                </p>
+                <h2 class="text-3xl md:text-5xl font-bold text-white mb-6">Useful files. Clear choices. Your data.</h2>
+                <p class="text-slate-400 max-w-3xl text-lg mb-8">Create an export you can inspect, keep, and use in another tool. On-device processing is available; sharing, cloud AI, and optional sync send data to the destination you choose.</p>
 
                 <!-- Key Benefits -->
                 <div class="mt-12 mb-12">
@@ -1251,7 +1159,7 @@
                             <div class="mt-1"><i data-lucide="check-circle" class="w-5 h-5 text-green-400"></i></div>
                             <div>
                                 <p class="text-slate-200 font-medium"><strong class="text-white">Local processing:</strong> export and analysis can run without cloud upload</p>
-                                <p class="text-slate-500 text-sm">Your health data never touches cloud servers</p>
+                                <p class="text-slate-500 text-sm">External sharing and optional sync use your chosen destination</p>
                             </div>
                         </div>
                         <div class="flex items-start gap-3 text-left">
@@ -1271,26 +1179,15 @@
                         <div class="flex items-start gap-3 text-left">
                             <div class="mt-1"><i data-lucide="check-circle" class="w-5 h-5 text-green-400"></i></div>
                             <div>
-                                <p class="text-slate-200 font-medium"><strong class="text-white">One-time purchase,</strong> not subscription</p>
-                                <p class="text-slate-500 text-sm">Own the tool forever, no recurring fees</p>
+                                <p class="text-slate-200 font-medium"><strong class="text-white">One-time base app,</strong> optional Pro</p>
+                                <p class="text-slate-500 text-sm">Local exports in the base app; Pro has a recurring subscription</p>
                             </div>
                         </div>
                     </div>
                 </div>
 
-                <h3 class="text-2xl font-bold text-white mt-8 mb-4">Who Can Benefit?</h3>
-                <div class="max-w-3xl mx-auto text-slate-300 grid grid-cols-1 md:grid-cols-2 gap-4 text-left">
-                    <ul class="list-disc list-inside space-y-1">
-                        <li><strong class="text-white">Quantified-Self Users & Biohackers:</strong> Dive deep into your metrics.</li>
-                        <li><strong class="text-white">Researchers & Academics:</strong> Reliable datasets for health studies.</li>
-                        <li><strong class="text-white">Athletes & Fitness Enthusiasts:</strong> Optimize training with personal data.</li>
-                    </ul>
-                    <ul class="list-disc list-inside space-y-1">
-                        <li><strong class="text-white">Developers:</strong> Clean, structured data for custom apps and integrations.</li>
-                        <li><strong class="text-white">Healthcare Professionals:</strong> Comprehensive patient data insights.</li>
-                        <li><strong class="text-white">Anyone seeking Apple Health Data Backup:</strong> Secure your vital health history.</li>
-                    </ul>
-                </div>
+                <h3 class="text-2xl font-bold text-white mt-8 mb-4">Built for practical next steps</h3>
+                <p class="text-slate-300 max-w-3xl">Keep a personal archive. Work with a spreadsheet. Bring a focused summary to an AI tool. Explore your history on Mac. Choose a workflow above to see exactly how to start.</p>
             </div>
 
             <div class="grid grid-cols-1 md:grid-cols-6 lg:grid-cols-12 gap-6">
@@ -1322,11 +1219,11 @@
                         <i data-lucide="shield-check" class="text-rose-400"></i>
                     </div>
                     <h3 class="text-2xl font-bold text-white mb-2">Private & Secure Apple Health Data Backup.</h3>
-                    <p class="text-slate-400 mb-8">Your health data never leaves your device. All processing happens locally on your iPhone, ensuring maximum privacy for your <strong class="text-white">Apple Health data backup</strong>.</p>
+                    <p class="text-slate-400 mb-8">Exports are created locally on your iPhone. Files leave the app when you share them or enable a sync destination. Choose a local backup or your preferred storage provider.</p>
                     
                     <div class="space-y-3">
                         <div class="flex items-center gap-3 text-sm text-slate-300">
-                            <div class="w-2 h-2 rounded-full bg-green-500"></div> No Cloud Storage
+                            <div class="w-2 h-2 rounded-full bg-green-500"></div> Optional sync, your choice
                         </div>
                         <div class="flex items-center gap-3 text-sm text-slate-300">
                             <div class="w-2 h-2 rounded-full bg-green-500"></div> Works Offline
@@ -1715,7 +1612,7 @@
                         <i data-lucide="chevron-right" class="chevron w-6 h-6 text-rose-400"></i>
                     </summary>
                     <div class="faq-content">
-                        <p>A: Absolutely. Our iOS app performs all data processing locally on your device, ensuring your sensitive health information never leaves your iPhone or goes to the cloud. The Mac AI Analyzer also operates locally, prioritizing your privacy and data security.</p>
+                        <p>A: Export processing and iPhone answers run locally. Files leave your device when you share them or enable sync. On Mac, cloud AI is optional and requires consent to send your prompt and a compact summary. Anonymous usage stats are on by default, contain no health data, are not linked to you, and can be turned off in app Settings.</p>
                     </div>
                 </details>
                 <details>
@@ -1798,40 +1695,6 @@
             });
         })();
 
-        // Client-side A/B test harness (GitHub Pages-safe)
-        (function () {
-            var experimentId = 'home_hero_cta_v1';
-            var storageKey = 'ab_' + experimentId;
-
-            var variant = localStorage.getItem(storageKey);
-            if (!variant) {
-                variant = (Math.random() < 0.5) ? 'A' : 'B';
-                localStorage.setItem(storageKey, variant);
-            }
-
-            window.__abExperimentId = experimentId;
-            window.__abVariant = variant;
-
-            // Fire exposure event (so we can compute rates)
-            try {
-                if (typeof gtag === 'function') {
-                    gtag('event', 'experiment_exposure', {
-                        experiment_id: experimentId,
-                        variant: variant,
-                        page_path: window.location.pathname
-                    });
-                }
-            } catch (e) {}
-
-            // Variant B: stronger offer clarity on hero CTA
-            if (variant === 'B') {
-                var heroBtn = document.getElementById('cta-hero-appstore');
-                if (heroBtn) {
-                    var labelSpan = heroBtn.querySelector('span');
-                    if (labelSpan) labelSpan.lastChild.textContent = ' Get the App (one-time purchase)';
-                }
-            }
-        })();
     </script>
 
     <!-- Mobile Floating CTA Bar -->
@@ -1844,7 +1707,7 @@
                     </div>
                     <div class="min-w-0">
                         <p class="text-white font-bold text-sm leading-tight">Health Data Export</p>
-                        <p class="text-slate-400 text-xs truncate">Free · <span class="text-rose-400">566+ downloads this month</span></p>
+                        <p class="text-slate-400 text-xs truncate">US $4.99 base app · Optional Pro</p>
                     </div>
                 </div>
                 <div class="flex items-center gap-2 shrink-0">
@@ -1904,14 +1767,6 @@
             }
         })();
 
-        // Hero urgency counter: randomize "recent downloads" number between 8-18
-        (function() {
-            var el = document.getElementById('hero-recent-count');
-            if (el) {
-                var count = Math.floor(Math.random() * 11) + 8; // 8–18
-                el.textContent = count;
-            }
-        })();
     </script>
 </body>
 </html>
