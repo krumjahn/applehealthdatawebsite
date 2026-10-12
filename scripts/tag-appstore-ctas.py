@@ -67,10 +67,60 @@ def page_slug(rel_path: str) -> str:
 
 
 def make_token(slug: str, location: str | None) -> str:
+    """Campaign token, always within Apple's 40-character ct= limit.
+
+    A trailing ``_N`` disambiguator is kept whole. Truncating first would turn
+    ``..._inline`` and ``..._inline_2`` into the same 40 characters.
+    """
     token = f"{slug}_{location}" if location else slug
     token = re.sub(r"[^a-z0-9_]+", "_", token.lower())
     token = re.sub(r"_+", "_", token).strip("_")
-    return token[:MAX_TOKEN_LEN].rstrip("_")
+    if len(token) <= MAX_TOKEN_LEN:
+        return token
+    suffix_m = re.search(r"_\d+$", token)
+    if not suffix_m:
+        return token[:MAX_TOKEN_LEN].rstrip("_")
+    suffix = suffix_m.group(0)
+    if len(suffix) >= MAX_TOKEN_LEN:
+        raise RuntimeError(
+            f"campaign token suffix {suffix!r} does not fit in {MAX_TOKEN_LEN} characters"
+        )
+    room = MAX_TOKEN_LEN - len(suffix)
+    return token[: suffix_m.start()][:room].rstrip("_") + suffix
+
+
+def allocate_token(slug: str, location: str | None, existing: set[str]) -> str:
+    """Pick a token not in ``existing``.
+
+    Retries append ``_2``, ``_3``, ... with the numeric suffix reserved inside
+    ``make_token``. One retry can reproduce the previous token when that token
+    already ends in the same suffix; two identical results in a row means
+    truncation is eating the suffix, so fail instead of looping forever.
+    """
+    token = make_token(slug, location)
+    n = 2
+    stalls = 0
+    while token in existing:
+        prev = token
+        retry_loc = f"{location}_{n}" if location else f"cta_{n}"
+        token = make_token(slug, retry_loc)
+        n += 1
+        if token == prev:
+            stalls += 1
+            if stalls >= 2:
+                raise RuntimeError(
+                    "campaign token collision cannot be resolved for "
+                    f"slug={slug!r} location={location!r}: truncation to "
+                    f"{MAX_TOKEN_LEN} chars made no progress (stuck on {token!r})"
+                )
+        else:
+            stalls = 0
+        if n > 60:
+            raise RuntimeError(
+                "campaign token collision cannot be resolved for "
+                f"slug={slug!r} location={location!r}: still colliding on {token!r}"
+            )
+    return token
 
 
 def containers_at(html: str, pos: int) -> list[str]:
@@ -235,11 +285,7 @@ def rewrite_own_app_anchors(html: str, slug: str) -> tuple[str, list[tuple[str, 
 
     for start, end, tag, old_url, text in matches:
         location = uniquify(infer_location(html, start, tag, text), used) if multi else None
-        token = make_token(slug, location)
-        n = 2
-        while token in existing:
-            token = make_token(slug, f"{location or 'cta'}_{n}")
-            n += 1
+        token = allocate_token(slug, location, existing)
         existing.add(token)
         new_tag = OWN_HREF_RE.sub(
             lambda m, token=token: f"href={m.group('q')}/go/website.html?c={token}{m.group('q')}",
