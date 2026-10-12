@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Health Data AI Analyzer</title>
-    <!-- No-JS fallback only; the script below redirects instantly with the per-CTA campaign token -->
+    <!-- No-JS fallback. With JS, redirect waits for the GA callback (or ~400ms). -->
     <meta http-equiv="refresh" content="1; url=https://apps.apple.com/us/app/health-data-ai-analyzer/id6749297170?ct=website&mt=8">
     <link rel="canonical" href="https://apps.apple.com/us/app/health-data-ai-analyzer/id6749297170?ct=website&mt=8">
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-8SMQRLT4VS"></script>
@@ -25,14 +25,27 @@
       // (Apple only surfaces ct= campaigns in ASC analytics when a valid pt= accompanies them)
       var dest = 'https://apps.apple.com/us/app/health-data-ai-analyzer/id6749297170?ct=' + campaign + '&mt=8';
 
+      // gtag.js is async, so a synchronous location.replace drops app_store_redirect
+      // on a cold cache. Leave from the event callback once the beacon is queued.
+      // event_timeout covers a loaded library that never sends; setTimeout covers
+      // gtag.js itself never arriving (blocked, offline, slow).
+      var redirected = false;
+      function goToStore() {
+        if (redirected) return;
+        redirected = true;
+        window.location.replace(dest);
+      }
+
       gtag('event', 'app_store_redirect', {
         'event_category': 'conversion',
         'event_label': campaign,
         'source': campaign,
-        'transport_type': 'beacon'
+        'transport_type': 'beacon',
+        'event_callback': goToStore,
+        'event_timeout': 400
       });
 
-      window.location.replace(dest);
+      setTimeout(goToStore, 400);
     </script>
 </head>
 <body>

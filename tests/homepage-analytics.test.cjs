@@ -2,7 +2,31 @@ const { test } = require('node:test');
 const assert = require('node:assert/strict');
 const { readFileSync } = require('node:fs');
 const vm = require('node:vm');
-const source = readFileSync(require('node:path').join(__dirname, '../js/homepage-analytics.js'), 'utf8');
+const path = require('node:path');
+const source = readFileSync(path.join(__dirname, '../js/homepage-analytics.js'), 'utf8');
+const redirectHtml = readFileSync(path.join(__dirname, '../go/website.html'), 'utf8');
+
+function runRedirect(search) {
+  const inline = redirectHtml.match(/<script>([\s\S]*?app_store_redirect[\s\S]*?)<\/script>/)[1];
+  const timers = [];
+  const replaced = [];
+  const window = {
+    location: {
+      search,
+      replace(url) { replaced.push(url); }
+    }
+  };
+  window.window = window;
+  window.URLSearchParams = URLSearchParams;
+  window.Date = Date;
+  window.setTimeout = (fn, ms) => {
+    timers.push({ fn, ms });
+    return timers.length;
+  };
+  vm.runInNewContext(inline, window, { filename: 'go/website.html' });
+  const events = window.dataLayer.map(args => Array.from(args));
+  return { timers, replaced, events };
+}
 function setup({ hostname = 'localhost', search = '', dnt = '0', optOut = false } = {}) {
   const listeners = {}, scripts = [], observed = [];
   const store = { dataset: { track: 'store', placement: 'offer' }, href: '/go/website.html?c=home_v2_unknown' };
@@ -81,4 +105,50 @@ test('DNT and existing GA opt-out disable analytics without breaking links', () 
     assert.equal(state.scripts.length, 0); assert.equal(state.events.length, 0);
     assert.match(state.store.href, /home_v2_mac$/);
   }
+});
+test('app store redirect waits for the GA callback and forwards ct', () => {
+  assert.match(redirectHtml, /<script async src="https:\/\/www\.googletagmanager\.com\/gtag\/js\?id=G-8SMQRLT4VS"><\/script>/);
+  const state = runRedirect('?c=ah_to_dropbox_hero');
+  assert.equal(state.replaced.length, 0);
+  const hit = state.events.find(args => args[0] === 'event' && args[1] === 'app_store_redirect');
+  assert.equal(hit[2].event_label, 'ah_to_dropbox_hero');
+  assert.equal(hit[2].source, 'ah_to_dropbox_hero');
+  assert.equal(hit[2].transport_type, 'beacon');
+  assert.equal(hit[2].event_timeout, 400);
+  assert.equal(typeof hit[2].event_callback, 'function');
+  assert.equal(state.timers.length, 1);
+  assert.ok(state.timers[0].ms >= 300 && state.timers[0].ms <= 500);
+  hit[2].event_callback();
+  assert.deepEqual(state.replaced, [
+    'https://apps.apple.com/us/app/health-data-ai-analyzer/id6749297170?ct=ah_to_dropbox_hero&mt=8'
+  ]);
+  state.timers[0].fn();
+  hit[2].event_callback('G-8SMQRLT4VS');
+  assert.equal(state.replaced.length, 1);
+});
+test('app store redirect falls back when GA never calls back', () => {
+  const state = runRedirect('');
+  assert.equal(state.replaced.length, 0);
+  const hit = state.events.find(args => args[1] === 'app_store_redirect');
+  assert.equal(hit[2].event_label, 'website');
+  state.timers[0].fn();
+  assert.deepEqual(state.replaced, [
+    'https://apps.apple.com/us/app/health-data-ai-analyzer/id6749297170?ct=website&mt=8'
+  ]);
+  state.timers[0].fn();
+  assert.equal(state.replaced.length, 1);
+});
+test('invalid campaign tokens stay on the website default', () => {
+  for (const search of ['?c=Nope', '?c=has-dash', '?c=' + 'a'.repeat(41), '?c=%20']) {
+    const state = runRedirect(search);
+    const hit = state.events.find(args => args[1] === 'app_store_redirect');
+    assert.equal(hit[2].event_label, 'website', search);
+    hit[2].event_callback();
+    assert.match(state.replaced[0], /ct=website&mt=8$/, search);
+  }
+  const extra = runRedirect('?c=export_oura_data&ref=page');
+  const hit = extra.events.find(args => args[1] === 'app_store_redirect');
+  assert.equal(hit[2].event_label, 'export_oura_data');
+  hit[2].event_callback();
+  assert.match(extra.replaced[0], /ct=export_oura_data&mt=8$/);
 });
