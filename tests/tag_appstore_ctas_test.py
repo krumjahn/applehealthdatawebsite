@@ -92,6 +92,59 @@ class TagAppStoreCtasTest(unittest.TestCase):
         self.assertLessEqual(len(tag.make_token("docs_export_health_data", "method1")), 40)
         self.assertLessEqual(len(tag.make_token("blog_openclaw_ah_export", "cta_footer")), 40)
 
+    def test_truncated_inline_suffixes_stay_unique(self):
+        # blog_private_health_data_analysis is 33 chars. _inline fits in 40;
+        # _inline_2 / _inline_3 do not, and a blind [:40] makes them identical.
+        html = """
+        <p><a href="https://apps.apple.com/us/app/id6749297170">first analyzer note</a></p>
+        <p><a href="https://apps.apple.com/us/app/id6749297170">second analyzer note</a></p>
+        <p><a href="https://apps.apple.com/us/app/id6749297170">third analyzer note</a></p>
+        """
+        new, _ = tag.rewrite_html(html, "blog/private-health-data-analysis.html")
+        got = tokens(new)
+        self.assertEqual(
+            got,
+            [
+                "blog_private_health_data_analysis_inline",
+                "blog_private_health_data_analysis_inli_2",
+                "blog_private_health_data_analysis_inli_3",
+            ],
+        )
+        self.assertEqual(len(set(got)), 3)
+        for token in got:
+            self.assertRegex(token, r"^[a-z0-9_]{1,40}$")
+
+    def test_preexisting_token_collision_retries_with_reserved_suffix(self):
+        taken = tag.make_token("blog_private_health_data_analysis", "inline")
+        html = f"""
+        <a href="/go/website.html?c={taken}">tagged</a>
+        <p><a href="https://apps.apple.com/us/app/id6749297170">one</a></p>
+        <p><a href="https://apps.apple.com/us/app/id6749297170">two</a></p>
+        """
+        new, _ = tag.rewrite_html(html, "blog/private-health-data-analysis.html")
+        got = tokens(new)
+        self.assertEqual(got[0], taken)
+        self.assertEqual(len(got), 3)
+        self.assertEqual(len(set(got)), 3)
+        for token in got:
+            self.assertLessEqual(len(token), 40)
+
+    def test_collision_retry_fails_when_truncation_makes_no_progress(self):
+        stuck = "a" * 40
+        real = tag.make_token
+
+        def fake(slug, location=None):
+            return stuck
+
+        tag.make_token = fake
+        try:
+            with self.assertRaises(RuntimeError) as ctx:
+                tag.allocate_token("blog_private_health_data_analysis", "inline", {stuck})
+        finally:
+            tag.make_token = real
+        self.assertIn("no progress", str(ctx.exception).lower())
+        self.assertIn(stuck, str(ctx.exception))
+
 
 if __name__ == "__main__":
     unittest.main()
