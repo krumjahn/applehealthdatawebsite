@@ -46,7 +46,7 @@ Intent is held only in page memory. It is not joined across app installations, d
 
 These events measure visitor interest and outbound clicks. They do not reveal whether someone bought the universal app for iPhone or Mac, whether they purchased at all, or which app they use afterward. Confirm buyer motivation with onboarding or customer feedback and purchase reports separately.
 
-Homepage App Store links use `/go/website.html?c=ahd_home_<location>` and are not rewritten when someone selects iPhone, Mac, or AI. The redirect keeps that token and records `app_store_redirect` with the same value as `ct=`.
+Homepage App Store links use `/go/website.html?c=ahd_home_<location>` and are not rewritten when someone selects iPhone, Mac, or AI. The redirect keeps that token and records `app_store_redirect` with the same value as `ct=`. Do Not Track (`navigator.doNotTrack === '1'`) and the GA disable flag skip that hit: `/go/website.html` does not load gtag and replaces to the App Store immediately, still with `ct=`.
 
 | CTA | Tag | `cta_location` |
 | --- | --- | --- |
