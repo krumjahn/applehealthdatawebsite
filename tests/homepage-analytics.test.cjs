@@ -27,9 +27,10 @@ function runRedirect(search) {
   const events = window.dataLayer.map(args => Array.from(args));
   return { timers, replaced, events };
 }
-function setup({ hostname = 'localhost', search = '', dnt = '0', optOut = false } = {}) {
+function setup({ hostname = 'localhost', search = '', dnt = '0', optOut = false, stores } = {}) {
   const listeners = {}, scripts = [], observed = [];
-  const store = { dataset: { track: 'store', placement: 'offer' }, href: '/go/website.html?c=home_v2_unknown' };
+  const store = { dataset: { track: 'store', placement: 'offer' }, href: '/go/website.html?c=ahd_home_offer' };
+  const storeList = stores || [store];
   const faq = { open: true, dataset: { faq: 'ai_connection' }, addEventListener(type, fn) { this[type] = fn; } };
   const heading = { dataset: { sectionView: 'mac' } };
   let observe;
@@ -37,7 +38,7 @@ function setup({ hostname = 'localhost', search = '', dnt = '0', optOut = false 
     head: { appendChild: script => scripts.push(script) },
     createElement: () => ({}),
     addEventListener: (name, fn) => listeners[name] = fn,
-    querySelectorAll: selector => ({ '[data-track="store"]': [store], '[data-faq]': [faq], '[role="tab"]': [], '[data-section-view]': [heading] }[selector] || [])
+    querySelectorAll: selector => ({ '[data-track="store"]': storeList, '[data-faq]': [faq], '[role="tab"]': [], '[data-section-view]': [heading] }[selector] || [])
   };
   const window = {
     'ga-disable-G-8SMQRLT4VS': optOut,
@@ -48,7 +49,7 @@ function setup({ hostname = 'localhost', search = '', dnt = '0', optOut = false 
     }
   };
   vm.runInNewContext(source, { window, document, navigator: { doNotTrack: dnt }, location: { hostname, search, pathname: '/' }, URLSearchParams, IntersectionObserver: window.IntersectionObserver });
-  const click = (track, intent, type = 'click', button = 0) => listeners[type]({ type, button, target: { closest: () => track === 'store' ? store : { dataset: { track, intent, placement: 'hero_paths' } } } });
+  const click = (track, intent, type = 'click', button = 0, link) => listeners[type]({ type, button, target: { closest: () => track === 'store' ? (link || store) : { dataset: { track, intent, placement: 'hero_paths' } } } });
   return { window, scripts, store, faq, click, events: window.healthDataAnalyticsDebug, exposure: () => observe([{ target: heading, isIntersecting: true, intersectionRatio: 1 }]) };
 }
 test('local and explicit live debug never load GA', () => {
@@ -67,7 +68,10 @@ test('production loads the existing GA property and sends events', () => {
   assert.equal(calls.filter(args => args[0] === 'config').length, 1);
   const conversion = calls.find(args => args[1] === 'app_store_click');
   assert.equal(conversion[2].intent_group, 'mac');
+  assert.equal(conversion[2].cta_location, 'offer');
+  assert.equal(conversion[2].page_path, '/');
   assert.equal(conversion[2].transport_type, 'beacon');
+  assert.match(conversion[2].link_url, /c=ahd_home_offer$/);
 });
 test('repeated interest clicks do not inflate per-page intent counts', () => {
   const state = setup(); state.click('intent', 'iphone'); state.click('intent', 'iphone');
@@ -78,7 +82,9 @@ test('mixed intent preserves the first and last choices on outbound clicks', () 
   const state = setup(); state.click('intent', 'iphone'); state.click('intent', 'mac'); state.click('intent', 'ai'); state.click('store');
   const data = state.events.find(e => e.name === 'app_store_click').parameters;
   assert.equal(data.intent_group, 'mixed'); assert.equal(data.first_intent, 'iphone'); assert.equal(data.last_intent, 'ai');
-  assert.match(state.store.href, /home_v2_mixed$/);
+  assert.equal(data.cta_location, 'offer');
+  assert.equal(data.page_path, '/');
+  assert.equal(state.store.href, '/go/website.html?c=ahd_home_offer');
   assert.equal(state.events.filter(e => e.name === 'home_store_mixed').length, 1);
 });
 test('scroll exposure and pricing clicks do not invent an intent', () => {
@@ -103,7 +109,41 @@ test('DNT and existing GA opt-out disable analytics without breaking links', () 
   for (const options of [{ dnt: '1' }, { optOut: true }]) {
     const state = setup(options); state.click('intent', 'mac'); state.click('store');
     assert.equal(state.scripts.length, 0); assert.equal(state.events.length, 0);
-    assert.match(state.store.href, /home_v2_mac$/);
+    assert.equal(state.store.href, '/go/website.html?c=ahd_home_offer');
+  }
+});
+test('homepage store CTAs keep distinct tags and each click reports location', () => {
+  const html = readFileSync(path.join(__dirname, '../index.html'), 'utf8');
+  const found = [];
+  for (const match of html.matchAll(/<a\b([^>]*)>/g)) {
+    const attrs = match[1];
+    if (!/\bdata-track="store"/.test(attrs)) continue;
+    const value = name => {
+      const hit = attrs.match(new RegExp('\\b' + name + '="([^"]*)"'));
+      assert.ok(hit, name);
+      return hit[1];
+    };
+    found.push({ placement: value('data-placement'), href: value('href') });
+  }
+  assert.deepEqual(found.map(link => link.placement), ['nav', 'hero', 'offer', 'closing']);
+  assert.deepEqual(found.map(link => link.href), [
+    '/go/website.html?c=ahd_home_nav',
+    '/go/website.html?c=ahd_home_hero',
+    '/go/website.html?c=ahd_home_offer',
+    '/go/website.html?c=ahd_home_closing'
+  ]);
+  assert.equal(html.includes('home_v2_'), false);
+  assert.equal(html.includes('data-track="pricing"'), false);
+  const links = found.map(link => ({ dataset: { track: 'store', placement: link.placement }, href: link.href }));
+  const state = setup({ stores: links });
+  state.click('intent', 'mac');
+  for (const link of links) state.click('store', undefined, 'click', 0, link);
+  assert.deepEqual(links.map(link => link.href), found.map(link => link.href));
+  const clicks = state.events.filter(event => event.name === 'app_store_click');
+  assert.deepEqual(Array.from(clicks, event => event.parameters.cta_location), ['nav', 'hero', 'offer', 'closing']);
+  for (const event of clicks) {
+    assert.equal(event.parameters.page_path, '/');
+    assert.match(event.parameters.link_url, /\/go\/website\.html\?c=ahd_home_/);
   }
 });
 test('app store redirect waits for the GA callback and forwards ct', () => {

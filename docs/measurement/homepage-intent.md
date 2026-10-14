@@ -18,7 +18,7 @@ The event names encode the main breakdown, so the initial report does not requir
 | `home_store_mixed` | App Store outbound after selecting multiple workflows |
 | `home_store_unknown` | App Store outbound without an explicit workflow selection |
 | `app_store_click` | Every actual App Store outbound click; retains the site's existing event name |
-| `home_pricing_click` | Pricing-section CTA selected (not an App Store visit) |
+| `home_pricing_click` | Reserved for a pricing control that does not open the App Store. Homepage purchase buttons are `app_store_click` instead |
 | `home_view_iphone`, `home_view_mac`, `home_view_ai`, `home_view_pricing` | At least half of that section's heading entered the viewport |
 | `home_link_click` | Every workflow link click, including repeats |
 | `home_resource_click` | Docs, converter, developer, support or privacy link |
@@ -46,12 +46,25 @@ Intent is held only in page memory. It is not joined across app installations, d
 
 These events measure visitor interest and outbound clicks. They do not reveal whether someone bought the universal app for iPhone or Mac, whether they purchased at all, or which app they use afterward. Confirm buyer motivation with onboarding or customer feedback and purchase reports separately.
 
-App Store links use `/go/website.html?c=home_v2_<intent-group>`. That existing redirect preserves the campaign token and records `app_store_redirect`. It does not yet include a verified App Store Connect provider token, so this is not verified App Store purchase attribution. Never sum the homepage click and redirect event as two conversions.
+Homepage App Store links use `/go/website.html?c=ahd_home_<location>` and are not rewritten when someone selects iPhone, Mac, or AI. The redirect keeps that token and records `app_store_redirect` with the same value as `ct=`.
+
+| CTA | Tag | `cta_location` |
+| --- | --- | --- |
+| Nav “Get the app” (the only header control on small screens) | `ahd_home_nav` | `nav` |
+| Hero “Get Health Data — $4.99” | `ahd_home_hero` | `hero` |
+| Mid-page offer “Get it on the App Store” | `ahd_home_offer` | `offer` |
+| Closing band “Get Health Data — $4.99” | `ahd_home_closing` | `closing` |
+
+The footer has no download control. There is no second mobile button; device category splits the nav tag.
+
+Homepage click rate is GA4 `app_store_click` events whose page path is `/`, divided by page views of `/`. Filter `app_store_click` to page `/` (the event also sends `page_path` `/` and `cta_location`). Do not add `app_store_redirect` from `/go/website.html`; that is the same click counted again. `cta_location` is an event parameter and needs an event-scoped custom dimension before Explorations can split on it. The campaign token is available without that registration as the redirect’s `event_label` / App Store `ct=`.
+
+It does not yet include a verified App Store Connect provider token, so this is not verified App Store purchase attribution.
 
 ## Verification and troubleshooting
 
 - Run `node --test tests/homepage-analytics.test.cjs` for routing, deduplication, unknown/mixed classification, opt-out, and production GA queue tests.
-- Open `/?analytics_debug=1`; click iPhone, Mac, Your AI, pricing, FAQs, and JSON. Inspect `window.healthDataAnalyticsDebug` in browser devtools. Localhost automatically uses this mode. No homepage events or GA script are sent in debug mode.
+- Open `/?analytics_debug=1`; click iPhone, Mac, Your AI, each App Store button, FAQs, and JSON. Inspect `window.healthDataAnalyticsDebug` in browser devtools. Localhost automatically uses this mode. No homepage events or GA script are sent in debug mode.
 - An actual App Store click still opens the existing redirect, which has its own analytics. For an entirely dry test, prevent the store link's default navigation in browser devtools.
 - A regular production load requests `gtag/js?id=G-8SMQRLT4VS`; event requests target Google's collection endpoint. Analytics blockers or opt-outs may prevent collection without affecting the page or download link.
 - Check Realtime for event arrival, then the standard report after processing. A browser request verifies dispatch, not final reporting or purchase attribution.

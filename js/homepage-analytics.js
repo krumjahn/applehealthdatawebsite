@@ -51,10 +51,8 @@
     if (firstIntent === 'unknown') firstIntent = intent;
     lastIntent = intent;
     track('home_intent_' + intent, { intent, cta_location: placement }, true);
-    // Keep the native link usable for ordinary clicks, new tabs, and copied links.
-    document.querySelectorAll('[data-track="store"]').forEach(link => {
-      link.href = '/go/website.html?c=home_v2_' + group();
-    });
+    // Leave each store href on its ahd_home_<placement> token. Intent stays on
+    // the event so a copied, middle-clicked, or no-JS link still names the CTA.
   }
 
   function click(event) {
@@ -71,7 +69,12 @@
         track('home_pricing_click', { cta_location: placement });
         break;
       case 'store':
-        track('app_store_click', { cta_location: placement, link_url: link.href, transport_type: 'beacon' });
+        track('app_store_click', {
+          cta_location: placement,
+          page_path: '/',
+          link_url: link.href,
+          transport_type: 'beacon'
+        });
         track('home_store_' + group(), { cta_location: placement, transport_type: 'beacon' }, true);
         break;
       case 'resource':
