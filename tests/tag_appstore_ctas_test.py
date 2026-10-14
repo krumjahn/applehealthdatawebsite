@@ -129,6 +129,21 @@ class TagAppStoreCtasTest(unittest.TestCase):
         for token in got:
             self.assertLessEqual(len(token), 40)
 
+    def test_homepage_store_ctas_keep_distinct_ahd_home_tags(self):
+        html = (ROOT / "index.html").read_text(encoding="utf-8")
+        rewritten, changes = tag.rewrite_html(html, "index.html")
+        self.assertEqual(changes, [])
+        self.assertEqual(rewritten, html)
+        got = tokens(html)
+        self.assertEqual(
+            got,
+            ["ahd_home_nav", "ahd_home_hero", "ahd_home_offer", "ahd_home_closing"],
+        )
+        self.assertEqual(len(set(got)), len(got))
+        for token in got:
+            self.assertRegex(token, r"^ahd_home_[a-z0-9_]{1,31}$")
+            self.assertLessEqual(len(token), 40)
+
     def test_collision_retry_fails_when_truncation_makes_no_progress(self):
         stuck = "a" * 40
         real = tag.make_token
