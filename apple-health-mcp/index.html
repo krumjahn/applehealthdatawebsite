@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Apple Health MCP: Connect Claude to Apple Health on Your Mac</title>
-  <meta name="description" content="How to connect Claude to Apple Health: install the Mac app, add one npx line to Claude Desktop, Claude Code or Cursor, then ask about steps, sleep, HRV and workouts. 100% local.">
+  <title>Connect Claude to Apple Health: iPhone vs Mac (MCP)</title>
+  <meta name="description" content="How to connect Claude to Apple Health: Claude's iPhone app (beta, Pro or Max, US only) or a local Mac MCP for Claude Desktop, Claude Code and Cursor.">
   <meta name="keywords" content="apple health mcp, apple health data mcp, mcp server apple health, claude apple health mcp, healthkit mcp, model context protocol apple health, cursor apple health, mcp health data">
   <meta name="author" content="Keith Rumjahn">
   <link rel="canonical" href="https://applehealthdata.com/apple-health-mcp/">
@@ -12,7 +12,7 @@
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="Health Data Export & Analyze">
   <meta property="og:url" content="https://applehealthdata.com/apple-health-mcp/">
-  <meta property="og:title" content="Apple Health MCP: Connect Claude to Apple Health on Your Mac">
+  <meta property="og:title" content="Connect Claude to Apple Health: iPhone vs Mac (MCP)">
   <meta property="og:description" content="Plug Apple Health into Claude Desktop, Cursor, and any MCP client — 100% local on your Mac.">
   <meta property="og:image" content="https://applehealthdata.com/images/apple-health-mcp-poster.png">
   <meta property="og:image:width" content="1920">
@@ -258,6 +258,7 @@
       <section id="connect-claude" class="glass p-6 mt-10" aria-labelledby="connect-claude-title">
         <p class="text-xs uppercase tracking-[0.25em] text-sky-300 font-bold mb-3">Quick answer</p>
         <h2 id="connect-claude-title" class="!mt-0 !pt-0 !border-t-0">How to connect Claude to Apple Health (3 steps)</h2>
+        <p>Two routes. <strong class="text-white">Claude's iPhone app</strong> can read Apple Health and cannot write or change entries. Anthropic says those health features are in beta, need a Pro or Max plan, and are available in the US only (<a href="https://support.claude.com/en/articles/11869619-use-claude-with-ios-apps">Use Claude with iOS apps</a>). <strong class="text-white">This page</strong> is the local MCP route for Claude Desktop, Claude Code and Cursor on your Mac:</p>
         <ol class="list-decimal">
           <li style="list-style-type: decimal;"><strong class="text-white">Install the Health Data AI Analyzer Mac app.</strong> It hosts the local API on <code>localhost:8765</code> that the MCP server reads from.</li>
           <li style="list-style-type: decimal;"><strong class="text-white">Add the MCP server to Claude.</strong> Claude Desktop: Settings → Developer → Edit Config and add <code>"command": "npx", "args": ["-y", "health-analyzer-mcp"]</code>. Claude Code: <code>claude mcp add health-analyzer -- npx -y health-analyzer-mcp</code>.</li>
