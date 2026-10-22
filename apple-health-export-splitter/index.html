@@ -588,8 +588,17 @@
               '. Removed <b class="text-white">' + fmtNum(removedRecords) + '</b> records.</p>' +
             '<a href="' + url + '" download="export-filtered.xml" class="mt-4 inline-flex items-center gap-2 px-6 py-3 rounded-full bg-rose-600 hover:bg-rose-700 font-bold text-white">' +
               '<i data-lucide="download" class="w-5 h-5"></i> Download export-filtered.xml</a>' +
+            '<div class="mt-4 text-left rounded-2xl border border-white/10 bg-slate-950/80 p-4">' +
+              '<p class="text-sm text-slate-300 leading-snug mb-3">Your smaller export is ready. Want trends, scores, and AI-powered insights on your iPhone or Mac too?</p>' +
+              '<a href="/go/website.html?c=ah_splitter_success" target="_blank" rel="noopener" data-cta-location="splitter_success" class="inline-flex w-full sm:w-auto items-center justify-center gap-2 bg-rose-600 text-white font-bold py-3 px-5 sm:px-8 rounded-full hover:bg-rose-700 transition-all shadow-lg shadow-rose-600/20 text-sm sm:text-base">' +
+                '<img src="https://upload.wikimedia.org/wikipedia/commons/6/67/App_Store_%28iOS%29.svg" class="w-5 h-5 filter invert shrink-0" alt="">' +
+                '<span class="min-w-0 leading-tight">Download Health Data AI Analyzer</span>' +
+              '</a>' +
+            '</div>' +
           '</div>';
         el.classList.remove('hidden');
+        var successCta = el.querySelector('[data-cta-location="splitter_success"]');
+        if (successCta) trackAppStoreClick(successCta);
         lucide.createIcons();
         el.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
       }
@@ -600,6 +609,24 @@
           '<i data-lucide="alert-triangle" class="w-5 h-5 shrink-0 mt-0.5"></i><div>' + html + '</div></div>';
         el.classList.remove('hidden');
         lucide.createIcons();
+      }
+
+      // Same app_store_click payload as the convert tool. Bound after the
+      // success markup is injected, because that link does not exist at load.
+      function trackAppStoreClick(a){
+        a.addEventListener('click', function () {
+          try {
+            if (typeof gtag === 'function') {
+              gtag('event', 'app_store_click', {
+                link_url: a.href,
+                cta_location: a.dataset.ctaLocation || 'unknown',
+                page_path: window.location.pathname,
+                experiment_id: window.__abExperimentId || undefined,
+                variant: window.__abVariant || undefined
+              });
+            }
+          } catch (e) {}
+        }, { capture: true });
       }
 
       // ---- helpers ----
