@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Connect Claude to Apple Health: iPhone vs Mac (MCP)</title>
-  <meta name="description" content="How to connect Claude to Apple Health: Claude's iPhone app (beta, Pro or Max, US only) or a local Mac MCP for Claude Desktop, Claude Code and Cursor.">
+  <title>How to Connect Apple Health to Claude: iPhone or Mac</title>
+  <meta name="description" content="Connect Apple Health to Claude on iPhone in the Claude app (beta, Pro or Max, US only), or on a Mac with the local MCP connector.">
   <meta name="keywords" content="apple health mcp, apple health data mcp, mcp server apple health, claude apple health mcp, healthkit mcp, model context protocol apple health, cursor apple health, mcp health data">
   <meta name="author" content="Keith Rumjahn">
   <link rel="canonical" href="https://applehealthdata.com/apple-health-mcp/">
@@ -12,8 +12,8 @@
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="Health Data Export & Analyze">
   <meta property="og:url" content="https://applehealthdata.com/apple-health-mcp/">
-  <meta property="og:title" content="Connect Claude to Apple Health: iPhone vs Mac (MCP)">
-  <meta property="og:description" content="Plug Apple Health into Claude Desktop, Cursor, and any MCP client — 100% local on your Mac.">
+  <meta property="og:title" content="How to Connect Apple Health to Claude: iPhone or Mac">
+  <meta property="og:description" content="Connect Apple Health to Claude on iPhone in the Claude app (beta, Pro or Max, US only), or on a Mac with the local MCP connector.">
   <meta property="og:image" content="https://applehealthdata.com/images/apple-health-mcp-poster.png">
   <meta property="og:image:width" content="1920">
   <meta property="og:image:height" content="1080">
@@ -22,8 +22,8 @@
   <meta property="og:video:width" content="1920">
   <meta property="og:video:height" content="1080">
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="Apple Health MCP: Connect Claude to Apple Health">
-  <meta name="twitter:description" content="Plug Apple Health into Claude Desktop, Cursor, and any MCP client — 100% local.">
+  <meta name="twitter:title" content="How to Connect Apple Health to Claude: iPhone or Mac">
+  <meta name="twitter:description" content="Connect Apple Health to Claude on iPhone in the Claude app (beta, Pro or Max, US only), or on a Mac with the local MCP connector.">
   <meta name="twitter:image" content="https://applehealthdata.com/images/apple-health-mcp-poster.png">
 
   <script src="https://cdn.tailwindcss.com"></script>
@@ -63,10 +63,10 @@
     "mainEntity": [
       {
         "@type": "Question",
-        "name": "How do I connect Claude to Apple Health?",
+        "name": "How do I connect Apple Health to Claude?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "Install the Health Data AI Analyzer Mac app (it hosts the local API at http://localhost:8765), add the health-analyzer-mcp server to Claude Desktop (Settings → Developer → Edit Config) or run claude mcp add health-analyzer -- npx -y health-analyzer-mcp in Claude Code, then restart Claude. Claude can then call 11 read-only tools such as get_steps, get_sleep, get_hrv and get_workouts. The MCP server runs locally on your Mac."
+          "text": "On iPhone, open the Claude app and connect Apple Health. It can read your data and cannot change entries. Anthropic says those health features are in beta, need a Pro or Max plan, and are available in the US only. On a Mac, install the Health Data AI Analyzer Mac app (it hosts the local API at http://localhost:8765), add the health-analyzer-mcp server to Claude Desktop (Settings → Developer → Edit Config) or run claude mcp add health-analyzer -- npx -y health-analyzer-mcp in Claude Code, then restart Claude. Claude can then call 11 read-only tools such as get_steps, get_sleep, get_hrv and get_workouts. The MCP server runs locally on your Mac."
         }
       },
       {
@@ -145,8 +145,8 @@
   {
     "@context": "https://schema.org",
     "@type": "Article",
-    "headline": "Apple Health MCP: Connect Claude to Apple Health on Your Mac",
-    "description": "The open-source Apple Health MCP server. Lets Claude Desktop, Cursor, and any MCP client query your steps, sleep, HRV, workouts and more — all locally, no cloud upload.",
+    "headline": "How to Connect Apple Health to Claude: iPhone or Mac",
+    "description": "Connect Apple Health to Claude on iPhone in the Claude app (beta, Pro or Max, US only), or on a Mac with the local MCP connector.",
     "datePublished": "2026-05-20",
     "dateModified": "2026-10-06",
     "author": {"@type": "Person", "name": "Keith Rumjahn", "url": "https://applehealthdata.com/"},
@@ -223,8 +223,8 @@
           <i data-lucide="plug-zap" class="w-4 h-4"></i>
           Model Context Protocol
         </div>
-        <h1 class="text-4xl lg:text-6xl font-bold text-white mb-6 tracking-tight">Apple Health MCP Server</h1>
-        <p class="text-xl text-slate-400 leading-relaxed">The open-source <strong class="text-white">Model Context Protocol server</strong> for Apple Health. Lets Claude Desktop, Cursor, and any MCP client query your steps, sleep, HRV, workouts, and more — entirely on your Mac, with zero cloud upload.</p>
+        <h1 class="text-4xl lg:text-6xl font-bold text-white mb-6 tracking-tight">How to Connect Apple Health to Claude: iPhone or Mac</h1>
+        <p class="text-xl text-slate-400 leading-relaxed">On iPhone, connect Apple Health in the Claude app. On a Mac, the open-source <strong class="text-white">MCP server</strong> lets Claude Desktop, Cursor, and any MCP client query steps, sleep, HRV, and workouts locally, with zero cloud upload.</p>
       </div>
 
       <div class="my-10 rounded-2xl overflow-hidden border border-white/10 shadow-2xl shadow-rose-900/20">
@@ -257,8 +257,8 @@
 
       <section id="connect-claude" class="glass p-6 mt-10" aria-labelledby="connect-claude-title">
         <p class="text-xs uppercase tracking-[0.25em] text-sky-300 font-bold mb-3">Quick answer</p>
-        <h2 id="connect-claude-title" class="!mt-0 !pt-0 !border-t-0">How to connect Claude to Apple Health (3 steps)</h2>
-        <p>Two routes. <strong class="text-white">Claude's iPhone app</strong> can read Apple Health and cannot write or change entries. Anthropic says those health features are in beta, need a Pro or Max plan, and are available in the US only (<a href="https://support.claude.com/en/articles/11869619-use-claude-with-ios-apps">Use Claude with iOS apps</a>). <strong class="text-white">This page</strong> is the local MCP route for Claude Desktop, Claude Code and Cursor on your Mac:</p>
+        <h2 id="connect-claude-title" class="!mt-0 !pt-0 !border-t-0">How to connect Apple Health to Claude</h2>
+        <p><strong class="text-white">iPhone:</strong> open the Claude app and connect Apple Health. It can read your data and cannot write or change entries. Anthropic says those health features are in beta, need a Pro or Max plan, and are available in the US only (<a href="https://support.claude.com/en/articles/11869619-use-claude-with-ios-apps">Use Claude with iOS apps</a>). <strong class="text-white">Mac:</strong> add the local MCP connector on this page for Claude Desktop, Claude Code, and Cursor:</p>
         <ol class="list-decimal">
           <li style="list-style-type: decimal;"><strong class="text-white">Install the Health Data AI Analyzer Mac app.</strong> It hosts the local API on <code>localhost:8765</code> that the MCP server reads from.</li>
           <li style="list-style-type: decimal;"><strong class="text-white">Add the MCP server to Claude.</strong> Claude Desktop: Settings → Developer → Edit Config and add <code>"command": "npx", "args": ["-y", "health-analyzer-mcp"]</code>. Claude Code: <code>claude mcp add health-analyzer -- npx -y health-analyzer-mcp</code>.</li>
