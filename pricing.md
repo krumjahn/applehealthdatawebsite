@@ -1,8 +1,8 @@
 # Pricing — Health Data Export & AI Analyzer
 
-Last updated: 2026-08-06
+Last updated: 2026-10-07
 
-AppleHealthData.com offers free local web tools, open-source developer tools, and a paid Mac app for private Apple Health export and AI analysis workflows.
+AppleHealthData.com offers free local web tools, open-source developer tools, and paid iPhone and Mac apps for private Apple Health export and AI analysis workflows.
 
 ## Free web tools
 
@@ -32,9 +32,10 @@ AppleHealthData.com offers free local web tools, open-source developer tools, an
   - `health-analyzer-mcp` server for Claude Desktop, Cursor, OpenClaw, and other MCP clients
   - Local REST API docs and OpenAPI specs
 
-## Health Data Export & AI Analyzer Mac app
+## Health Data AI Analyzer for iPhone and Mac
 
-- Price: Paid Mac app; current price is shown on the App Store listing
+- US base price: $4.99 one-time. Optional Pro: $3.99/month or $24.99/year.
+- Base includes local exports, manual sharing, on-device iPhone answers, and Mac analysis. Pro adds built-in cloud AI and sync. External AI provider costs are separate.
 - Billing: App Store purchase and any App Store-managed in-app purchases shown by Apple at checkout
 - Best for: Exporting Apple Health data from iPhone, syncing to Mac, local trend analysis, dashboards, and compact summaries for ChatGPT, Claude, Gemini, Perplexity, or Copilot
 - App URL: https://applehealthdata.com/go/website.html
