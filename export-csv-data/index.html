@@ -3,10 +3,61 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Export Apple Health Data to CSV on iPhone (Excel &amp; Sheets)</title>
-    <meta name="description" content="Export Apple Health data to CSV straight from your iPhone, then open it in Excel, Google Sheets, or Numbers. No export.xml parsing needed.">
+    <title>Export Apple Health Data to CSV on iPhone, No XML File</title>
+    <meta name="description" content="Export Apple Health data to CSV for Excel, Google Sheets, or Numbers on your iPhone. No export.xml parsing — direct CSV file, not the free XML converter.">
+    <link rel="canonical" href="https://applehealthdata.com/export-csv-data/">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="AppleHealthData.com">
+    <meta property="og:url" content="https://applehealthdata.com/export-csv-data/">
+    <meta property="og:title" content="Export Apple Health Data to CSV on iPhone, No XML File">
+    <meta property="og:description" content="Export Apple Health data to CSV for Excel, Google Sheets, or Numbers on your iPhone. No export.xml parsing — direct CSV file, not the free XML converter.">
+    <meta property="og:image" content="https://applehealthdata.com/images/iphone-app-screenshot.png">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Export Apple Health Data to CSV on iPhone, No XML File">
+    <meta name="twitter:description" content="Export Apple Health data to CSV for Excel, Google Sheets, or Numbers on your iPhone. No export.xml parsing — direct CSV file, not the free XML converter.">
+    <meta name="twitter:image" content="https://applehealthdata.com/images/iphone-app-screenshot.png">
     <meta name="apple-itunes-app" content="app-id=6749297170">
     <meta name="keywords" content="export apple health data to csv, apple health csv, apple health export, health data csv, iphone health data">
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "How do I export Apple Health data to CSV?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Open Health Data Export on your iPhone and allow the Health categories you want to export. Choose CSV, then save the file to Files or iCloud Drive, or AirDrop it to your Mac. Open it in Excel, Google Sheets, or Numbers."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Do I have to parse export.xml?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "No. A direct-to-CSV export bypasses export.xml. If you already used Apple's built-in export and only have export.xml, use the free Apple Health XML to CSV converter instead of re-exporting."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Will the CSV open in Excel or Google Sheets?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes. Open the file in Microsoft Excel, Google Sheets, or Apple Numbers to sort, filter, chart, or share it."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Does the app upload my Apple Health data?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "No. The app asks for read-only HealthKit permission. It processes all data locally on your device, so your private health information is never uploaded or shared."
+          }
+        }
+      ]
+    }
+    </script>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
     <style>
@@ -58,13 +109,17 @@
         </div>
     </nav>
 
-    <main class="pt-32 pb-20 lg:pt-48 lg:pb-32">
+    <main class="pt-28 pb-20 lg:pt-32 lg:pb-28">
         <div class="max-w-4xl mx-auto px-4 content-section">
-            <h1 class="text-4xl lg:text-6xl font-bold text-white text-center mb-8">Export Apple Health Data to CSV</h1>
-            <p class="text-xl text-slate-400 text-center leading-relaxed mb-10">Your iPhone is a treasure trove of health data, but accessing it in a usable format can be a frustrating experience. If you've ever wanted to analyze your fitness trends in a spreadsheet, share data with a health professional, or create a secure backup, you know the value of a clean CSV file. This guide provides a definitive, step-by-step process for creating an <strong>Apple Health CSV export</strong> directly from your iPhone.</p>
+            <h1 class="text-4xl lg:text-5xl font-bold text-white text-center mb-6">Export Apple Health Data to CSV on iPhone, No XML File</h1>
+            <p class="text-xl text-slate-300 text-center leading-relaxed mb-8">Export Apple Health data to CSV for Excel, Google Sheets, or Numbers. Health Data Export reads HealthKit on your iPhone and writes the CSV on the device, so you never parse <code>export.xml</code>. If you already have Apple's <code>export.xml</code>, use the free <a href="/convert-tool/">XML to CSV converter</a> instead.</p>
+            <div class="mb-14 text-center">
+                <a href="/go/website.html?c=seo_export_csv" class="inline-flex w-full sm:w-auto items-center justify-center bg-rose-600 !text-white font-bold py-4 px-8 rounded-full text-lg hover:bg-rose-700 transition-all shadow-lg shadow-rose-600/20">Download on the App Store</a>
+                <p class="text-sm text-slate-400 mt-3">Health Data Export for iPhone. One-time purchase, no subscription or ads.</p>
+            </div>
 
             <section class="mb-14 p-6 rounded-2xl border border-rose-400/30 bg-rose-500/10">
-                <h2 class="text-2xl font-bold text-white mb-4">Quick answer: how to share Health data from the app to a spreadsheet</h2>
+                <h2 class="text-2xl font-bold text-white mb-4">Quick answer: export Apple Health data to CSV</h2>
                 <p class="text-lg text-slate-300 mb-4">If you want Apple Health data in Excel, Google Sheets, or Numbers, export it as a CSV file first. In Health Data Export, grant read-only HealthKit permission, choose <strong>CSV</strong>, save or share the file from the iPhone share sheet, then open that CSV in your spreadsheet app.</p>
                 <ol class="list-decimal list-inside text-slate-300 space-y-2">
                     <li>Open Health Data Export on your iPhone and allow the Health categories you want to export.</li>
@@ -126,9 +181,19 @@
             </table>
             <p class="text-lg text-slate-400 mt-6">Our app acts as the essential bridge, letting you bypass the complicated XML step entirely. It's the "easy button" for getting your <strong>Apple Health CSV</strong> file. Once you have this file, you can take your analysis to the next level and <a href="/analyze-health-data-ai/">analyze your health data with AI on your Mac</a>.</p>
 
+            <h2 class="text-3xl font-bold text-white mb-6">Export Apple Health Data to CSV: FAQ</h2>
+            <h3 class="text-2xl font-bold text-white mt-8 mb-4">How do I export Apple Health data to CSV?</h3>
+            <p class="text-lg text-slate-400 mb-4">Open Health Data Export on your iPhone and allow the Health categories you want to export. Choose CSV, then save the file to Files or iCloud Drive, or AirDrop it to your Mac. Open it in Excel, Google Sheets, or Numbers.</p>
+            <h3 class="text-2xl font-bold text-white mt-8 mb-4">Do I have to parse export.xml?</h3>
+            <p class="text-lg text-slate-400 mb-4">No. A direct-to-CSV export bypasses export.xml. If you already used Apple's built-in export and only have export.xml, use the free <a href="/convert-tool/">Apple Health XML to CSV converter</a> instead of re-exporting.</p>
+            <h3 class="text-2xl font-bold text-white mt-8 mb-4">Will the CSV open in Excel or Google Sheets?</h3>
+            <p class="text-lg text-slate-400 mb-4">Yes. Open the file in Microsoft Excel, Google Sheets, or Apple Numbers to sort, filter, chart, or share it.</p>
+            <h3 class="text-2xl font-bold text-white mt-8 mb-4">Does the app upload my Apple Health data?</h3>
+            <p class="text-lg text-slate-400 mb-4">No. The app asks for read-only HealthKit permission. It processes all data locally on your device, so your private health information is never uploaded or shared.</p>
+
             <h2 class="text-3xl font-bold text-white mb-6">Take Control of Your Health Data</h2>
             <p class="text-lg text-slate-400 mb-4">Stop letting your valuable health history sit locked away in your phone. Turn it into a powerful tool for insight and analysis.</p>
-            <div class="mt-8 text-center"><a href="/go/website.html?c=seo_export_csv" class="bg-rose-600 text-white font-bold py-4 px-8 rounded-full text-lg hover:bg-rose-700 transition-all">Download on the App Store</a></div>
+            <div class="mt-8 text-center"><a href="/go/website.html?c=seo_export_csv" class="inline-flex items-center justify-center bg-rose-600 !text-white font-bold py-4 px-8 rounded-full text-lg hover:bg-rose-700 transition-all">Download on the App Store</a></div>
         </div>
     </main>
     <script>lucide.createIcons();</script>
