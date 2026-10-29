@@ -4,7 +4,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Apple Health to Google Sheets: Export CSV, Then Import</title>
-  <meta name="description" content="How to get Apple Health data into Google Sheets: export or convert Apple Health to CSV/XLSX, import it into Sheets, and know where this workflow loses." />
+  <meta name="description" content="Export Apple Health to CSV or XLSX, then use Google Sheets File→Import. Free browser converter if you have export.xml, or the Health Data Export app." />
   <link rel="canonical" href="https://applehealthdata.com/apple-health-to-google-sheets/" />
   <meta name="keywords" content="apple health to google sheets, export apple health to google sheets, apple health csv google sheets, apple health spreadsheet" />
   <meta name="apple-itunes-app" content="app-id=6749297170">
@@ -12,11 +12,11 @@
   <meta property="og:site_name" content="AppleHealthData.com">
   <meta property="og:url" content="https://applehealthdata.com/apple-health-to-google-sheets/">
   <meta property="og:title" content="Apple Health to Google Sheets: Export CSV, Then Import">
-  <meta property="og:description" content="A practical, honest workflow for moving Apple Health data into Google Sheets with CSV or XLSX exports.">
+  <meta property="og:description" content="Export Apple Health to CSV or XLSX, then use Google Sheets File→Import. Free browser converter if you have export.xml, or the Health Data Export app.">
   <meta property="og:image" content="https://applehealthdata.com/images/iphone-app-screenshot.png">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Apple Health to Google Sheets: Export CSV, Then Import">
-  <meta name="twitter:description" content="Export Apple Health data to CSV or XLSX, import it into Google Sheets, and build charts without parsing export.xml.">
+  <meta name="twitter:description" content="Export Apple Health to CSV or XLSX, then use Google Sheets File→Import. Free browser converter if you have export.xml, or the Health Data Export app.">
   <meta name="twitter:image" content="https://applehealthdata.com/images/iphone-app-screenshot.png">
   <script src="https://cdn.tailwindcss.com"></script>
   <script type="application/ld+json">
@@ -24,11 +24,11 @@
     "@context": "https://schema.org",
     "@type": "Article",
     "headline": "Apple Health to Google Sheets: Export CSV, Then Import",
-    "description": "A practical guide to moving Apple Health data into Google Sheets by exporting or converting Health data to CSV or XLSX first.",
+    "description": "Export Apple Health to CSV or XLSX, then use Google Sheets File→Import. Free browser converter if you have export.xml, or the Health Data Export app.",
     "author": {"@type": "Person", "name": "Keith Rumjahn"},
     "publisher": {"@type": "Organization", "name": "AppleHealthData.com", "url": "https://applehealthdata.com/"},
     "datePublished": "2026-08-17",
-    "dateModified": "2026-08-17",
+    "dateModified": "2026-10-29",
     "mainEntityOfPage": "https://applehealthdata.com/apple-health-to-google-sheets/"
   }
   </script>
@@ -42,7 +42,7 @@
         "name": "Can Apple Health export directly to Google Sheets?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "Not directly from Apple's built-in Health export. The reliable workflow is to export or convert Apple Health data to CSV or XLSX first, then import that file into Google Sheets."
+          "text": "No. Apple Health does not sync to Google Sheets, and Sheets will not import raw export.xml. Export or convert to CSV or XLSX first, then use File → Import. JSON is for scripts, not a manual Sheets upload."
         }
       },
       {
@@ -86,8 +86,8 @@
 
     <section class="card p-8 mt-3 text-center">
       <p class="text-emerald-400 text-sm font-semibold uppercase tracking-widest mb-3">Apple Health → Google Sheets</p>
-      <h1 class="text-4xl md:text-5xl font-extrabold text-white mb-4">Export Apple Health Data to Google Sheets</h1>
-      <p class="text-slate-300 text-lg max-w-2xl mx-auto"><strong>Yes — use CSV or XLSX as the bridge.</strong> Apple Health does not send data straight to Google Sheets, but Health Data Export and the free converter can create spreadsheet-ready files you can import into Sheets in minutes.</p>
+      <h1 class="text-4xl md:text-5xl font-extrabold text-white mb-4">Apple Health to Google Sheets: Export CSV, Then Import</h1>
+      <p class="text-slate-300 text-lg max-w-2xl mx-auto"><strong>Export CSV or XLSX, then use File → Import.</strong> Apple Health does not sync to Google Sheets. Health Data Export and the free converter create the spreadsheet file you upload.</p>
     </section>
 
     <section class="card p-6 mt-5">
@@ -110,14 +110,15 @@
     </section>
 
     <section class="card p-6 mt-5">
-      <h2 class="text-2xl font-bold text-white mb-4">How to import Apple Health into Google Sheets</h2>
+      <h2 class="text-2xl font-bold text-white mb-4">How to export Apple Health to Google Sheets</h2>
       <ol class="list-decimal pl-6 space-y-3 text-slate-200">
-        <li>Export Apple Health data with Health Data Export, or use the free browser converter if you already have Apple's <code>export.xml</code>.</li>
+        <li>Export Apple Health data with <a href="/go/website.html?c=apple_health_to_google_sheets" target="_blank" rel="noopener" class="text-rose-300 hover:text-white">Health Data Export</a>, or use the <a href="/convert-tool/" class="text-emerald-300 hover:text-white">free browser converter</a> if you already have Apple's <code>export.xml</code>.</li>
         <li>Choose <strong>CSV</strong> for the simplest Google Sheets import, or <strong>XLSX</strong> if you want to inspect the spreadsheet first.</li>
         <li>Open Google Sheets and choose <strong>File → Import → Upload</strong>, then select the exported file.</li>
         <li>Choose whether to create a new spreadsheet or append the data to an existing workbook.</li>
         <li>Build charts, pivot tables, filters, or a small summary sheet before sharing anything with an AI assistant.</li>
       </ol>
+      <p class="text-slate-300 mt-4">Spreadsheet workflows need a CSV or XLSX file, not raw <code>export.xml</code> alone. JSON is for scripts. Convert <code>export.xml</code> first, or export CSV/XLSX from the app, then import that file.</p>
     </section>
 
     <section class="card p-6 mt-5">
