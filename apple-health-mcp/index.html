@@ -45,6 +45,14 @@
     .content-section pre { background: #0f172a; border: 1px solid var(--glass-border); border-radius: 0.75rem; padding: 1.25rem; overflow-x: auto; margin-bottom: 1.25rem; }
     .content-section code { font-family: 'JetBrains Mono', monospace; color: #38bdf8; font-size: 0.875rem; }
     .glass { background: rgba(255, 255, 255, 0.03); border: 1px solid var(--glass-border); border-radius: 1rem; }
+    .checklist-kicker { color: #e2e8f0; font-size: 1rem; font-weight: 600; margin: 1.25rem 0 .5rem; }
+    .checklist-bar { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: .75rem; margin: 1.25rem 0 .5rem; }
+    .checklist-bar .checklist-kicker { margin: 0; }
+    .connect-checklist pre { white-space: pre-wrap; overflow-wrap: anywhere; }
+    .content-section pre.copy-block { border: 1px solid rgba(103, 232, 249, .7); box-shadow: 0 0 0 4px rgba(34, 211, 238, .12); }
+    .copy-json { font: 700 .8rem/1 'JetBrains Mono', monospace; color: #cffafe; background: rgba(8, 47, 73, .85); border: 1px solid rgba(103, 232, 249, .45); border-radius: .75rem; padding: .5rem .8rem; cursor: pointer; }
+    .copy-json:hover { background: rgba(14, 116, 144, .75); }
+    .connect-checklist h3 { font-size: 1.25rem; }
     .tool-badge { display: inline-block; background: rgba(56, 189, 248, 0.1); border: 1px solid rgba(56, 189, 248, 0.25); color: #38bdf8; font-family: 'JetBrains Mono', monospace; font-size: 0.8rem; padding: 0.25rem 0.65rem; border-radius: 0.5rem; margin: 0.2rem 0.2rem 0.2rem 0; }
 
     .client-tab { display:inline-flex; align-items:center; gap:.5rem; padding:.65rem 1rem; border:1px solid rgba(148,163,184,.28); border-radius:999px; color:#e2e8f0; background:rgba(255,255,255,.035); font-weight:700; transition:.2s ease; }
@@ -95,6 +103,14 @@
       },
       {
         "@type": "Question",
+        "name": "How do I check that the Apple Health MCP connection is working?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Open the Health Data AI Analyzer Mac app, enable the Local API, and load a dataset. The API listens on http://localhost:8765, the same address as http://127.0.0.1:8765. Confirm it with curl http://127.0.0.1:8765/openclaw/status and curl http://127.0.0.1:8765/status. Connection refused means the app is not running or the Local API is off. Then quit Claude completely and reopen it. Call the get_status tool (no inputs). It reports whether the local API is running and whether a dataset is loaded. Claude should list the health-analyzer tools."
+        }
+      },
+      {
+        "@type": "Question",
         "name": "Which MCP clients are supported?",
         "acceptedAnswer": {
           "@type": "Answer",
@@ -132,7 +148,7 @@
     "description": "MCP server that exposes Apple Health data to Claude, Cursor, and other MCP clients via the Health Data AI Analyzer Mac app. All data stays local.",
     "url": "https://applehealthdata.com/apple-health-mcp/",
     "softwareVersion": "1.1.0",
-    "dateModified": "2026-10-06",
+    "dateModified": "2026-10-29",
     "author": {"@type": "Person", "name": "Keith Rumjahn", "url": "https://applehealthdata.com/"},
     "publisher": {"@type": "Organization", "name": "Health Data Export", "url": "https://applehealthdata.com/"},
     "license": "https://opensource.org/licenses/MIT",
@@ -148,7 +164,7 @@
     "headline": "How to Connect Apple Health to Claude: iPhone or Mac",
     "description": "Connect Apple Health to Claude on iPhone in the Claude app (beta, Pro or Max, US only), or on a Mac with the local MCP connector.",
     "datePublished": "2026-05-20",
-    "dateModified": "2026-10-06",
+    "dateModified": "2026-10-29",
     "author": {"@type": "Person", "name": "Keith Rumjahn", "url": "https://applehealthdata.com/"},
     "publisher": {"@type": "Organization", "name": "Health Data Export", "url": "https://applehealthdata.com/", "logo": {"@type": "ImageObject", "url": "https://applehealthdata.com/images/logo.png"}},
     "mainEntityOfPage": "https://applehealthdata.com/apple-health-mcp/",
@@ -261,13 +277,70 @@
         <p><strong class="text-white">iPhone:</strong> open the Claude app and connect Apple Health. It can read your data and cannot write or change entries. Anthropic says those health features are in beta, need a Pro or Max plan, and are available in the US only (<a href="https://support.claude.com/en/articles/11869619-use-claude-with-ios-apps">Use Claude with iOS apps</a>). <strong class="text-white">Mac:</strong> add the local MCP connector on this page for Claude Desktop, Claude Code, and Cursor:</p>
         <ol class="list-decimal">
           <li style="list-style-type: decimal;"><strong class="text-white">Install the Health Data AI Analyzer Mac app.</strong> It hosts the local API on <code>localhost:8765</code> that the MCP server reads from.</li>
-          <li style="list-style-type: decimal;"><strong class="text-white">Add the MCP server to Claude.</strong> Claude Desktop: Settings → Developer → Edit Config and add <code>"command": "npx", "args": ["-y", "health-analyzer-mcp"]</code>. Claude Code: <code>claude mcp add health-analyzer -- npx -y health-analyzer-mcp</code>.</li>
-          <li style="list-style-type: decimal;"><strong class="text-white">Restart Claude and ask.</strong> For example: <em>"What were my step counts and sleep duration for the last 14 days?"</em> Claude calls read-only tools like <code>get_steps</code>, <code>get_sleep</code> and <code>get_hrv</code> and gets back only the slice it asked for.</li>
+          <li style="list-style-type: decimal;"><strong class="text-white">Add the MCP server to Claude.</strong> Claude Desktop: Settings → Developer → Edit Config, then paste the full <code>claude_desktop_config.json</code> object in the <a href="#connect-checklist">Connect checklist</a>. A fragment will not parse. Claude Code: <code>claude mcp add health-analyzer -- npx -y health-analyzer-mcp</code>.</li>
+          <li style="list-style-type: decimal;"><strong class="text-white">Restart Claude and check <code>get_status</code>.</strong> Cmd+Q, reopen, then ask it to call <code>get_status</code>. The checklist has the <code>http://localhost:8765</code> check and the failure list. A working connection can answer: <em>"What were my step counts and sleep duration for the last 14 days?"</em></li>
         </ol>
         <p class="text-sm">Prefer pasting compact summaries into Claude instead of setting up MCP? Use the <a href="/apple-health-claude/">Apple Health + Claude local API guide</a>.</p>
         <a href="/go/website.html?c=ah_mcp_quick_answer" data-cta-location="quick_answer" class="inline-flex justify-center items-center gap-2 bg-rose-600 text-white font-bold py-3 px-6 rounded-xl hover:bg-rose-700 transition-all shadow-lg shadow-rose-600/20" style="color:#fff;border-bottom:0;">
           <i data-lucide="download" class="w-5 h-5"></i> Step 1: Get the Mac app
         </a>
+      </section>
+
+      <section id="connect-checklist" class="connect-checklist glass p-6 mt-10" aria-labelledby="connect-checklist-title">
+        <p class="text-xs uppercase tracking-[0.25em] text-sky-300 font-bold mb-3">Mac Connect</p>
+        <h2 id="connect-checklist-title" class="!mt-0 !pt-0 !border-t-0">Connect checklist</h2>
+        <p>Three checks, in order. Stop at the first one that fails. The iPhone path stays inside the Claude app. This list is the Mac MCP path for Claude Desktop, Claude Code, and Cursor.</p>
+
+        <h3>1. Config snippet</h3>
+        <p>Install and open the Health Data AI Analyzer Mac app first. Node.js 18+ has to be installed, because Claude starts <code>health-analyzer-mcp</code> with <code>npx</code>.</p>
+
+        <div class="checklist-kicker">Claude Desktop — this file</div>
+        <pre><code>~/Library/Application Support/Claude/claude_desktop_config.json</code></pre>
+        <p>Settings → Developer → Edit Config opens it. If the file is missing, create it.</p>
+        <div class="checklist-bar">
+          <div class="checklist-kicker">Copy this entire JSON. It is the whole file, not a fragment.</div>
+          <button type="button" class="copy-json" data-copy-target="claude-desktop-json">Copy JSON</button>
+        </div>
+        <pre id="claude-desktop-json" class="copy-block"><code>{
+  "mcpServers": {
+    "health-analyzer": {
+      "command": "npx",
+      "args": ["-y", "health-analyzer-mcp"]
+    }
+  }
+}</code></pre>
+        <p>Already have other MCP servers? Do not paste a second <code>{</code> under the file. Add only the <code>"health-analyzer"</code> entry inside the existing <code>mcpServers</code> object. One root object, double quotes, no comments, no trailing commas.</p>
+
+        <div class="checklist-kicker">Claude Code</div>
+        <pre><code>claude mcp add health-analyzer -- npx -y health-analyzer-mcp</code></pre>
+
+        <div class="checklist-kicker">Cursor</div>
+        <p>Cursor Settings → MCP. Same server entry:</p>
+        <pre><code>{
+  "mcpServers": {
+    "health-analyzer": {
+      "command": "npx",
+      "args": ["-y", "health-analyzer-mcp"]
+    }
+  }
+}</code></pre>
+
+        <h3>2. Health check</h3>
+        <p>Quit the client completely and reopen it. Claude Desktop needs Cmd+Q, not a window close. Then confirm the Mac app is listening, and that the client loaded the tools.</p>
+        <p>The local API is <code>http://localhost:8765</code>, the same listener as <code>http://127.0.0.1:8765</code>. In the Mac app, open Settings and turn on <strong class="text-white">Enable Local API for OpenClaw and scripts</strong>. The Local API section should show <strong class="text-white">Running</strong>, with a dataset loaded.</p>
+        <p><code>GET /openclaw/status</code> is public on loopback. It reports app version, whether a dataset is loaded, last import and sync timestamps, and available metrics. <code>GET /status</code> reports app and server version, dataset state, those timestamps, and the token path used by protected routes.</p>
+        <pre><code>curl http://127.0.0.1:8765/openclaw/status
+curl http://127.0.0.1:8765/status</code></pre>
+        <p>The same paths work in a browser at <code>http://localhost:8765/openclaw/status</code> and <code>http://localhost:8765/status</code>. Connection refused means nothing is listening. That is an app or Local API problem, not an auth problem.</p>
+        <p>On the MCP side, the client should list the <code>health-analyzer</code> tools, including <code>get_status</code>. Ask it to call <code>get_status</code>. The tool takes no inputs and reports whether the local API is running and whether a dataset is loaded. In Claude Code, <code>claude mcp list</code> should include <code>health-analyzer</code>.</p>
+
+        <h3>3. Failure states</h3>
+        <p><strong class="text-white">Mac app not running, or the API is down.</strong> The curls above refuse the connection. Open Health Data AI Analyzer, load a dataset, and confirm Settings shows Local API Running. Curl again. Next doc: <a href="/apple-health-local-api/">Apple Health Local API</a>.</p>
+        <p><strong class="text-white"><code>npx</code> or Node is missing.</strong> In Terminal, <code>node --version</code> needs to be 18 or newer, and <code>npx</code> has to resolve. If Terminal sees Node but Claude does not, the GUI app is not using that PATH. The startup error is in <code>~/Library/Logs/Claude/</code>. The first call can sit for several seconds while <code>npx</code> fetches <code>health-analyzer-mcp</code>. Claude Desktop only: skip Node by dragging the <a href="/downloads/apple-health-analyzer.mcpb">one-click extension (.mcpb)</a> onto Claude Desktop. Server source: <a href="https://github.com/krumjahn/MacHealthAnalyzer/tree/main/mcp-server">mcp-server on GitHub</a>.</p>
+        <p><strong class="text-white">Claude Desktop config JSON is invalid.</strong> Claude ignores a config it cannot parse, so no tools appear and there is no API error. Usual causes: a second <code>{</code> pasted under an existing file, a trailing comma, or a comment. Keep a single JSON object. Re-copy the block above, or merge the one <code>health-analyzer</code> key into <code>mcpServers</code>, then Cmd+Q and reopen.</p>
+        <p><strong class="text-white">Tools still missing after restart.</strong> Closing the window does not reload MCP servers. Cmd+Q, reopen, and start a new chat. Claude Code: <code>claude mcp list</code> should show <code>health-analyzer</code>. If the process never starts, it is Node, PATH, or the JSON error above.</p>
+        <p><strong class="text-white">Auth or token errors.</strong> The server reads <code>local-api-token.txt</code> itself, from <code>~/Library/Application Support/Health Data AI Analyzer/local-api-token.txt</code>. The sandboxed App Store build also searches <code>~/Library/Containers/com.rumjahn.healthkitanalyzer/Data/Library/Application Support/Health Data AI Analyzer/local-api-token.txt</code>. "Token not found" or a 401 means that lookup failed. Call <code>get_status</code> — the response includes the paths it searched. If the file is there but unreadable, set <code>HEALTH_ANALYZER_TOKEN</code> or <code>HEALTH_ANALYZER_TOKEN_FILE</code> to the absolute path shown in app Settings. Do not put the token in the <code>args</code> array. <code>GET /status</code> returns the token path for protected HTTP routes. The MCP server attaches the token; Connect does not require hand-writing <code>X-Health-Analyzer-Token</code>.</p>
+        <p>Connect stops here. Use the <a href="/apple-health-local-api/">Local API guide</a> and the <a href="https://github.com/krumjahn/MacHealthAnalyzer/tree/main/mcp-server">GitHub mcp-server</a> tree. <a href="/docs/api-reference.html">Need the full REST reference?</a> That catalog is for after Connect works.</p>
       </section>
 
       <section id="client-demo" class="my-20 text-center" aria-labelledby="client-demo-title">
@@ -287,7 +360,7 @@
       </section>
 
       <h2>What is an Apple Health MCP server?</h2>
-      <p class="text-slate-500 text-sm"><i data-lucide="clock" class="w-3 h-3 inline"></i> <time datetime="2026-10-06">Last updated: October 6, 2026</time> · Reviewed by Keith Rumjahn</p>
+      <p class="text-slate-500 text-sm"><i data-lucide="clock" class="w-3 h-3 inline"></i> <time datetime="2026-10-29">Last updated: October 29, 2026</time> · Reviewed by Keith Rumjahn</p>
       <p>Anthropic introduced the <strong>Model Context Protocol</strong> in November 2024 and open-sourced the spec to let AI assistants discover and call tools on your behalf — by 2026 the protocol was already shipping natively in Claude Desktop, Cursor, Cline, and OpenClaw ([Anthropic announcement](https://www.anthropic.com/news/model-context-protocol) <span title="Search-summary, Tier 1 source — Anthropic official">[S]</span>). An <strong>Apple Health MCP server</strong> is a small program that translates between MCP and your HealthKit data — instead of pasting JSON into a chat, your AI assistant can call the server directly: "what were my step counts last week?" → the server hits the local API → returns a compact answer.</p>
 
       <h2>How it works (and why nothing leaves your Mac)</h2>
@@ -316,32 +389,8 @@ HealthKit / parsed export.xml (on your Mac)</code></pre>
         <span class="tool-badge">get_daily_health_brief</span>
       </div>
 
-      <h2>Install (Claude Desktop)</h2>
-      <p>Open your Claude Desktop config file:</p>
-      <pre><code>~/Library/Application Support/Claude/claude_desktop_config.json</code></pre>
-      <p>Add the <code>health-analyzer</code> server:</p>
-      <pre><code>{
-  "mcpServers": {
-    "health-analyzer": {
-      "command": "npx",
-      "args": ["-y", "health-analyzer-mcp"]
-    }
-  }
-}</code></pre>
-      <p>Restart Claude Desktop. Open a new conversation and ask: <em>"What did my heart rate look like last week?"</em> — Claude will discover and call <code>get_heart_rate</code> automatically.</p>
-
-      <h2>Install (Cursor)</h2>
-      <p>Cursor uses the same MCP spec. In Cursor Settings → MCP, add:</p>
-      <pre><code>{
-  "mcpServers": {
-    "health-analyzer": {
-      "command": "npx",
-      "args": ["-y", "health-analyzer-mcp"]
-    }
-  }
-}</code></pre>
-
       <h2>Example prompts</h2>
+      <p>The copy-paste config, the <code>localhost:8765</code> check, and the failure list are in the <a href="#connect-checklist">Connect checklist</a>. Once <code>get_status</code> answers, try:</p>
       <pre><code>What were my step counts and sleep duration for the last 14 days?
 Are there any week-over-week trends in my resting heart rate?</code></pre>
       <pre><code>Pull my HRV for the past 30 days and look for signs of overtraining
@@ -359,7 +408,7 @@ for the coming week based on what you see.</code></pre>
 
       <h2>Related</h2>
       <ul>
-        <li><a href="/apple-health-local-api/">Apple Health Local API docs</a> — the API the MCP server talks to</li>
+        <li><a href="/apple-health-local-api/">Apple Health Local API docs</a> — confirm <code>localhost:8765</code> is up. Connect stops there.</li>
         <li><a href="/apple-health-claude/">Apple Health + Claude</a> — using Claude with the Local API directly</li>
         <li><a href="/openclaw-apple-health/">OpenClaw + Apple Health</a> — alternative MCP client</li>
         <li><a href="/apple-health-ai/">Apple Health + AI hub</a></li>
@@ -391,7 +440,7 @@ for the coming week based on what you see.</code></pre>
     lucide.createIcons();
 
     const clients = [
-      {name:'Claude Desktop', icon:'✳', method:'JSON · stdio', setup:'Open Claude Settings → Developer → Edit Config\nAdd: { "command": "npx", "args": ["-y", "health-analyzer-mcp"] }\nRestart Claude Desktop'},
+      {name:'Claude Desktop', icon:'✳', method:'JSON · stdio', setup:'Open Claude Settings → Developer → Edit Config\nPaste this entire claude_desktop_config.json:\n{\n  "mcpServers": {\n    "health-analyzer": {\n      "command": "npx",\n      "args": ["-y", "health-analyzer-mcp"]\n    }\n  }\n}\nCmd+Q, reopen, then call get_status'},
       {name:'Claude Code', icon:'✳', method:'claude mcp add · stdio', setup:'$ claude mcp add health-analyzer -- npx -y health-analyzer-mcp\nAdded stdio MCP server health-analyzer\n$ claude mcp list → health-analyzer  ✓ Connected'},
       {name:'Cursor', icon:'◆', method:'mcp.json · stdio', setup:'Open Cursor Settings → Tools & Integrations → MCP\nAdd: { "health-analyzer": { "command": "npx", "args": ["-y", "health-analyzer-mcp"] } }\nhealth-analyzer  ✓ Enabled'},
       {name:'VS Code', icon:'◉', method:'MCP: Add Server', setup:'Run “MCP: Add Server” from the Command Palette\nChoose Command (stdio): npx -y health-analyzer-mcp\nName it health-analyzer, then Start'},
@@ -411,6 +460,21 @@ for the coming week based on what you see.</code></pre>
     clients.forEach((c,i)=>{ const b=document.createElement('button'); b.type='button'; b.className='client-tab'; b.setAttribute('role','tab'); b.innerHTML='<span aria-hidden="true">'+c.icon+'</span><span>'+c.name+'</span>'+((c.name==='Cursor'||c.name==='VS Code'||c.name==='Cline'||c.name==='ChatGPT'||c.name==='Gemini'||c.name==='n8n')?'<span class="client-dot" title="Setup limitation noted"></span>':''); b.onclick=()=>selectClient(i); tabs.appendChild(b); });
     document.getElementById('demo-replay').onclick=()=>selectClient(active);
     selectClient(active);
+
+    document.querySelectorAll('.copy-json').forEach((btn) => {
+      btn.addEventListener('click', async () => {
+        const block = document.getElementById(btn.getAttribute('data-copy-target'));
+        const text = block.textContent.replace(/^\s+/, '').replace(/\s+$/, '');
+        const previous = btn.textContent;
+        try {
+          await navigator.clipboard.writeText(text);
+          btn.textContent = 'Copied';
+        } catch (err) {
+          btn.textContent = 'Select the block';
+        }
+        setTimeout(() => { btn.textContent = previous; }, 1600);
+      });
+    });
 
   </script>
 </body>
