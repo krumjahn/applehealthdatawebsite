@@ -145,6 +145,32 @@
         }
         .doc-card:hover { border-color: rgba(244, 63, 94, 0.3); }
 
+        .install-gate {
+            margin: 0 0 2rem;
+            border-color: rgba(244, 63, 94, 0.45);
+            background: rgba(244, 63, 94, 0.08);
+        }
+        .install-gate:hover { border-color: rgba(244, 63, 94, 0.65); }
+        .install-gate ol { margin: 0 0 0.75rem; padding-left: 1.25rem; list-style: decimal; }
+        .install-gate li { margin-bottom: 0.35rem; }
+        .install-gate p:last-child { margin-bottom: 0; font-size: 0.9rem; }
+        .doc-content a.store-btn {
+            display: inline-block;
+            box-sizing: border-box;
+            max-width: 100%;
+            background: #f43f5e;
+            color: #fff;
+            font-weight: 800;
+            font-size: 0.95rem;
+            line-height: 1.2;
+            padding: 14px 22px;
+            border-radius: 9999px;
+            text-decoration: none;
+            text-align: center;
+            margin: 0.25rem 0 0.5rem;
+        }
+        .doc-content a.store-btn:hover { color: #fff; background: #e11d48; }
+
         /* Search */
         .docs-search {
             background: rgba(255, 255, 255, 0.05);
@@ -263,6 +289,17 @@
             <div class="doc-content">
                 <h1>API Reference</h1>
                 <p>The Health Data AI Analyzer Mac app exposes a <strong>read-only localhost API</strong> on <code>http://127.0.0.1:8765</code>. Use it to build OpenClaw integrations, Claude Code workflows, Mac Shortcuts, and custom scripts that read your Apple Health data without uploading anything to the cloud.</p>
+
+                <div class="doc-card install-gate">
+                    <p><strong>This API only works after installing Health Data AI Analyzer (Mac app).</strong> The localhost API is not a public cloud API.</p>
+                    <p><a class="store-btn" href="/go/website.html?c=docs_api_reference" target="_blank" rel="noopener">Download on the Mac App Store</a></p>
+                    <ol>
+                        <li>Install the Mac app.</li>
+                        <li>Open the app.</li>
+                        <li>The API is available on <code>127.0.0.1:8765</code>.</li>
+                    </ol>
+                    <p>Also see <a href="/apple-health-mcp/">Apple Health MCP</a> and <a href="/docs/openclaw.html">OpenClaw</a>.</p>
+                </div>
 
                 <blockquote>
                     <p>The API is read-only. Tools can query your health summaries but cannot write, delete, or modify your data.</p>
