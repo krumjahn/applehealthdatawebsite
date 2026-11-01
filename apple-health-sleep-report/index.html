@@ -3,21 +3,21 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Apple Health Sleep Report Card — Free Sleep Score Tool | Apple Health Data</title>
-    <meta name="description" content="Get a graded Apple Health sleep report card from your export.xml. See your sleep score, duration, consistency, stages, and social jetlag — free, private, runs in your browser.">
-    <meta name="keywords" content="apple health sleep report, apple watch sleep analysis, sleep score from apple health, apple health sleep score, sleep report card, sleep consistency, sleep debt, social jetlag">
+    <title>Analyze Apple Watch Sleep Data Privately (Local Report)</title>
+    <meta name="description" content="Graded sleep report from export.xml in your browser. Nothing is uploaded. Apple Watch stages, duration, consistency, and social jetlag.">
+    <meta name="keywords" content="analyze apple watch sleep data privately, apple health sleep report, apple watch sleep analysis, sleep score from apple health, apple health sleep score, sleep report card, sleep consistency, sleep debt, social jetlag">
     <meta name="apple-itunes-app" content="app-id=6749297170">
     <link rel="canonical" href="https://applehealthdata.com/apple-health-sleep-report/">
 
     <meta property="og:type" content="website">
     <meta property="og:site_name" content="AppleHealthData.com">
     <meta property="og:url" content="https://applehealthdata.com/apple-health-sleep-report/">
-    <meta property="og:title" content="Apple Health Sleep Report Card — Free Sleep Score Tool">
-    <meta property="og:description" content="Grade your sleep from Apple Health export.xml: duration, consistency, stages, social jetlag. Free and 100% private — nothing is uploaded.">
+    <meta property="og:title" content="Analyze Apple Watch Sleep Data Privately (Local Report)">
+    <meta property="og:description" content="Graded sleep report from export.xml in your browser. Nothing is uploaded. Apple Watch stages, duration, consistency, and social jetlag.">
     <meta property="og:image" content="https://applehealthdata.com/images/iphone-app-screenshot.png">
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Apple Health Sleep Report Card — Free Sleep Score Tool">
-    <meta name="twitter:description" content="Grade your sleep from Apple Health export.xml: duration, consistency, stages, social jetlag. Free and 100% private.">
+    <meta name="twitter:title" content="Analyze Apple Watch Sleep Data Privately (Local Report)">
+    <meta name="twitter:description" content="Graded sleep report from export.xml in your browser. Nothing is uploaded. Apple Watch stages, duration, consistency, and social jetlag.">
     <meta name="twitter:image" content="https://applehealthdata.com/images/iphone-app-screenshot.png">
     <meta name="robots" content="index,follow,max-image-preview:large">
     <meta name="author" content="Keith Rumjahn">
@@ -31,7 +31,8 @@
       "applicationCategory": "HealthApplication",
       "operatingSystem": "Any (web browser)",
       "url": "https://applehealthdata.com/apple-health-sleep-report/",
-      "description": "Free browser-based tool that grades your Apple Health sleep data — duration, consistency, stages, sleep debt, and social jetlag — from your export.xml. All processing is local; nothing is uploaded.",
+      "description": "Analyze Apple Watch sleep data privately. Graded Sleep Report Card from export.xml in your browser: duration, consistency, stages, and social jetlag. Nothing is uploaded.",
+      "dateModified": "2026-11-02",
       "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
       "author": { "@type": "Person", "name": "Keith Rumjahn" }
     }
@@ -48,6 +49,7 @@
         { "@type": "Question", "name": "How does it handle my iPhone and Apple Watch both logging sleep?", "acceptedAnswer": { "@type": "Answer", "text": "Many people have two devices recording overlapping InBed and Asleep intervals for the same night. The tool merges overlapping sleep intervals across all sources before summing, so a single night is never double-counted." } },
         { "@type": "Question", "name": "What counts as one night?", "acceptedAnswer": { "@type": "Answer", "text": "Sleep sessions are grouped into a noon-to-noon window. Any asleep interval starting between noon on one day and noon the next is attributed to that night. This keeps late bedtimes past midnight on the correct night and handles naps that fall inside the window." } },
         { "@type": "Question", "name": "Is my health data uploaded anywhere?", "acceptedAnswer": { "@type": "Answer", "text": "No. The entire report is generated locally in your browser using streaming file parsing. Your export.xml never leaves your device, and there is no account or server involved." } },
+        { "@type": "Question", "name": "How is this different from pasting sleep data into ChatGPT?", "acceptedAnswer": { "@type": "Answer", "text": "ChatGPT can analyze a sleep summary or screenshot you paste, but that sends the text to ChatGPT and is not offline-local analysis. This Sleep Report Card reads export.xml in your browser and never uploads the file. It is a habit tracker, not a medical device." } },
         { "@type": "Question", "name": "Why is my score different from Apple's or my watch's sleep score?", "acceptedAnswer": { "@type": "Answer", "text": "This tool uses its own transparent formulas (explained on the page) and looks at long-term patterns like consistency and social jetlag, not just a single night. It is meant as an at-a-glance report card of your habits, not a medical measurement." } }
       ]
     }
@@ -104,9 +106,20 @@
       <div class="max-w-4xl mx-auto px-4">
 
         <header class="text-center mb-10">
-          <h1 class="text-4xl lg:text-5xl font-bold text-white mb-4">Apple Health Sleep Report Card</h1>
-          <p class="text-xl text-slate-400 leading-relaxed max-w-2xl mx-auto">Load your <code class="font-mono text-rose-300">export.xml</code> and get a graded sleep score card — duration, consistency, stages, and social jetlag. <strong class="text-slate-200">Free, private, and runs entirely in your browser — nothing is uploaded.</strong></p>
+          <h1 class="text-4xl lg:text-5xl font-bold text-white mb-4">Analyze Apple Watch Sleep Data Privately (Local Report)</h1>
+          <p class="text-xl text-slate-400 leading-relaxed max-w-2xl mx-auto">Local <strong class="text-slate-200">Sleep Report Card</strong> from your Apple Health <code class="font-mono text-rose-300">export.xml</code> — duration, consistency, stages, and social jetlag. Nothing is uploaded.</p>
         </header>
+
+        <section class="card p-6 md:p-8 mb-10 text-left" aria-label="How to analyze Apple Watch sleep data privately">
+          <h2 class="text-2xl font-bold text-white mb-3">How do I analyze Apple Watch sleep data privately?</h2>
+          <p class="text-lg text-slate-300 mb-4">Export All Health Data on your iPhone, unzip it, and load <code class="font-mono text-rose-300">export.xml</code> in the Sleep Report Card below. The graded card — duration, consistency, stages, and social jetlag — runs in your browser. The file is never uploaded.</p>
+          <ol class="list-decimal list-inside text-slate-300 space-y-2 mb-4">
+            <li>On your iPhone, open the Health app and <a href="/export-apple-health-data/" class="text-rose-400 hover:text-rose-300">Export All Health Data</a>.</li>
+            <li>Unzip the export and load <code class="font-mono">export.xml</code> in the tool below.</li>
+            <li>Read the graded card. Parsing streams locally on your device.</li>
+          </ol>
+          <p class="text-slate-400">ChatGPT can analyze a sleep summary or screenshot you paste, but that is not offline-local analysis. This page never uploads <code class="font-mono">export.xml</code>. Before any cloud share, strip identifiers with the <a href="/apple-health-anonymizer/" class="text-rose-400 hover:text-rose-300">Apple Health anonymizer</a>. For a model that stays on your machine, use <a href="/ai-health-analysis/" class="text-rose-400 hover:text-rose-300">local AI health analysis</a> or the <a href="/docs/ai-analysis.html" class="text-rose-400 hover:text-rose-300">Mac local AI guide</a>. If you need rows instead of a grade, convert the file with the <a href="/convert-tool/" class="text-rose-400 hover:text-rose-300">XML to CSV converter</a>.</p>
+        </section>
 
         <section class="card p-6 md:p-8 mb-10" aria-label="Sleep report tool">
           <div id="controls" class="flex flex-col sm:flex-row gap-4 sm:items-end justify-between mb-6">
@@ -204,6 +217,10 @@
               <div class="faq-content"><p>No. The report is generated locally using streaming file parsing. Your <code class="font-mono">export.xml</code> never leaves your device, and there is no account or server.</p></div>
             </details>
             <details>
+              <summary><span>How is this different from pasting sleep data into ChatGPT?</span><i data-lucide="chevron-right" class="chevron w-6 h-6 text-rose-400"></i></summary>
+              <div class="faq-content"><p>ChatGPT can analyze a sleep summary or screenshot you paste, but that sends the text to ChatGPT and is not offline-local analysis. This Sleep Report Card reads <code class="font-mono">export.xml</code> in your browser and never uploads the file. It is a habit tracker, not a medical device.</p></div>
+            </details>
+            <details>
               <summary><span>Why is my score different from Apple's or my watch's?</span><i data-lucide="chevron-right" class="chevron w-6 h-6 text-rose-400"></i></summary>
               <div class="faq-content"><p>This tool uses its own transparent formulas and looks at long-term patterns like consistency and social jetlag, not a single night. It is an at-a-glance report card of your habits, not a medical measurement.</p></div>
             </details>
@@ -215,6 +232,9 @@
           <div class="flex flex-wrap gap-3 text-sm">
             <a href="/tools/" class="px-4 py-2 rounded-full bg-white/10 hover:bg-white/20 text-slate-200">All Free Tools</a>
             <a href="/convert-tool/" class="px-4 py-2 rounded-full bg-white/10 hover:bg-white/20 text-slate-200">XML &rarr; CSV Converter</a>
+            <a href="/apple-health-anonymizer/" class="px-4 py-2 rounded-full bg-white/10 hover:bg-white/20 text-slate-200">Apple Health Anonymizer</a>
+            <a href="/ai-health-analysis/" class="px-4 py-2 rounded-full bg-white/10 hover:bg-white/20 text-slate-200">Local AI Health Analysis</a>
+            <a href="/docs/ai-analysis.html" class="px-4 py-2 rounded-full bg-white/10 hover:bg-white/20 text-slate-200">Mac Local AI Guide</a>
             <a href="/apple-health-export-validator/" class="px-4 py-2 rounded-full bg-white/10 hover:bg-white/20 text-slate-200">Export Validator</a>
             <a href="/export-apple-health-sleep-data/" class="px-4 py-2 rounded-full bg-white/10 hover:bg-white/20 text-slate-200">Export Sleep Data</a>
             <a href="/sleep-debt-calculator/" class="px-4 py-2 rounded-full bg-white/10 hover:bg-white/20 text-slate-200">Sleep Debt Calculator</a>
