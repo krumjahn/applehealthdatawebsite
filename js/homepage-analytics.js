@@ -1,4 +1,5 @@
-/* Homepage intent measurement. No health data, free-text, or persistent intent IDs. */
+/* Homepage intent measurement. No health data, free-text, or persistent visitor IDs.
+   AHD-CTA-01 stores only the hero purchase-label arm: control or challenger. */
 (function () {
   'use strict';
   const measurementId = 'G-8SMQRLT4VS';
@@ -11,6 +12,83 @@
   let lastIntent = 'unknown';
   const validIntents = ['iphone', 'mac', 'ai'];
   const events = [];
+  const HERO_EXPERIMENT_ID = 'AHD-CTA-01';
+  const HERO_EXPERIMENT_KEY = 'ab_AHD-CTA-01';
+  const HERO_DESTINATION = '/go/website.html?c=ahd_home_hero';
+  // Trailing space matches the text node before the arrow in index.html.
+  const HERO_LABELS = {
+    control: 'Get Health Data — $4.99 ',
+    challenger: 'Get it on the App Store — $4.99 '
+  };
+
+  function variantStore() {
+    try {
+      return window.localStorage || null;
+    } catch (error) {
+      return null;
+    }
+  }
+
+  function readStoredVariant(store) {
+    try {
+      const value = store.getItem(HERO_EXPERIMENT_KEY);
+      return value === 'control' || value === 'challenger' ? value : null;
+    } catch (error) {
+      return null;
+    }
+  }
+
+  function writeStoredVariant(store, variant) {
+    try {
+      store.setItem(HERO_EXPERIMENT_KEY, variant);
+    } catch (error) {
+      /* Private-mode storage can reject the write. The arm still applies this load. */
+    }
+  }
+
+  function chooseHeroVariant() {
+    return Math.random() < 0.5 ? 'control' : 'challenger';
+  }
+
+  function heroPurchaseLink() {
+    const selector = 'a.buy[data-experiment="' + HERO_EXPERIMENT_ID + '"][data-placement="hero"][data-track="store"]';
+    const links = document.querySelectorAll(selector);
+    for (let i = 0; i < links.length; i += 1) {
+      const link = links[i];
+      const href = (link.getAttribute && link.getAttribute('href')) || link.href || '';
+      if (href === HERO_DESTINATION || href.endsWith(HERO_DESTINATION)) return link;
+    }
+    return null;
+  }
+
+  function applyHeroLabel(link, variant) {
+    const label = HERO_LABELS[variant];
+    const nodes = link.childNodes || [];
+    for (let i = 0; i < nodes.length; i += 1) {
+      const node = nodes[i];
+      // 3 is a text node. Leave the arrow element and any other markup alone.
+      if (node && node.nodeType === 3 && String(node.textContent).trim()) {
+        node.textContent = label;
+        return node.textContent === label;
+      }
+    }
+    return false;
+  }
+
+  function assignHeroExperiment() {
+    const store = variantStore();
+    let variant = store ? readStoredVariant(store) : null;
+    if (!variant) {
+      variant = chooseHeroVariant();
+      if (store) writeStoredVariant(store, variant);
+    }
+    const link = heroPurchaseLink();
+    const exposed = Boolean(link) && applyHeroLabel(link, variant);
+    if (exposed && link.dataset) link.dataset.experimentVariant = variant;
+    return { variant: variant, exposed: exposed };
+  }
+
+  const heroExperiment = assignHeroExperiment();
 
   if (debug) window.healthDataAnalyticsDebug = events;
   if (!debug && !disabled) {
@@ -28,6 +106,15 @@
     return intents.size > 1 ? 'mixed' : lastIntent;
   }
 
+  function experimentParameters(name) {
+    if (name !== 'home_view' && name !== 'app_store_click') return null;
+    return {
+      experiment_id: HERO_EXPERIMENT_ID,
+      experiment_assignment: heroExperiment.variant,
+      experiment_exposure: heroExperiment.exposed ? heroExperiment.variant : 'none'
+    };
+  }
+
   function track(name, parameters = {}, once = false) {
     if (disabled || (once && seen.has(name))) return;
     seen.add(name);
@@ -38,6 +125,9 @@
       last_intent: lastIntent,
       intent_group: group()
     }, parameters);
+    const experiment = experimentParameters(name);
+    if (experiment) Object.assign(data, experiment);
+    data.page_variant = 'open_file_v2';
     if (debug) {
       events.push({ name, parameters: data });
     } else if (typeof window.gtag === 'function') {
