@@ -34,11 +34,11 @@ Useful first questions:
 3. Which sections get seen but attract little further interaction?
 4. Which practical questions and resources attract attention?
 
-The design gives iPhone the first position and mobile hides the text navigation. Visibility and placement bias matter. Section views measure exposure, never a preference. Compare device categories and placements before promoting an archetype; this launch is not a randomized experiment.
+The design gives iPhone the first position and mobile hides the text navigation. Visibility and placement bias matter. Section views measure exposure, never a preference. Compare device categories and placements before promoting an archetype. The intent events are not themselves a randomized experiment. Hero purchase copy is tested separately as AHD-CTA-01.
 
 ## Optional detailed Exploration
 
-Events also send `page_variant` (`open_file_v2`), `first_intent`, `last_intent`, `intent_group`, and, where relevant, `cta_location`, `intent`, `resource`, `question`, or `file_view`. These are fixed categorical values. To use them as Exploration dimensions, an Analytics administrator must register the corresponding **event-scoped custom dimensions** in Admin → Custom definitions. These registrations have not been performed by this deployment; the event-name report above works without them. Do not assume parameters are retroactively available in custom reports.
+Events also send `page_variant` (`open_file_v2`), `first_intent`, `last_intent`, `intent_group`, and, where relevant, `cta_location`, `intent`, `resource`, `question`, or `file_view`. `home_view` and `app_store_click` also send `experiment_id`, `experiment_assignment`, and `experiment_exposure` for AHD-CTA-01. `page_variant` stays the page version. It is not the experiment arm. These are fixed categorical values. To use them as Exploration dimensions, an Analytics administrator must register the corresponding **event-scoped custom dimensions** in Admin → Custom definitions. These registrations have not been performed by this deployment; the event-name report above works without them. Do not assume parameters are retroactively available in custom reports.
 
 Intent is held only in page memory. It is not joined across app installations, devices, or website visits. We collect no health records, file contents, AI prompts, email addresses, or custom persistent visitor IDs in these events. The homepage honors browser Do Not Track and the GA disable flag. Existing GA4 pageview/session behavior otherwise continues.
 
@@ -51,7 +51,7 @@ Homepage App Store links use `/go/website.html?c=ahd_home_<location>` and are no
 | CTA | Tag | `cta_location` |
 | --- | --- | --- |
 | Nav “Get the app” (the only header control on small screens) | `ahd_home_nav` | `nav` |
-| Hero “Get Health Data — $4.99” | `ahd_home_hero` | `hero` |
+| Hero purchase. Control “Get Health Data — $4.99”. Challenger “Get it on the App Store — $4.99”. | `ahd_home_hero` | `hero` |
 | Mid-page offer “Get it on the App Store” | `ahd_home_offer` | `offer` |
 | Closing band “Get Health Data — $4.99” | `ahd_home_closing` | `closing` |
 
@@ -61,12 +61,37 @@ Homepage click rate is GA4 `app_store_click` events whose page path is `/`, divi
 
 It does not yet include a verified App Store Connect provider token, so this is not verified App Store purchase attribution.
 
+## Hero purchase label experiment AHD-CTA-01
+
+Visitor-level 50/50 test of the homepage hero purchase button label only. Both arms stay in the page.
+
+| Arm | Visible label |
+| --- | --- |
+| `control` | Get Health Data — $4.99 ↗ |
+| `challenger` | Get it on the App Store — $4.99 ↗ |
+
+Assignment runs in `js/homepage-analytics.js` before `home_view`. A stored `localStorage` value of exactly `control` or `challenger` under `ab_AHD-CTA-01` is reused. Otherwise `Math.random() < 0.5` assigns control and any other draw assigns challenger, then the arm is written back. The stored value is only that arm. It is not a visitor id. If storage is unavailable, the arm still applies for that page load and is not sticky. Do Not Track and the GA disable flag suppress analytics; they do not pin the visitor to control.
+
+The hero link keeps `href="/go/website.html?c=ahd_home_hero"`, the `$4.99` price, the `↗` element, the `.buy` styles, and its placement. Nav, mid-page offer, closing button, headline, screenshots, and disclosures are outside the test. Static HTML remains the control label, so a browser without JavaScript shows control and does not emit `home_view`.
+
+`home_view` (once per load, after the label is set) and every `app_store_click` include:
+
+| Parameter | Values |
+| --- | --- |
+| `experiment_id` | `AHD-CTA-01` |
+| `experiment_assignment` | `control` or `challenger` |
+| `experiment_exposure` | the arm whose hero label was shown, or `none` if that label was not applied |
+
+Other homepage events do not get these parameters. `page_variant` remains `open_file_v2` on every event. Use `home_view` as the exposure denominator and split `app_store_click` on `experiment_assignment` plus `cta_location`. The new parameters are the experiment id and the arm name. They do not include health records, file contents, prompts, the button label, a price, or an account or visitor id.
+
+This test does not restore the removed random download counter or any earlier hero experiment.
+
 ## Verification and troubleshooting
 
-- Run `node --test tests/homepage-analytics.test.cjs` for routing, deduplication, unknown/mixed classification, opt-out, and production GA queue tests.
+- Run `node --test tests/homepage-analytics.test.cjs` for routing, deduplication, unknown/mixed classification, opt-out, production GA queue, and AHD-CTA-01 assignment tests.
 - Open `/?analytics_debug=1`; click iPhone, Mac, Your AI, each App Store button, FAQs, and JSON. Inspect `window.healthDataAnalyticsDebug` in browser devtools. Localhost automatically uses this mode. No homepage events or GA script are sent in debug mode.
 - An actual App Store click still opens the existing redirect, which has its own analytics. For an entirely dry test, prevent the store link's default navigation in browser devtools.
 - A regular production load requests `gtag/js?id=G-8SMQRLT4VS`; event requests target Google's collection endpoint. Analytics blockers or opt-outs may prevent collection without affecting the page or download link.
 - Check Realtime for event arrival, then the standard report after processing. A browser request verifies dispatch, not final reporting or purchase attribution.
 
-Implementation: `index.html` declares explicit tracking attributes; `js/homepage-analytics.js` owns the event schema. Keep enum values and event names stable for comparison over time. Do not restore the old random download counter or old hero experiment.
+Implementation: `index.html` declares explicit tracking attributes and keeps the control hero label; `js/homepage-analytics.js` owns assignment, the challenger label, and the event schema. Keep enum values and event names stable for comparison over time. Do not restore the old random download counter or old hero experiment.
