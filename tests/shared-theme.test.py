@@ -14,13 +14,13 @@ class SharedThemeTest(unittest.TestCase):
    text=p.read_text()
    if LINK not in text:continue
    rel=p.relative_to(ROOT).as_posix();changed.append(rel)
-   original=subprocess.check_output(['git','show',BASE+':'+rel],cwd=ROOT).decode()
+   original = '' if rel == 'docs/new-interface-preview.html' else subprocess.check_output(['git','show',BASE+':'+rel],cwd=ROOT).decode()
    with self.subTest(page=rel):
     self.assertEqual(text.count(LINK),1);self.assertEqual(text.count(CREDIT),1)
     # These pages have separately authorized factual content updates after the visual rollout.
-    if rel not in {'changelog.html', 'docs/export-health-data.html'}:
-     self.assertEqual(text.replace(LINK,'').replace(CREDIT,''),original)
-  self.assertEqual(len(changed),78)
+    if rel not in {'changelog.html', 'docs/export-health-data.html', 'docs/index.html', 'docs/getting-started.html', 'docs/mac-app.html', 'docs/wifi-sync.html', 'docs/ai-analysis.html', 'docs/api-reference.html', 'docs/openclaw.html', 'docs/mcp-server.html', 'docs/widgets.html', 'docs/troubleshooting.html', 'docs/for-agents.html', 'docs/new-interface-preview.html'}:
+     self.assertEqual(text.replace(LINK,'').replace(CREDIT,'').replace('\n<a href="/docs/new-interface-preview.html">New interface (preview)</a>', '').replace(' aria-label="Open documentation navigation"', ''),original)
+  self.assertEqual(len(changed),79)
  def test_shared_theme_does_not_overlap_dedicated_homepage_or_blog(self):
   for p in [ROOT/'index.html',*(ROOT/'blog').glob('*.html')]:
    self.assertNotIn(LINK,p.read_text())

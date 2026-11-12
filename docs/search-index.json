@@ -2,15 +2,15 @@
   {
     "title": "AI Analysis",
     "url": "/docs/ai-analysis.html",
-    "intro": "Use AI to find patterns, trends, and anomalies in your Apple Health data. The Mac app supports both cloud and local providers, so you can choose the balance of quality, speed, and privacy that works f",
+    "intro": "Documentation updated 13 November 2026 (Hong Kong). The redesigned screens are currently test-build previews, not an App Store release. Existing guides describe the released app; button names may diff",
     "sections": [
       {
         "heading": "Supported AI Providers",
-        "snippet": "The current Mac app supports these providers out of the box. Provider Type Cost Best For OpenAI Cloud Pay-per-use Strong general analysis, large context windows Anthropic Cloud Pay-per-use Nuanced hea"
+        "snippet": "The current Mac app supports these providers out of the box. If you subscribe to Pro, OpenAI and Anthropic are built in and ready to use with no key setup — open Settings and start analyzing. Everyone"
       },
       {
         "heading": "Setting Up Each Provider",
-        "snippet": ""
+        "snippet": "Already a Pro subscriber? OpenAI and Anthropic are built in — open Settings , confirm your default provider, and skip straight to running analysis. No API key needed. The steps below are for bringing "
       },
       {
         "heading": "OpenAI",
@@ -53,6 +53,14 @@
         "snippet": "Based on the patterns it finds, the AI generates actionable recommendations. These might include adjusting your bedtime, modifying your workout schedule, or investigating a metric that has changed une"
       },
       {
+        "heading": "Reading Your Results",
+        "snippet": "AI insights render as formatted text, not raw output. Markdown tables display as real tables, numbered and bulleted lists are laid out cleanly, and code blocks are shown in a monospaced block — so a r"
+      },
+      {
+        "heading": "Accuracy: Why Your Numbers Should Match Apple Health",
+        "snippet": "The Mac app's analysis metrics are built to match what you see in the Apple Health app. Totals are de-duplicated across devices, so steps and distance recorded by an iPhone and Apple Watch worn togeth"
+      },
+      {
         "heading": "Privacy Considerations",
         "snippet": "Your choice of provider directly affects where your health data is processed. Provider Type Data Location Privacy Level Cloud (OpenAI, Anthropic, OpenRouter) Data is sent to the provider's servers for"
       },
@@ -67,9 +75,9 @@
     ]
   },
   {
-    "title": "API Reference",
+    "title": "http://127.0.0.1:8765 Apple Health Local API: Endpoints & curl",
     "url": "/docs/api-reference.html",
-    "intro": "The Health Data AI Analyzer Mac app exposes a read-only localhost API on http://127.0.0.1:8765 . Use it to build OpenClaw integrations, Claude Code workflows, Mac Shortcuts, and custom scripts that re",
+    "intro": "Documentation updated 13 November 2026 (Hong Kong). The redesigned screens are currently test-build previews, not an App Store release. Existing guides describe the released app; button names may diff",
     "sections": [
       {
         "heading": "Overview",
@@ -77,7 +85,7 @@
       },
       {
         "heading": "Authentication",
-        "snippet": "These routes are public on loopback and do not require a token: GET /openclaw/status GET /openclaw/daily-brief GET /status All other routes require the X-Health-Analyzer-Token header. The token file p"
+        "snippet": "Send the X-Health-Analyzer-Token header for every health-data request. Read the real token file location from GET /status ( token_path ); do not assume an example path exists on your Mac. In the redes"
       },
       {
         "heading": "Endpoints",
@@ -89,7 +97,15 @@
       },
       {
         "heading": "GET /openclaw/daily-brief?date=YYYY-MM-DD",
-        "snippet": "Compact Apple Health daily summary for AI assistants and scripts. Returns steps, sleep, workouts, heart rate, HRV, signals, sync metadata, and a human-readable context summary. No authentication requi"
+        "snippet": "Compact Apple Health daily summary for AI assistants and scripts. Returns steps, sleep, workouts, heart rate, HRV, signals, sync metadata, and a human-readable context summary. If date is omitted, the"
+      },
+      {
+        "heading": "GET /openclaw/recent-trends?days=N",
+        "snippet": "Recent step and sleep trends for the last N days (default 7, minimum 1). Returns average, best, and latest values plus a per-day series for each. Send the token header; see version-specific authentica"
+      },
+      {
+        "heading": "GET /openclaw/weekly-summary?days=N",
+        "snippet": "Rolled-up summary over the last N days (default 7, minimum 1): step and sleep averages, total workout minutes and count, average heart rate, plus step and sleep day series. Send the token header; see "
       },
       {
         "heading": "GET /status",
@@ -101,23 +117,23 @@
       },
       {
         "heading": "GET /steps/daily?start=YYYY-MM-DD&end=YYYY-MM-DD",
-        "snippet": "Normalized daily step counts for a date range. Requires X-Health-Analyzer-Token . curl -H \"X-Health-Analyzer-Token: YOUR_TOKEN\" \\ \"http://127.0.0.1:8765/steps/daily?start=2026-03-13&end=2026-03-19\" Ex"
+        "snippet": "Normalized daily step counts for a date range. Requires X-Health-Analyzer-Token . Each day exposes its count under value . curl -H \"X-Health-Analyzer-Token: YOUR_TOKEN\" \\ \"http://127.0.0.1:8765/steps/"
       },
       {
         "heading": "GET /sleep/summary?start=YYYY-MM-DD&end=YYYY-MM-DD",
-        "snippet": "Normalized daily sleep summaries for a date range. Requires X-Health-Analyzer-Token . curl -H \"X-Health-Analyzer-Token: YOUR_TOKEN\" \\ \"http://127.0.0.1:8765/sleep/summary?start=2026-03-13&end=2026-03-"
+        "snippet": "Normalized daily sleep summaries for a date range, plus range-level averages. Requires X-Health-Analyzer-Token . curl -H \"X-Health-Analyzer-Token: YOUR_TOKEN\" \\ \"http://127.0.0.1:8765/sleep/summary?st"
       },
       {
         "heading": "GET /workouts/summary?start=YYYY-MM-DD&end=YYYY-MM-DD",
-        "snippet": "Workout totals, minutes, and per-session summaries for a date range. Requires X-Health-Analyzer-Token . curl -H \"X-Health-Analyzer-Token: YOUR_TOKEN\" \\ \"http://127.0.0.1:8765/workouts/summary?start=20"
+        "snippet": "Workout totals, a per-type breakdown, and per-session summaries for a date range. Requires X-Health-Analyzer-Token . curl -H \"X-Health-Analyzer-Token: YOUR_TOKEN\" \\ \"http://127.0.0.1:8765/workouts/sum"
       },
       {
         "heading": "GET /heart-rate/trends?start=YYYY-MM-DD&end=YYYY-MM-DD",
-        "snippet": "Average heart rate, resting heart rate, and HRV day series for a date range. Requires X-Health-Analyzer-Token . curl -H \"X-Health-Analyzer-Token: YOUR_TOKEN\" \\ \"http://127.0.0.1:8765/heart-rate/trends"
+        "snippet": "Average heart rate, resting heart rate, and HRV (SDNN) day series for a date range. Requires X-Health-Analyzer-Token . Each metric is returned as its own array of { date, value } points. curl -H \"X-He"
       },
       {
         "heading": "Error Handling",
-        "snippet": "All endpoints return a consistent error format when something goes wrong: { \"ok\": false, \"error\": \"No dataset loaded. Import Apple Health data first.\", \"code\": \"NO_DATASET\" } Common error scenarios: H"
+        "snippet": "When a request fails, the server still responds with HTTP 200 and a JSON body where ok and success are false . The human-readable message is in error ; a machine-readable code is nested under errorDet"
       },
       {
         "heading": "Rate Limits and Limitations",
@@ -129,7 +145,7 @@
       },
       {
         "heading": "OpenClaw",
-        "snippet": "Install the apple-health-export-analyzer ClawHub skill to give OpenClaw access to /openclaw/status and /openclaw/daily-brief . See the OpenClaw Integration guide for setup steps and example prompts."
+        "snippet": "Install the apple-health-export-analyzer ClawHub skill to give OpenClaw access to the /openclaw/ endpoints: /openclaw/status , /openclaw/daily-brief , /openclaw/recent-trends , and /openclaw/weekly-su"
       },
       {
         "heading": "Claude Code",
@@ -287,16 +303,16 @@
         "snippet": "Once your data is exported, you need to get it to your Mac (or another device) for analysis. Here are the available methods:"
       },
       {
-        "heading": "AirDrop (fastest)",
-        "snippet": "Tap the Share button after export and select your Mac from the AirDrop targets. The file arrives in your Downloads folder within seconds. Both devices must have Bluetooth and Wi-Fi enabled."
+        "heading": "AirDrop",
+        "snippet": "Tap the Share button after export and select your Mac from the AirDrop targets. Accept the transfer on your Mac and check Downloads. Both devices must have Bluetooth and Wi-Fi enabled; transfer time d"
       },
       {
-        "heading": "Wi-Fi Sync (most seamless)",
-        "snippet": "If both your iPhone and Mac are on the same network, the Health Data Export app can send data directly to the Mac app without creating any intermediate files. See the Wi-Fi Sync guide for setup instru"
+        "heading": "Direct to Mac (Pro)",
+        "snippet": "With Pro, configure Direct to Mac to send an export to the nearby Mac app over your local network. Keep the iPhone unlocked and follow the connection steps in the sync guide . Direct to Mac does not s"
       },
       {
         "heading": "iCloud Drive",
-        "snippet": "Save the exported file to iCloud Drive from the Share Sheet. It will appear in the iCloud Drive folder on your Mac within moments. This method works well when your devices are not physically nearby."
+        "snippet": "Save the exported file to iCloud Drive from the Share Sheet. Wait for iCloud Drive to finish uploading and downloading the file, then check the folder on your Mac. Timing depends on the network and iC"
       },
       {
         "heading": "Google Drive, Dropbox, or other cloud storage",
@@ -329,9 +345,40 @@
     ]
   },
   {
+    "title": "For AI Agents",
+    "url": "/docs/for-agents.html",
+    "intro": "This page is written for an AI agent — or an agent developer — deciding how to access a user's Apple Health data. It is concise and copy-pasteable.",
+    "sections": [
+      {
+        "heading": "Why This Data Source",
+        "snippet": "The Mac app is the right source because its numbers are trustworthy by construction . As of Mac 1.996, values are: De-duplicated across iPhone and Apple Watch — the same step or heart-rate sample reco"
+      },
+      {
+        "heading": "MCP Quickstart",
+        "snippet": "Claude Desktop users can install the one-click extension (.mcpb) — drag it onto Claude Desktop and you're done. For Cursor and other MCP clients, add the server to your MCP client configuration. It ru"
+      },
+      {
+        "heading": "REST Quickstart",
+        "snippet": "If you are not using MCP, call the Mac app's local REST API directly. Base URL: http://127.0.0.1:8765 Auth header: X-Health-Analyzer-Token Token discovery. Call GET /status — the response includes a t"
+      },
+      {
+        "heading": "Auth Note",
+        "snippet": "The /openclaw/* data endpoints currently work without the token, but this will change in the next update — the token will become required . Always send the X-Health-Analyzer-Token header now so your i"
+      },
+      {
+        "heading": "Ground Rules for Agents",
+        "snippet": "Read-only. These are health-data read tools. There is no write or delete surface. Localhost only. The API binds to 127.0.0.1 . Do not attempt to reach it over a network or proxy it off the machine. Co"
+      },
+      {
+        "heading": "Related Pages",
+        "snippet": "MCP Server (Claude, Cursor) API Reference OpenClaw Integration AI Analysis"
+      }
+    ]
+  },
+  {
     "title": "Getting Started",
     "url": "/docs/getting-started.html",
-    "intro": "This guide walks you through the current setup: install the iPhone app, choose a sync or export path, import your data on Mac, and run your first analysis.",
+    "intro": "Documentation updated 13 November 2026 (Hong Kong). The redesigned screens are currently test-build previews, not an App Store release. Existing guides describe the released app; button names may diff",
     "sections": [
       {
         "heading": "Overview",
@@ -394,7 +441,7 @@
   {
     "title": "Documentation",
     "url": "/docs/",
-    "intro": "Welcome to the documentation for Health Data Export & AI Analyzer — the privacy-first toolkit for exporting, syncing, importing, converting, and analyzing your Apple Health data across iPhone and Mac.",
+    "intro": "Documentation updated 13 November 2026 (Hong Kong). The redesigned screens are currently test-build previews, not an App Store release. Existing guides describe the released app; button names may diff",
     "sections": [
       {
         "heading": "What Can You Do?",
@@ -429,6 +476,14 @@
         "snippet": ""
       },
       {
+        "heading": "Troubleshooting",
+        "snippet": ""
+      },
+      {
+        "heading": "For AI Agents",
+        "snippet": ""
+      },
+      {
         "heading": "How the Product Works Today",
         "snippet": "iPhone app: export Apple Health data manually, sync it to a provider, and configure the Home Screen widget. Mac app: import Apple Health XML, download synced exports from the Mac Sync tab, run analysi"
       },
@@ -457,7 +512,7 @@
   {
     "title": "Mac App Overview",
     "url": "/docs/mac-app.html",
-    "intro": "The Mac app is your central hub for importing Apple Health XML, reviewing charts, running AI analysis, and exposing a local API for OpenClaw and your own tools.",
+    "intro": "Documentation updated 13 November 2026 (Hong Kong). The redesigned screens are currently test-build previews, not an App Store release. Existing guides describe the released app; button names may diff",
     "sections": [
       {
         "heading": "Key Features",
@@ -513,11 +568,11 @@
       },
       {
         "heading": "Results and AI Analysis",
-        "snippet": "Once a dataset is open, review charts and summaries, then run AI analysis using OpenAI, Anthropic, OpenRouter, Ollama, or LM Studio."
+        "snippet": "Once a dataset is open, review charts and summaries, then run AI analysis using OpenAI, Anthropic, OpenRouter, Ollama, or LM Studio. All charts share one time selection. Pick Day , Week , Month , Quar"
       },
       {
         "heading": "Settings",
-        "snippet": "Manage AI providers, local API settings, display preferences, and other Mac-side app options. The Mac app does not use Settings as the main sync-management surface."
+        "snippet": "Manage AI providers, local API settings, and display preferences. Settings also controls how daily numbers are calculated: Day Boundary Time Zone — choose whether each day is counted using your curren"
       },
       {
         "heading": "Getting Data into the Mac App",
@@ -532,7 +587,7 @@
   {
     "title": "MCP Server",
     "url": "/docs/mcp-server.html",
-    "intro": "Plug Apple Health into Claude Desktop , Cursor , and any other Model Context Protocol (MCP) client through the health-analyzer-mcp npm package. The MCP server runs locally on your Mac and talks to the",
+    "intro": "Documentation updated 13 November 2026 (Hong Kong). The redesigned screens are currently test-build previews, not an App Store release. Existing guides describe the released app; button names may diff",
     "sections": [
       {
         "heading": "How It Works",
@@ -556,7 +611,7 @@
       },
       {
         "heading": "Step 3: Add the MCP Server to Claude Desktop Config",
-        "snippet": "Open your Claude Desktop config: ~/Library/Application Support/Claude/claude_desktop_config.json Add the health-analyzer server entry. If the file doesn't exist, create it: { \"mcpServers\": { \"health-a"
+        "snippet": "Easiest path (Claude Desktop only): skip the config file — download the one-click extension (.mcpb) and drag it onto Claude Desktop. It bundles the server with its runtime, so Node.js isn't required. "
       },
       {
         "heading": "Step 4: Restart Claude Desktop",
@@ -600,7 +655,7 @@
       },
       {
         "heading": "Privacy",
-        "snippet": "The MCP server is built around the same rule as the rest of the app: your health data stays on your Mac. Loopback only — the server only ever connects to 127.0.0.1:8765 ; it has no network code that c"
+        "snippet": "The MCP connection to the Mac app is local. What happens after a tool returns data depends on the receiving AI client and its configured provider. Loopback only — the server only ever connects to 127."
       },
       {
         "heading": "Resources",
@@ -609,9 +664,56 @@
     ]
   },
   {
+    "title": "New Interface Preview Guide",
+    "url": "/docs/new-interface-preview.html",
+    "intro": "Preview guide · Updated 13 November 2026 (Hong Kong). These redesigned flows are in test builds. They are not a new App Store release. Use the released-app guide if your screens look different. A prev",
+    "sections": [
+      {
+        "heading": "Start with what you want to do",
+        "snippet": "Your goal Where to go What happens Get a file for a spreadsheet, backup or Mac import Export on iPhone Choose format and date range, then save or share an exported copy. Move an export from iPhone to "
+      },
+      {
+        "heading": "Export: your data in a file",
+        "snippet": "Choose the range and format for your task. Use XML for the Mac import workflow; use CSV or JSON when your destination supports it. A full export is different from the smaller AI summary. Large histori"
+      },
+      {
+        "heading": "Cloud Sync: iPhone to Mac, with two different routes",
+        "snippet": "Nearby: iPhone export → same Wi-Fi → your Mac Cloud storage: iPhone export → chosen storage service → your Mac The direction is an exported copy travelling to Mac. This is not two-way synchronization "
+      },
+      {
+        "heading": "Nearby transfer, step by step",
+        "snippet": "Connect iPhone and Mac to the same Wi-Fi network. Keep both apps open. In the Mac Cloud Sync section, choose the nearby/direct-to-Mac route and confirm the same-Wi-Fi check. Explicitly turn on receivi"
+      },
+      {
+        "heading": "Cloud storage and background sync",
+        "snippet": "iCloud uses your private CloudKit storage. Other destinations, including Google Drive, Dropbox and Nextcloud/WebDAV, use their own file or import flows; do not assume they refresh like iCloud. Configu"
+      },
+      {
+        "heading": "Local API Server: share selected Mac data with a tool",
+        "snippet": "Saved Mac analysis → local read-only API → your chosen tool This is not iPhone sync and it is not an AI model. The tool may then send data to its own AI provider. Choose data to share. Pick a saved an"
+      },
+      {
+        "heading": "iPhone: Export to AI is not AI Chat",
+        "snippet": "Export to AI prepares a JSON summary for ChatGPT, Claude, Gemini or Other (JSON) . The tool choice does not connect an account or automatically attach a file to a new chat. Follow the handoff instruct"
+      },
+      {
+        "heading": "Before sharing health data",
+        "snippet": "Local export and local models can keep processing on-device. Cloud sync sends a copy to the chosen storage service. Built-in cloud AI uses our service and provider infrastructure; other cloud-model ro"
+      },
+      {
+        "heading": "Why does a workout warning appear after import?",
+        "snippet": "A source workout may have timestamps spanning several days but a shorter recorded active duration. The preview uses exported active duration for totals and flags unusual timing for review rather than "
+      },
+      {
+        "heading": "Which build am I using?",
+        "snippet": "Check the version and build shown in the app’s settings or About area. Preview notes describe test builds, not App Store availability. Released versions and release dates belong in the changelog ; use"
+      }
+    ]
+  },
+  {
     "title": "OpenClaw Integration",
     "url": "/docs/openclaw.html",
-    "intro": "Connect OpenClaw to the Mac app’s local API and get daily health briefs, trend analysis, and actionable suggestions from your selected Apple Health dataset.",
+    "intro": "Documentation updated 13 November 2026 (Hong Kong). The redesigned screens are currently test-build previews, not an App Store release. Existing guides describe the released app; button names may diff",
     "sections": [
       {
         "heading": "What is OpenClaw + Apple Health?",
@@ -639,7 +741,7 @@
       },
       {
         "heading": "Step 4: Enable the Local API and Choose an Integration Dataset",
-        "snippet": "In the Mac app, open Settings and turn on Enable Local API for OpenClaw and scripts . If needed, select the dataset you want to use for integrations."
+        "snippet": "In the Mac app, open Settings and turn on Enable Local API for OpenClaw and scripts . If needed, select the dataset you want to use for integrations. Upcoming change (next Mac app update): the OpenCla"
       },
       {
         "heading": "Step 5: Open OpenClaw and Ask for a Daily Brief",
@@ -778,9 +880,9 @@
     ]
   },
   {
-    "title": "Home Assistant Sync",
+    "title": "Apple Health to Home Assistant Sync",
     "url": "/docs/sync-home-assistant.html",
-    "intro": "Push Apple Health metrics directly to Home Assistant as sensor states. Each metric becomes a sensor.<prefix>_<metric> entity you can use in dashboards, automations, and Lovelace cards.",
+    "intro": "Use Health Data Export to push Apple Health metrics from your iPhone into Home Assistant as sensor states. Each metric becomes a sensor.<prefix>_<metric> entity you can use in dashboards, automations,",
     "sections": [
       {
         "heading": "Prerequisites",
@@ -867,9 +969,64 @@
     ]
   },
   {
+    "title": "Troubleshooting",
+    "url": "/docs/troubleshooting.html",
+    "intro": "Documentation updated 13 November 2026 (Hong Kong). The redesigned screens are currently test-build previews, not an App Store release. Existing guides describe the released app; button names may diff",
+    "sections": [
+      {
+        "heading": "My step / distance / sleep numbers don't match the Apple Health app",
+        "snippet": "The Mac app used to count some data differently from the Health app, so totals could look too high or use the wrong units. This was fixed in Mac 1.996 , which de-duplicates the overlap between your iP"
+      },
+      {
+        "heading": "History is full of tiny 1 KB entries that show \"Not enough data\"",
+        "snippet": "Before Mac 1.996 , every auto-sync was saved as its own separate entry, so a stream of small increments piled up as tiny rows that each showed \"Not enough data\" on their own. Mac 1.996 merges these in"
+      },
+      {
+        "heading": "Analysis stalls around 40%",
+        "snippet": "An analysis that froze near 40% was a bug fixed in Mac 1.995 . Update the Mac app to 1.995 or later. Run the analysis again."
+      },
+      {
+        "heading": "The Mac won't accept my export.zip",
+        "snippet": "The Mac app imports the export.xml file, not the zip archive that the Health app produces. Unzip first: double-click export.zip in Finder to expand it. In the Mac app, choose the export.xml inside the"
+      },
+      {
+        "heading": "Charts say \"Not enough data\" or look empty",
+        "snippet": "There are two common causes, and they have different fixes."
+      },
+      {
+        "heading": "Minimum coverage",
+        "snippet": "Some charts need a minimum span of data before they can draw: Heart rate, HRV, and sleep: about 14 days . Steps and distance: about 28 days . If you have less than that, export or sync a longer range "
+      },
+      {
+        "heading": "The timeframe picker",
+        "snippet": "Check whether the timeframe picker is pointing at a period with no data. Choose All , or use the ‹ › arrow controls, or tap Latest to move to a period that has data."
+      },
+      {
+        "heading": "Export fails or stops partway on iPhone",
+        "snippet": "The July iPhone update made exports much more resilient: a single unavailable data type no longer aborts the whole export, and a sync that begins while the phone is locked now prompts you to unlock an"
+      },
+      {
+        "heading": "iCloud sync isn't arriving on the Mac",
+        "snippet": "If a sync completed on iPhone but nothing shows up on the Mac, work through this checklist: Both devices are signed in with the same Apple ID . iCloud Drive is turned on. Pro is active. Give the first"
+      },
+      {
+        "heading": "AI analysis fails or shows an error",
+        "snippet": "Analysis errors usually come down to provider setup or the network. Check your provider: Pro uses the built-in provider, while the free version needs an OpenRouter key entered in Settings . Confirm yo"
+      },
+      {
+        "heading": "Still stuck?",
+        "snippet": "If none of the above solves it, we are happy to help. Visit the support page or email keith@rumjahn.com directly. Since 1.995 , support emails sent from the app automatically include your app version,"
+      },
+      {
+        "heading": "Related Pages",
+        "snippet": "Getting Started iPhone-to-Mac Sync AI Analysis Mac App Overview"
+      }
+    ]
+  },
+  {
     "title": "Home Screen Widget",
     "url": "/docs/widgets.html",
-    "intro": "Add the iPhone widget to your Home Screen for one-tap access to your sync workflow. The widget shows sync status, last-sync context, and an action button that you control from the app’s Settings scree",
+    "intro": "Documentation updated 13 November 2026 (Hong Kong). The redesigned screens are currently test-build previews, not an App Store release. Existing guides describe the released app; button names may diff",
     "sections": [
       {
         "heading": "Adding the Widget",
@@ -944,7 +1101,7 @@
   {
     "title": "iPhone-to-Mac Sync",
     "url": "/docs/wifi-sync.html",
-    "intro": "The iPhone app now supports multiple sync destinations, not just local-network transfer. Use the Sync tab on iPhone to choose where your Apple Health export goes, then use the Mac app’s Sync tab to pu",
+    "intro": "Documentation updated 13 November 2026 (Hong Kong). The redesigned screens are currently test-build previews, not an App Store release. Existing guides describe the released app; button names may diff",
     "sections": [
       {
         "heading": "Available Sync Providers",
@@ -956,7 +1113,7 @@
       },
       {
         "heading": "How Sync Works Today",
-        "snippet": "On iPhone: choose a provider in the Sync tab. First sync: the app exports an initial date range and sends it to the selected destination. Later syncs: the app sends only newer data incrementally. On M"
+        "snippet": "On iPhone: choose a provider in the Sync tab. First sync: the app exports an initial date range — you can choose a full backfill — and sends it to the selected destination. Later syncs: the app sends "
       },
       {
         "heading": "Direct to Mac",
@@ -972,7 +1129,7 @@
       },
       {
         "heading": "Using the Mac Side",
-        "snippet": "The Mac app’s sync workflow lives in the dedicated Sync tab, not in macOS Settings. Use it to: review available exports refresh the export list download the latest XML export into analysis manage Mac-"
+        "snippet": "The Mac app’s sync workflow lives in the dedicated Sync tab, not in macOS Settings. Use it to: review available exports refresh the export list import the newest export into the merged Synced Health D"
       },
       {
         "heading": "Troubleshooting",
@@ -984,7 +1141,11 @@
       },
       {
         "heading": "Cloud sync completed on iPhone but nothing shows on Mac",
-        "snippet": "Open the Mac Sync tab and refresh the list. The Mac app does not automatically analyze a remote export just because it exists."
+        "snippet": "Open the Mac Sync tab and refresh the list. Mac 1.996 auto-sync imports the newest export into the merged Synced Health Data dataset; if you have several pending increments, open the Sync tab so the l"
+      },
+      {
+        "heading": "Sync failed while the iPhone was locked",
+        "snippet": "When protected data is unavailable (iPhone locked), the app now prompts you to unlock your iPhone and retries the sync automatically. Unlock the device and let the sync run again, or trigger a manual "
       },
       {
         "heading": "Widget shows the wrong provider",

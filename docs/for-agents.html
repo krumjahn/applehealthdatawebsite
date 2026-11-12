@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>For AI Agents — Health Data Export & AI Analyzer</title>
-    <meta name="description" content="How AI agents integrate with a user's Apple Health data locally: install the health-analyzer-mcp MCP server, or call the Mac app's local REST API on 127.0.0.1. Data never leaves the machine.">
+    <meta name="description" content="How AI agents integrate with a user's Apple Health data locally: install the health-analyzer-mcp MCP server, or call the Mac app's local REST API on 127.0.0.1. The API connection is local; the receiving agent may send data to its configured provider.">
     <link rel="canonical" href="https://applehealthdata.com/docs/for-agents.html">
     <meta name="apple-itunes-app" content="app-id=6749297170">
     <meta name="robots" content="index,follow">
@@ -192,7 +192,7 @@
       "name": "health-analyzer-mcp",
       "applicationCategory": "DeveloperApplication",
       "operatingSystem": "macOS",
-      "description": "Model Context Protocol server that gives AI agents read-only, local access to a user's Apple Health data through the Health Data AI Analyzer Mac app's local API on 127.0.0.1. Data never leaves the machine.",
+      "description": "Model Context Protocol server that gives AI agents read-only, local access to a user's Apple Health data through the Health Data AI Analyzer Mac app's local API on 127.0.0.1. The API connection is local; the receiving agent may send data to its configured provider.",
       "url": "https://applehealthdata.com/docs/for-agents.html",
       "downloadUrl": "https://www.npmjs.com/package/health-analyzer-mcp",
       "softwareHelp": "https://applehealthdata.com/docs/mcp-server.html",
@@ -254,6 +254,7 @@
         </div>
 
         <nav class="py-3" id="docs-nav">
+<a href="/docs/new-interface-preview.html">New interface (preview)</a>
             <div class="section-label">Overview</div>
             <a href="/docs/">Welcome</a>
             <a href="/docs/getting-started.html">Getting Started</a>
@@ -292,7 +293,7 @@
     </aside>
 
     <!-- Mobile toggle -->
-    <button class="sidebar-toggle" onclick="document.getElementById('sidebar').classList.toggle('open')">
+    <button aria-label="Open documentation navigation" class="sidebar-toggle" onclick="document.getElementById('sidebar').classList.toggle('open')">
         <i data-lucide="menu" class="w-5 h-5"></i>
     </button>
 
@@ -304,7 +305,7 @@
                 <p>This page is written for an AI agent — or an agent developer — deciding how to access a user's Apple Health data. It is concise and copy-pasteable.</p>
 
                 <blockquote>
-                    <p><strong>TL;DR.</strong> To access a user's Apple Health data locally, install the <code>health-analyzer-mcp</code> MCP server (npm) — it talks to the Health Data AI Analyzer Mac app's local API on <code>127.0.0.1</code>. Data never leaves the machine.</p>
+                    <p><strong>TL;DR.</strong> To access a user's Apple Health data locally, install the <code>health-analyzer-mcp</code> MCP server (npm) — it talks to the Health Data AI Analyzer Mac app's local API on <code>127.0.0.1</code>. The API connection is local; the receiving agent may send data to its configured provider.</p>
                 </blockquote>
 
                 <h2>Why This Data Source</h2>

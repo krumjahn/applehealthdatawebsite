@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>New Interface Preview Guide — Health Data Export Docs</title>
+    <meta name="description" content="Preview guide to the redesigned Health Data iPhone and Mac apps: export, nearby and cloud sync, Local API Server, and 90-day AI summaries.">
+    <link rel="canonical" href="https://applehealthdata.com/docs/new-interface-preview.html">
+    <meta name="apple-itunes-app" content="app-id=6749297170">
+    <meta name="robots" content="index,follow">
+
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Health Data Export & Analyze">
+    <meta property="og:url" content="https://applehealthdata.com/docs/new-interface-preview.html">
+    <meta property="og:title" content="New Interface Preview Guide">
+    <meta property="og:description" content="Complete documentation for Health Data Export & AI Analyzer.">
+    <meta property="og:image" content="https://applehealthdata.com/images/mac-app-screenshot-1.png">
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;700&display=swap');
+
+        :root { --glass-border: rgba(255, 255, 255, 0.08); --glass-bg: rgba(255, 255, 255, 0.03); }
+
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: #020617;
+            color: #f8fafc;
+        }
+
+        .font-mono { font-family: 'JetBrains Mono', monospace; }
+
+        /* Sidebar */
+        .docs-sidebar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 280px;
+            height: 100vh;
+            background: #0f172a;
+            border-right: 1px solid var(--glass-border);
+            overflow-y: auto;
+            z-index: 40;
+            transition: transform 0.3s ease;
+        }
+
+        .docs-sidebar a {
+            display: block;
+            padding: 8px 16px 8px 24px;
+            color: #94a3b8;
+            font-size: 0.875rem;
+            border-radius: 6px;
+            margin: 1px 8px;
+            transition: all 0.15s ease;
+            text-decoration: none;
+        }
+
+        .docs-sidebar a:hover {
+            color: #e2e8f0;
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .docs-sidebar a.active {
+            color: #fff;
+            background: rgba(244, 63, 94, 0.15);
+            border-left: 2px solid #f43f5e;
+            padding-left: 22px;
+        }
+
+        .docs-sidebar .section-label {
+            font-size: 0.7rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            color: #64748b;
+            padding: 20px 24px 6px;
+        }
+
+        /* Main content */
+        .docs-main {
+            margin-left: 280px;
+            min-height: 100vh;
+        }
+
+        /* Mobile sidebar toggle */
+        .sidebar-toggle {
+            display: none;
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 50;
+            background: #f43f5e;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 48px;
+            height: 48px;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(244, 63, 94, 0.4);
+        }
+
+        @media (max-width: 768px) {
+            .docs-sidebar {
+                transform: translateX(-100%);
+            }
+            .docs-sidebar.open {
+                transform: translateX(0);
+            }
+            .docs-main {
+                margin-left: 0;
+            }
+            .sidebar-toggle {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+        }
+
+        /* Content styles */
+        .doc-content h1 { font-size: 2rem; font-weight: 800; margin-bottom: 1rem; color: #fff; }
+        .doc-content h2 { font-size: 1.5rem; font-weight: 700; margin-top: 2.5rem; margin-bottom: 0.75rem; color: #fff; padding-bottom: 0.5rem; border-bottom: 1px solid var(--glass-border); }
+        .doc-content h3 { font-size: 1.125rem; font-weight: 600; margin-top: 1.5rem; margin-bottom: 0.5rem; color: #e2e8f0; }
+        .doc-content p { color: #94a3b8; line-height: 1.75; margin-bottom: 1rem; }
+        .doc-content ul, .doc-content ol { color: #94a3b8; margin-bottom: 1rem; padding-left: 1.5rem; }
+        .doc-content li { margin-bottom: 0.5rem; line-height: 1.6; }
+        .doc-content strong { color: #e2e8f0; }
+        .doc-content code { font-family: 'JetBrains Mono', monospace; background: rgba(255,255,255,0.06); padding: 2px 6px; border-radius: 4px; font-size: 0.85em; color: #f0abfc; }
+        .doc-content pre { background: #0c0a09; border: 1px solid var(--glass-border); border-radius: 8px; padding: 16px; overflow-x: auto; margin-bottom: 1rem; }
+        .doc-content pre code { background: none; padding: 0; color: #a5f3fc; }
+        .doc-content a { color: #f43f5e; text-decoration: underline; text-underline-offset: 2px; }
+        .doc-content a:hover { color: #fb7185; }
+        .doc-content table { width: 100%; border-collapse: collapse; margin-bottom: 1rem; }
+        .doc-content th { text-align: left; padding: 10px 12px; border-bottom: 2px solid #1e293b; color: #e2e8f0; font-size: 0.85rem; font-weight: 600; }
+        .doc-content td { padding: 10px 12px; border-bottom: 1px solid #1e293b; color: #94a3b8; font-size: 0.875rem; }
+        .doc-content blockquote { border-left: 3px solid #f43f5e; padding: 12px 16px; margin: 1rem 0; background: rgba(244, 63, 94, 0.05); border-radius: 0 8px 8px 0; }
+        .doc-content blockquote p { color: #cbd5e1; margin-bottom: 0; }
+
+        .doc-card {
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 12px;
+            padding: 24px;
+            transition: border-color 0.2s;
+        }
+        .doc-card:hover { border-color: rgba(244, 63, 94, 0.3); }
+
+        /* Search */
+        .docs-search {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--glass-border);
+            border-radius: 8px;
+            padding: 8px 12px;
+            color: #e2e8f0;
+            width: 100%;
+            font-size: 0.875rem;
+            outline: none;
+        }
+        .docs-search::placeholder { color: #475569; }
+        .docs-search:focus { border-color: #f43f5e; }
+        .search-results { position:absolute; left:8px; right:8px; top:100%; margin-top:4px; background:#0f172a; border:1px solid rgba(255,255,255,0.12); border-radius:8px; overflow:hidden; z-index:100; max-height:360px; overflow-y:auto; }
+        .search-results a { display:block; padding:10px 14px; text-decoration:none; border-bottom:1px solid rgba(255,255,255,0.06); }
+        .search-results a:last-child { border-bottom:none; }
+        .search-results a:hover { background:rgba(255,255,255,0.06); }
+        .search-result-title { color:#e2e8f0; font-size:0.875rem; font-weight:600; }
+        .search-result-section { color:#94a3b8; font-size:0.75rem; margin-top:1px; }
+        .search-result-snippet { color:#64748b; font-size:0.75rem; margin-top:2px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+        .search-no-results { padding:12px 14px; color:#64748b; font-size:0.875rem; }
+    </style>
+
+    <!-- Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-8SMQRLT4VS"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-8SMQRLT4VS');
+    </script>
+    <!-- Modern Web Guidance: Performance — preconnect fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preload" as="style"
+          href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;700&display=swap"
+          onload="this.onload=null;this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;700&display=swap"></noscript>
+<link rel="stylesheet" href="/styles/apple-site.css" data-health-site-theme="apple-dark">
+</head>
+<body>
+
+    <!-- Sidebar -->
+    <aside class="docs-sidebar" id="sidebar">
+        <div class="p-4 border-b border-white/5">
+            <a href="/" class="flex items-center gap-2 text-white no-underline mb-3">
+                <div class="w-8 h-8 bg-gradient-to-tr from-rose-600 to-orange-500 rounded-lg flex items-center justify-center">
+                    <i data-lucide="activity" class="w-4 h-4 text-white"></i>
+                </div>
+                <span class="font-bold text-sm">Health Data Docs</span>
+            </a>
+            <div style="position:relative">
+            <input type="text" class="docs-search" placeholder="Search docs..." id="docs-search" autocomplete="off">
+            <div class="search-results" id="search-results" style="display:none"></div>
+          </div>
+        </div>
+
+        <nav class="py-3" id="docs-nav">
+<a href="/docs/new-interface-preview.html">New interface (preview)</a>
+            <div class="section-label">Overview</div>
+            <a href="/docs/" class="active">Welcome</a>
+            <a href="/docs/getting-started.html">Getting Started</a>
+
+            <div class="section-label">iPhone App</div>
+            <a href="/docs/export-health-data.html">Export Apple Health Data</a>
+            <a href="/docs/wifi-sync.html">iPhone-to-Mac Sync</a>
+            <a href="/docs/widgets.html">Home Screen Widget</a>
+
+            <div class="section-label">Mac App</div>
+            <a href="/docs/mac-app.html">Mac App Overview</a>
+            <a href="/docs/convert-tool.html">Convert XML to CSV/JSON/XLSX</a>
+            <a href="/docs/ai-analysis.html">AI Analysis</a>
+            <a href="/docs/backup.html">Apple Health Backup</a>
+
+            <div class="section-label">Sync Destinations</div>
+            <a href="/docs/sync-dropbox.html">Dropbox</a>
+            <a href="/docs/sync-nextcloud.html">Nextcloud / WebDAV</a>
+            <a href="/docs/sync-home-assistant.html">Home Assistant</a>
+            <a href="/docs/sync-rest-api.html">REST API / Webhook</a>
+
+            <div class="section-label">Integrations</div>
+            <a href="/docs/mcp-server.html">MCP Server (Claude, Cursor)</a>
+            <a href="/docs/openclaw.html">OpenClaw Integration</a>
+            <a href="/docs/api-reference.html">API Reference</a>
+            <a href="/docs/workflows.html">Workflows & Automation</a>
+            <a href="/docs/prompts.html">Prompt Library</a>
+
+            <div class="section-label">Resources</div>
+            <a href="/docs/for-agents.html">For AI Agents</a>
+            <a href="/docs/troubleshooting.html">Troubleshooting</a>
+            <a href="/docs/changelog.html">Changelog</a>
+            <a href="/go/website.html?c=docs_nav" target="_blank" rel="noopener">Download App</a>
+            <a href="https://github.com/krumjahn/applehealth" target="_blank">GitHub (Open Source)</a>
+        </nav>
+    </aside>
+
+    <!-- Mobile toggle -->
+    <button aria-label="Open documentation navigation" class="sidebar-toggle" onclick="document.getElementById('sidebar').classList.toggle('open')">
+        <i data-lucide="menu" class="w-5 h-5"></i>
+    </button>
+
+    <!-- Main Content -->
+    <main class="docs-main">
+        <div class="max-w-3xl mx-auto px-6 py-16">
+            <div class="doc-content">
+<h1>The new Health Data interface</h1>
+<p><strong>Preview guide · Updated 13 November 2026 (Hong Kong).</strong> These redesigned flows are in test builds. They are not a new App Store release. Use the <a href="/docs/getting-started.html">released-app guide</a> if your screens look different. A preview may disable purchases or cloud services; installing it does not unlock Pro.</p>
+<h2>Start with what you want to do</h2>
+<table><thead><tr><th scope="col">Your goal</th><th scope="col">Where to go</th><th scope="col">What happens</th></tr></thead><tbody>
+<tr><td>Get a file for a spreadsheet, backup or Mac import</td><td>Export on iPhone</td><td>Choose format and date range, then save or share an exported copy.</td></tr>
+<tr><td>Move an export from iPhone to Mac</td><td>Sync on iPhone; Cloud Sync on Mac</td><td>Choose nearby transfer or a configured storage destination.</td></tr>
+<tr><td>Let another tool read a saved Mac analysis</td><td>Local API Server on Mac</td><td>Select data, choose the tool, review access, then explicitly connect.</td></tr>
+<tr><td>Share a smaller recent summary with an AI app</td><td>AI → Export to AI on iPhone</td><td>Create a 90-day JSON summary and manually share or attach it.</td></tr>
+</tbody></table>
+<h2>Export: your data in a file</h2>
+<p>Choose the range and format for your task. Use XML for the Mac import workflow; use CSV or JSON when your destination supports it. A full export is different from the smaller AI summary. Large histories take longer: progress can pause while a category is being read. Keep the app open and follow its progress rather than starting another export.</p>
+<p>Saving a file does not automatically upload it. Sharing it with a service or person gives that recipient a copy. See <a href="/docs/export-health-data.html">export instructions</a>.</p>
+<h2>Cloud Sync: iPhone to Mac, with two different routes</h2>
+<figure class="doc-card"><p><strong>Nearby:</strong> iPhone export → same Wi-Fi → your Mac</p><p><strong>Cloud storage:</strong> iPhone export → chosen storage service → your Mac</p><figcaption>The direction is an exported copy travelling to Mac. This is not two-way synchronization back into Apple Health. Despite the section name, nearby transfer does not use cloud storage.</figcaption></figure>
+<h3>Nearby transfer, step by step</h3>
+<ol><li>Connect iPhone and Mac to the same Wi-Fi network. Keep both apps open.</li><li>In the Mac <strong>Cloud Sync</strong> section, choose the nearby/direct-to-Mac route and confirm the same-Wi-Fi check.</li><li>Explicitly turn on receiving. The Mac shows pairing instructions and a code.</li><li>On iPhone, choose Direct to Mac and follow its connection instructions. Use the Mac address or discovery option shown in your build, then pair using the code.</li><li>Start a transfer on iPhone and check that the export arrives on Mac. Pairing alone does not send all your data.</li></ol>
+<p>Use Back or Change to revise your choices. Stop receiving when you do not want nearby transfers. If a pairing code expires, generate a new one. Guest Wi-Fi or network isolation can prevent discovery even when network names match. Nearby transfer is not unattended automatic sync.</p>
+<h3>Cloud storage and background sync</h3>
+<p>iCloud uses your private CloudKit storage. Other destinations, including Google Drive, Dropbox and Nextcloud/WebDAV, use their own file or import flows; do not assume they refresh like iCloud. Configure the same destination on both devices and check the latest import status. Sync requires the relevant Pro entitlement. iOS decides when background work runs and may require an unlocked phone, so it is not a guaranteed schedule.</p>
+<p>See <a href="/docs/wifi-sync.html">destination setup</a>. Home and Lock Screen widgets must be added through Apple’s widget editor; the app cannot silently place one. A Quick Sync shortcut needs a configured destination and the required entitlement. See <a href="/docs/widgets.html">widgets and shortcuts</a>.</p>
+<h2>Local API Server: share selected Mac data with a tool</h2>
+<figure class="doc-card"><p><strong>Saved Mac analysis → local read-only API → your chosen tool</strong></p><figcaption>This is not iPhone sync and it is not an AI model. The tool may then send data to its own AI provider.</figcaption></figure>
+<ol><li><strong>Choose data to share.</strong> Pick a saved analysis from History. This is the same History list, not a second library to maintain.</li><li><strong>Choose your tool.</strong> Select the supported connection route, such as OpenClaw or Local API.</li><li><strong>Review access.</strong> Check exactly which saved data the tool can read. Selecting data alone does not enable the server.</li><li><strong>Connect.</strong> Follow the route-specific instructions and explicitly enable access. Advanced API settings appear only for the Local API route.</li></ol>
+<p>Back and Change let you revise choices. Removing a selected History item makes that selection unavailable; choose another explicitly. History no longer needs a separate “Use with AI” button in this preview.</p>
+<p>The server listens on <code>127.0.0.1:8765</code> and is read-only. Health-data endpoints require a token in the preview; only the two status routes are exempt. Do not expose the token or port publicly. See the <a href="/docs/api-reference.html#authentication">API authentication guide</a>, <a href="/docs/openclaw.html">OpenClaw guide</a> and <a href="/docs/mcp-server.html">MCP guide</a>.</p>
+<h2>iPhone: Export to AI is not AI Chat</h2>
+<p><strong>Export to AI</strong> prepares a JSON summary for ChatGPT, Claude, Gemini or <strong>Other (JSON)</strong>. The tool choice does not connect an account or automatically attach a file to a new chat. Follow the handoff instructions, save/share the file, and attach it yourself in a compatible app.</p>
+<p>The current preview’s shared summary covers the last 90 days: steps, sleep, workouts, heart rate, resting heart rate, heart-rate variability and blood glucose, when readable data is available. It is not every raw HealthKit record, and this summary does not include weight or mood. All four handoff choices use the same summary, not different model-specific datasets.</p>
+<p>The 90-day range is this feature’s chosen scope, not a claim that an iPhone cannot process longer history. For a larger export, use the regular Export workflow and a destination that supports it.</p>
+<p><strong>AI Chat is not available in the current preview, even with Pro.</strong> The redesigned phone chat and paywall are being developed separately. Do not purchase Pro expecting this preview to answer questions. Existing Mac AI and existing Pro features are separate. No health data is sent simply by looking at the AI Chat preview.</p>
+<h2>Before sharing health data</h2>
+<ul><li>Local export and local models can keep processing on-device.</li><li>Cloud sync sends a copy to the chosen storage service.</li><li>Built-in cloud AI uses our service and provider infrastructure; other cloud-model routes send data to their configured provider.</li><li>A local API or MCP connection is local, but the client can send its results onward.</li><li>Review the categories and recipient before consenting. AI output is not a diagnosis or a replacement for medical advice.</li></ul>
+<h2>Why does a workout warning appear after import?</h2>
+<p>A source workout may have timestamps spanning several days but a shorter recorded active duration. The preview uses exported active duration for totals and flags unusual timing for review rather than treating the full timestamp span as exercise. The original file is not rewritten. Reimport and reanalyze to apply parser changes to an older saved analysis.</p>
+<h2>Which build am I using?</h2>
+<p>Check the version and build shown in the app’s settings or About area. Preview notes describe test builds, not App Store availability. Released versions and release dates belong in the <a href="/changelog.html">changelog</a>; use the App Store to see which update is available for your device.</p>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        let searchIndex = null;
+
+        async function loadIndex() {
+          if (searchIndex) return searchIndex;
+          const r = await fetch('/docs/search-index.json');
+          searchIndex = await r.json();
+          return searchIndex;
+        }
+
+        function highlight(text, q) {
+          if (!q) return text;
+          var escaped = q.replace(/[-.*+?^${}()|[\]\\]/g, '\\$&');
+          var re = new RegExp('(' + escaped + ')', 'gi');
+          return text.replace(re, '<mark style="background:rgba(244,63,94,0.25);color:#fda4af;border-radius:2px">$1</mark>');
+        }
+        const searchInput = document.getElementById('docs-search');
+        const resultsBox = document.getElementById('search-results');
+
+        searchInput.addEventListener('input', async function() {
+          const q = this.value.trim().toLowerCase();
+          const nav = document.getElementById('docs-nav');
+
+          if (!q) {
+            resultsBox.style.display = 'none';
+            nav.style.display = '';
+            return;
+          }
+
+          nav.style.display = 'none';
+          resultsBox.style.display = 'block';
+
+          const index = await loadIndex();
+          const results = [];
+
+          for (const page of index) {
+            if (page.title.toLowerCase().includes(q)) {
+              results.push({ url: page.url, title: page.title, section: '', snippet: page.intro });
+              continue;
+            }
+            for (const s of page.sections) {
+              const inHeading = s.heading.toLowerCase().includes(q);
+              const inSnippet = s.snippet.toLowerCase().includes(q);
+              if (inHeading || inSnippet) {
+                results.push({ url: page.url, title: page.title, section: s.heading, snippet: s.snippet });
+                break;
+              }
+            }
+          }
+
+          if (results.length === 0) {
+            resultsBox.innerHTML = '<div class="search-no-results">No results for &quot;' + this.value + '&quot;</div>';
+            return;
+          }
+
+          resultsBox.innerHTML = results.slice(0, 8).map(r => {
+            const sectionHtml = r.section ? '<div class="search-result-section">' + highlight(r.section, this.value.trim()) + '</div>' : '';
+            const snippetHtml = r.snippet ? '<div class="search-result-snippet">' + highlight(r.snippet.slice(0, 120), this.value.trim()) + '</div>' : '';
+            return '<a href="' + r.url + '"><div class="search-result-title">' + highlight(r.title, this.value.trim()) + '</div>' + sectionHtml + snippetHtml + '</a>';
+          }).join('');
+        }.bind(searchInput));
+
+        document.addEventListener('click', function(e) {
+          if (!e.target.closest('#search-results') && !e.target.closest('#docs-search')) {
+            resultsBox.style.display = 'none';
+            if (!searchInput.value.trim()) {
+              document.getElementById('docs-nav').style.display = '';
+            }
+          }
+        });
+
+        searchInput.addEventListener('keydown', function(e) {
+          if (e.key === 'Escape') {
+            this.value = '';
+            resultsBox.style.display = 'none';
+            document.getElementById('docs-nav').style.display = '';
+          }
+        });
+
+        lucide.createIcons();
+    </script>
+<div class="hd-site-credit"><a href="https://www.vividsites.app/" target="_blank" rel="noopener">Made by VividSites <span aria-hidden="true">↗</span></a></div>
+</body>
+</html>

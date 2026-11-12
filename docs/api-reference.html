@@ -244,6 +244,7 @@
         </div>
 
         <nav class="py-3" id="docs-nav">
+<a href="/docs/new-interface-preview.html">New interface (preview)</a>
             <div class="section-label">Overview</div>
             <a href="/docs/">Welcome</a>
             <a href="/docs/getting-started.html">Getting Started</a>
@@ -280,7 +281,7 @@
     </aside>
 
     <!-- Mobile toggle -->
-    <button class="sidebar-toggle" onclick="document.getElementById('sidebar').classList.toggle('open')">
+    <button aria-label="Open documentation navigation" class="sidebar-toggle" onclick="document.getElementById('sidebar').classList.toggle('open')">
         <i data-lucide="menu" class="w-5 h-5"></i>
     </button>
 
@@ -289,7 +290,8 @@
         <div class="max-w-3xl mx-auto px-6 py-16">
             <div class="doc-content">
                 <h1>API Reference</h1>
-                <p>The Health Data AI Analyzer Mac app exposes a <strong>read-only localhost API</strong> on <code>http://127.0.0.1:8765</code>. Use it to build OpenClaw integrations, Claude Code workflows, Mac Shortcuts, and custom scripts that read your Apple Health data without uploading anything to the cloud.</p>
+<aside class="doc-card" aria-label="Documentation version"><p><strong>Documentation updated 13 November 2026 (Hong Kong).</strong> The redesigned screens are currently test-build previews, not an App Store release. Existing guides describe the released app; button names may differ in previews. <a href="/docs/new-interface-preview.html">Read the new interface guide and feature availability</a>.</p></aside>
+                <p>The Health Data AI Analyzer Mac app exposes a <strong>read-only localhost API</strong> on <code>http://127.0.0.1:8765</code>. Use it to build OpenClaw integrations, Claude Code workflows, Mac Shortcuts, and custom scripts that read your selected health data locally. A connected client may send that data onward to a cloud provider.</p>
 
                 <div class="doc-card install-gate">
                     <p><strong>This API only works after installing Health Data AI Analyzer (Mac app).</strong> The localhost API is not a public cloud API.</p>
@@ -297,7 +299,7 @@
                     <ol>
                         <li>Install the Mac app.</li>
                         <li>Open the app.</li>
-                        <li>The API is available on <code>127.0.0.1:8765</code>.</li>
+                        <li>Import and analyze data, select the saved dataset to share, and explicitly enable the local API. Opening the app alone does not start sharing.</li>
                     </ol>
                     <p>Also see <a href="/apple-health-mcp/">Apple Health MCP</a> and <a href="/docs/openclaw.html">OpenClaw</a>.</p>
                 </div>
@@ -335,22 +337,9 @@
                 </table>
 
                 <h2 id="authentication">Authentication</h2>
-                <p>These routes are currently public on loopback and do not require a token:</p>
-                <ul>
-                    <li><code>GET /status</code></li>
-                    <li><code>GET /openclaw/status</code></li>
-                    <li><code>GET /openclaw/daily-brief</code></li>
-                    <li><code>GET /openclaw/recent-trends</code></li>
-                    <li><code>GET /openclaw/weekly-summary</code></li>
-                </ul>
-                <p>All other routes require the <code>X-Health-Analyzer-Token</code> header. The token file path is returned by <code>GET /status</code> as <code>token_path</code>.</p>
+                <p>Send the <code>X-Health-Analyzer-Token</code> header for every health-data request. Read the real token file location from <code>GET /status</code> (<code>token_path</code>); do not assume an example path exists on your Mac.</p>
+                <p>In the redesigned preview, only <code>GET /status</code> and <code>GET /openclaw/status</code> are exempt. All three OpenClaw data endpoints require the token. Older released builds may accept those endpoints without it; clients should send the token regardless. Keep the token private and leave the server on localhost.</p>
                 <pre><code>curl -H "X-Health-Analyzer-Token: YOUR_TOKEN" http://127.0.0.1:8765/summary</code></pre>
-
-                <blockquote>
-                    <p><strong>Upcoming change (next Mac app update):</strong> the three <code>/openclaw/</code> <em>data</em> endpoints — <code>/openclaw/daily-brief</code>, <code>/openclaw/recent-trends</code>, and <code>/openclaw/weekly-summary</code> — will require the same <code>X-Health-Analyzer-Token</code> header as the rest of the API. Only <code>GET /openclaw/status</code> stays open. <strong>Start sending the token on those endpoints now.</strong> The token is already accepted today, so any client that sends it will keep working across the update with no changes. Read the token from the <code>token_path</code> returned by <code>GET /status</code>:</p>
-                </blockquote>
-                <pre><code>curl -H "X-Health-Analyzer-Token: $(cat ~/.health-analyzer/token)" \
-  "http://127.0.0.1:8765/openclaw/daily-brief?date=2026-03-19"</code></pre>
 
                 <h2>Endpoints</h2>
 
@@ -379,8 +368,8 @@
 
                 <!-- /openclaw/daily-brief -->
                 <h3><span class="method-badge method-get">GET</span> /openclaw/daily-brief?date=YYYY-MM-DD</h3>
-                <p>Compact Apple Health daily summary for AI assistants and scripts. Returns steps, sleep, workouts, heart rate, HRV, signals, sync metadata, and a human-readable context summary. If <code>date</code> is omitted, the most recent available day is used. No authentication required today; see the <a href="#authentication">upcoming change</a> above — send the token now.</p>
-                <pre><code>curl "http://127.0.0.1:8765/openclaw/daily-brief?date=2026-03-19"</code></pre>
+                <p>Compact Apple Health daily summary for AI assistants and scripts. Returns steps, sleep, workouts, heart rate, HRV, signals, sync metadata, and a human-readable context summary. If <code>date</code> is omitted, the most recent available day is used. Send the token header; see <a href="#authentication">version-specific authentication</a>.</p>
+                <pre><code>curl -H "X-Health-Analyzer-Token: YOUR_TOKEN" "http://127.0.0.1:8765/openclaw/daily-brief?date=2026-03-19"</code></pre>
                 <p>Example response:</p>
                 <pre><code>{
   "ok": true,
@@ -408,8 +397,8 @@
 
                 <!-- /openclaw/recent-trends -->
                 <h3><span class="method-badge method-get">GET</span> /openclaw/recent-trends?days=N</h3>
-                <p>Recent step and sleep trends for the last <code>N</code> days (default 7, minimum 1). Returns average, best, and latest values plus a per-day series for each. No authentication required today; see the <a href="#authentication">upcoming change</a> above — send the token now.</p>
-                <pre><code>curl "http://127.0.0.1:8765/openclaw/recent-trends?days=7"</code></pre>
+                <p>Recent step and sleep trends for the last <code>N</code> days (default 7, minimum 1). Returns average, best, and latest values plus a per-day series for each. Send the token header; see <a href="#authentication">version-specific authentication</a>.</p>
+                <pre><code>curl -H "X-Health-Analyzer-Token: YOUR_TOKEN" "http://127.0.0.1:8765/openclaw/recent-trends?days=7"</code></pre>
                 <p>Example response:</p>
                 <pre><code>{
   "ok": true,
@@ -440,8 +429,8 @@
 
                 <!-- /openclaw/weekly-summary -->
                 <h3><span class="method-badge method-get">GET</span> /openclaw/weekly-summary?days=N</h3>
-                <p>Rolled-up summary over the last <code>N</code> days (default 7, minimum 1): step and sleep averages, total workout minutes and count, average heart rate, plus step and sleep day series. No authentication required today; see the <a href="#authentication">upcoming change</a> above — send the token now.</p>
-                <pre><code>curl "http://127.0.0.1:8765/openclaw/weekly-summary?days=7"</code></pre>
+                <p>Rolled-up summary over the last <code>N</code> days (default 7, minimum 1): step and sleep averages, total workout minutes and count, average heart rate, plus step and sleep day series. Send the token header; see <a href="#authentication">version-specific authentication</a>.</p>
+                <pre><code>curl -H "X-Health-Analyzer-Token: YOUR_TOKEN" "http://127.0.0.1:8765/openclaw/weekly-summary?days=7"</code></pre>
                 <p>Example response:</p>
                 <pre><code>{
   "ok": true,
