@@ -1,0 +1,25 @@
+/* VividSites Masked Line Reveal: https://vividsites.app/c/mask-lines */
+.vs-mask-lines {
+  --vs-mask-lines-stagger: 90ms;
+  --vs-mask-lines-tilt: 4deg;
+  --vs-mask-lines-trigger: 12%;
+  --vs-mask-lines-tension: 120;
+  --vs-mask-lines-friction: 24;
+}
+.vs-js .vs-mask-lines:not([data-vs-split]) { visibility: hidden; }
+/* the mask: padded so ascenders, descenders and italic overhang are not cropped at tight leading */
+.vs-mask-lines-l {
+  display: block; overflow: hidden;
+  padding: .12em .14em .16em; margin: -.12em -.14em -.16em;
+}
+.vs-mask-lines-i {
+  display: block; transform-origin: 0 100%;
+  transform: translate3d(0, 112%, 0) rotate(var(--vs-mask-lines-tilt));
+  will-change: transform;
+}
+.vs-mask-lines-l[data-vs-in="settled"] .vs-mask-lines-i { will-change: auto; }
+@media (prefers-reduced-motion: reduce) {
+  .vs-js .vs-mask-lines:not([data-vs-split]) { visibility: visible; }
+  .vs-mask-lines-i { transform: none !important; }
+}
+.vs-mask-lines{--vs-mask-lines-tilt:0deg;--vs-mask-lines-stagger:70ms}
