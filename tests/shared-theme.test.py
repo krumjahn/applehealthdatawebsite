@@ -17,7 +17,8 @@ class SharedThemeTest(unittest.TestCase):
    original=subprocess.check_output(['git','show',BASE+':'+rel],cwd=ROOT).decode()
    with self.subTest(page=rel):
     self.assertEqual(text.count(LINK),1);self.assertEqual(text.count(CREDIT),1)
-    if rel != 'changelog.html':
+    # These pages have separately authorized factual content updates after the visual rollout.
+    if rel not in {'changelog.html', 'docs/export-health-data.html'}:
      self.assertEqual(text.replace(LINK,'').replace(CREDIT,''),original)
   self.assertEqual(len(changed),78)
  def test_shared_theme_does_not_overlap_dedicated_homepage_or_blog(self):

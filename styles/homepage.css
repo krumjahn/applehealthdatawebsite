@@ -9,3 +9,11 @@
 
 /* Quiet cinematic credit, not a competing conversion CTA. */
 .site-credit{display:flex;justify-content:center;padding-top:30px}.vividsites-credit{display:inline-flex;align-items:center;gap:16px;border:1px solid #3b3b3e;background:#111113;padding:9px 16px;border-radius:20px;color:#d2d2d7;font-size:12px}.vividsites-credit:hover{border-color:#86868b;color:#fff}
+
+/* Real-screen handoff story: spacious on desktop, linear on mobile. */
+.repeat-section{border-top:1px solid #252525;background:#080808}.repeat-section .headline{max-width:800px}.handoff-story{display:grid;grid-template-columns:minmax(0,.75fr) minmax(0,1fr);gap:clamp(32px,7vw,100px);align-items:center;margin:64px 0}.handoff-story figure{margin:0;text-align:center}.handoff-story img{display:block;width:min(100%,300px);height:auto;margin:auto;border:1px solid #333;border-radius:36px}.handoff-story figcaption{font-size:12px;color:#a1a1a6;margin-top:20px}.handoff-steps article{padding:28px 0;border-bottom:1px solid #292929}.handoff-steps h3{font-size:28px;letter-spacing:-.035em;margin:12px 0}.handoff-steps p{color:#a1a1a6;line-height:1.65}.handoff-steps>.text-link{display:inline-block;margin-top:28px}@media(max-width:700px){.handoff-story{grid-template-columns:1fr;margin:36px 0}.handoff-story img{max-width:240px}.handoff-steps h3{font-size:25px}}
+@supports (animation-timeline:view()){
+@media(prefers-reduced-motion:no-preference){
+.handoff-story figure,.handoff-steps article{animation:handoff-arrive linear both;animation-timeline:view();animation-range:entry 0% entry 85%}
+@keyframes handoff-arrive{from{opacity:.35;transform:translateY(40px)}to{opacity:1;transform:translateY(0)}}
+}}
