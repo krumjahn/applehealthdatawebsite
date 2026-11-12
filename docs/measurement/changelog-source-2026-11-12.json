@@ -1,0 +1,258 @@
+{
+  "verified_on": "2026-11-12",
+  "date_basis": "UTC publication dates from the US App Store",
+  "releases": [
+    {
+      "platform": "iphone",
+      "version": "1.113",
+      "date_utc": "2026-11-11",
+      "title": "Sync with fewer steps",
+      "summary": "Clearer sync controls, Home Screen and Lock Screen widgets, and Shortcuts access. See when a compatible Mac has received and imported your data, with better recovery from interrupted syncs and connection problems.",
+      "source_url": "https://apps.apple.com/us/app/health-data-ai-analyzer/id6749297170?platform=iphone",
+      "official_release_notes": "Sync your health data with fewer steps.\n• Clearer sync controls, Home Screen and Lock Screen widgets, and Shortcuts access.\n• See when a compatible Mac has received and imported your data.\n• Better recovery from interrupted syncs and connection problems."
+    },
+    {
+      "platform": "mac",
+      "version": "2.012",
+      "date_utc": "2026-11-10",
+      "title": "A simpler way to receive iPhone data",
+      "summary": "Automatic receiving resumes at startup and after waking. A streamlined menu bar shows sync status and opens your health data. Safer imports and receipt confirmation work with compatible iPhone versions.",
+      "source_url": "https://apps.apple.com/us/app/health-data-ai-analyzer/id6749297170?platform=mac",
+      "official_release_notes": "A simpler, more reliable way to receive health data from your iPhone.\n• Automatic receiving resumes at startup and after waking.\n• A streamlined menu bar shows sync status and opens your health data.\n• Safer imports and receipt confirmation for compatible iPhone versions."
+    },
+    {
+      "platform": "mac",
+      "version": "2.011",
+      "date_utc": "2026-11-04",
+      "title": "Reliability and clearer store previews",
+      "summary": "Bug fixes and performance improvements, plus updated App Store screenshots showing multi-year Health data analysis.",
+      "source_url": "https://apps.apple.com/us/app/health-data-ai-analyzer/id6749297170?platform=mac",
+      "official_release_notes": "Bug fixes and performance improvements. Updated App Store screenshots to show multi-year Health data analysis."
+    },
+    {
+      "platform": "iphone",
+      "version": "1.112",
+      "date_utc": "2026-11-02",
+      "title": "More recoverable sync",
+      "summary": "Improved sync reliability and status, easier access through Shortcuts, and clearer recovery when subscription plans cannot load.",
+      "source_url": "https://apps.apple.com/us/app/health-data-ai-analyzer/id6749297170?platform=iphone",
+      "official_release_notes": "Improved sync reliability and status, easier access through Shortcuts, and clearer recovery when subscription plans can’t load."
+    },
+    {
+      "platform": "mac",
+      "version": "2.010",
+      "date_utc": "2026-10-25",
+      "title": "Optional weekly reminders",
+      "summary": "Optional weekly reminders and reliability improvements.",
+      "source_url": "https://apps.apple.com/us/app/health-data-ai-analyzer/id6749297170?platform=mac",
+      "official_release_notes": "Optional weekly reminders and reliability improvements."
+    },
+    {
+      "platform": "iphone",
+      "version": "1.111",
+      "date_utc": "2026-10-25",
+      "title": "Optional weekly reminders",
+      "summary": "Optional weekly reminders and reliability improvements.",
+      "source_url": "https://apps.apple.com/us/app/health-data-ai-analyzer/id6749297170?platform=iphone",
+      "official_release_notes": "Optional weekly reminders and reliability improvements."
+    },
+    {
+      "platform": "mac",
+      "version": "2.009",
+      "date_utc": "2026-10-24",
+      "title": "Everyday or Deep AI Analysis",
+      "summary": "Pro adds updated OpenAI and Anthropic models with Everyday and Deep Analysis choices. Clearer errors and sharing explanations identify the services receiving your summary; built-in AI runs through the subscription service and OpenRouter.",
+      "source_url": "https://apps.apple.com/us/app/health-data-ai-analyzer/id6749297170?platform=mac",
+      "official_release_notes": "Pro AI now offers updated OpenAI and Anthropic models, with Everyday and Deep Analysis choices. Built-in AI uses our subscription service through OpenRouter. We also improved error messages and explain which services receive your summary before you share it."
+    },
+    {
+      "platform": "iphone",
+      "version": "1.110",
+      "date_utc": "2026-10-16",
+      "title": "More reliable ZIP exports",
+      "summary": "Fixed an issue that could prevent ZIP files from being created. Export errors now give more accurate guidance when a health-data query times out or fails.",
+      "source_url": "https://apps.apple.com/us/app/health-data-ai-analyzer/id6749297170?platform=iphone",
+      "official_release_notes": "Improved export reliability: fixed an issue that could prevent ZIP exports from being created. Export errors now give more accurate guidance when a query times out or fails."
+    },
+    {
+      "platform": "mac",
+      "version": "2.008",
+      "date_utc": "2026-10-14",
+      "title": "Clearer App Store information",
+      "summary": "Store information clarifies XML import, local versus optional cloud AI, and base-app versus Pro pricing. The anonymous usage-stats setting can be turned off and excludes health data. This release updates the listing rather than introducing a new analysis feature.",
+      "source_url": "https://apps.apple.com/us/app/health-data-ai-analyzer/id6749297170?platform=mac",
+      "official_release_notes": "Updated App Store information clarifies XML import on Mac, local and optional cloud AI, and base-app versus Pro pricing. Share anonymous usage stats is on by default, can be turned off in Settings, never includes health data, and is not linked to you."
+    },
+    {
+      "platform": "iphone",
+      "version": "1.109",
+      "date_utc": "2026-10-11",
+      "title": "A clearer handoff to AI",
+      "summary": "AI exports keep their next steps and a Share again button. Errors appear where they are needed, and an optional survey asks whether the file was usable. Anonymous usage diagnostics can be turned off in Settings.",
+      "source_url": "https://apps.apple.com/us/app/health-data-ai-analyzer/id6749297170?platform=iphone",
+      "official_release_notes": "AI exports now keep clear next steps and a Share again button. Export errors appear where you need them, and you can optionally tell us whether a file was usable. Anonymous diagnostics help us improve setup and exports. Share anonymous usage stats is on by default, can be turned off in Settings, never includes health data, and is not linked to you."
+    },
+    {
+      "platform": "mac",
+      "version": "2.007",
+      "date_utc": "2026-10-07",
+      "title": "Accurate paused-workout duration",
+      "summary": "Analysis preserves active workout time instead of replacing it with total elapsed time, preventing inflated totals and false duration warnings.",
+      "source_url": "https://apps.apple.com/us/app/health-data-ai-analyzer/id6749297170?platform=mac",
+      "official_release_notes": "Fixed workout duration analysis for paused workouts. Active workout time is now preserved instead of being replaced by total elapsed time, preventing false duration warnings and inflated workout totals."
+    },
+    {
+      "platform": "mac",
+      "version": "2.006",
+      "date_utc": "2026-10-05",
+      "title": "A relevant next step",
+      "summary": "Choose your goal during setup and get a matching next step after your first analysis. Change the goal in Settings. Anonymous usage statistics exclude health data and can be turned off.",
+      "source_url": "https://apps.apple.com/us/app/health-data-ai-analyzer/id6749297170?platform=mac",
+      "official_release_notes": "Choose your goal during setup and get a relevant next step after your first analysis. You can change your goal in Settings.\n\nThe new “Share anonymous usage stats” setting helps us improve the app. It is on by default, can be turned off in Settings, never includes health data, and is not linked to you."
+    },
+    {
+      "platform": "iphone",
+      "version": "1.108",
+      "date_utc": "2026-09-29",
+      "title": "Start with your goal",
+      "summary": "Choose on-device health answers, an XML export for your Mac, or an AI connection. Clearer guidance when Health access or data is missing; change your goal in Settings. Optional anonymous usage stats exclude health data.",
+      "source_url": "https://apps.apple.com/us/app/health-data-ai-analyzer/id6749297170?platform=iphone",
+      "official_release_notes": "Get started with your goal: on-device health answers, an XML export for your Mac, or an AI connection. Clearer guidance when Health access or data is missing. Change your goal in Settings.\n\nThe new “Share anonymous usage stats” setting helps us improve the app. It is on by default, can be turned off in Settings, never includes health data, and is not linked to you."
+    },
+    {
+      "platform": "iphone",
+      "version": "1.107",
+      "date_utc": "2026-09-19",
+      "title": "Better export detail",
+      "summary": "XML and JSON exports include stable record identifiers and source-device details. Workout-duration units are corrected across export and sync paths, with clearer sync-benefit descriptions.",
+      "source_url": "https://apps.apple.com/us/app/health-data-ai-analyzer/id6749297170?platform=iphone",
+      "official_release_notes": "What’s new in this version:\n\n- More reliable XML and JSON exports with stable record identifiers and source-device details.\n- Correct workout-duration units across every export and sync path.\n- Blood Oxygen charts and summaries in the Mac analyzer, including high-resolution data.\n- Clearer Direct to Mac, scheduled sync, resumable update, and confirmed-delivery benefits."
+    },
+    {
+      "platform": "mac",
+      "version": "2.005",
+      "date_utc": "2026-09-18",
+      "title": "Blood Oxygen analysis",
+      "summary": "Blood Oxygen charts and summaries include high-resolution data. Companion exports carry stable record identifiers and source details, with corrected workout-duration units.",
+      "source_url": "https://apps.apple.com/us/app/health-data-ai-analyzer/id6749297170?platform=mac",
+      "official_release_notes": "What’s new in this version:\n\n- More reliable XML and JSON exports with stable record identifiers and source-device details.\n- Correct workout-duration units across every export and sync path.\n- Blood Oxygen charts and summaries in the Mac analyzer, including high-resolution data.\n- Clearer Direct to Mac, scheduled sync, resumable update, and confirmed-delivery benefits."
+    },
+    {
+      "platform": "mac",
+      "version": "2.004",
+      "date_utc": "2026-09-16",
+      "title": "Consistent subscription information",
+      "summary": "Subscription pricing and savings details match the App Store across Mac and iPhone. The companion iPhone release introduces goal-first setup and a Health readiness check.",
+      "source_url": "https://apps.apple.com/us/app/health-data-ai-analyzer/id6749297170?platform=mac",
+      "official_release_notes": "What’s new in this version:\n\n- On iPhone, choose your goal first: understand your health, prepare a Mac analysis, or connect an AI or automation workflow.\n- Follow a clearer three-step setup with one action at a time.\n- See a real 90-day Health readiness check before starting your first export.\n- Subscription pricing and savings details now match the App Store across the iPhone and Mac apps."
+    },
+    {
+      "platform": "iphone",
+      "version": "1.106",
+      "date_utc": "2026-09-16",
+      "title": "A more focused first run",
+      "summary": "Choose your goal first and follow a three-step setup. A 90-day Health readiness check helps prepare your first export. Subscription pricing and savings details match the App Store.",
+      "source_url": "https://apps.apple.com/us/app/health-data-ai-analyzer/id6749297170?platform=iphone",
+      "official_release_notes": "What’s new in this version:\n\n- On iPhone, choose your goal first: understand your health, prepare a Mac analysis, or connect an AI or automation workflow.\n- Follow a clearer three-step setup with one action at a time.\n- See a real 90-day Health readiness check before starting your first export.\n- Subscription pricing and savings details now match the App Store across the iPhone and Mac apps."
+    },
+    {
+      "platform": "mac",
+      "version": "2.003",
+      "date_utc": "2026-09-13",
+      "title": "Life Context, under your control",
+      "summary": "Keep a local timeline of ratings, travel, illness, stress, medication changes and notes. Choose which items AI may use; unselected items stay local. Results identify shared and cited context and distinguish overlap from causation.",
+      "source_url": "https://apps.apple.com/us/app/health-data-ai-analyzer/id6749297170?platform=mac",
+      "official_release_notes": "What’s new in this version:\n\n- On Mac, add ratings, travel, illness, stress, medication changes, and notes to a local Life Context timeline.\n- Choose each context item that AI may use; unselected items stay local.\n- AI results show which context records accompanied the request, which were cited, and distinguish overlap from causation.\n- On iPhone, subscription options now appear at the intended point after onboarding."
+    },
+    {
+      "platform": "iphone",
+      "version": "1.105",
+      "date_utc": "2026-09-13",
+      "title": "Subscription setup correction",
+      "summary": "Subscription options appear at the intended point after onboarding. The companion Mac release adds a consent-controlled Life Context timeline.",
+      "source_url": "https://apps.apple.com/us/app/health-data-ai-analyzer/id6749297170?platform=iphone",
+      "official_release_notes": "What’s new in this version:\n\n- On Mac, add ratings, travel, illness, stress, medication changes, and notes to a local Life Context timeline.\n- Choose each context item that AI may use; unselected items stay local.\n- AI results show which context records accompanied the request, which were cited, and distinguish overlap from causation.\n- On iPhone, subscription options now appear at the intended point after onboarding."
+    },
+    {
+      "platform": "iphone",
+      "version": "1.104",
+      "date_utc": "2026-09-08",
+      "title": "Blood glucose and complete JSON exports",
+      "summary": "Blood Glucose joins the default AI health summary. JSON exports explicitly offer Raw Samples and use them by default, while export options show whether glucose is included.",
+      "source_url": "https://apps.apple.com/us/app/health-data-ai-analyzer/id6749297170?platform=iphone",
+      "official_release_notes": "What’s new in this version:\n\n- Blood Glucose is now included in the default AI health summary.\n- JSON exports now offer Raw Samples explicitly and use it by default for complete data coverage.\n- Export options clearly show whether Blood Glucose is included."
+    },
+    {
+      "platform": "iphone",
+      "version": "1.102",
+      "date_utc": "2026-08-31",
+      "title": "Understand your health on iPhone",
+      "summary": "A free on-device Summary shows trends. Pro Ask supports follow-up questions using a compact, cited summary rather than your raw export. Weekly Health Brief highlights changes; conversation history stays on your device and can be cleared.",
+      "source_url": "https://apps.apple.com/us/app/health-data-ai-analyzer/id6749297170?platform=iphone",
+      "official_release_notes": "What’s new:\n\n• A free on-device Summary turns Apple Health metrics into clear trends on iPhone.\n• Pro Ask answers follow-up questions using a compact, cited health summary — never your raw export file.\n• The new Weekly Health Brief highlights meaningful changes and what to watch next.\n• Conversation history stays on your device and can be cleared at any time.\n• Improved readability, accessibility, and support for complete Apple Health sleep stages."
+    },
+    {
+      "platform": "iphone",
+      "version": "1.101",
+      "date_utc": "2026-08-26",
+      "title": "More complete sleep exports",
+      "summary": "AI-ready sleep exports include total sleep, time in bed and recorded sleep stages. Missing stages are marked unavailable instead of zero, and overlapping records no longer inflate totals.",
+      "source_url": "https://apps.apple.com/us/app/health-data-ai-analyzer/id6749297170?platform=iphone",
+      "official_release_notes": "What’s new in this version:\n\n- AI-ready sleep exports now include total sleep, time in bed, Core, REM, Deep, and Awake time when recorded by Apple Health.\n- Missing sleep stages are clearly marked unavailable instead of appearing as zero.\n- Overlapping or duplicate sleep records no longer inflate sleep totals."
+    },
+    {
+      "platform": "mac",
+      "version": "2.001",
+      "date_utc": "2026-08-25",
+      "title": "More accurate sleep summaries",
+      "summary": "AI-ready sleep data includes total sleep, time in bed and recorded stages. Missing stages remain unavailable rather than zero, and overlapping records do not inflate sleep totals.",
+      "source_url": "https://apps.apple.com/us/app/health-data-ai-analyzer/id6749297170?platform=mac",
+      "official_release_notes": "What’s new in this version:\n\n- AI-ready sleep exports now include total sleep, time in bed, Core, REM, Deep, and Awake time when recorded by Apple Health.\n- Missing sleep stages are clearly marked unavailable instead of appearing as zero.\n- Overlapping or duplicate sleep records no longer inflate sleep totals."
+    },
+    {
+      "platform": "mac",
+      "version": "2.000",
+      "date_utc": "2026-08-24",
+      "title": "Reuse completed analysis",
+      "summary": "Reopening an unchanged export with the same AI settings loads the saved analysis, with a Saved ago indicator. Broad summaries cover available supported categories, with clearer conversation context and health calculations.",
+      "source_url": "https://apps.apple.com/us/app/health-data-ai-analyzer/id6749297170?platform=mac",
+      "official_release_notes": "What's new in this version:\n\n- Reopening the same Apple Health export with unchanged AI settings now loads the saved analysis instead of running it again.\n- A “Saved … ago” indicator makes reused results clear.\n- Broad health summaries now include every available supported category, including stress, Body Battery, and blood glucose.\n- AI conversation history remains private on your Mac, with clearer context and improved health calculations."
+    },
+    {
+      "platform": "mac",
+      "version": "1.999",
+      "date_utc": "2026-08-20",
+      "title": "Private Health Insight History",
+      "summary": "Search, rename, favorite, continue or delete saved AI conversations on your Mac. Answers retain provider, model, date range and metrics context. Viewing history sends nothing; continuing requires an explicit request. Health calculations and first-run guidance are improved.",
+      "source_url": "https://apps.apple.com/us/app/health-data-ai-analyzer/id6749297170?platform=mac",
+      "official_release_notes": "What's new in this version:\n\n- Private Health Insight History: completed AI questions and answers now stay available on your Mac, organized into conversations you can search, rename, favorite, continue, or delete.\n- Every saved answer includes the AI provider, model, health-data date range, and metrics used so you can understand its context later.\n- Continuing a conversation is explicit: simply viewing history sends nothing. Prior messages are shared with the selected AI provider only when you choose to continue and approve the request.\n- More accurate health calculations across sleep, heart rate, HRV, workouts, running dynamics, glucose, weight, mood, and long-term trends.\n- Improved first-run guidance and clearer feedback when an analysis result needs correction."
+    },
+    {
+      "platform": "mac",
+      "version": "1.998",
+      "date_utc": "2026-08-18",
+      "title": "Choose your units and sources",
+      "summary": "A kilometers/miles preference applies across charts, reports, exports and AI summaries. Select which apps and devices count toward analysis. A welcome checklist guides the first analysis.",
+      "source_url": "https://apps.apple.com/us/app/health-data-ai-analyzer/id6749297170?platform=mac",
+      "official_release_notes": "What's new in this version:\n\n- Choose your distance unit: Settings → Display Preferences now includes a km/miles picker — charts, insights, dashboards, reports, CSV exports and AI summaries all follow your choice.\n- Filter by data source: pick exactly which apps and devices count toward your analysis, so a third-party app can no longer skew your numbers.\n- A brand-new welcome experience on first launch, with a first-run checklist that walks you from install to your first analysis — and a small chime when it completes.\n- Assorted fixes and polish throughout."
+    },
+    {
+      "platform": "iphone",
+      "version": "1.100",
+      "date_utc": "2026-08-18",
+      "title": "Smoother onboarding",
+      "summary": "Refined setup animations and feedback. The upgrade offer appears after onboarding rather than interrupting setup, alongside fixes and polish.",
+      "source_url": "https://apps.apple.com/us/app/health-data-ai-analyzer/id6749297170?platform=iphone",
+      "official_release_notes": "What's new in this version:\n\n- A smoother, more delightful onboarding: staged animations, gentle haptics, and a soft chime the moment Health access is granted.\n- The upgrade offer now appears once, right after onboarding completes — instead of interrupting you mid-setup.\n- Assorted fixes and polish throughout."
+    },
+    {
+      "platform": "mac",
+      "version": "1.997",
+      "date_utc": "2026-08-17",
+      "title": "Clearer results and safer imports",
+      "summary": "Missing data is no longer shown as placeholder zeros. Imports have file-size progress, cancellation and ZIP guidance. AI results are saved with export and retry controls; history is more readable, and the local API requires an access token on every request.",
+      "source_url": "https://apps.apple.com/us/app/health-data-ai-analyzer/id6749297170?platform=mac",
+      "official_release_notes": "What's new in this version:\n\n- Clearer, more trustworthy numbers throughout: charts no longer show placeholder zeros for missing data, values use your region's number formatting, and empty periods explain themselves with a \"Jump to latest data\" button instead of looking broken.\n- Smarter import: if you pick an Apple Health export.zip by mistake, the Mac now guides you to unzip it first instead of silently rejecting it, and shows honest progress with the file size while it scans, instead of appearing to freeze. You can cancel a long import at any time.\n- AI analysis you can keep: your AI results are now saved and reappear when you reopen the window, with an Export button, a live elapsed timer, and clearer inline errors with a Try Again button.\n- Readable History: saved analyses now show a plain title and date range instead of a raw file name, and synced data appears as one entry.\n- Fixes across the board: honest sleep-stage charts, correct handling of workouts and running data, safer imports of unusual or partial export files, and clearer messages when iCloud sync or a purchase needs your attention.\n- Under the hood: the local API used by AI tools now requires its access token on every request for stronger privacy."
+    }
+  ]
+}
