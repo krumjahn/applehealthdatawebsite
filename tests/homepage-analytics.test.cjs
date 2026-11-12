@@ -219,3 +219,10 @@ test('invalid campaign tokens stay on the website default', () => {
   hit[2].event_callback();
   assert.match(extra.replaced[0], /ct=export_oura_data&mt=8$/);
 });
+
+test('redesigned homepage labels all events with a distinct variant', () => {
+  const state = setup();
+  state.click('intent', 'mac'); state.click('store'); state.exposure();
+  assert.ok(state.events.length >= 4);
+  for (const event of state.events) assert.equal(event.parameters.page_variant, 'apple_dark_cinematic_v1');
+});

@@ -32,7 +32,7 @@
     if (disabled || (once && seen.has(name))) return;
     seen.add(name);
     const data = Object.assign({
-      page_variant: 'open_file_v2',
+      page_variant: 'apple_dark_cinematic_v1',
       page_path: location.pathname,
       first_intent: firstIntent,
       last_intent: lastIntent,

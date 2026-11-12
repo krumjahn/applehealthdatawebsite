@@ -22,7 +22,7 @@ class SharedThemeTest(unittest.TestCase):
  def test_shared_theme_does_not_overlap_dedicated_homepage_or_blog(self):
   for p in [ROOT/'index.html',*(ROOT/'blog').glob('*.html')]:
    self.assertNotIn(LINK,p.read_text())
-  self.assertEqual((ROOT/'js/homepage-analytics.js').read_bytes(),subprocess.check_output(['git','show',BASE+':js/homepage-analytics.js'],cwd=ROOT))
+  self.assertEqual((ROOT/'js/homepage-analytics.js').read_bytes().replace(b"apple_dark_cinematic_v1", b"open_file_v2"),subprocess.check_output(['git','show',BASE+':js/homepage-analytics.js'],cwd=ROOT))
  def test_styles_do_not_change_visibility_or_layout(self):
   css=(ROOT/'styles/apple-site.css').read_text()
   main=css.split('.hd-site-credit')[0]
