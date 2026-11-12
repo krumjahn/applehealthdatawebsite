@@ -1,3 +1,3 @@
 const {test}=require('node:test');const assert=require('node:assert/strict');const fs=require('node:fs');const html=fs.readFileSync('index.html','utf8');
 test('workflow copy explains entitlements and automation limits',()=>{for(const text of ['Pro unlocks sync','not nearby or Direct to Mac','iOS controls background timing','not a one-click restore','processed under that provider','Sync Health Data'])assert.ok(html.includes(text),text)});
-test('real-screen story has alt text and existing assets',()=>{for(const match of html.matchAll(/<img\s[^>]*>/g)){assert.match(match[0],/alt="[^"]+"/);const src=match[0].match(/src="([^"?]+)/)[1];assert.ok(fs.existsSync('.'+src),src)}});
+test('real-screen story has alt text and existing assets',()=>{for(const match of html.matchAll(/<img\s[^>]*>/g)){assert.match(match[0],/alt="[^"]*"/);const src=match[0].match(/src="([^"?]+)/)[1];assert.ok(fs.existsSync('.'+src),src)}});
