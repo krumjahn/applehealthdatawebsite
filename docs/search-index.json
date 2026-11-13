@@ -402,7 +402,7 @@
       },
       {
         "heading": "Step 4: Get the Data onto Your Mac",
-        "snippet": "4 AirDrop or Files: import the XML file directly on Mac. Direct to Mac: the iPhone app sends the export directly to the Mac sync workflow. Cloud or file providers: open the Mac app’s Sync tab and pull"
+        "snippet": "4 AirDrop or Files: import the XML file directly on Mac. Wi-Fi Sync / Direct to Mac: open Wi-Fi Sync on Mac, confirm the same Wi-Fi network, enable receiving and generate a pairing code. Choose Direct"
       },
       {
         "heading": "Step 5: Import into the Mac App",
@@ -677,16 +677,16 @@
         "snippet": "Choose the range and format for your task. Use XML for the Mac import workflow; use CSV or JSON when your destination supports it. A full export is different from the smaller AI summary. Large histori"
       },
       {
-        "heading": "Cloud Sync: iPhone to Mac, with two different routes",
-        "snippet": "Nearby: iPhone export → same Wi-Fi → your Mac Cloud storage: iPhone export → chosen storage service → your Mac The direction is an exported copy travelling to Mac. This is not two-way synchronization "
+        "heading": "Wi-Fi Sync and cloud storage: two different routes",
+        "snippet": "Wi-Fi Sync: iPhone export → same Wi-Fi → your Mac Cloud storage: iPhone export → chosen storage service → your Mac The direction is an exported copy travelling to Mac. This is not two-way synchronizat"
       },
       {
-        "heading": "Nearby transfer, step by step",
-        "snippet": "Connect iPhone and Mac to the same Wi-Fi network. Keep both apps open. In the Mac Cloud Sync section, choose the nearby/direct-to-Mac route and confirm the same-Wi-Fi check. Explicitly turn on receivi"
+        "heading": "Wi-Fi Sync, step by step",
+        "snippet": "Connect iPhone and Mac to the same Wi-Fi network. Keep both apps open. Open Wi-Fi Sync on Mac and confirm the same-Wi-Fi check. Explicitly turn on receiving, then generate a pairing code on Mac. On iP"
       },
       {
         "heading": "Cloud storage and background sync",
-        "snippet": "iCloud uses your private CloudKit storage. Other destinations, including Google Drive, Dropbox and Nextcloud/WebDAV, use their own file or import flows; do not assume they refresh like iCloud. Configu"
+        "snippet": "On Mac, choose Use cloud storage instead to open the separate Cloud Sync route. iCloud uses your private CloudKit storage. Other destinations, including Google Drive, Dropbox and Nextcloud/WebDAV, use"
       },
       {
         "heading": "Local API Server: share selected Mac data with a tool",
@@ -1116,8 +1116,8 @@
         "snippet": "On iPhone: choose a provider in the Sync tab. First sync: the app exports an initial date range — you can choose a full backfill — and sends it to the selected destination. Later syncs: the app sends "
       },
       {
-        "heading": "Direct to Mac",
-        "snippet": "If you want the local-network workflow, use Direct to Mac . This is still available, but it is now one provider among several."
+        "heading": "Wi-Fi Sync (Direct to Mac)",
+        "snippet": "Wi-Fi Sync sends an export directly from iPhone to Mac over the same Wi-Fi network, without cloud storage. Choose Direct to Mac in the iPhone app. iCloud, Google Drive, Dropbox and Nextcloud remain se"
       },
       {
         "heading": "What Gets Synced",
@@ -1129,7 +1129,7 @@
       },
       {
         "heading": "Using the Mac Side",
-        "snippet": "The Mac app’s sync workflow lives in the dedicated Sync tab, not in macOS Settings. Use it to: review available exports refresh the export list import the newest export into the merged Synced Health D"
+        "snippet": "The Mac app’s sync workflow lives in the dedicated Wi-Fi Sync sidebar item ( Sync in older versions). Choose Use cloud storage instead for cloud destinations; that route is labelled Cloud Sync . Use t"
       },
       {
         "heading": "Troubleshooting",

@@ -323,18 +323,19 @@
                     <p>Using an older Mac version? Before Mac 1.996 each sync was saved as its own tiny entry in History (often showing "Not enough data"). Mac 1.996 merges every increment into one <strong>Synced Health Data</strong> entry that updates in place — updating the Mac app fixes the many-small-entries behavior.</p>
                 </blockquote>
 
-                <h2>Direct to Mac</h2>
-                <p>If you want the local-network workflow, use <strong>Direct to Mac</strong>. This is still available, but it is now one provider among several.</p>
+                <h2>Wi-Fi Sync (Direct to Mac)</h2>
+                <p><strong>Wi-Fi Sync</strong> sends an export directly from iPhone to Mac over the same Wi-Fi network, without cloud storage. Choose <strong>Direct to Mac</strong> in the iPhone app. iCloud, Google Drive, Dropbox and Nextcloud remain separate cloud-storage options.</p>
 
                 <div class="my-6 rounded-xl overflow-hidden border border-white/10">
                     <img src="/images/mac-nearby-sync.png" alt="Mac app Nearby Mac sync settings showing pairing, toggle options, and paired iPhone" class="w-full" loading="lazy">
                 </div>
 
                 <ol>
-                    <li><strong>Open the Mac app</strong> and navigate to the <strong>Sync</strong> tab.</li>
-                    <li>Use the pairing and discovery controls shown there.</li>
+                    <li><strong>Open the Mac app</strong> and choose <strong>Wi-Fi Sync</strong> (called <strong>Sync</strong> or <strong>Cloud Sync</strong> in older versions).</li>
+                    <li>Keep both apps open on the same Wi-Fi network. Confirm the network choice, explicitly allow nearby receiving on Mac, then generate a pairing code.</li>
                     <li>On your iPhone, select <strong>Direct to Mac</strong> as the provider in the <strong>Sync</strong> tab.</li>
-                    <li>Run the sync. The export is sent directly to your Mac on the same local network.</li>
+                    <li>Find your Mac automatically or enter its address, then enter the pairing code. Pairing connects the devices but does not send health data.</li>
+                    <li>Start the transfer on iPhone. The export is sent directly to your Mac on the same local network. A successful transfer receipt requires the Mac to merge the export; analysis is a separate step.</li>
                 </ol>
 
                 <h2>What Gets Synced</h2>
@@ -360,7 +361,7 @@
                 </ul>
 
                 <h2>Using the Mac Side</h2>
-                <p>The Mac app’s sync workflow lives in the dedicated <strong>Sync</strong> tab, not in macOS Settings. Use it to:</p>
+                <p>The Mac app’s sync workflow lives in the dedicated <strong>Wi-Fi Sync</strong> sidebar item (<strong>Sync</strong> in older versions). Choose <strong>Use cloud storage instead</strong> for cloud destinations; that route is labelled <strong>Cloud Sync</strong>. Use the relevant route to:</p>
                 <ul>
                     <li>review available exports</li>
                     <li>refresh the export list</li>
