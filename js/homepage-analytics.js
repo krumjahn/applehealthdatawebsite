@@ -61,6 +61,11 @@
     if (!link) return;
     const placement = link.dataset.placement;
     switch (link.dataset.track) {
+      case 'iphone-demo':
+        if (['start','next','complete','back','reset','download'].includes(link.dataset.demoAction)) {
+          track('home_iphone_demo_' + link.dataset.demoAction, { cta_location: 'iphone_demo' });
+        }
+        break;
       case 'intent':
         selectIntent(link.dataset.intent, placement);
         track('home_link_click', { intent: link.dataset.intent, cta_location: placement });

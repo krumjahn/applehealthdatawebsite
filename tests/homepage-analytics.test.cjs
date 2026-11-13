@@ -56,7 +56,7 @@ function setup({ hostname = 'localhost', search = '', dnt = '0', optOut = false,
     }
   };
   vm.runInNewContext(source, { window, document, navigator: { doNotTrack: dnt }, location: { hostname, search, pathname: '/' }, URLSearchParams, IntersectionObserver: window.IntersectionObserver });
-  const click = (track, intent, type = 'click', button = 0, link) => listeners[type]({ type, button, target: { closest: () => track === 'store' ? (link || store) : { dataset: { track, intent, placement: 'hero_paths' } } } });
+  const click = (track, intent, type = 'click', button = 0, link) => listeners[type]({ type, button, target: { closest: () => link || (track === 'store' ? store : { dataset: { track, intent, placement: 'hero_paths' } }) } });
   return { window, scripts, store, faq, click, events: window.healthDataAnalyticsDebug, exposure: () => observe([{ target: heading, isIntersecting: true, intersectionRatio: 1 }]) };
 }
 test('local and explicit live debug never load GA', () => {
@@ -132,10 +132,11 @@ test('homepage store CTAs keep distinct tags and each click reports location', (
     };
     found.push({ placement: value('data-placement'), href: value('href') });
   }
-  assert.deepEqual(found.map(link => link.placement), ['nav', 'hero', 'offer', 'closing']);
+  assert.deepEqual(found.map(link => link.placement), ['nav', 'hero', 'iphone_demo', 'offer', 'closing']);
   assert.deepEqual(found.map(link => link.href), [
     '/go/website.html?c=ahd_home_nav',
     '/go/website.html?c=ahd_home_hero',
+    '/go/website.html?c=ahd_home_iphone_demo',
     '/go/website.html?c=ahd_home_offer',
     '/go/website.html?c=ahd_home_closing'
   ]);
@@ -147,7 +148,7 @@ test('homepage store CTAs keep distinct tags and each click reports location', (
   for (const link of links) state.click('store', undefined, 'click', 0, link);
   assert.deepEqual(links.map(link => link.href), found.map(link => link.href));
   const clicks = state.events.filter(event => event.name === 'app_store_click');
-  assert.deepEqual(Array.from(clicks, event => event.parameters.cta_location), ['nav', 'hero', 'offer', 'closing']);
+  assert.deepEqual(Array.from(clicks, event => event.parameters.cta_location), ['nav', 'hero', 'iphone_demo', 'offer', 'closing']);
   for (const event of clicks) {
     assert.equal(event.parameters.page_path, '/');
     assert.match(event.parameters.link_url, /\/go\/website\.html\?c=ahd_home_/);
@@ -225,4 +226,14 @@ test('redesigned homepage labels all events with a distinct variant', () => {
   state.click('intent', 'mac'); state.click('store'); state.exposure();
   assert.ok(state.events.length >= 4);
   for (const event of state.events) assert.equal(event.parameters.page_variant, 'apple_dark_cinematic_v1');
+});
+
+test('demo events use a closed vocabulary and honor opt out', () => {
+ for (const options of [{}, {dnt:'1'}, {optOut:true}]) {
+ const s=setup(options);
+ for(const action of ['start','next','complete','back','reset','download','private text']) s.click('iphone-demo',null,'click',0,{dataset:{track:'iphone-demo',demoAction:action}});
+ const events=s.events.filter(e=>e.name.startsWith('home_iphone_demo_'));
+ assert.equal(events.length,options.dnt || options.optOut ? 0 : 6);
+ assert.ok(events.every(e=>!JSON.stringify(e).includes('private text')));
+ }
 });

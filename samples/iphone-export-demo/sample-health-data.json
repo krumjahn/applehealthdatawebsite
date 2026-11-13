@@ -1,0 +1,5 @@
+{
+  "demo": true,
+  "notice": "Fictional website sample. Not an app export or real health record.",
+  "records": [{"type": "step_count", "date": "2026-01-01", "value": 6500, "unit": "count"}]
+}

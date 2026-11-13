@@ -45,6 +45,8 @@
 <link rel="apple-touch-icon" href="/images/brand/health-h-icon.png">
 <link rel="stylesheet" href="/styles/mac-capture-demo.css?v=1"/>
 <script defer src="/js/mac-capture-demo.js?v=1"></script>
+<link rel="stylesheet" href="/styles/iphone-export-demo.css?v=1"/>
+<script defer src="/js/iphone-export-demo.js?v=1"></script>
 </head>
 <body>
 <a class="skip-link" href="#main">Skip to content</a>
@@ -80,11 +82,24 @@ Bring your history to Mac, on your terms.</p>
 <p class="fine">$4.99 USD · One purchase for iPhone and Mac.<br/>
 Optional Pro and external AI fees are separate.</p>
 </div>
-<figure class="hero-product" aria-label="Preview of the redesigned Health Data iPhone Export screen">
+<figure class="hero-product iphone-export-demo" id="iphone-export-demo" aria-label="Interactive iPhone export walkthrough">
+<p class="demo-kicker">TRY THE EXPORT FLOW</p>
 <div class="phone-frame preview-phone"><div class="phone-screen">
-<img alt="Preview iPhone Export screen: export CSV, JSON or XML, sync with Pro, and configure shortcuts" width="1206" height="2622" fetchpriority="high" src="/images/iphone-export-preview.png"/>
+<picture><source id="iphone-demo-source" type="image/webp" srcset="/images/iphone-demo/home.webp"/><img id="iphone-demo-screen" alt="Actual iPhone app Export home screen" width="1206" height="2622" fetchpriority="high" src="/images/iphone-demo/home.png"/></picture>
+<button class="iphone-demo-hotspot" type="button" aria-label="Try Export a file in the sample walkthrough" hidden></button>
+<div class="iphone-demo-screen-formats" hidden><button type="button" data-format="xml" aria-label="Select XML in the sample walkthrough"></button><button type="button" data-format="csv" aria-label="Select CSV in the sample walkthrough"></button><button type="button" data-format="json" aria-label="Select JSON in the sample walkthrough"></button></div>
 </div></div>
-<figcaption>New UI preview from the iPhone simulator. Not yet released on the App Store.</figcaption>
+<div class="iphone-demo-controls" hidden>
+<p class="iphone-demo-step" aria-live="polite"></p>
+<div class="iphone-demo-formats" aria-label="Choose a sample file format" hidden>
+<button type="button" data-format="xml" aria-pressed="true">XML · Mac</button><button type="button" data-format="csv" aria-pressed="false">CSV · Spreadsheet</button><button type="button" data-format="json" aria-pressed="false">JSON · Your tools</button>
+</div>
+<p class="iphone-demo-description"></p>
+<div class="iphone-demo-actions"><button type="button" class="iphone-demo-back" hidden>Back</button><button type="button" class="iphone-demo-next">Try export</button><button type="button" class="iphone-demo-reset" hidden>Start again</button></div>
+<div class="iphone-demo-result" hidden><strong>Sample file ready.</strong><p>This is a tiny fictional example, not your health data or a full app export.</p><a class="iphone-demo-download" download>Download sample XML</a><a class="text-link" data-track="store" data-placement="iphone_demo" href="/go/website.html?c=ahd_home_iphone_demo" target="_blank" rel="noopener">Ready to export your own? Get the app ↗</a></div>
+</div>
+<figcaption>Interactive demo · Sample data. Real iPhone app screenshots, not a live app. This website cannot access Apple Health. New UI preview, not yet released on the App Store.</figcaption>
+<noscript><p class="iphone-demo-noscript">In the app: tap Export a file → choose CSV, JSON or XML → review → export and share. Enable JavaScript to try the screenshot walkthrough.</p></noscript>
 </figure>
 </section>
 <div class="routing">

@@ -137,7 +137,7 @@ class TagAppStoreCtasTest(unittest.TestCase):
         got = tokens(html)
         self.assertEqual(
             got,
-            ["ahd_home_nav", "ahd_home_hero", "ahd_home_offer", "ahd_home_closing"],
+            ["ahd_home_nav", "ahd_home_hero", "ahd_home_iphone_demo", "ahd_home_offer", "ahd_home_closing"],
         )
         self.assertEqual(len(set(got)), len(got))
         for token in got:

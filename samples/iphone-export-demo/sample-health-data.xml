@@ -1,0 +1,3 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Fictional website sample, not an app export or real health record. -->
+<HealthData locale="en_US"><Record type="HKQuantityTypeIdentifierStepCount" sourceName="Website demo" unit="count" startDate="2026-01-01 12:00:00 +0000" endDate="2026-01-01 13:00:00 +0000" value="6500"/></HealthData>
