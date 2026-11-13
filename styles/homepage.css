@@ -21,3 +21,7 @@
 .brand,.journal-brand{display:inline-flex;align-items:center;gap:10px}.brand-icon{display:inline-block;flex:none;width:28px;height:28px;border-radius:7px;object-fit:contain}
 
 .preview-phone .phone-screen{aspect-ratio:1206/2622}.preview-phone .phone-screen img{position:static;width:100%;max-width:100%;height:auto}
+
+/* Full website name remains readable at narrow widths. */
+.nav .brand,.footer .brand{white-space:normal;line-height:1.15;font-size:20px;max-width:360px}.nav .brand-icon{flex:none}
+@media(max-width:700px){.nav{height:auto;min-height:68px;flex-wrap:wrap;padding-block:14px;gap:14px}.nav .brand{font-size:18px;max-width:100%}.navlinks{flex-wrap:wrap;gap:20px}.hero-eyebrow{font-size:22px}.footer .brand{font-size:18px}}
