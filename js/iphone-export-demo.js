@@ -20,7 +20,7 @@
     Object.assign(hotspot.style,{top:rect[0]+'%',height:rect[1]+'%',left:rect[2]+'%',width:rect[3]+'%'});
     hotspot.setAttribute('aria-label',stage === 'home' ? 'Try Export a file in the sample walkthrough' : stage === 'review' ? 'Create a fictional sample file, not a real health export' : 'Continue the sample walkthrough'); back.hidden = stage === 'home'; reset.hidden = stage === 'home';
     next.hidden = stage === 'complete';
-    formats.querySelectorAll('button').forEach(b => b.setAttribute('aria-pressed',String(b.dataset.format === format)));
+    [...formats.querySelectorAll('button'),...screenFormats.querySelectorAll('button')].forEach(b => b.setAttribute('aria-pressed',String(b.dataset.format === format)));
     const labels = {
       home:['1 / Start on iPhone','Tap Export a file on the phone, or try the walkthrough below.','Try export'],
       format:['2 / Choose a format','Choose the sample format below. The phone shows that selection in the actual app.','Continue'],
@@ -31,14 +31,14 @@
     [step.textContent,description.textContent,next.textContent] = labels[stage];
     download.href = `/samples/iphone-export-demo/sample-health-data.${format}`;
     download.textContent = `Download sample ${names[format]}`;
-    next.dataset.demoAction = stage === 'home' ? 'start' : stage === 'review' ? 'complete' : 'next';
+    hotspot.dataset.demoAction = next.dataset.demoAction = stage === 'home' ? 'start' : stage === 'review' ? 'complete' : 'next';
     root.dataset.loading = 'false';
-    [next,back,...formats.querySelectorAll('button')].forEach(b => b.disabled = false);
+    [next,back,hotspot,...formats.querySelectorAll('button'),...screenFormats.querySelectorAll('button')].forEach(b => b.disabled = false);
   }
   function go(target) {
     const token = ++request, image = new Image();
     root.dataset.loading = 'true'; step.textContent = 'Loading actual app screenshot…';
-    [next,back,...formats.querySelectorAll('button')].forEach(b => b.disabled = true);
+    [next,back,hotspot,...formats.querySelectorAll('button'),...screenFormats.querySelectorAll('button')].forEach(b => b.disabled = true);
     image.onload = () => {
       if (token !== request) return;
       source.srcset = image.src; screen.src = `/images/iphone-demo/${asset(target)}.png`;
